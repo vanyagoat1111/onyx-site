@@ -11,7 +11,7 @@ export default function Hero() {
       <div className="absolute right-0 top-0 w-full md:w-1/2 h-full opacity-30 mix-blend-screen pointer-events-none">
         <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" alt="Abstract Pattern" className="w-full h-full object-cover grayscale object-right" referrerPolicy="no-referrer" />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-onyx-900/80 to-onyx-900 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/40 via-onyx-900/80 to-onyx-950 pointer-events-none" />
       
       <Container className="relative z-10 pt-12">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -22,13 +22,13 @@ export default function Hero() {
             className="max-w-3xl"
           >
             <div className="inline-block bg-onyx-800 border border-onyx-700 text-neutral-300 font-mono text-sm px-4 py-2 uppercase tracking-widest clip-diagonal mb-8 shadow-xl">
-              <span className="inline-block w-2 h-2 bg-white rounded-full mr-3 animate-pulse"></span>
+              <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mr-3 animate-pulse shadow-[0_0_10px_rgba(59,130,246,0.8)]"></span>
               Студия инновационной веб-разработки
             </div>
             
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold uppercase tracking-tighter leading-[0.9] mb-8 drop-shadow-lg">
               Сайты за один день <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-neutral-500">по подписке</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-200 to-blue-600">по подписке</span>
             </h1>
             
             <p className="text-xl md:text-2xl text-neutral-400 font-sans max-w-2xl mb-12 leading-relaxed">
@@ -74,12 +74,12 @@ export default function Hero() {
         </div>
       </Container>
       
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden border-t border-b border-onyx-800 bg-onyx-900/50 backdrop-blur-sm py-4 z-20 flex whitespace-nowrap">
-        <div className="animate-marquee flex gap-8 items-center text-onyx-700 font-black uppercase tracking-tighter text-4xl select-none">
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden border-t border-b border-blue-900/30 bg-onyx-950/80 backdrop-blur-md py-4 z-20 flex whitespace-nowrap shadow-[0_0_30px_rgba(30,58,138,0.2)]">
+        <div className="animate-marquee flex gap-8 items-center text-blue-950 font-black uppercase tracking-tighter text-4xl select-none">
           {Array(8).fill("САЙТЫ ЗА ОДИН ДЕНЬ ПО ПОДПИСКЕ").map((text, i) => (
              <React.Fragment key={i}>
-                <span>{text}</span>
-                <span className="text-white">+++</span>
+                <span style={{ WebkitTextStroke: "1px rgba(59,130,246,0.2)" }} className="text-transparent">{text}</span>
+                <span className="text-blue-500 drop-shadow-[0_0_5px_rgba(59,130,246,0.8)]">+++</span>
              </React.Fragment>
           ))}
         </div>

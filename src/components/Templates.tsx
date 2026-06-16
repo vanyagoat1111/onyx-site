@@ -118,28 +118,28 @@ export default function Templates() {
         </p>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
         {templates.map((tpl, i) => (
-          <div key={i} className="group flex flex-col border border-onyx-800 hover:border-white transition-colors bg-onyx-800/30 p-2">
+          <div key={i} className="group flex flex-col border border-onyx-800 hover:border-blue-500/50 transition-colors bg-onyx-800/30 p-2 hover:shadow-[0_0_30px_rgba(30,58,138,0.2)]">
             <div className="relative aspect-video bg-onyx-900 border border-onyx-800 mb-4 overflow-hidden clip-diagonal group-hover:industrial-grid">
               {/* Window Controls */}
-              <div className="absolute top-0 w-full h-6 border-b border-onyx-800 bg-onyx-950 flex items-center px-4 gap-2 z-10">
+              <div className="absolute top-0 w-full h-6 border-b border-onyx-800 bg-onyx-950 flex items-center px-4 gap-2 z-10 transition-colors group-hover:bg-onyx-900">
                 <div className="w-2 h-2 rounded-full bg-onyx-700 group-hover:bg-red-500/50 transition-colors"></div>
                 <div className="w-2 h-2 rounded-full bg-onyx-700 group-hover:bg-yellow-500/50 transition-colors"></div>
                 <div className="w-2 h-2 rounded-full bg-onyx-700 group-hover:bg-green-500/50 transition-colors"></div>
               </div>
               {/* Simulator Content */}
-              <div className="mt-6 h-[calc(100%-24px)] opacity-50 group-hover:opacity-100 transition-opacity grayscale group-hover:grayscale-0 duration-500">
+              <div className="mt-6 h-[calc(100%-24px)] opacity-50 group-hover:opacity-100 transition-opacity grayscale group-hover:grayscale-0 duration-500 bg-onyx-950">
                 {tpl.preview}
               </div>
             </div>
             
             <div className="px-4 pb-4 flex justify-between items-center">
               <div>
-                <div className="text-xs font-mono text-neutral-500 mb-1">{tpl.category}</div>
-                <div className="font-bold tracking-wide uppercase">{tpl.name}</div>
+                <div className="text-xs font-mono text-blue-400/70 mb-1 uppercase drop-shadow-[0_0_5px_rgba(59,130,246,0.3)]">{tpl.category}</div>
+                <div className="font-bold tracking-wide uppercase group-hover:text-white transition-colors">{tpl.name}</div>
               </div>
-              <Button variant="outline" className="px-4 py-2 text-xs" onClick={() => setActiveDemo(tpl.name)}>Демо</Button>
+              <Button variant="outline" className="px-4 py-2 text-xs group-hover:bg-blue-600/10 group-hover:text-blue-400 group-hover:border-blue-500/50 transition-all shadow-[0_0_0_rgba(59,130,246,0)] group-hover:shadow-[0_0_15px_rgba(59,130,246,0.3)]" onClick={() => setActiveDemo(tpl.name)}>Демо</Button>
             </div>
           </div>
         ))}

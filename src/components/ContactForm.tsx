@@ -17,12 +17,12 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
   const formContent = (
     <>
       <div className="mb-8">
-        <h3 className="text-3xl font-bold uppercase tracking-tight mb-2">Начать проект</h3>
-        <p className="text-neutral-400 font-mono text-sm">Заполните бриф для старта работы</p>
+        <h3 className="text-3xl font-bold uppercase tracking-tight mb-2 text-white">Начать проект</h3>
+        <p className="text-blue-400 font-mono text-sm">Заполните бриф для старта работы</p>
       </div>
 
       {submitted ? (
-        <div className="bg-white text-black p-8 clip-diagonal font-bold uppercase tracking-widest text-center">
+        <div className="bg-blue-600 text-white p-8 clip-diagonal font-bold uppercase tracking-widest text-center shadow-[0_0_30px_rgba(37,99,235,0.5)]">
           Заявка успешно отправлена
         </div>
       ) : (
@@ -35,16 +35,16 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
             <Input placeholder="5. Род деятельности бизнеса" required />
             <Input placeholder="6. Название компании" required />
             <Input placeholder="7. Ссылки на соц сети компании" />
-            <div className="relative">
+            <div className="relative group">
               <textarea 
                 placeholder="8. Ваше видение сайта. Требования к визуалу и функционалу?" 
                 rows={4}
-                className="w-full bg-onyx-800 border border-onyx-700 p-4 text-white placeholder-neutral-600 focus:outline-none focus:border-white transition-colors font-sans resize-none clip-diagonal"
+                className="w-full bg-onyx-800 border border-onyx-700 p-4 text-white placeholder-neutral-600 focus:outline-none focus:border-blue-500 hover:border-onyx-600 transition-colors font-sans resize-none clip-diagonal"
               ></textarea>
             </div>
             <Input placeholder="9. Откуда узнали о студии ONYX?" />
           </div>
-          <Button type="submit" className="w-full">Отправить бриф</Button>
+          <Button type="submit" className="w-full hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-shadow">Отправить бриф</Button>
         </form>
       )}
     </>
@@ -73,6 +73,6 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
 const Input = (props: React.InputHTMLAttributes<HTMLInputElement>) => (
   <input 
     {...props}
-    className="w-full bg-onyx-800 border-b border-onyx-700 pb-2 pt-4 px-2 text-white placeholder-neutral-600 focus:outline-none focus:border-white transition-colors font-sans"
+    className="w-full bg-onyx-800 border-b border-onyx-700 pb-2 pt-4 px-2 text-white placeholder-neutral-600 focus:outline-none focus:border-blue-500 hover:border-onyx-600 transition-colors font-sans"
   />
 );
