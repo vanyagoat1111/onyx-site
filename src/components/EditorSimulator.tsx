@@ -307,7 +307,7 @@ export default function EditorSimulator({ templateName, onClose }: { templateNam
 
   const handleToolClick = (tool: string) => {
     setActiveTool(tool);
-    showToast(`Инструмент "${tool}" недоступен в демо-версии. Оформите подписку для полного функционала.`);
+    showToast(`Инструмент "${tool}" выбран. Кастомизация активна.`);
   };
 
   const handlePreviewClick = (e: React.MouseEvent) => {
@@ -315,10 +315,11 @@ export default function EditorSimulator({ templateName, onClose }: { templateNam
       handleToolClick('Выбор элемента');
       return;
     }
-    // Simple visual feedback for clicking in preview mode
     const target = e.target as HTMLElement;
-    if (target.tagName === 'BUTTON' || target.tagName === 'A' || target.closest('button') || target.closest('span')) {
-       showToast(`[Демо-режим] Переход по ссылке / Нажатие кнопки имитируется.`);
+    if (target.tagName === 'BUTTON' || target.closest('button')) {
+       showToast(`✅ Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.`);
+    } else if (target.tagName === 'A' || target.closest('span.cursor-pointer') || target.closest('.cursor-pointer')) {
+       showToast(`Переход на другую страницу...`);
     }
   };
 

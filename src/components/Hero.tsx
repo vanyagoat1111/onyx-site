@@ -13,7 +13,7 @@ export default function Hero() {
       </div>
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-onyx-900/80 to-onyx-900 pointer-events-none" />
       
-      <Container className="relative z-10">
+      <Container className="relative z-10 pt-12">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -48,7 +48,7 @@ export default function Hero() {
             className="hidden lg:block relative"
           >
              <div className="relative w-full aspect-square md:aspect-[4/3] rounded-sm overflow-hidden border border-onyx-700 shadow-[0_0_50px_rgba(0,0,0,0.5)] group clip-diagonal">
-                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" alt="Web Development" className="w-full h-full object-cover grayscale mix-blend-luminosity group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-80" referrerPolicy="no-referrer" />
+                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2500&auto=format&fit=crop" alt="Web Development" className="w-full h-full object-cover grayscale mix-blend-luminosity group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-80" referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-gradient-to-t from-onyx-950/90 via-onyx-900/20 to-transparent"></div>
                 <div className="absolute bottom-6 left-6 right-6">
                    <div className="bg-onyx-900/90 backdrop-blur-md border border-onyx-700 p-6 clip-diagonal">
@@ -58,7 +58,7 @@ export default function Hero() {
                           <div className="w-3 h-3 rounded-full bg-onyx-600"></div>
                           <div className="w-3 h-3 rounded-full bg-onyx-600"></div>
                         </div>
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-neutral-400">Deploying...</span>
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-neutral-400">Deploying Subscription Protocol...</span>
                       </div>
                       <div className="h-2 w-full bg-onyx-800 rounded-full overflow-hidden">
                         <div className="h-full bg-white w-2/3 animate-[pulse_2s_ease-in-out_infinite]"></div>
@@ -73,6 +73,17 @@ export default function Hero() {
           </motion.div>
         </div>
       </Container>
+      
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden border-t border-b border-onyx-800 bg-onyx-900/50 backdrop-blur-sm py-4 z-20 flex whitespace-nowrap">
+        <div className="animate-marquee flex gap-8 items-center text-onyx-700 font-black uppercase tracking-tighter text-4xl select-none">
+          {Array(8).fill("САЙТЫ ЗА ОДИН ДЕНЬ ПО ПОДПИСКЕ").map((text, i) => (
+             <React.Fragment key={i}>
+                <span>{text}</span>
+                <span className="text-white">+++</span>
+             </React.Fragment>
+          ))}
+        </div>
+      </div>
       
       {formOpen && <ContactForm isModal onClose={() => setFormOpen(false)} />}
     </section>
