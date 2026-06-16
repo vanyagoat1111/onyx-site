@@ -1,0 +1,32 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+@theme {
+  --color-onyx-900: #050505;
+  --color-onyx-800: #111111;
+  --color-onyx-700: #1f1f1f;
+  --color-onyx-accent: #ffffff;
+  --color-onyx-muted: #888888;
+  --font-sans: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+body {
+  background-color: var(--color-onyx-900);
+  color: var(--color-onyx-accent);
+  -webkit-font-smoothing: antialiased;
+}
+
+.clip-diagonal {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
+}
+
+.clip-diagonal-inverted {
+  clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px);
+}
+
+.industrial-grid {
+  background-image: linear-gradient(var(--color-onyx-700) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--color-onyx-700) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
