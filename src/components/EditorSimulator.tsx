@@ -1,108 +1,186 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Type, Palette, Monitor, Smartphone, Settings, MousePointer2, X } from 'lucide-react';
 
-// === MOCK TEMPLATES ===
-
 const FurnitureMock = () => (
-  <div className="bg-white text-black min-h-full flex flex-col font-sans">
-    <nav className="p-6 flex justify-between items-center border-b border-neutral-200">
-       <span className="font-bold uppercase tracking-widest">Wood&Metal</span>
-       <div className="hidden md:flex space-x-6 text-sm font-medium"><span className="cursor-pointer">Стулья</span><span className="cursor-pointer">Столы</span><span className="cursor-pointer">Корзина (0)</span></div>
-       <div className="md:hidden font-bold">MENU</div>
-    </nav>
-    <div className="px-6 py-12 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-neutral-100 mb-12">
-       <div className="space-y-6">
-          <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-none">Коллекция<br/>Авангард</h1>
-          <p className="text-neutral-500">Минимализм в каждой детали. Инновационные формы и дорогие текстуры.</p>
-          <button className="bg-black text-white px-8 py-3 font-bold uppercase text-sm clip-diagonal">В каталог</button>
+  <div className="bg-white text-black min-h-max flex flex-col font-sans">
+    <nav className="p-6 flex justify-between items-center border-b border-neutral-200 sticky top-0 bg-white/95 backdrop-blur z-50">
+       <span className="font-bold uppercase tracking-widest text-xl">Wood&Metal</span>
+       <div className="hidden md:flex space-x-8 text-sm font-bold tracking-wide uppercase">
+         <span className="cursor-pointer hover:text-neutral-500 transition-colors">Коллекции</span>
+         <span className="cursor-pointer hover:text-neutral-500 transition-colors">Студии</span>
+         <span className="cursor-pointer hover:text-neutral-500 transition-colors">Корзина (0)</span>
        </div>
-       <img src="https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?q=80&w=1000&auto=format&fit=crop" alt="Furniture" className="aspect-square object-cover clip-diagonal hidden md:flex w-full" referrerPolicy="no-referrer" />
+    </nav>
+    <div className="px-6 py-16 md:py-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-neutral-100">
+       <div className="space-y-8 max-w-xl">
+          <div className="text-xs uppercase tracking-widest font-mono text-neutral-500 border-l-2 border-black pl-3">Новая коллекция 2026</div>
+          <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter leading-[0.9]">Эстетика<br/>Минимализма</h1>
+          <p className="text-neutral-600 text-lg">Инновационные формы и дорогие текстуры. Мы создаем мебель, которая становится центром притяжения.</p>
+          <button className="bg-black text-white px-10 py-5 font-bold uppercase tracking-widest text-sm clip-diagonal hover:bg-neutral-800 transition-colors">Смотреть каталог</button>
+       </div>
+       <img src="https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?q=80&w=1000&auto=format&fit=crop" alt="Furniture" className="aspect-square object-cover clip-diagonal w-full shadow-2xl" referrerPolicy="no-referrer" />
     </div>
-    <div className="px-6 grid grid-cols-2 md:grid-cols-3 gap-6 pb-12">
-       {[1,2,3].map(i => (
-         <div key={i} className="space-y-3">
-           <img src={`https://images.unsplash.com/photo-1538688525198-9b88f6f53126?q=80&w=500&auto=format&fit=crop&sig=${i}`} alt="Chair" className="bg-neutral-200 aspect-[3/4] object-cover clip-diagonal w-full grayscale contrast-125" referrerPolicy="no-referrer" />
-           <div className="font-bold uppercase tracking-wide text-sm">Стул OMEGA-{i}</div>
-           <div className="text-neutral-500 font-mono text-xs">12 990 ₽</div>
-         </div>
-       ))}
+    <div className="px-6 py-16 md:py-24 max-w-7xl mx-auto">
+      <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter mb-12 text-center">Бестселлеры</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-16">
+         {[1,2,3,4,5,6].map(i => (
+           <div key={i} className="space-y-4 group cursor-pointer">
+             <div className="overflow-hidden clip-diagonal relative">
+               <img src={`https://images.unsplash.com/photo-1538688525198-9b88f6f53126?q=80&w=600&auto=format&fit=crop&sig=${i}`} alt="Chair" className="bg-neutral-200 aspect-square object-cover w-full grayscale contrast-125 group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
+               <div className="absolute top-4 left-4 bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest">New</div>
+             </div>
+             <div className="flex justify-between items-end border-b border-neutral-200 pb-4">
+               <div>
+                  <div className="font-bold uppercase tracking-wide text-lg group-hover:text-neutral-500 transition-colors">Стул OMEGA-{i}</div>
+                  <div className="text-neutral-500 font-mono text-xs">Алюминий / Кожа</div>
+               </div>
+               <div className="font-mono font-bold text-sm">{(i * 5 + 9.99).toFixed(3).replace('.', ' ')} ₽</div>
+             </div>
+           </div>
+         ))}
+      </div>
+    </div>
+    <div className="bg-black text-white p-12 md:p-24 grid grid-cols-1 md:grid-cols-4 gap-12 mt-auto">
+      <div className="col-span-1 md:col-span-2">
+        <h2 className="text-3xl font-bold uppercase tracking-widest mb-6">Wood&Metal</h2>
+        <p className="text-neutral-500 max-w-sm">Мы создаем мебель, которая переживет тренды. Настоящий минимализм, прочность и стиль.</p>
+      </div>
+       <div className="space-y-4 font-mono text-xs uppercase tracking-widest text-neutral-400">
+        <div className="hover:text-white cursor-pointer transition-colors">Каталог</div>
+        <div className="hover:text-white cursor-pointer transition-colors">О компании</div>
+        <div className="hover:text-white cursor-pointer transition-colors">Доставка</div>
+      </div>
+       <div className="space-y-4 font-mono text-xs uppercase tracking-widest text-neutral-400">
+        <div>hello@woodmetal.ru</div>
+        <div>+7 999 000 00 00</div>
+        <div>Москва, Дизайн-завод</div>
+      </div>
     </div>
   </div>
 );
 
 const CourseMock = () => (
-  <div className="bg-[#050505] text-white min-h-full font-sans pb-16">
-     <div className="pt-16 md:pt-24 px-6 md:px-8 pb-12 md:pb-16 text-center border-b border-white/10 max-w-3xl mx-auto relative overflow-hidden">
+  <div className="bg-[#050505] text-white min-h-max font-sans pb-16">
+     <div className="pt-24 md:pt-32 px-6 md:px-8 pb-16 md:pb-24 text-center relative overflow-hidden border-b border-white/10">
         <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2500&auto=format&fit=crop" alt="Class" className="absolute inset-0 w-full h-full object-cover grayscale mix-blend-overlay opacity-20 pointer-events-none" referrerPolicy="no-referrer" />
-        <div className="relative z-10">
-          <div className="inline-block bg-white/10 text-xs px-3 py-1 uppercase tracking-widest mb-6 backdrop-blur-sm">Новый поток</div>
-          <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-tighter mb-6 text-white">Масштабирование<br/>бизнеса</h1>
-          <p className="text-neutral-400 mb-8 max-w-md mx-auto">Авторский курс по системному управлению и увеличению ROMI.</p>
-          <div className="bg-white text-black px-8 py-4 font-bold uppercase tracking-widest clip-diagonal inline-block text-sm cursor-pointer hover:bg-neutral-300 transition-colors">Занять место</div>
+        <div className="relative z-10 max-w-4xl mx-auto">
+          <div className="inline-block bg-white text-black text-xs px-4 py-2 uppercase tracking-widest font-bold mb-8">Новый поток: 15 Ноября</div>
+          <h1 className="text-5xl md:text-8xl font-bold uppercase tracking-tighter mb-8 leading-none">Масштабирование<br/>бизнеса</h1>
+          <p className="text-neutral-400 md:text-xl md:leading-relaxed mb-12 max-w-2xl mx-auto font-medium">Авторский курс по системному управлению, выстраиванию бизнес-процессов и росту ROMI. От хаоса к прозрачной системе за 8 недель.</p>
+          <div className="bg-neutral-100 text-black px-12 py-5 font-bold uppercase tracking-widest clip-diagonal inline-block hover:bg-white transition-colors cursor-pointer text-sm">Занять место на курсе</div>
         </div>
      </div>
-     <div className="px-6 md:px-8 mt-12 md:mt-16 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="border border-white/10 p-6 md:p-8 clip-diagonal bg-[#111]">
-          <div className="font-mono text-xs text-neutral-500 mb-4">Модуль 01</div>
-          <h3 className="font-bold text-lg md:text-xl uppercase mb-2">Финансовый учет</h3>
-          <p className="text-neutral-400 text-xs md:text-sm">Построение прозрачной системы</p>
-        </div>
-        <div className="border border-white/10 p-6 md:p-8 clip-diagonal bg-[#111]">
-          <div className="font-mono text-xs text-neutral-500 mb-4">Модуль 02</div>
-          <h3 className="font-bold text-lg md:text-xl uppercase mb-2">Автоматизация</h3>
-          <p className="text-neutral-400 text-xs md:text-sm">CRM и сквозная аналитика данных</p>
-        </div>
+     
+     <div className="px-6 md:px-8 py-20 max-w-7xl mx-auto">
+       <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter mb-16 text-center border-b border-white/10 pb-8">Программа обучения</h2>
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            { n: '01', t: 'Финансовый учет', d: 'Построение прозрачной системы финансов, P&L, Cash Flow.' },
+            { n: '02', t: 'Автоматизация', d: 'Внедрение CRM, постановка задач, сквозная аналитика.' },
+            { n: '03', t: 'Маркетинг', d: 'Управление трафиком, снижение стоимости лида, аналитика ROMI.' },
+            { n: '04', t: 'HR и Найм', d: 'Воронка найма, мотивация сотрудников, KPI.' },
+            { n: '05', t: 'Отдел Продаж', d: 'Скрипты, регламенты, контроль качества отдела.' },
+            { n: '06', t: 'Масштабирование', d: 'Выход из операционки, стратегическое планирование.' },
+          ].map(m => (
+            <div key={m.n} className="border border-white/10 p-8 md:p-10 clip-diagonal bg-[#0a0a0a] group hover:border-white/30 transition-colors cursor-pointer">
+              <div className="font-mono text-xs text-neutral-500 mb-6 border-l border-neutral-700 pl-3">Модуль {m.n}</div>
+              <h3 className="font-bold text-xl md:text-2xl uppercase mb-4">{m.t}</h3>
+              <p className="text-neutral-400 leading-relaxed">{m.d}</p>
+            </div>
+          ))}
+       </div>
+     </div>
+     
+     <div className="max-w-4xl mx-auto px-6 mt-12 bg-white/5 p-12 clip-diagonal text-center border border-white/10">
+       <h2 className="text-3xl font-bold uppercase tracking-tighter mb-6">Готовы к росту?</h2>
+       <p className="text-neutral-400 mb-8 max-w-md mx-auto">Оставьте заявку на бесплатную диагностику вашего бизнеса перед курсом.</p>
+       <input type="text" placeholder="Ваш Telegram..." className="bg-transparent border-b border-white/30 text-white p-4 w-full max-w-xs focus:outline-none focus:border-white font-mono text-center mb-8" />
+       <br/>
+       <button className="bg-white text-black px-10 py-4 font-bold uppercase tracking-widest clip-diagonal hover:bg-neutral-300 transition-colors">Оставить заявку</button>
      </div>
   </div>
 );
 
 const BookingMock = () => (
-  <div className="bg-[#f0ece9] text-[#2c2c2c] min-h-full font-sans">
-     <header className="p-4 md:p-6 flex justify-between uppercase tracking-widest font-bold text-xs border-b border-black/5">
-        <span>The Grand Retreat</span>
-        <span className="cursor-pointer hover:underline">Book Now</span>
-     </header>
-     <div className="p-4 md:p-6">
-        <div className="h-[30vh] md:h-[40vh] border border-black/10 flex items-end p-6 md:p-8 mb-[-30px] relative z-0 overflow-hidden bg-[#2c2c2c]">
-           <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2500&auto=format&fit=crop" alt="Resort" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-60" referrerPolicy="no-referrer" />
-           <h1 className="relative z-10 text-4xl md:text-7xl font-light uppercase tracking-widest text-white drop-shadow-md">Unwind.</h1>
+   <div className="bg-[#f0ece9] text-[#2c2c2c] min-h-max font-sans pb-24">
+     <header className="p-6 md:p-8 flex justify-between items-center uppercase tracking-widest font-bold text-xs border-b border-black/10 sticky top-0 bg-[#f0ece9]/90 backdrop-blur z-50">
+        <span className="text-lg">The Grand Retreat</span>
+        <div className="hidden md:flex gap-8 text-[10px]">
+           <span className="cursor-pointer hover:underline">Villas</span>
+           <span className="cursor-pointer hover:underline">Dining</span>
+           <span className="cursor-pointer hover:underline">Wellness</span>
         </div>
-        <div className="bg-white p-4 md:p-6 shadow-xl max-w-3xl mx-auto relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 items-end">
-           <div>
-              <div className="text-[10px] uppercase text-neutral-500 font-bold mb-1">Check in</div>
-              <div className="border-b border-black/20 pb-2 text-sm font-medium">12.05.2026</div>
+        <span className="cursor-pointer px-6 py-3 bg-[#2c2c2c] text-white hover:bg-black transition-colors">Book Now</span>
+     </header>
+     <div className="p-4 md:p-8 max-w-[1600px] mx-auto">
+        <div className="h-[60vh] md:h-[80vh] border border-black/10 flex items-end p-8 md:p-16 relative overflow-hidden bg-[#2c2c2c]">
+           <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2500&auto=format&fit=crop" alt="Resort" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-60 hover:scale-105 transition-transform duration-[20s]" referrerPolicy="no-referrer" />
+           <div className="relative z-10 w-full">
+               <h1 className="text-6xl md:text-[120px] font-light uppercase tracking-widest text-white drop-shadow-lg leading-none mb-4">Unwind.</h1>
+               <div className="w-1/3 h-[1px] bg-white/50 mb-8"></div>
            </div>
-           <div>
-              <div className="text-[10px] uppercase text-neutral-500 font-bold mb-1">Check out</div>
-              <div className="border-b border-black/20 pb-2 text-sm font-medium">18.05.2026</div>
+        </div>
+        <div className="bg-white p-8 md:p-12 shadow-2xl max-w-5xl mx-auto relative z-10 grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 items-end -mt-16 md:-mt-24">
+           <div className="md:col-span-1">
+              <div className="text-[10px] uppercase text-neutral-500 font-bold mb-2 tracking-widest">Check in</div>
+              <div className="border-b border-black/20 pb-2 text-lg font-medium cursor-pointer hover:border-black transition-colors">12.05.2026</div>
            </div>
-           <button className="bg-[#2c2c2c] text-white py-3 uppercase tracking-widest text-[10px] font-bold w-full hover:bg-black transition-colors">Search</button>
+           <div className="md:col-span-1">
+              <div className="text-[10px] uppercase text-neutral-500 font-bold mb-2 tracking-widest">Check out</div>
+              <div className="border-b border-black/20 pb-2 text-lg font-medium cursor-pointer hover:border-black transition-colors">18.05.2026</div>
+           </div>
+           <div className="md:col-span-1">
+              <div className="text-[10px] uppercase text-neutral-500 font-bold mb-2 tracking-widest">Guests</div>
+              <div className="border-b border-black/20 pb-2 text-lg font-medium cursor-pointer hover:border-black transition-colors">2 Adults</div>
+           </div>
+           <button className="md:col-span-1 bg-[#2c2c2c] text-white py-5 uppercase tracking-widest text-[10px] font-bold w-full hover:bg-black transition-colors">Search</button>
         </div>
      </div>
-     <div className="mt-12 text-center text-xs uppercase tracking-widest text-[#2c2c2c]/50 font-bold">A sanctuary of minimalism</div>
+     
+     <div className="max-w-7xl mx-auto px-6 md:px-8 mt-24 md:mt-32 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-32 items-center">
+       <div>
+         <h2 className="text-3xl md:text-5xl font-light uppercase tracking-widest mb-8 leading-tight">A Sanctuary<br/>of Minimalism</h2>
+         <p className="text-lg text-[#2c2c2c]/70 leading-relaxed font-serif italic mb-8">"Rediscover yourself in a space where architecture meets untouched nature. Every detail is curated for perfect stillness."</p>
+         <button className="border-b border-[#2c2c2c] pb-1 uppercase text-xs font-bold tracking-widest hover:text-[#2c2c2c]/50 transition-colors">Discover Philosophy</button>
+       </div>
+       <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200&auto=format&fit=crop" alt="Villa" className="w-full aspect-[4/5] object-cover shadow-xl" referrerPolicy="no-referrer" />
+     </div>
   </div>
 );
 
 const ConsultingMock = () => (
-  <div className="bg-white text-blue-950 min-h-[100%] h-full font-sans flex flex-col box-border border-4 md:border-8 border-blue-950/5">
-     <nav className="p-4 md:p-8 border-b-2 border-blue-900/10 flex justify-between items-center font-black uppercase tracking-tighter text-blue-900">
-       <span className="text-lg md:text-xl">Apex Consulting</span>
-       <span className="text-xs tracking-widest cursor-pointer hover:underline">О Нас</span>
+  <div className="bg-white text-blue-950 min-h-max font-sans flex flex-col box-border border-[12px] border-blue-950/5 p-4 md:p-8">
+     <nav className="p-6 border-b-2 border-blue-900/10 flex justify-between items-center font-black uppercase tracking-tighter text-blue-900 mb-8 sticky top-0 bg-white/95 backdrop-blur z-50">
+       <span className="text-2xl">Apex Consulting</span>
+       <div className="hidden md:flex gap-8 text-xs tracking-widest">
+         <span className="cursor-pointer hover:text-blue-600 transition-colors">Экспертиза</span>
+         <span className="cursor-pointer hover:text-blue-600 transition-colors">Кейсы</span>
+         <span className="cursor-pointer hover:text-blue-600 transition-colors">О Нас</span>
+       </div>
      </nav>
-     <div className="flex-grow grid grid-cols-1 lg:grid-cols-2">
-        <div className="p-8 md:p-16 flex flex-col justify-center border-b-2 lg:border-b-0 lg:border-r-2 border-blue-900/10">
-           <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tight leading-none mb-6 text-blue-950">Решения для<br/>Лидеров Рынка</h1>
-           <p className="text-blue-950/60 font-medium mb-8 text-sm md:text-base">Стратегический консалтинг и аудит бизнес-процессов.</p>
-           <button className="bg-blue-600 text-white px-6 md:px-8 py-3 w-max shadow-[4px_4px_0_theme(colors.blue.200)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all text-xs font-bold uppercase tracking-widest">Консультация</button>
-        </div>
-        <div className="p-8 md:p-16 bg-blue-50 flex flex-col justify-center gap-6 md:gap-8">
-           <div className="border-l-4 border-blue-600 pl-4 md:pl-6 transform md:-translate-x-4">
-             <div className="text-3xl md:text-4xl font-black text-blue-900 mb-1">2.5x</div>
-             <div className="uppercase font-bold text-[10px] md:text-xs text-blue-950/50 tracking-widest">Средний рост выручки клиентов</div>
+     
+     <div className="flex-grow grid grid-cols-1 lg:grid-cols-2 border-2 border-blue-900/10 mb-12">
+        <div className="p-12 md:p-24 flex flex-col justify-center lg:border-r-2 border-blue-900/10 relative overflow-hidden">
+           <img src="https://images.unsplash.com/photo-1554774853-719586f82d77?q=80&w=2500&auto=format&fit=crop" alt="Consulting" className="absolute inset-0 w-full h-full object-cover grayscale opacity-5 mix-blend-multiply pointer-events-none" referrerPolicy="no-referrer"/>
+           <div className="relative z-10">
+             <div className="text-blue-600 font-bold uppercase tracking-widest text-xs mb-8">Стратегическое партнерство</div>
+             <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tight leading-[0.9] mb-8 text-blue-950">Решения для<br/>Лидеров<br/>Рынка</h1>
+             <p className="text-blue-900/70 font-medium mb-12 text-lg md:text-xl max-w-md leading-relaxed">Системный аудит, оптимизация процессов и M&A консалтинг от экспертов с 15-летним опытом.</p>
+             <button className="bg-blue-600 text-white px-8 py-5 w-max shadow-[6px_6px_0_theme(colors.blue.900)] hover:shadow-none hover:translate-x-1 border border-blue-900 hover:translate-y-1 transition-all text-xs font-bold uppercase tracking-widest">Бесплатный аудит</button>
            </div>
-           <div className="border-l-4 border-blue-600 pl-4 md:pl-6 transform md:-translate-x-4">
-             <div className="text-3xl md:text-4xl font-black text-blue-900 mb-1">Top 10</div>
-             <div className="uppercase font-bold text-[10px] md:text-xs text-blue-950/50 tracking-widest">В рейтинге экспертов индустрии</div>
+        </div>
+        <div className="p-12 md:p-24 bg-blue-50/50 flex flex-col justify-center gap-12 md:gap-16">
+           <div className="border-l-4 border-blue-600 pl-6 transform md:-translate-x-6 bg-white p-8 shadow-sm">
+             <div className="text-5xl md:text-7xl font-black text-blue-900 mb-2">2.5x</div>
+             <div className="uppercase font-bold text-xs text-blue-950/60 tracking-widest">Средний рост выручки (YoY)</div>
+           </div>
+           <div className="border-l-4 border-blue-600 pl-6 transform md:-translate-x-6 bg-white p-8 shadow-sm">
+             <div className="text-5xl md:text-7xl font-black text-blue-900 mb-2">Top 10</div>
+             <div className="uppercase font-bold text-xs text-blue-950/60 tracking-widest">В национальном рейтинге консалтинга</div>
+           </div>
+           <div className="border-l-4 border-blue-600 pl-6 transform md:-translate-x-6 bg-white p-8 shadow-sm">
+             <div className="text-5xl md:text-7xl font-black text-blue-900 mb-2">$500M+</div>
+             <div className="uppercase font-bold text-xs text-blue-950/60 tracking-widest">Объем сопровожденных сделок</div>
            </div>
         </div>
      </div>
@@ -110,47 +188,89 @@ const ConsultingMock = () => (
 );
 
 const PsychologistMock = () => (
-  <div className="bg-[#FAF9F7] text-[#4A4743] min-h-full font-serif flex flex-col items-center justify-center">
-     <div className="max-w-2xl mx-auto py-12 md:py-16 px-6 md:px-8 text-center space-y-6 md:space-y-8">
-        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop" alt="Portrait" className="w-20 h-20 md:w-24 md:h-24 rounded-full mx-auto shadow-inner object-cover grayscale" referrerPolicy="no-referrer" />
-        <h1 className="text-3xl md:text-4xl italic text-[#2C2A28]">Анна Смирнова</h1>
-        <p className="text-[10px] uppercase tracking-[0.3em] md:tracking-[0.4em] text-[#8C877D]">Клинический психолог</p>
-        <div className="h-[1px] bg-[#E5E2DC] w-1/2 mx-auto my-6 md:my-8"></div>
-        <p className="text-base md:text-lg leading-relaxed text-[#6E6A62] italic max-w-md mx-auto">
-          "Помогаю найти внутреннюю опору, справиться с тревогой и выстроить гармоничные отношения с собой и миром."
+  <div className="bg-[#FAF9F7] text-[#4A4743] min-h-max font-serif">
+     <nav className="p-8 flex justify-center border-b border-[#E5E2DC] sticky top-0 bg-[#FAF9F7]/95 backdrop-blur z-50">
+       <span className="font-sans text-xs uppercase tracking-[0.3em] font-bold text-[#8C877D]">Анна Смирнова • Психотерапия</span>
+     </nav>
+     
+     <div className="max-w-4xl mx-auto py-24 px-6 md:px-8 text-center space-y-12">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop" alt="Portrait" className="w-32 h-32 md:w-48 md:h-48 rounded-full mx-auto shadow-xl object-cover grayscale mb-12" referrerPolicy="no-referrer" />
+        <h1 className="text-5xl md:text-6xl italic text-[#2C2A28] leading-tight max-w-3xl mx-auto">Пространство для диалога<br/>и внутренних трансформаций</h1>
+        <div className="h-[1px] bg-[#E5E2DC] w-1/3 mx-auto my-12"></div>
+        <p className="text-xl md:text-2xl leading-relaxed text-[#6E6A62] italic max-w-2xl mx-auto">
+          "В бережной и безопасной атмосфере я помогаю найти внутреннюю опору, справиться с тревогой и выстроить честные отношения с собой."
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 font-sans text-xs uppercase tracking-widest">
-           <div className="border border-[#E5E2DC] p-6 bg-white hover:shadow-md transition-shadow cursor-pointer">Индивидуальная<br/>терапия</div>
-           <div className="border border-[#E5E2DC] p-6 bg-white hover:shadow-md transition-shadow cursor-pointer">Парные<br/>консультации</div>
-        </div>
-        <button className="mt-8 bg-[#4A4743] text-[#FAF9F7] px-8 py-4 uppercase tracking-[0.2em] text-[10px] w-full max-w-xs mx-auto hover:bg-[#2C2A28] transition-colors font-sans font-bold">Записаться на прием</button>
+     </div>
+     
+     <div className="bg-white py-24 px-6">
+       <div className="max-w-5xl mx-auto">
+         <h2 className="text-2xl font-sans uppercase tracking-[0.2em] font-bold text-center mb-16 text-[#2C2A28]">Направления работы</h2>
+         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 font-sans text-xs uppercase tracking-widest leading-relaxed">
+            <div className="border border-[#E5E2DC] p-10 hover:shadow-lg transition-all cursor-pointer bg-[#FAF9F7]/50 text-center flex flex-col h-full group">
+              <div className="flex-grow">
+                <div className="text-lg font-bold text-[#2C2A28] mb-4 group-hover:text-[#8C877D] transition-colors">Индивидуальная<br/>терапия</div>
+                <div className="text-[#8C877D] normal-case tracking-normal mb-8 text-sm group-hover:opacity-80">Глубинная работа с тревожными расстройствами, депрессией, поиском смыслов.</div>
+              </div>
+              <div className="text-[#2C2A28] font-bold border-t border-[#E5E2DC] pt-4">5000 ₽ / час</div>
+            </div>
+            <div className="border border-[#E5E2DC] p-10 hover:shadow-lg transition-all cursor-pointer bg-[#FAF9F7]/50 text-center flex flex-col h-full group">
+              <div className="flex-grow">
+                <div className="text-lg font-bold text-[#2C2A28] mb-4 group-hover:text-[#8C877D] transition-colors">Парные<br/>консультации</div>
+                <div className="text-[#8C877D] normal-case tracking-normal mb-8 text-sm group-hover:opacity-80">Преодоление кризисов в отношениях, восстановление коммуникации и доверия.</div>
+              </div>
+              <div className="text-[#2C2A28] font-bold border-t border-[#E5E2DC] pt-4">8000 ₽ / 1.5 часа</div>
+            </div>
+            <div className="border border-[#E5E2DC] p-10 hover:shadow-lg transition-all cursor-pointer bg-[#FAF9F7]/50 text-center flex flex-col h-full group">
+              <div className="flex-grow">
+                <div className="text-lg font-bold text-[#2C2A28] mb-4 group-hover:text-[#8C877D] transition-colors">Групповая<br/>терапия</div>
+                <div className="text-[#8C877D] normal-case tracking-normal mb-8 text-sm group-hover:opacity-80">Безопасное пространство для исследования себя через взаимодействие с другими.</div>
+              </div>
+              <div className="text-[#2C2A28] font-bold border-t border-[#E5E2DC] pt-4">3000 ₽ / сессия</div>
+            </div>
+         </div>
+         
+         <div className="mt-20 text-center">
+           <button className="bg-[#4A4743] text-[#FAF9F7] px-12 py-5 uppercase tracking-[0.2em] text-xs max-w-sm mx-auto hover:bg-[#2C2A28] transition-colors font-sans font-bold w-full">Записаться на прием</button>
+         </div>
+       </div>
      </div>
   </div>
 );
 
 const SmmMock = () => (
-  <div className="bg-[#ebff00] text-black min-h-full font-sans uppercase font-black tracking-tighter">
-     <nav className="p-4 flex justify-between border-b-4 border-black text-lg md:text-xl">
+   <div className="bg-[#ebff00] text-black min-h-max font-sans uppercase font-black tracking-tighter pb-24">
+     <nav className="p-6 md:p-8 flex justify-between items-center border-b-[6px] border-black text-2xl md:text-3xl bg-black text-[#ebff00] sticky top-0 z-50">
        <span>VIRAL_</span>
-       <span>AGENCY</span>
+       <span className="text-sm font-sans font-bold tracking-widest border border-[#ebff00] px-4 py-2 rounded-full cursor-pointer hover:bg-[#ebff00] hover:text-black transition-colors">СВЯЗАТЬСЯ</span>
      </nav>
-     <div className="p-4 md:p-8 text-4xl sm:text-5xl md:text-7xl leading-[0.9] mt-4 md:mt-8">
-        Мы делаем<br/>
-        Ваш бренд<br/>
-        Заметным.
+     
+     <div className="p-6 md:p-12 text-6xl lg:text-[140px] leading-[0.85] mt-12 mb-20 break-words">
+        МЫ ДЕЛАЕМ<br/>
+        ВАШ БРЕНД<br/>
+        <span className="text-white drop-shadow-[4px_4px_0_black]">ЗАМЕТНЫМ.</span>
      </div>
-     <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-white text-xl md:text-2xl mt-4">
-        <div className="bg-black aspect-square max-h-[250px] p-6 flex flex-col justify-between clip-diagonal hover:scale-[1.02] cursor-pointer transition-transform">
-           <span className="text-3xl md:text-4xl text-[#ebff00]">#</span>
-           <span className="tracking-widest">REELS</span>
+     
+     <div className="px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-white text-3xl mb-20">
+        <div className="bg-black aspect-square p-8 flex flex-col justify-between clip-diagonal hover:scale-[1.03] cursor-pointer transition-transform relative overflow-hidden group">
+           <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=800&auto=format&fit=crop" alt="Social" className="absolute inset-0 w-full h-full object-cover opacity-20 grayscale group-hover:grayscale-0 group-hover:opacity-50 transition-all pointer-events-none" referrerPolicy="no-referrer" />
+           <span className="text-5xl text-[#ebff00] relative z-10">#</span>
+           <span className="tracking-widest relative z-10 text-4xl">REELS &<br/>TIKTOK</span>
         </div>
-        <div className="bg-purple-600 aspect-square max-h-[250px] p-6 flex flex-col justify-between shadow-[6px_6px_0_black] hover:translate-x-1 hover:translate-y-1 transition-transform cursor-pointer border-2 border-black">
-           <span className="tracking-widest">STORIES</span>
-           <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-4 border-white flex items-center justify-center text-xl">+</div>
+        <div className="bg-purple-600 aspect-square p-8 flex flex-col justify-between shadow-[16px_16px_0_black] hover:translate-x-2 hover:translate-y-2 hover:shadow-[0_0_0_black] transition-all cursor-pointer border-[6px] border-black relative">
+           <span className="tracking-widest text-4xl">STORIES<br/>MAKING</span>
+           <div className="text-[#ebff00] text-lg font-sans font-bold normal-case tracking-normal max-w-[200px]">Прогревы, сценарии и вовлечение аудитории x3.</div>
+        </div>
+        <div className="bg-black aspect-square p-8 flex flex-col justify-between rounded-[60px] hover:rounded-[10px] transition-all duration-300 cursor-pointer text-[#ebff00] border-[6px] border-black">
+           <span className="tracking-widest text-4xl">TG<br/>CHANNELS</span>
+           <span className="text-6xl self-end">↗</span>
         </div>
      </div>
-     <div className="p-4 mt-4 md:mt-8">
-        <button className="bg-black text-[#ebff00] w-full py-5 md:py-6 text-2xl md:text-3xl hover:bg-white hover:text-black hover:shadow-[0_0_20px_rgba(255,255,255,0.5)] transition-all rounded-3xl border-2 border-transparent hover:border-black">НАЧАТЬ</button>
+     
+     <div className="px-6 md:px-12">
+        <div className="bg-black text-white p-12 lg:p-24 border-[12px] border-white outline outline-8 outline-black">
+           <h2 className="text-5xl md:text-7xl mb-12">ХВАТИТ ДЕЛАТЬ СКУЧНО.</h2>
+           <button className="bg-[#ebff00] text-black w-full py-8 text-3xl md:text-5xl hover:bg-white hover:shadow-[0_0_50px_rgba(255,255,255,0.8)] transition-all rounded-[100px] border-4 border-transparent hover:border-black cursor-pointer">ЗАПУСТИТЬ ТРАФИК</button>
+        </div>
      </div>
   </div>
 );
@@ -163,25 +283,45 @@ const TemplateSwitcher = ({ name }: { name: string }) => {
     case 'Консалтинг': return <ConsultingMock />;
     case 'Услуги Психолога': return <PsychologistMock />;
     case 'SMM Агентство': return <SmmMock />;
-    default: return <div className="text-center p-8 bg-black text-white h-full flex items-center justify-center font-mono">Шаблон не найден</div>;
+    default: return <div className="text-center p-8 bg-black text-white h-full flex flex-col items-center justify-center font-mono"><div className="text-4xl mb-4">404</div>Шаблон не найден</div>;
   }
 }
-
-// === MAIN EDITOR COMPONENT ===
 
 export default function EditorSimulator({ templateName, onClose }: { templateName: string, onClose: () => void }) {
   const [isLoading, setIsLoading] = useState(true);
   const [device, setDevice] = useState<'desktop' | 'mobile'>('desktop');
+  const [activeTool, setActiveTool] = useState('Блоки');
 
   useEffect(() => {
-    // Artificial delay to simulate editor loading
-    const timer = setTimeout(() => setIsLoading(false), 1200);
+    setIsLoading(true);
+    const timer = setTimeout(() => setIsLoading(false), 800);
     return () => clearTimeout(timer);
   }, [templateName]);
 
+  const handleToolClick = (tool: string) => {
+    setActiveTool(tool);
+    
+    // Add visual feedback for clicking tools in demo mode
+    const fakeAlert = document.createElement('div');
+    fakeAlert.className = 'fixed bottom-8 right-8 bg-white text-black px-6 py-4 font-bold uppercase tracking-widest text-xs clip-diagonal z-[9999] shadow-2xl scale-0 transition-transform duration-300 flex items-center justify-center';
+    fakeAlert.innerText = `Инструмент "${tool}" активен (Демо-режим)`;
+    document.body.appendChild(fakeAlert);
+    
+    // Animate in
+    setTimeout(() => {
+      fakeAlert.style.transform = 'scale(1)';
+    }, 10);
+    
+    // Animate out and remove
+    setTimeout(() => {
+      fakeAlert.style.transform = 'scale(0)';
+      setTimeout(() => fakeAlert.remove(), 300);
+    }, 2500);
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/90 backdrop-blur-md">
-       <div className="relative w-full h-full max-w-[1400px] max-h-[90vh] border border-onyx-700 bg-onyx-900 flex flex-col shadow-2xl rounded-sm overflow-hidden">
+       <div className="relative w-full h-full max-w-[1600px] max-h-[95vh] border border-onyx-700 bg-onyx-900 flex flex-col shadow-2xl rounded-sm overflow-hidden">
          {/* Window Header */}
          <div className="h-12 border-b border-onyx-700 bg-onyx-950 flex items-center justify-between px-4 shrink-0">
            <div className="text-[10px] sm:text-xs font-mono text-neutral-500 uppercase tracking-widest flex items-center gap-3 sm:gap-4">
@@ -190,75 +330,83 @@ export default function EditorSimulator({ templateName, onClose }: { templateNam
                <div className="w-2.5 h-2.5 rounded-full bg-onyx-700"></div>
                <div className="w-2.5 h-2.5 rounded-full bg-onyx-700"></div>
              </div>
-             <span className="hidden sm:inline">onyx_editor // {templateName}</span>
-             <span className="sm:hidden w-32 truncate">{templateName}</span>
+             <span className="hidden md:inline text-neutral-700">onyx_editor // workspace</span>
+             <span className="w-32 md:w-auto truncate text-white">{templateName}</span>
            </div>
-           <button onClick={onClose} className="text-neutral-500 hover:text-white transition-colors bg-onyx-800 p-1.5 rounded-full hover:bg-red-500/20">
+           <button onClick={onClose} className="text-neutral-500 hover:text-white transition-colors bg-onyx-800 p-1.5 rounded-full hover:bg-red-500/80 hover:text-white">
              <X size={16} />
            </button>
          </div>
 
          {/* Content Area */}
          {isLoading ? (
-            <div className="flex-grow flex items-center justify-center industrial-grid relative overflow-hidden">
+            <div className="flex-grow flex items-center justify-center industrial-grid relative overflow-hidden bg-onyx-900">
                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-onyx-900/50 to-onyx-900 pointer-events-none" />
                <div className="text-center space-y-6 relative z-10 p-8">
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 border-2 border-dashed border-onyx-700 rounded-full animate-[spin_3s_linear_infinite] border-t-white mx-auto mb-6 sm:mb-8"></div>
-                  <h3 className="text-xl sm:text-3xl font-bold uppercase tracking-widest text-white">Инициализация среды</h3>
-                  <p className="text-white font-mono text-[10px] sm:text-sm uppercase tracking-widest bg-onyx-800 inline-block px-3 sm:px-4 py-2 clip-diagonal">
-                    Модуль: {templateName}
+                  <div className="w-16 h-16 border-2 border-dashed border-onyx-600 rounded-full animate-[spin_3s_linear_infinite] border-t-white mx-auto mb-6"></div>
+                  <h3 className="text-2xl sm:text-3xl font-bold uppercase tracking-widest text-white">Инициализация среды</h3>
+                  <p className="text-white font-mono text-xs sm:text-sm uppercase tracking-widest bg-onyx-800 inline-block px-4 py-2 clip-diagonal">
+                    Компиляция: {templateName}
                   </p>
                </div>
             </div>
          ) : (
             <div className="flex h-full w-full bg-onyx-950 overflow-hidden select-none relative">
-               {/* Sidebar */}
-               <div className="w-14 sm:w-16 md:w-64 border-r border-onyx-800 bg-onyx-900 flex flex-col shrink-0 z-20 shadow-xl">
-                 <div className="h-12 border-b border-onyx-800 hidden md:flex items-center justify-start px-4 shrink-0">
+               {/* Sidebar Tools */}
+               <div className="w-16 sm:w-20 md:w-64 border-r border-onyx-800 bg-onyx-900 flex flex-col shrink-0 z-20 shadow-xl">
+                 <div className="h-12 border-b border-onyx-800 hidden md:flex items-center justify-start px-6 shrink-0">
                    <span className="font-bold uppercase tracking-widest text-xs text-neutral-400">Инструменты</span>
                  </div>
-                 <div className="flex-grow flex flex-col py-4 gap-1 sm:gap-2 px-1 sm:px-2 md:px-4 overflow-y-auto">
-                    <EditorButton icon={<Layout size={18} />} label="Блоки" active />
-                    <EditorButton icon={<Type size={18} />} label="Текст" />
-                    <EditorButton icon={<Palette size={18} />} label="Стиль" />
-                    <EditorButton icon={<MousePointer2 size={18} />} label="Экшены" />
+                 <div className="flex-grow flex flex-col py-4 gap-2 px-2 md:px-4 overflow-y-auto">
+                    <EditorButton icon={<Layout size={20} />} label="Блоки" active={activeTool === 'Блоки'} onClick={() => handleToolClick('Блоки')} />
+                    <EditorButton icon={<Type size={20} />} label="Текст" active={activeTool === 'Текст'} onClick={() => handleToolClick('Текст')} />
+                    <EditorButton icon={<Palette size={20} />} label="Стиль" active={activeTool === 'Стиль'} onClick={() => handleToolClick('Стиль')} />
+                    <EditorButton icon={<MousePointer2 size={20} />} label="Экшены" active={activeTool === 'Экшены'} onClick={() => handleToolClick('Экшены')} />
                     <div className="my-2 border-b border-onyx-800"></div>
-                    <EditorButton icon={<Settings size={18} />} label="Опции" />
+                    <EditorButton icon={<Settings size={20} />} label="Настройки" active={activeTool === 'Настройки'} onClick={() => handleToolClick('Настройки')} />
                  </div>
-                 <div className="p-2 sm:p-4 border-t border-onyx-800 flex flex-col gap-2">
-                    <button onClick={onClose} className="w-full bg-onyx-800 text-white font-mono uppercase tracking-widest text-[9px] sm:text-[10px] py-3 md:py-3 clip-diagonal hover:bg-neutral-800 transition-colors">Выйти</button>
-                    <button onClick={() => alert("Внешнее сохранение недоступно в демо-режиме.")} className="w-full bg-white text-black font-bold uppercase tracking-widest text-[9px] sm:text-xs py-3 md:py-3 clip-diagonal hover:bg-neutral-300 transition-colors hidden md:block">Сохранить</button>
+                 <div className="p-4 border-t border-onyx-800 flex flex-col gap-3">
+                    <button onClick={onClose} className="w-full bg-onyx-700 text-white font-mono uppercase tracking-widest text-[9px] sm:text-[10px] py-4 clip-diagonal hover:bg-onyx-600 transition-colors">Закрыть</button>
+                    <button onClick={() => alert("Сохранение недоступно в режиме демонстрации шаблонов.")} className="w-full bg-white text-black font-bold uppercase tracking-widest text-[9px] sm:text-xs py-4 clip-diagonal hover:bg-neutral-300 transition-colors hidden md:block">Сохранить</button>
                  </div>
                </div>
 
                {/* Main Work Area */}
-               <div className="flex-grow flex flex-col min-w-0 bg-[#0a0a0a]">
-                 {/* Toolbar */}
-                 <div className="h-12 border-b border-onyx-800 flex items-center justify-between px-2 sm:px-4 shrink-0 bg-onyx-900 absolute top-0 left-0 right-0 z-10 sm:relative">
-                   <div className="hidden sm:block text-[10px] sm:text-xs font-mono text-neutral-500 uppercase tracking-widest truncate max-w-[200px] sm:max-w-none">
-                      / {templateName} / layout
+               <div className="flex-grow flex flex-col min-w-0 bg-[#050505]">
+                 {/* Top Toolbar */}
+                 <div className="h-12 border-b border-onyx-800 flex items-center justify-between px-4 sm:px-6 shrink-0 bg-onyx-900 relative z-10 shadow-md">
+                   <div className="hidden sm:block text-xs font-mono text-neutral-400 uppercase tracking-widest truncate">
+                      <span className="text-white mr-2">Текущая страница:</span> Главная
                    </div>
-                   <div className="flex gap-1 sm:gap-2 sm:ml-auto w-full justify-center sm:justify-start sm:w-auto">
-                     <button onClick={() => setDevice('desktop')} className={`p-1.5 sm:p-2 transition-colors rounded-sm ${device === 'desktop' ? 'bg-onyx-800 text-white' : 'text-neutral-500 hover:text-white hover:bg-onyx-800/50'}`}>
-                       <Monitor size={16} className="sm:w-[18px] sm:h-[18px]" />
+                   <div className="flex gap-2 sm:gap-4 ml-auto w-full justify-center sm:justify-start sm:w-auto">
+                     <button onClick={() => setDevice('desktop')} className={`px-4 py-1.5 transition-colors rounded-sm flex items-center gap-2 ${device === 'desktop' ? 'bg-onyx-800 text-white shadow-inner' : 'text-neutral-500 hover:text-white hover:bg-onyx-800/50'}`}>
+                       <Monitor size={18} /> <span className="hidden lg:inline text-[10px] font-bold uppercase tracking-widest">Desktop</span>
                      </button>
-                     <button onClick={() => setDevice('mobile')} className={`p-1.5 sm:p-2 transition-colors rounded-sm ${device === 'mobile' ? 'bg-onyx-800 text-white' : 'text-neutral-500 hover:text-white hover:bg-onyx-800/50'}`}>
-                       <Smartphone size={16} className="sm:w-[18px] sm:h-[18px]" />
+                     <button onClick={() => setDevice('mobile')} className={`px-4 py-1.5 transition-colors rounded-sm flex items-center gap-2 ${device === 'mobile' ? 'bg-onyx-800 text-white shadow-inner' : 'text-neutral-500 hover:text-white hover:bg-onyx-800/50'}`}>
+                       <Smartphone size={18} /> <span className="hidden lg:inline text-[10px] font-bold uppercase tracking-widest">Mobile</span>
                      </button>
                    </div>
                  </div>
 
-                 {/* Canvas */}
-                 <div className="flex-grow overflow-auto flex items-start sm:items-center justify-center p-0 pt-12 sm:pt-4 sm:p-8 relative industrial-grid bg-onyx-950/50 scroll-smooth">
-                    <div className={`shadow-2xl border border-onyx-800 transition-all duration-500 bg-white overflow-y-auto overflow-x-hidden ${device === 'desktop' ? 'w-full h-full max-w-5xl rounded-sm clip-diagonal-inverted' : 'w-[320px] sm:w-[375px] h-[650px] sm:h-[812px] mt-4 sm:mt-0 rounded-[40px] border-[8px] sm:border-[12px] border-onyx-800 relative shadow-black/50'}`}>
+                 {/* Canvas Workspace */}
+                 <div className="flex-grow overflow-auto flex items-start sm:items-center justify-center p-0 pt-12 sm:pt-4 sm:p-8 relative industrial-grid bg-onyx-950 scroll-smooth">
+                    <div className={`shadow-2xl border border-onyx-700 transition-all duration-500 bg-white overflow-y-auto overflow-x-hidden ${device === 'desktop' ? 'w-full h-full max-w-7xl rounded-md' : 'w-[320px] sm:w-[375px] h-[650px] sm:h-[812px] mt-4 sm:mt-0 rounded-[40px] border-[12px] border-onyx-800 relative shadow-black/80'}`}>
                        {device === 'mobile' && <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-onyx-800 rounded-b-2xl z-50"></div>}
-                       {/* Overlay to simulate it's an editor */}
-                       <div className="min-h-full w-full relative group cursor-pointer">
+                       
+                       {/* Interactive Overlay to simulate editor bounding boxes */}
+                       <div className="min-h-full w-full relative group cursor-crosshair">
                           <TemplateSwitcher name={templateName} />
-                          {/* Hover Editor Borders */}
-                          <div className="absolute inset-0 border-2 border-transparent group-hover:border-blue-500 pointer-events-none transition-colors z-50 opacity-0 group-hover:opacity-100 flex items-start justify-end p-2">
-                             <div className="bg-blue-500 text-white text-[10px] font-bold uppercase tracking-widest px-2 py-1 shadow-lg shadow-blue-500/20">Edit Layer</div>
+                          
+                          {/* Hover Editor Overlay Lines */}
+                          <div className="absolute inset-0 pointer-events-none z-[60] bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:100px_100px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          <div className="absolute inset-0 border-[3px] border-transparent group-hover:border-blue-500 pointer-events-none transition-colors duration-300 z-[70] opacity-0 group-hover:opacity-100 flex items-start justify-end">
+                             <div className="bg-blue-600 text-white text-[10px] font-bold uppercase tracking-widest px-4 py-2 shadow-lg flex items-center gap-2 m-2">
+                               <Layout size={14} />
+                               Редактировать
+                             </div>
                           </div>
+                          {/* Add a transparent overlay to capture clicks safely in demo mode to prevent form submissions/navigation within the mock */}
+                          <div className="absolute inset-0 z-50 cursor-crosshair" onClick={() => handleToolClick('Выбор элемента')}></div>
                        </div>
                     </div>
                  </div>
@@ -270,8 +418,8 @@ export default function EditorSimulator({ templateName, onClose }: { templateNam
   )
 }
 
-const EditorButton = ({ icon, label, active = false }: any) => (
-  <button className={`flex items-center justify-center md:justify-start gap-3 p-2.5 md:p-3 transition-colors rounded-sm ${active ? 'bg-onyx-800 text-white' : 'text-neutral-500 hover:text-white hover:bg-onyx-800'}`}>
+const EditorButton = ({ icon, label, active = false, onClick }: any) => (
+  <button onClick={onClick} className={`flex items-center justify-center md:justify-start gap-3 p-3 md:p-4 transition-colors rounded-sm cursor-pointer ${active ? 'bg-onyx-800 text-white border-l-2 border-white' : 'text-neutral-500 hover:text-white hover:bg-onyx-800 border-l-2 border-transparent'}`}>
      {icon}
      <span className="hidden md:inline text-[10px] font-bold uppercase tracking-widest">{label}</span>
   </button>
