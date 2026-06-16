@@ -291,6 +291,8 @@ export default function EditorSimulator({ templateName, onClose }: { templateNam
   const [isLoading, setIsLoading] = useState(true);
   const [device, setDevice] = useState<'desktop' | 'mobile'>('desktop');
   const [activeTool, setActiveTool] = useState('Блоки');
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   useEffect(() => {
     setIsLoading(true);
@@ -298,39 +300,47 @@ export default function EditorSimulator({ templateName, onClose }: { templateNam
     return () => clearTimeout(timer);
   }, [templateName]);
 
+  const showToast = (message: string) => {
+    setToastMessage(message);
+    setTimeout(() => setToastMessage(''), 3000);
+  };
+
   const handleToolClick = (tool: string) => {
     setActiveTool(tool);
-    
-    // Add visual feedback for clicking tools in demo mode
-    const fakeAlert = document.createElement('div');
-    fakeAlert.className = 'fixed bottom-8 right-8 bg-white text-black px-6 py-4 font-bold uppercase tracking-widest text-xs clip-diagonal z-[9999] shadow-2xl scale-0 transition-transform duration-300 flex items-center justify-center';
-    fakeAlert.innerText = `Инструмент "${tool}" активен (Демо-режим)`;
-    document.body.appendChild(fakeAlert);
-    
-    // Animate in
-    setTimeout(() => {
-      fakeAlert.style.transform = 'scale(1)';
-    }, 10);
-    
-    // Animate out and remove
-    setTimeout(() => {
-      fakeAlert.style.transform = 'scale(0)';
-      setTimeout(() => fakeAlert.remove(), 300);
-    }, 2500);
+    showToast(`Инструмент "${tool}" недоступен в демо-версии. Оформите подписку для полного функционала.`);
+  };
+
+  const handlePreviewClick = (e: React.MouseEvent) => {
+    if (isEditMode) {
+      handleToolClick('Выбор элемента');
+      return;
+    }
+    // Simple visual feedback for clicking in preview mode
+    const target = e.target as HTMLElement;
+    if (target.tagName === 'BUTTON' || target.tagName === 'A' || target.closest('button') || target.closest('span')) {
+       showToast(`[Демо-режим] Переход по ссылке / Нажатие кнопки имитируется.`);
+    }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/90 backdrop-blur-md">
-       <div className="relative w-full h-full max-w-[1600px] max-h-[95vh] border border-onyx-700 bg-onyx-900 flex flex-col shadow-2xl rounded-sm overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 md:p-4 bg-black/90 backdrop-blur-md">
+       <div className="relative w-full h-full max-w-[1800px] max-h-[98vh] border border-onyx-700 bg-onyx-900 flex flex-col shadow-2xl rounded-sm overflow-hidden">
+         {/* Toast Notification */}
+         {toastMessage && (
+           <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-white text-black px-6 py-4 font-bold uppercase tracking-widest text-xs clip-diagonal z-[9999] shadow-2xl animate-in fade-in slide-in-from-bottom-4">
+             {toastMessage}
+           </div>
+         )}
+
          {/* Window Header */}
-         <div className="h-12 border-b border-onyx-700 bg-onyx-950 flex items-center justify-between px-4 shrink-0">
+         <div className="h-12 border-b border-onyx-700 bg-onyx-950 flex items-center justify-between px-4 shrink-0 transition-colors">
            <div className="text-[10px] sm:text-xs font-mono text-neutral-500 uppercase tracking-widest flex items-center gap-3 sm:gap-4">
              <div className="flex gap-1.5 sm:gap-2">
                <div className="w-2.5 h-2.5 rounded-full bg-onyx-700"></div>
                <div className="w-2.5 h-2.5 rounded-full bg-onyx-700"></div>
                <div className="w-2.5 h-2.5 rounded-full bg-onyx-700"></div>
              </div>
-             <span className="hidden md:inline text-neutral-700">onyx_editor // workspace</span>
+             <span className="hidden md:inline text-neutral-700">onyx_editor // {isEditMode ? 'edit_mode' : 'live_preview'}</span>
              <span className="w-32 md:w-auto truncate text-white">{templateName}</span>
            </div>
            <button onClick={onClose} className="text-neutral-500 hover:text-white transition-colors bg-onyx-800 p-1.5 rounded-full hover:bg-red-500/80 hover:text-white">
@@ -346,67 +356,80 @@ export default function EditorSimulator({ templateName, onClose }: { templateNam
                   <div className="w-16 h-16 border-2 border-dashed border-onyx-600 rounded-full animate-[spin_3s_linear_infinite] border-t-white mx-auto mb-6"></div>
                   <h3 className="text-2xl sm:text-3xl font-bold uppercase tracking-widest text-white">Инициализация среды</h3>
                   <p className="text-white font-mono text-xs sm:text-sm uppercase tracking-widest bg-onyx-800 inline-block px-4 py-2 clip-diagonal">
-                    Компиляция: {templateName}
+                    {isEditMode ? 'Загрузка редактора' : 'Запуск Live версии'}
                   </p>
                </div>
             </div>
          ) : (
-            <div className="flex h-full w-full bg-onyx-950 overflow-hidden select-none relative">
-               {/* Sidebar Tools */}
-               <div className="w-16 sm:w-20 md:w-64 border-r border-onyx-800 bg-onyx-900 flex flex-col shrink-0 z-20 shadow-xl">
-                 <div className="h-12 border-b border-onyx-800 hidden md:flex items-center justify-start px-6 shrink-0">
-                   <span className="font-bold uppercase tracking-widest text-xs text-neutral-400">Инструменты</span>
+            <div className="flex h-full w-full bg-onyx-950 overflow-hidden select-none relative transition-all">
+               {/* Sidebar Tools - Only show in Edit Mode */}
+               {isEditMode && (
+                 <div className="w-16 sm:w-20 md:w-64 border-r border-onyx-800 bg-onyx-900 flex flex-col shrink-0 z-20 shadow-xl animate-in fade-in slide-in-from-left-4">
+                   <div className="h-12 border-b border-onyx-800 hidden md:flex items-center justify-start px-6 shrink-0">
+                     <span className="font-bold uppercase tracking-widest text-xs text-neutral-400">Панель управления</span>
+                   </div>
+                   <div className="flex-grow flex flex-col py-4 gap-2 px-2 md:px-4 overflow-y-auto">
+                      <EditorButton icon={<Layout size={20} />} label="Блоки" active={activeTool === 'Блоки'} onClick={() => handleToolClick('Блоки')} />
+                      <EditorButton icon={<Type size={20} />} label="Текст" active={activeTool === 'Текст'} onClick={() => handleToolClick('Текст')} />
+                      <EditorButton icon={<Palette size={20} />} label="Стиль" active={activeTool === 'Стиль'} onClick={() => handleToolClick('Стиль')} />
+                      <EditorButton icon={<MousePointer2 size={20} />} label="Экшены" active={activeTool === 'Экшены'} onClick={() => handleToolClick('Экшены')} />
+                      <div className="my-2 border-b border-onyx-800"></div>
+                      <EditorButton icon={<Settings size={20} />} label="Настройки" active={activeTool === 'Настройки'} onClick={() => handleToolClick('Настройки')} />
+                   </div>
+                   <div className="p-4 border-t border-onyx-800 flex flex-col gap-3">
+                      <button onClick={onClose} className="w-full bg-onyx-700 text-white font-mono uppercase tracking-widest text-[9px] sm:text-[10px] py-4 clip-diagonal hover:bg-onyx-600 transition-colors">Закрыть</button>
+                      <button onClick={() => showToast("Сохранение недоступно в режиме демонстрации шаблонов.")} className="w-full bg-white text-black font-bold uppercase tracking-widest text-[9px] sm:text-xs py-4 clip-diagonal hover:bg-neutral-300 transition-colors hidden md:block">Сохранить</button>
+                   </div>
                  </div>
-                 <div className="flex-grow flex flex-col py-4 gap-2 px-2 md:px-4 overflow-y-auto">
-                    <EditorButton icon={<Layout size={20} />} label="Блоки" active={activeTool === 'Блоки'} onClick={() => handleToolClick('Блоки')} />
-                    <EditorButton icon={<Type size={20} />} label="Текст" active={activeTool === 'Текст'} onClick={() => handleToolClick('Текст')} />
-                    <EditorButton icon={<Palette size={20} />} label="Стиль" active={activeTool === 'Стиль'} onClick={() => handleToolClick('Стиль')} />
-                    <EditorButton icon={<MousePointer2 size={20} />} label="Экшены" active={activeTool === 'Экшены'} onClick={() => handleToolClick('Экшены')} />
-                    <div className="my-2 border-b border-onyx-800"></div>
-                    <EditorButton icon={<Settings size={20} />} label="Настройки" active={activeTool === 'Настройки'} onClick={() => handleToolClick('Настройки')} />
-                 </div>
-                 <div className="p-4 border-t border-onyx-800 flex flex-col gap-3">
-                    <button onClick={onClose} className="w-full bg-onyx-700 text-white font-mono uppercase tracking-widest text-[9px] sm:text-[10px] py-4 clip-diagonal hover:bg-onyx-600 transition-colors">Закрыть</button>
-                    <button onClick={() => alert("Сохранение недоступно в режиме демонстрации шаблонов.")} className="w-full bg-white text-black font-bold uppercase tracking-widest text-[9px] sm:text-xs py-4 clip-diagonal hover:bg-neutral-300 transition-colors hidden md:block">Сохранить</button>
-                 </div>
-               </div>
+               )}
 
                {/* Main Work Area */}
                <div className="flex-grow flex flex-col min-w-0 bg-[#050505]">
                  {/* Top Toolbar */}
                  <div className="h-12 border-b border-onyx-800 flex items-center justify-between px-4 sm:px-6 shrink-0 bg-onyx-900 relative z-10 shadow-md">
-                   <div className="hidden sm:block text-xs font-mono text-neutral-400 uppercase tracking-widest truncate">
-                      <span className="text-white mr-2">Текущая страница:</span> Главная
-                   </div>
-                   <div className="flex gap-2 sm:gap-4 ml-auto w-full justify-center sm:justify-start sm:w-auto">
-                     <button onClick={() => setDevice('desktop')} className={`px-4 py-1.5 transition-colors rounded-sm flex items-center gap-2 ${device === 'desktop' ? 'bg-onyx-800 text-white shadow-inner' : 'text-neutral-500 hover:text-white hover:bg-onyx-800/50'}`}>
+                   <div className="flex gap-2 sm:gap-4 justify-start w-auto">
+                     <button onClick={() => setDevice('desktop')} className={`px-4 py-1.5 transition-colors rounded-sm flex items-center gap-2 ${device === 'desktop' ? 'bg-onyx-800 text-white' : 'text-neutral-500 hover:text-white hover:bg-onyx-800/50'}`}>
                        <Monitor size={18} /> <span className="hidden lg:inline text-[10px] font-bold uppercase tracking-widest">Desktop</span>
                      </button>
-                     <button onClick={() => setDevice('mobile')} className={`px-4 py-1.5 transition-colors rounded-sm flex items-center gap-2 ${device === 'mobile' ? 'bg-onyx-800 text-white shadow-inner' : 'text-neutral-500 hover:text-white hover:bg-onyx-800/50'}`}>
+                     <button onClick={() => setDevice('mobile')} className={`px-4 py-1.5 transition-colors rounded-sm flex items-center gap-2 ${device === 'mobile' ? 'bg-onyx-800 text-white' : 'text-neutral-500 hover:text-white hover:bg-onyx-800/50'}`}>
                        <Smartphone size={18} /> <span className="hidden lg:inline text-[10px] font-bold uppercase tracking-widest">Mobile</span>
                      </button>
+                   </div>
+                   
+                   <div className="flex items-center gap-4">
+                     {!isEditMode ? (
+                        <button onClick={() => setIsEditMode(true)} className="bg-white text-black px-6 py-1.5 text-[10px] font-bold uppercase tracking-widest clip-diagonal hover:bg-neutral-300 transition-colors shadow-[0_0_15px_rgba(255,255,255,0.3)] animate-pulse hover:animate-none flex items-center gap-2">
+                          <Layout size={14} /> Кастомизировать
+                        </button>
+                     ) : (
+                        <button onClick={() => setIsEditMode(false)} className="bg-onyx-700 text-white px-6 py-1.5 text-[10px] font-bold uppercase tracking-widest clip-diagonal hover:bg-onyx-600 transition-colors flex items-center gap-2">
+                          Предпросмотр
+                        </button>
+                     )}
                    </div>
                  </div>
 
                  {/* Canvas Workspace */}
                  <div className="flex-grow overflow-auto flex items-start sm:items-center justify-center p-0 pt-12 sm:pt-4 sm:p-8 relative industrial-grid bg-onyx-950 scroll-smooth">
-                    <div className={`shadow-2xl border border-onyx-700 transition-all duration-500 bg-white overflow-y-auto overflow-x-hidden ${device === 'desktop' ? 'w-full h-full max-w-7xl rounded-md' : 'w-[320px] sm:w-[375px] h-[650px] sm:h-[812px] mt-4 sm:mt-0 rounded-[40px] border-[12px] border-onyx-800 relative shadow-black/80'}`}>
+                    <div className={`shadow-2xl transition-all duration-500 bg-white overflow-y-auto overflow-x-hidden ${device === 'desktop' ? 'w-full h-full max-w-[1920px] shadow-black/50' : 'w-[320px] sm:w-[375px] h-[650px] sm:h-[812px] mt-4 sm:mt-0 rounded-[40px] border-[12px] border-onyx-800 relative shadow-black/80'}`}>
                        {device === 'mobile' && <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-onyx-800 rounded-b-2xl z-50"></div>}
                        
-                       {/* Interactive Overlay to simulate editor bounding boxes */}
-                       <div className="min-h-full w-full relative group cursor-crosshair">
+                       {/* Interactive Area */}
+                       <div className={`min-h-full w-full relative ${isEditMode ? 'group cursor-crosshair' : ''}`} onClick={handlePreviewClick}>
                           <TemplateSwitcher name={templateName} />
                           
-                          {/* Hover Editor Overlay Lines */}
-                          <div className="absolute inset-0 pointer-events-none z-[60] bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:100px_100px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                          <div className="absolute inset-0 border-[3px] border-transparent group-hover:border-blue-500 pointer-events-none transition-colors duration-300 z-[70] opacity-0 group-hover:opacity-100 flex items-start justify-end">
-                             <div className="bg-blue-600 text-white text-[10px] font-bold uppercase tracking-widest px-4 py-2 shadow-lg flex items-center gap-2 m-2">
-                               <Layout size={14} />
-                               Редактировать
-                             </div>
-                          </div>
-                          {/* Add a transparent overlay to capture clicks safely in demo mode to prevent form submissions/navigation within the mock */}
-                          <div className="absolute inset-0 z-50 cursor-crosshair" onClick={() => handleToolClick('Выбор элемента')}></div>
+                          {/* Hover Editor Overlay Lines (Only in Edit Mode) */}
+                          {isEditMode && (
+                            <>
+                              <div className="absolute inset-0 pointer-events-none z-[60] bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:100px_100px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                              <div className="absolute inset-0 border-[3px] border-transparent group-hover:border-blue-500 pointer-events-none transition-colors duration-300 z-[70] opacity-0 group-hover:opacity-100 flex items-start justify-end">
+                                 <div className="bg-blue-600 text-white text-[10px] font-bold uppercase tracking-widest px-4 py-2 shadow-lg flex items-center gap-2 m-2">
+                                   <Layout size={14} /> Редактировать
+                                 </div>
+                              </div>
+                              <div className="absolute inset-0 z-50 cursor-crosshair bg-transparent"></div>
+                            </>
+                          )}
                        </div>
                     </div>
                  </div>
