@@ -9,7 +9,7 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden industrial-grid mask-image-b">
       <div className="absolute right-0 top-0 w-full md:w-1/2 h-full opacity-30 mix-blend-screen pointer-events-none">
-        <img src="https://loremflickr.com/1600/900/abstract,pattern?lock=1" alt="Abstract Pattern" className="w-full h-full object-cover grayscale object-right" referrerPolicy="no-referrer" />
+        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" alt="Abstract Pattern" className="w-full h-full object-cover grayscale object-right" referrerPolicy="no-referrer" />
       </div>
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-violet-950/40 via-onyx-900/80 to-onyx-950 pointer-events-none" />
       
@@ -48,7 +48,6 @@ export default function Hero() {
             className="hidden lg:block relative"
           >
              <div className="relative w-full aspect-square md:aspect-[4/3] rounded-sm overflow-hidden border border-onyx-700 shadow-[0_0_50px_rgba(0,0,0,0.5)] group clip-diagonal">
-                <img src="https://loremflickr.com/800/600/laptop,developer?lock=2" alt="Web Development" className="w-full h-full object-cover grayscale mix-blend-luminosity group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-80" referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-gradient-to-t from-onyx-950/90 via-onyx-900/20 to-transparent"></div>
                 <div className="absolute bottom-6 left-6 right-6">
                    <div className="bg-onyx-900/90 backdrop-blur-md border border-onyx-700 p-6 clip-diagonal">
