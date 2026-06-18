@@ -5,7 +5,7 @@ export default function ScarcityGuarantee() {
   return (
     <Container className="bg-onyx-950 border-b border-onyx-800 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-violet-950/10 via-transparent to-transparent pointer-events-none" />
-      <img src="/scarcity-dark.jpg" alt="Abstract dark" className="absolute inset-0 w-full h-full object-cover grayscale opacity-10 mix-blend-screen pointer-events-none" referrerPolicy="no-referrer" />
+      <img src="https://loremflickr.com/1200/800/abstract,dark?lock=21" alt="Abstract dark" className="absolute inset-0 w-full h-full object-cover grayscale opacity-10 mix-blend-screen pointer-events-none" referrerPolicy="no-referrer" />
       <div className="grid md:grid-cols-2 gap-16 md:gap-32 relative z-10">
         <div className="space-y-8">
           <h3 className="text-violet-600 font-mono text-sm tracking-[0.2em] uppercase border-l-2 border-violet-700 pl-4">Эффект дефицита</h3>
@@ -18,7 +18,7 @@ export default function ScarcityGuarantee() {
           <p className="font-sans text-lg text-neutral-400 leading-relaxed">
             Это необходимо, чтобы гарантировать команде инженеров максимальное погружение в архитектуру проекта и высочайшее качество каждого пикселя. Успейте забронировать место для вашего бренда.
           </p>
-          <img src="/scarcity-cyber.jpg" alt="Cyber" className="w-full h-48 object-cover clip-diagonal grayscale opacity-70 mt-8 shadow-[0_0_30px_rgba(46,16,101,0.3)] border border-onyx-800" referrerPolicy="no-referrer" />
+          <img src="https://loremflickr.com/800/400/cyber,neon?lock=22" alt="Cyber" className="w-full h-48 object-cover clip-diagonal grayscale opacity-70 mt-8 shadow-[0_0_30px_rgba(46,16,101,0.3)] border border-onyx-800" referrerPolicy="no-referrer" />
         </div>
 
         <div className="space-y-8 flex flex-col justify-center mt-8 md:mt-0">
@@ -27,7 +27,7 @@ export default function ScarcityGuarantee() {
             Железобетонная гарантия
           </h2>
           <div className="bg-onyx-900/80 p-8 clip-diagonal border border-onyx-700 relative overflow-hidden mt-4 shadow-[0_0_20px_rgba(46,16,101,0.2)]">
-            <img src="/scarcity-security.jpg" alt="Security" className="absolute inset-0 w-full h-full object-cover grayscale opacity-20 mix-blend-overlay pointer-events-none" referrerPolicy="no-referrer" />
+            <img src="https://loremflickr.com/1200/800/security,lock?lock=23" alt="Security" className="absolute inset-0 w-full h-full object-cover grayscale opacity-20 mix-blend-overlay pointer-events-none" referrerPolicy="no-referrer" />
             <div className="absolute top-0 right-0 w-32 h-32 bg-violet-700/10 blur-[50px] pointer-events-none" />
             <div className="relative z-10">
               <p className="font-sans text-lg text-neutral-300 leading-relaxed mb-4">

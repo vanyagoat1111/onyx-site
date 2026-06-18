@@ -27,7 +27,7 @@ export default function Romi() {
           
           <div className="relative">
             <div className="relative z-10 p-2 bg-onyx-900 border border-onyx-700 shadow-[0_0_50px_rgba(46,16,101,0.2)] clip-diagonal">
-              <img src="/romi-analytics.jpg" alt="Analytics and Data" className="w-full h-80 lg:h-96 object-cover grayscale mix-blend-luminosity opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-700 clip-diagonal" referrerPolicy="no-referrer" />
+              <img src="https://loremflickr.com/1200/800/analytics,chart?lock=20" alt="Analytics and Data" className="w-full h-80 lg:h-96 object-cover grayscale mix-blend-luminosity opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-700 clip-diagonal" referrerPolicy="no-referrer" />
               
               <div className="absolute -bottom-6 -left-6 bg-onyx-800 border border-onyx-700 p-6 clip-diagonal shadow-2xl backdrop-blur-md max-w-sm">
                 <div className="flex items-center gap-3 mb-2">

@@ -40,7 +40,7 @@ export default function WhyWeb() {
         <div className="relative group/wrapper">
           <div className="absolute -inset-4 border border-onyx-700 group-hover/wrapper:border-violet-950/50 clip-diagonal pointer-events-none opacity-50 transition-colors duration-500"></div>
           <div className="bg-onyx-800 p-8 md:p-12 clip-diagonal h-full flex flex-col justify-center relative overflow-hidden group/card shadow-[0_0_0_rgba(46,16,101,0)] hover:shadow-[0_0_30px_rgba(46,16,101,0.1)] transition-shadow duration-500">
-            <img src="/whyweb-server.jpg" alt="Server Data" className="absolute inset-0 w-full h-full object-cover grayscale opacity-10 group-hover/card:opacity-30 transition-opacity duration-700 mix-blend-screen pointer-events-none" referrerPolicy="no-referrer" />
+            <img src="https://loremflickr.com/1200/800/server,network?lock=18" alt="Server Data" className="absolute inset-0 w-full h-full object-cover grayscale opacity-10 group-hover/card:opacity-30 transition-opacity duration-700 mix-blend-screen pointer-events-none" referrerPolicy="no-referrer" />
             <div className="absolute inset-0 bg-gradient-to-br from-violet-950/10 to-transparent"></div>
             <div className="relative z-10">
               <h3 className="text-white font-bold uppercase tracking-widest mb-12 border-b border-onyx-700 pb-4">Сайт — это актив бизнеса. Профессиональный сайт помогает:</h3>

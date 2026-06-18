@@ -9,7 +9,7 @@ export default function Problem() {
       <div className="grid lg:grid-cols-2 gap-16 items-center relative z-10">
         <div className="relative">
           <div className="absolute -inset-8 bg-gradient-to-r from-onyx-800 to-transparent z-10 pointer-events-none hidden lg:block" />
-          <img src="/problem-abstract.jpg" alt="Abstract structure" className="absolute inset-0 w-full h-full object-cover grayscale opacity-20 clip-diagonal mix-blend-overlay" referrerPolicy="no-referrer" />
+          <img src="https://loremflickr.com/1200/800/architecture,abstract?lock=19" alt="Abstract structure" className="absolute inset-0 w-full h-full object-cover grayscale opacity-20 clip-diagonal mix-blend-overlay" referrerPolicy="no-referrer" />
           <div className="relative z-20">
             <SectionTitle subtitle="Определение проблемы">Суровая<br/>статистика</SectionTitle>
           </div>
