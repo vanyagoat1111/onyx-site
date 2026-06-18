@@ -26,7 +26,7 @@ export default function Navbar() {
     <>
       <nav className={`fixed top-0 w-full z-40 transition-all duration-300 ${scrolled ? 'bg-onyx-900/90 backdrop-blur-md py-4 border-b border-onyx-800' : 'bg-transparent py-6'}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center">
-          <a href="#" className="text-3xl font-bold tracking-tighter uppercase">ONYX<span className="text-neutral-500">_</span></a>
+          <a href="#" className="text-3xl font-bold tracking-tighter uppercase text-violet-600">ONYX</a>
           
           <div className="hidden lg:flex items-center space-x-8">
             {links.map(link => (

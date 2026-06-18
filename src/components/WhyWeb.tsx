@@ -38,17 +38,20 @@ export default function WhyWeb() {
         </div>
 
         <div className="relative group/wrapper">
-          <div className="absolute -inset-4 border border-onyx-700 group-hover/wrapper:border-violet-950/50 clip-diagonal pointer-events-none opacity-50 transition-colors duration-500"></div>
-          <div className="bg-onyx-800 p-8 md:p-12 clip-diagonal h-full flex flex-col justify-center relative overflow-hidden group/card shadow-[0_0_0_rgba(46,16,101,0)] hover:shadow-[0_0_30px_rgba(46,16,101,0.1)] transition-shadow duration-500">
-            <img src="/case0.2.jpg" alt="Server Data" className="absolute inset-0 w-full h-full object-cover grayscale opacity-30 mix-blend-screen pointer-events-none transition-opacity duration-700 group-hover/card:opacity-50" referrerPolicy="no-referrer" />
-            <div className="absolute inset-0 bg-gradient-to-br from-violet-950/10 to-transparent"></div>
+          <div className="absolute -inset-1 border border-onyx-700 group-hover/wrapper:border-violet-500/50 clip-diagonal pointer-events-none transition-colors duration-500"></div>
+          <div className="bg-black p-10 md:p-16 h-full flex flex-col justify-center relative overflow-hidden group/card shadow-2xl border border-onyx-800">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-violet-900/10 via-transparent to-transparent pointer-events-none"></div>
             <div className="relative z-10">
-              <h3 className="text-white font-bold uppercase tracking-widest mb-12 border-b border-onyx-700 pb-4">Сайт — это актив бизнеса. Профессиональный сайт помогает:</h3>
+              <h3 className="text-white font-light text-2xl md:text-3xl mb-10 border-b border-onyx-800 pb-8 tracking-tight leading-snug">
+                Сайт — это <span className="font-bold text-violet-500">актив бизнеса</span>.<br/>Профессиональный сайт помогает:
+              </h3>
               <ul className="space-y-8">
                 {benefits.map((b, i) => (
                   <li key={i} className="flex items-center gap-6 group">
-                    <div className="text-neutral-500 group-hover:text-violet-600 transition-colors drop-shadow-[0_0_10px_rgba(124,58,237,0)] group-hover:drop-shadow-[0_0_10px_rgba(124,58,237,0.6)]">{b.icon}</div>
-                    <span className="font-bold uppercase tracking-wide group-hover:pl-2 transition-all">{b.title}</span>
+                    <div className="w-12 h-12 flex items-center justify-center border border-onyx-800 bg-onyx-900/50 text-neutral-400 group-hover:text-violet-500 group-hover:border-violet-900/50 transition-all rounded-sm shrink-0">
+                      {b.icon}
+                    </div>
+                    <span className="font-medium text-lg tracking-wide text-neutral-300 group-hover:text-white transition-colors">{b.title}</span>
                   </li>
                 ))}
               </ul>

@@ -18,7 +18,7 @@ export const Button = ({ children, onClick, variant = 'primary', className = '',
 export const SectionTitle = ({ children, subtitle, className = '' }: { children: React.ReactNode, subtitle?: string, className?: string }) => (
   <div className={`mb-16 md:mb-24 ${className}`}>
     {subtitle && <p className="text-neutral-500 font-mono text-sm tracking-[0.2em] uppercase mb-4 border-l-2 border-white pl-4 ml-1">{subtitle}</p>}
-    <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold uppercase tracking-tighter leading-none">{children}</h2>
+    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold uppercase tracking-tighter leading-none break-words hyphens-auto">{children}</h2>
     <div className="w-32 h-2 bg-white mt-8 clip-diagonal" />
   </div>
 );

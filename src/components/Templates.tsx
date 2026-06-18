@@ -64,7 +64,7 @@ export default function Templates() {
   return (
     <div id="templates" className="py-32 bg-onyx-950">
       <Container>
-        <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-24">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-24 w-full">
           <SectionTitle subtitle="Направления" className="mb-0">Наши<br/>Кейсы</SectionTitle>
           <p className="font-mono text-sm text-neutral-400 max-w-sm uppercase tracking-widest md:text-right">
             Детальный разбор наших работ: от реальной проблемы бизнеса до измеримого результата.
@@ -103,37 +103,41 @@ export default function Templates() {
               </div>
               
               {/* Right/Left: Info */}
-              <div className="w-full lg:w-1/2 flex flex-col justify-center space-y-8">
-                <div>
-                  <h4 className="text-sm font-mono text-neutral-500 uppercase tracking-widest border-l-2 border-red-500/50 pl-4 mb-4">Задача</h4>
-                  <p className="text-lg text-white font-medium">{tpl.problem}</p>
+              <div className="w-full lg:w-1/2 flex flex-col justify-center space-y-10">
+                <div className="space-y-4">
+                  <h4 className="text-xs font-mono text-neutral-500 uppercase tracking-[0.2em] border-l-2 border-red-500/50 pl-4">Задача</h4>
+                  <p className="text-xl lg:text-2xl font-light text-white leading-relaxed">{tpl.problem}</p>
                 </div>
                 
-                <div>
-                  <h4 className="text-sm font-mono text-neutral-500 uppercase tracking-widest border-l-2 border-violet-500/50 pl-4 mb-4">Решение</h4>
-                  <p className="text-neutral-300 mb-4">{tpl.solution}</p>
+                <div className="space-y-4">
+                  <h4 className="text-xs font-mono text-neutral-500 uppercase tracking-[0.2em] border-l-2 border-violet-500/50 pl-4">Решение</h4>
+                  <p className="text-base text-neutral-300 leading-relaxed">{tpl.solution}</p>
                   {tpl.solutionList.length > 0 && (
-                    <ul className="grid grid-cols-2 gap-3 mb-4">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 mt-4">
                       {tpl.solutionList.map((item, idx) => (
-                        <li key={idx} className="flex items-center gap-2 text-sm text-neutral-400">
-                           <CheckCircle2 className="w-4 h-4 text-violet-500" />
-                           {item}
+                        <li key={idx} className="flex items-center gap-3 text-sm text-neutral-300 border-b border-onyx-800 pb-2">
+                           <CheckCircle2 className="w-4 h-4 text-violet-500 shrink-0" />
+                           <span className="truncate">{item}</span>
                         </li>
                       ))}
                     </ul>
                   )}
                 </div>
 
-                <div className="p-6 bg-onyx-900/50 border border-onyx-800 rounded-sm">
-                   <h4 className="text-xs font-mono text-neutral-500 uppercase tracking-widest mb-3">Что сделали:</h4>
-                   <p className="text-sm text-neutral-300 leading-relaxed mb-6">{tpl.done}</p>
-                   
-                   <h4 className="text-xs font-mono text-neutral-500 uppercase tracking-widest mb-3">Результат:</h4>
-                   <p className="text-lg font-bold text-white tracking-wide">{tpl.result}</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 bg-black border border-onyx-800 rounded-sm shadow-inner clip-diagonal relative overflow-hidden">
+                   <div className="absolute inset-0 bg-gradient-to-br from-violet-900/5 to-transparent pointer-events-none"></div>
+                   <div className="relative z-10">
+                     <h4 className="text-[10px] font-mono text-neutral-500 uppercase tracking-[0.2em] mb-4">Что сделали</h4>
+                     <p className="text-sm text-neutral-400 leading-relaxed font-light">{tpl.done}</p>
+                   </div>
+                   <div className="relative z-10">
+                     <h4 className="text-[10px] font-mono text-neutral-500 uppercase tracking-[0.2em] mb-4">Результат</h4>
+                     <p className="text-lg font-medium text-white tracking-wide border-l border-onyx-700 pl-4">{tpl.result}</p>
+                   </div>
                 </div>
                 
-                <div>
-                   <a href={tpl.url} className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-onyx-800 hover:bg-violet-600 border border-onyx-700 hover:border-violet-500 transition-all text-white font-bold uppercase tracking-widest text-sm rounded-sm group w-full sm:w-auto">
+                <div className="pt-4">
+                   <a href={tpl.url} className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-white hover:bg-neutral-200 text-black font-bold uppercase tracking-widest text-[10px] sm:text-xs rounded-sm group w-full sm:w-max transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]">
                      Смотреть сайт <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                    </a>
                 </div>

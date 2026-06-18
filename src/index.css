@@ -15,6 +15,7 @@ body {
   background-color: var(--color-onyx-900);
   color: var(--color-onyx-accent);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 .clip-diagonal {

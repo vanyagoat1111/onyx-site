@@ -26,7 +26,7 @@ export default function Hero() {
               Студия инновационной веб-разработки
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter leading-[1.1] mb-8 drop-shadow-lg text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter leading-[1.1] mb-8 drop-shadow-lg text-white break-words">
               Профессиональный сайт для бизнеса <br className="hidden lg:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-violet-800 drop-shadow-[0_0_15px_rgba(109,40,217,0.4)]">без затрат на запуск</span>
             </h1>
