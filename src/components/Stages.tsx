@@ -18,11 +18,11 @@ export default function Stages() {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-12">
         {stages.map((st) => (
           <div key={st.num} className="relative group">
-            <div className="absolute -top-10 left-0 text-[120px] font-bold text-onyx-900/40 z-0 select-none group-hover:text-blue-500/20 transition-colors duration-500 font-mono tracking-tighter drop-shadow-[0_0_0_rgba(59,130,246,0)] group-hover:drop-shadow-[0_0_30px_rgba(59,130,246,0.3)]">
+            <div className="absolute -top-10 left-0 text-[120px] font-bold text-onyx-900/40 z-0 select-none group-hover:text-violet-600 transition-colors duration-500 font-mono tracking-tighter drop-shadow-[0_0_0_rgba(124,58,237,0)] group-hover:drop-shadow-[0_0_20px_rgba(124,58,237,0.5)]">
               {st.num}
             </div>
-            <div className="relative z-10 pl-4 border-l-2 border-transparent group-hover:border-blue-500 transition-all pt-8">
-              <h3 className="text-2xl font-bold uppercase tracking-widest mb-4 group-hover:text-blue-400 transition-colors">{st.title}</h3>
+            <div className="relative z-10 pl-4 border-l-2 border-transparent group-hover:border-violet-600 transition-all pt-8">
+              <h3 className="text-2xl font-bold uppercase tracking-widest mb-4 group-hover:text-violet-500 transition-colors">{st.title}</h3>
               <p className="text-neutral-400 font-sans leading-relaxed">{st.desc}</p>
             </div>
           </div>

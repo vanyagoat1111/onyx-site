@@ -17,7 +17,7 @@ export default function Navbar() {
   const links = [
     { name: 'FAQ', href: '#faq' },
     { name: 'Выгоды', href: '#benefits' },
-    { name: 'Шаблоны', href: '#templates' },
+    { name: 'Кейсы', href: '#templates' },
     { name: 'Стать партнером', href: '#partner' },
     { name: 'Тарифы', href: '#pricing' },
   ];
