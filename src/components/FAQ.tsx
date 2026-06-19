@@ -3,42 +3,48 @@ import { Container, SectionTitle } from './ui';
 import { ChevronDown } from 'lucide-react';
 
 const faqs = [
-  { q: "Как быстро я получу готовый сайт?", a: "Мы разрабатываем сайты от 1 дня для базовых тарифов, благодаря библиотеке готовых архитектурных блоков." },
-  { q: "Что входит в техническое обслуживание?", a: "Хостинг, продление домена, обеспечение безопасности, создание резервных копий и базовое обновление контента." },
-  { q: "Могу ли я потом отказаться от подписки?", a: "Да, вы можете остановить подписку в любой момент. Сайт перестанет функционировать, но мы сохраним резервную копию базы данных." },
-  { q: "Вы делаете SEO-оптимизацию?", a: "Базовая техническая SEO-оптимизация уже включена во все тарифы. Углубленное продвижение обсуждается индивидуально." }
+  { q: "Почему сайт стоит всего 2990 ₽ в месяц?", a: "Мы используем современные технологии разработки и собственную систему шаблонов, что позволяет запускать качественные сайты без крупных первоначальных затрат для клиента. Вместо большой разовой оплаты вы получаете профессиональный сайт по удобной ежемесячной подписке." },
+  { q: "Сколько стоит разработка сайта?", a: "В стоимость подписки уже входят разработка, домен, хостинг и техническая поддержка. Фактически разработка стоит 0 рублей." },
+  { q: "Нужно ли платить за разработку отдельно?", a: "Нет. Мы работаем по подписочной модели, поэтому крупных вложений на старте не требуется." },
+  { q: "Сколько времени занимает запуск?", a: "В среднем от 2 до 4 дней в зависимости от сложности проекта и скорости предоставления материалов." },
+  { q: "Можно ли подключить онлайн-оплату?", a: "Да. Мы можем подключить оплату банковскими картами, СБП и другие способы оплаты, подключаем за разовую оплату навсегда." },
+  { q: "Можно ли подключить CRM?", a: "Да. Интегрируем сайт с CRM-системами, включая Битрикс24 и amoCRM, подключаем за разовую оплату навсегда." },
+  { q: "Будет ли сайт отображаться на смартфонах?", a: "Да. Все сайты адаптированы для мобильных устройств, планшетов и компьютеров." },
+  { q: "Что делать, если у меня нет контента для наполнения сайта?", a: "Мы поможем подготовить структуру сайта, тексты и подобрать визуальные материалы для запуска проекта." },
+  { q: "Что произойдёт, если мне понадобится доработка сайта?", a: "Мы можем добавлять новые страницы, разделы, интеграции и функционал по мере развития вашего бизнеса. У вас будет личный мастер, которому вы будете писать свои правки, он будет адаптировать сайт под них, это входит в стоимость подписки." },
+  { q: "Как присваивается домен, можно ли его выбрать?", a: "Домен входит в стоимость подписки, перед публикацией сайта вы придумываете как хотите чтобы назывался ваш сайт, далее мы присваиваем вашему сайту это доменное имя." },
+  { q: "Как происходят корректировки и техническая поддержка сайта?", a: "Вам будет присвоен личный специалист, которому вы озвучиваете желаемые обновления контента сайта." },
+  { q: "Как мне держать связь с командой ONYX?", a: "Через менеджера и привязанного к вашему проекту разработчика." },
+  { q: "Как происходит оплата?", a: "Через рекуррентные платежи в соответствии с выбранным Вами тарифом." },
+  { q: "Как понять какой тариф мне нужен?", a: "Заполните анкету и с вами свяжется наш менеджер, представит вам на согласование предварительный план вашего будущего сайта, исходя из этого будет выбран тариф." },
+  { q: "У кого доступ к сайту?", a: "Доступ к вашему сайту у команды ONYX для быстрых и своевременных внесений корректировок и обновлений, а также для технической поддержки." },
+  { q: "Куда приходят данные моих клиентов и денежные средства с оплаты товаров/услуг на сайте?", a: "Мы привязываем к вашему сайту сторонние сервисы для приема заявок и получения оплаты, к которым доступ только у вас на ваших устройствах." },
+  { q: "Что будет с сайтом если не получилось вовремя продлить подписку?", a: "Сайт автоматически будет скрыт из публичного доступа, по продлению подписки сайт вернется в публичный доступ. Если будете менять способ оплаты, пишите об этом менеджеру, чтобы команда ONYX обновила информацию." }
 ];
 
 export default function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <Container id="faq" className="border-t border-onyx-800">
-      <div className="grid lg:grid-cols-2 gap-16">
+    <Container id="faq" className="border-t border-onyx-700 bg-onyx-950  relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none" />
+      <div className="grid lg:grid-cols-2 gap-16 relative z-10">
         <div>
           <SectionTitle subtitle="Вопросы">FAQ</SectionTitle>
-          <div id="partner" className="mt-16 p-8 bg-onyx-900 border border-violet-950/50 clip-diagonal relative group overflow-hidden">
-            <div className="absolute inset-0 bg-violet-950/5 group-hover:bg-violet-950/10 transition-colors pointer-events-none" />
-            <h3 className="font-bold uppercase tracking-widest mb-4 text-violet-500 group-hover:text-violet-300 transition-colors">Стать партнером</h3>
-            <p className="text-neutral-400 font-mono text-sm mb-6 relative z-10">Привлекайте клиентов и получайте 20% комиссии на постоянной основе от чека абонентской платы.</p>
-            <a href="#" onClick={(e) => e.preventDefault()} className="inline-flex font-bold tracking-widest uppercase border-b border-violet-600 pb-1 text-violet-600 hover:text-white hover:border-white transition-colors relative z-10">
-              Подключиться
-            </a>
-          </div>
         </div>
         
         <div className="space-y-4">
           {faqs.map((faq, i) => (
-            <div key={i} className={`border ${open === i ? 'border-violet-950/50 bg-onyx-900/80 shadow-[0_0_15px_rgba(46,16,101,0.2)]' : 'border-onyx-700 bg-onyx-800/30'} overflow-hidden transition-all duration-300`}>
+            <div key={i} className={`border clip-diagonal ${open === i ? 'border-blue-500 bg-onyx-900 shadow-[0_0_20px_rgba(59,130,246,0.2)]' : 'border-onyx-700 bg-onyx-800/30 hover:border-blue-400/50 hover:bg-onyx-800/80'} overflow-hidden transition-all duration-300`}>
               <button 
                 onClick={() => setOpen(open === i ? null : i)}
-                className={`w-full flex items-center justify-between p-6 text-left font-bold uppercase tracking-wide hover:bg-onyx-800 transition-colors ${open === i ? 'text-violet-500' : 'text-white'}`}
+                className={`w-full flex items-center justify-between p-6 text-left font-bold uppercase tracking-wide transition-colors ${open === i ? 'text-blue-500 drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]' : 'text-neutral-300 group-hover:text-white'}`}
               >
                 {faq.q}
-                <ChevronDown size={24} className={`transform transition-transform ${open === i ? 'rotate-180 text-violet-600' : 'text-neutral-500'}`} />
+                <ChevronDown size={24} className={`transform transition-transform ${open === i ? 'rotate-180 text-blue-500 drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]' : 'text-blue-300'}`} />
               </button>
               {open === i && (
-                <div className="p-6 pt-0 text-neutral-400 font-sans leading-relaxed border-t border-violet-950/30 mt-4 mx-6 pb-6">
+                <div className="p-6 pt-0 text-neutral-200 font-sans text-base md:text-lg leading-relaxed border-t border-blue-500/20 mt-2 mx-6 pb-6 relative before:absolute before:left-0 before:top-0 before:h-full before:w-[2px] before:bg-gradient-to-b before:from-blue-600/50 before:to-transparent pl-4 shadow-[inset_4px_0_15px_rgba(59,130,246,0.05)]">
                   {faq.a}
                 </div>
               )}

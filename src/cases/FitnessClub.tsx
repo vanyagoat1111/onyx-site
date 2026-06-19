@@ -15,7 +15,7 @@ export default function FitnessClub() {
       <DemoCloseButton />
       {/* Header */}
       <header className="fixed top-0 w-full z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-red-900/30 py-4 px-6 md:px-12 flex justify-between items-center transition-all">
-        <div className="text-3xl font-black italic tracking-tighter uppercase text-white">
+        <div className="text-3xl font-black italic tracking-tight uppercase text-white">
           IRON<span className="text-red-600">CORE</span>
         </div>
         <nav className="hidden md:flex gap-8 text-sm font-bold uppercase tracking-widest text-neutral-400">
@@ -53,7 +53,7 @@ export default function FitnessClub() {
               Премиальное фитнес-пространство для тех, кто не ищет оправданий. 2000 м² инновационного оборудования и атмосфера, заряженная на результат.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-4">
-              <button className="bg-red-600 hover:bg-white hover:text-black text-white px-8 py-4 font-bold uppercase tracking-widest text-sm transition-colors border border-red-600 hover:border-white shadow-[0_0_20px_rgba(220,38,38,0.4)]">
+              <button className="bg-red-600 hover:bg-white hover:text-onyx-950 text-white px-8 py-4 font-bold uppercase tracking-widest text-sm transition-colors border border-red-600 hover:border-white shadow-[0_0_20px_rgba(220,38,38,0.4)]">
                 Стать резидентом
               </button>
               <button className="bg-transparent border border-neutral-700 hover:border-white text-white px-8 py-4 font-bold uppercase tracking-widest text-sm transition-colors">
@@ -135,14 +135,14 @@ export default function FitnessClub() {
       <section id="trainers" className="py-32 px-6 md:px-12 bg-neutral-900 border-t border-red-900/30">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4">Тренерский состав</h2>
+            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-4">Тренерский состав</h2>
             <p className="text-neutral-400 max-w-xl mx-auto">Профессионалы международного уровня. Чемпионы России и Европы по бодибилдингу, кроссфиту и пауэрлифтингу.</p>
           </div>
           <div className="grid md:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map((_, i) => (
               <div key={i} className="group relative overflow-hidden bg-neutral-800 aspect-[3/4] cursor-pointer">
                 <img src={`/case2.${i+2}.jpg`} alt="Trainer" className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-onyx-950/50 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
                 <div className="absolute bottom-0 left-0 w-full p-8 translate-y-4 group-hover:translate-y-0 transition-transform">
                   <div className="text-red-500 font-bold text-xs uppercase tracking-widest mb-2">
                     {['Кроссфит', 'Силовой тренинг', 'Боевые искусства', 'Функциональный тренинг'][i]}
@@ -164,7 +164,7 @@ export default function FitnessClub() {
       <section id="schedule" className="py-32 px-6 md:px-12 bg-[#0a0a0a]">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-8">
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Расписание</h2>
+            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight">Расписание</h2>
             <div className="flex gap-2 p-1 bg-neutral-900 border border-neutral-800 rounded-sm">
               <button className="px-6 py-2 bg-red-600 text-white font-bold uppercase tracking-widest text-xs">Сегодня</button>
               <button className="px-6 py-2 bg-transparent hover:bg-neutral-800 text-neutral-400 font-bold uppercase tracking-widest text-xs transition-colors">Завтра</button>
@@ -200,7 +200,7 @@ export default function FitnessClub() {
       {/* Footer / CTA form */}
       <section id="contacts" className="py-24 px-6 md:px-12 bg-neutral-900 relative">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-8">Запишись на первую тренировку</h2>
+          <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight mb-8">Запишись на первую тренировку</h2>
           <form className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto">
              <input type="tel" placeholder="+7 (___) ___-__-__" className="flex-1 bg-[#0a0a0a] border border-neutral-800 px-6 py-4 text-white focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600 transition-all font-mono" />
              <button type="button" className="bg-red-600 hover:bg-red-500 text-white px-8 py-4 font-black uppercase tracking-wider text-sm transition-all skew-x-[-10deg]">

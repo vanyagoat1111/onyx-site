@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Layout, Type, Palette, Monitor, Smartphone, Settings, MousePointer2, X } from 'lucide-react';
 
 const FurnitureMock = () => (
-  <div className="bg-white text-black min-h-max flex flex-col font-sans">
+  <div className="bg-white text-onyx-950 min-h-max flex flex-col font-sans">
     <nav className="p-6 flex justify-between items-center border-b border-neutral-200 sticky top-0 bg-white/95 backdrop-blur z-50">
        <span className="font-bold uppercase tracking-widest text-xl">Wood&Metal</span>
        <div className="hidden md:flex space-x-8 text-sm font-bold tracking-wide uppercase">
@@ -13,15 +13,15 @@ const FurnitureMock = () => (
     </nav>
     <div className="px-6 py-16 md:py-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-neutral-100">
        <div className="space-y-8 max-w-xl">
-          <div className="text-xs uppercase tracking-widest font-mono text-neutral-500 border-l-2 border-black pl-3">Новая коллекция 2026</div>
-          <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter leading-[0.9]">Эстетика<br/>Минимализма</h1>
+          <div className="text-xs uppercase tracking-widest font-mono text-neutral-500 border-l-2 border-onyx-950 pl-3">Новая коллекция 2026</div>
+          <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tight leading-[0.9]">Эстетика<br/>Минимализма</h1>
           <p className="text-neutral-600 text-lg">Инновационные формы и дорогие текстуры. Мы создаем мебель, которая становится центром притяжения.</p>
-          <button className="bg-black text-white px-10 py-5 font-bold uppercase tracking-widest text-sm clip-diagonal hover:bg-neutral-800 transition-colors">Смотреть каталог</button>
+          <button className="bg-onyx-950 text-white px-10 py-5 font-bold uppercase tracking-widest text-sm clip-diagonal hover:bg-neutral-800 transition-colors">Смотреть каталог</button>
        </div>
        <img src="https://loremflickr.com/600/600/furniture,chair?lock=3" alt="Furniture" className="aspect-square object-cover clip-diagonal w-full shadow-2xl" referrerPolicy="no-referrer" />
     </div>
     <div className="px-6 py-16 md:py-24 max-w-7xl mx-auto">
-      <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter mb-12 text-center">Бестселлеры</h2>
+      <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-12 text-center">Бестселлеры</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-16">
          {[1,2,3,4,5,6].map(i => (
            <div key={i} className="space-y-4 group cursor-pointer">
@@ -40,7 +40,7 @@ const FurnitureMock = () => (
          ))}
       </div>
     </div>
-    <div className="bg-black text-white p-12 md:p-24 grid grid-cols-1 md:grid-cols-4 gap-12 mt-auto">
+    <div className="bg-onyx-950 text-white p-12 md:p-24 grid grid-cols-1 md:grid-cols-4 gap-12 mt-auto">
       <div className="col-span-1 md:col-span-2">
         <h2 className="text-3xl font-bold uppercase tracking-widest mb-6">Wood&Metal</h2>
         <p className="text-neutral-500 max-w-sm">Мы создаем мебель, которая переживет тренды. Настоящий минимализм, прочность и стиль.</p>
@@ -64,15 +64,15 @@ const CourseMock = () => (
      <div className="pt-24 md:pt-32 px-6 md:px-8 pb-16 md:pb-24 text-center relative overflow-hidden border-b border-white/10">
         <img src="https://loremflickr.com/1200/800/classroom?lock=12" alt="Class" className="absolute inset-0 w-full h-full object-cover grayscale mix-blend-overlay opacity-20 pointer-events-none" referrerPolicy="no-referrer" />
         <div className="relative z-10 max-w-4xl mx-auto">
-          <div className="inline-block bg-white text-black text-xs px-4 py-2 uppercase tracking-widest font-bold mb-8">Новый поток: 15 Ноября</div>
-          <h1 className="text-5xl md:text-8xl font-bold uppercase tracking-tighter mb-8 leading-none">Масштабирование<br/>бизнеса</h1>
+          <div className="inline-block bg-white text-onyx-950 text-xs px-4 py-2 uppercase tracking-widest font-bold mb-8">Новый поток: 15 Ноября</div>
+          <h1 className="text-5xl md:text-8xl font-bold uppercase tracking-tight mb-8 leading-none">Масштабирование<br/>бизнеса</h1>
           <p className="text-neutral-400 md:text-xl md:leading-relaxed mb-12 max-w-2xl mx-auto font-medium">Авторский курс по системному управлению, выстраиванию бизнес-процессов и росту ROMI. От хаоса к прозрачной системе за 8 недель.</p>
-          <div className="bg-neutral-100 text-black px-12 py-5 font-bold uppercase tracking-widest clip-diagonal inline-block hover:bg-white transition-colors cursor-pointer text-sm">Занять место на курсе</div>
+          <div className="bg-neutral-100 text-onyx-950 px-12 py-5 font-bold uppercase tracking-widest clip-diagonal inline-block hover:bg-white transition-colors cursor-pointer text-sm">Занять место на курсе</div>
         </div>
      </div>
      
      <div className="px-6 md:px-8 py-20 max-w-7xl mx-auto">
-       <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter mb-16 text-center border-b border-white/10 pb-8">Программа обучения</h2>
+       <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-16 text-center border-b border-white/10 pb-8">Программа обучения</h2>
        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             { n: '01', t: 'Финансовый учет', d: 'Построение прозрачной системы финансов, P&L, Cash Flow.' },
@@ -92,28 +92,28 @@ const CourseMock = () => (
      </div>
      
      <div className="max-w-4xl mx-auto px-6 mt-12 bg-white/5 p-12 clip-diagonal text-center border border-white/10">
-       <h2 className="text-3xl font-bold uppercase tracking-tighter mb-6">Готовы к росту?</h2>
+       <h2 className="text-3xl font-bold uppercase tracking-tight mb-6">Готовы к росту?</h2>
        <p className="text-neutral-400 mb-8 max-w-md mx-auto">Оставьте заявку на бесплатную диагностику вашего бизнеса перед курсом.</p>
        <input type="text" placeholder="Ваш Telegram..." className="bg-transparent border-b border-white/30 text-white p-4 w-full max-w-xs focus:outline-none focus:border-white font-mono text-center mb-8" />
        <br/>
-       <button className="bg-white text-black px-10 py-4 font-bold uppercase tracking-widest clip-diagonal hover:bg-neutral-300 transition-colors">Оставить заявку</button>
+       <button className="bg-white text-onyx-950 px-10 py-4 font-bold uppercase tracking-widest clip-diagonal hover:bg-neutral-300 transition-colors">Оставить заявку</button>
      </div>
   </div>
 );
 
 const BookingMock = () => (
    <div className="bg-[#f0ece9] text-[#2c2c2c] min-h-max font-sans pb-24">
-     <header className="p-6 md:p-8 flex justify-between items-center uppercase tracking-widest font-bold text-xs border-b border-black/10 sticky top-0 bg-[#f0ece9]/90 backdrop-blur z-50">
+     <header className="p-6 md:p-8 flex justify-between items-center uppercase tracking-widest font-bold text-xs border-b border-onyx-950/10 sticky top-0 bg-[#f0ece9]/90 backdrop-blur z-50">
         <span className="text-lg">The Grand Retreat</span>
         <div className="hidden md:flex gap-8 text-[10px]">
            <span className="cursor-pointer hover:underline">Villas</span>
            <span className="cursor-pointer hover:underline">Dining</span>
            <span className="cursor-pointer hover:underline">Wellness</span>
         </div>
-        <span className="cursor-pointer px-6 py-3 bg-[#2c2c2c] text-white hover:bg-black transition-colors">Book Now</span>
+        <span className="cursor-pointer px-6 py-3 bg-[#2c2c2c] text-white hover:bg-onyx-950 transition-colors">Book Now</span>
      </header>
      <div className="p-4 md:p-8 max-w-[1600px] mx-auto">
-        <div className="h-[60vh] md:h-[80vh] border border-black/10 flex items-end p-8 md:p-16 relative overflow-hidden bg-[#2c2c2c]">
+        <div className="h-[60vh] md:h-[80vh] border border-onyx-950/10 flex items-end p-8 md:p-16 relative overflow-hidden bg-[#2c2c2c]">
            <img src="https://loremflickr.com/1200/800/resort,pool?lock=13" alt="Resort" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-60 hover:scale-105 transition-transform duration-[20s]" referrerPolicy="no-referrer" />
            <div className="relative z-10 w-full">
                <h1 className="text-6xl md:text-[120px] font-light uppercase tracking-widest text-white drop-shadow-lg leading-none mb-4">Unwind.</h1>
@@ -123,17 +123,17 @@ const BookingMock = () => (
         <div className="bg-white p-8 md:p-12 shadow-2xl max-w-5xl mx-auto relative z-10 grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 items-end -mt-16 md:-mt-24">
            <div className="md:col-span-1">
               <div className="text-[10px] uppercase text-neutral-500 font-bold mb-2 tracking-widest">Check in</div>
-              <div className="border-b border-black/20 pb-2 text-lg font-medium cursor-pointer hover:border-black transition-colors">12.05.2026</div>
+              <div className="border-b border-onyx-950/20 pb-2 text-lg font-medium cursor-pointer hover:border-onyx-950 transition-colors">12.05.2026</div>
            </div>
            <div className="md:col-span-1">
               <div className="text-[10px] uppercase text-neutral-500 font-bold mb-2 tracking-widest">Check out</div>
-              <div className="border-b border-black/20 pb-2 text-lg font-medium cursor-pointer hover:border-black transition-colors">18.05.2026</div>
+              <div className="border-b border-onyx-950/20 pb-2 text-lg font-medium cursor-pointer hover:border-onyx-950 transition-colors">18.05.2026</div>
            </div>
            <div className="md:col-span-1">
               <div className="text-[10px] uppercase text-neutral-500 font-bold mb-2 tracking-widest">Guests</div>
-              <div className="border-b border-black/20 pb-2 text-lg font-medium cursor-pointer hover:border-black transition-colors">2 Adults</div>
+              <div className="border-b border-onyx-950/20 pb-2 text-lg font-medium cursor-pointer hover:border-onyx-950 transition-colors">2 Adults</div>
            </div>
-           <button className="md:col-span-1 bg-[#2c2c2c] text-white py-5 uppercase tracking-widest text-[10px] font-bold w-full hover:bg-black transition-colors">Search</button>
+           <button className="md:col-span-1 bg-[#2c2c2c] text-white py-5 uppercase tracking-widest text-[10px] font-bold w-full hover:bg-onyx-950 transition-colors">Search</button>
         </div>
      </div>
      
@@ -150,7 +150,7 @@ const BookingMock = () => (
 
 const ConsultingMock = () => (
   <div className="bg-white text-violet-950 min-h-max font-sans flex flex-col box-border border-[12px] border-violet-950/5 p-4 md:p-8">
-     <nav className="p-6 border-b-2 border-violet-950/10 flex justify-between items-center font-black uppercase tracking-tighter text-violet-950 mb-8 sticky top-0 bg-white/95 backdrop-blur z-50">
+     <nav className="p-6 border-b-2 border-violet-950/10 flex justify-between items-center font-black uppercase tracking-tight text-violet-950 mb-8 sticky top-0 bg-white/95 backdrop-blur z-50">
        <span className="text-2xl">Apex Consulting</span>
        <div className="hidden md:flex gap-8 text-xs tracking-widest">
          <span className="cursor-pointer hover:text-violet-700 transition-colors">Экспертиза</span>
@@ -238,10 +238,10 @@ const PsychologistMock = () => (
 );
 
 const SmmMock = () => (
-   <div className="bg-[#ebff00] text-black min-h-max font-sans uppercase font-black tracking-tighter pb-24">
-     <nav className="p-6 md:p-8 flex justify-between items-center border-b-[6px] border-black text-2xl md:text-3xl bg-black text-[#ebff00] sticky top-0 z-50">
+   <div className="bg-[#ebff00] text-onyx-950 min-h-max font-sans uppercase font-black tracking-tight pb-24">
+     <nav className="p-6 md:p-8 flex justify-between items-center border-b-[6px] border-onyx-950 text-2xl md:text-3xl bg-onyx-950 text-[#ebff00] sticky top-0 z-50">
        <span>VIRAL_</span>
-       <span className="text-sm font-sans font-bold tracking-widest border border-[#ebff00] px-4 py-2 rounded-full cursor-pointer hover:bg-[#ebff00] hover:text-black transition-colors">СВЯЗАТЬСЯ</span>
+       <span className="text-sm font-sans font-bold tracking-widest border border-[#ebff00] px-4 py-2 rounded-full cursor-pointer hover:bg-[#ebff00] hover:text-onyx-950 transition-colors">СВЯЗАТЬСЯ</span>
      </nav>
      
      <div className="p-6 md:p-12 text-6xl lg:text-[140px] leading-[0.85] mt-12 mb-20 break-words">
@@ -251,25 +251,25 @@ const SmmMock = () => (
      </div>
      
      <div className="px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-white text-3xl mb-20">
-        <div className="bg-black aspect-square p-8 flex flex-col justify-between clip-diagonal hover:scale-[1.03] cursor-pointer transition-transform relative overflow-hidden group">
+        <div className="bg-onyx-950 aspect-square p-8 flex flex-col justify-between clip-diagonal hover:scale-[1.03] cursor-pointer transition-transform relative overflow-hidden group">
            <img src="https://loremflickr.com/600/400/social,marketing?lock=17" alt="Social" className="absolute inset-0 w-full h-full object-cover opacity-20 grayscale group-hover:grayscale-0 group-hover:opacity-50 transition-all pointer-events-none" referrerPolicy="no-referrer" />
            <span className="text-5xl text-[#ebff00] relative z-10">#</span>
            <span className="tracking-widest relative z-10 text-4xl">REELS &<br/>TIKTOK</span>
         </div>
-        <div className="bg-purple-600 aspect-square p-8 flex flex-col justify-between shadow-[16px_16px_0_black] hover:translate-x-2 hover:translate-y-2 hover:shadow-[0_0_0_black] transition-all cursor-pointer border-[6px] border-black relative">
+        <div className="bg-purple-600 aspect-square p-8 flex flex-col justify-between shadow-[16px_16px_0_black] hover:translate-x-2 hover:translate-y-2 hover:shadow-[0_0_0_black] transition-all cursor-pointer border-[6px] border-onyx-950 relative">
            <span className="tracking-widest text-4xl">STORIES<br/>MAKING</span>
            <div className="text-[#ebff00] text-lg font-sans font-bold normal-case tracking-normal max-w-[200px]">Прогревы, сценарии и вовлечение аудитории x3.</div>
         </div>
-        <div className="bg-black aspect-square p-8 flex flex-col justify-between rounded-[60px] hover:rounded-[10px] transition-all duration-300 cursor-pointer text-[#ebff00] border-[6px] border-black">
+        <div className="bg-onyx-950 aspect-square p-8 flex flex-col justify-between rounded-[60px] hover:rounded-[10px] transition-all duration-300 cursor-pointer text-[#ebff00] border-[6px] border-onyx-950">
            <span className="tracking-widest text-4xl">TG<br/>CHANNELS</span>
            <span className="text-6xl self-end">↗</span>
         </div>
      </div>
      
      <div className="px-6 md:px-12">
-        <div className="bg-black text-white p-12 lg:p-24 border-[12px] border-white outline outline-8 outline-black">
+        <div className="bg-onyx-950 text-white p-12 lg:p-24 border-[12px] border-white outline outline-8 outline-black">
            <h2 className="text-5xl md:text-7xl mb-12">ХВАТИТ ДЕЛАТЬ СКУЧНО.</h2>
-           <button className="bg-[#ebff00] text-black w-full py-8 text-3xl md:text-5xl hover:bg-white hover:shadow-[0_0_50px_rgba(255,255,255,0.8)] transition-all rounded-[100px] border-4 border-transparent hover:border-black cursor-pointer">ЗАПУСТИТЬ ТРАФИК</button>
+           <button className="bg-[#ebff00] text-onyx-950 w-full py-8 text-3xl md:text-5xl hover:bg-white hover:shadow-[0_0_50px_rgba(255,255,255,0.8)] transition-all rounded-[100px] border-4 border-transparent hover:border-onyx-950 cursor-pointer">ЗАПУСТИТЬ ТРАФИК</button>
         </div>
      </div>
   </div>
@@ -283,7 +283,7 @@ const TemplateSwitcher = ({ name }: { name: string }) => {
     case 'Консалтинг': return <ConsultingMock />;
     case 'Услуги Психолога': return <PsychologistMock />;
     case 'SMM Агентство': return <SmmMock />;
-    default: return <div className="text-center p-8 bg-black text-white h-full flex flex-col items-center justify-center font-mono"><div className="text-4xl mb-4">404</div>Шаблон не найден</div>;
+    default: return <div className="text-center p-8 bg-onyx-950 text-white h-full flex flex-col items-center justify-center font-mono"><div className="text-4xl mb-4">404</div>Шаблон не найден</div>;
   }
 }
 
@@ -324,11 +324,11 @@ export default function EditorSimulator({ templateName, onClose }: { templateNam
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 md:p-4 bg-black/90 backdrop-blur-md">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 md:p-4 bg-onyx-950/90 backdrop-blur-md">
        <div className="relative w-full h-full max-w-[1800px] max-h-[98vh] border border-onyx-700 bg-onyx-900 flex flex-col shadow-2xl rounded-sm overflow-hidden">
          {/* Toast Notification */}
          {toastMessage && (
-           <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-white text-black px-6 py-4 font-bold uppercase tracking-widest text-xs clip-diagonal z-[9999] shadow-2xl animate-in fade-in slide-in-from-bottom-4">
+           <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-white text-onyx-950 px-6 py-4 font-bold uppercase tracking-widest text-xs clip-diagonal z-[9999] shadow-2xl animate-in fade-in slide-in-from-bottom-4">
              {toastMessage}
            </div>
          )}
@@ -379,7 +379,7 @@ export default function EditorSimulator({ templateName, onClose }: { templateNam
                    </div>
                    <div className="p-4 border-t border-onyx-800 flex flex-col gap-3">
                       <button onClick={onClose} className="w-full bg-onyx-700 text-white font-mono uppercase tracking-widest text-[9px] sm:text-[10px] py-4 clip-diagonal hover:bg-onyx-600 transition-colors">Закрыть</button>
-                      <button onClick={() => showToast("Сохранение недоступно в режиме демонстрации шаблонов.")} className="w-full bg-white text-black font-bold uppercase tracking-widest text-[9px] sm:text-xs py-4 clip-diagonal hover:bg-neutral-300 transition-colors hidden md:block">Сохранить</button>
+                      <button onClick={() => showToast("Сохранение недоступно в режиме демонстрации шаблонов.")} className="w-full bg-white text-onyx-950 font-bold uppercase tracking-widest text-[9px] sm:text-xs py-4 clip-diagonal hover:bg-neutral-300 transition-colors hidden md:block">Сохранить</button>
                    </div>
                  </div>
                )}
@@ -399,7 +399,7 @@ export default function EditorSimulator({ templateName, onClose }: { templateNam
                    
                    <div className="flex items-center gap-4">
                      {!isEditMode ? (
-                        <button onClick={() => setIsEditMode(true)} className="bg-white text-black px-6 py-1.5 text-[10px] font-bold uppercase tracking-widest clip-diagonal hover:bg-neutral-300 transition-colors shadow-[0_0_15px_rgba(255,255,255,0.3)] animate-pulse hover:animate-none flex items-center gap-2">
+                        <button onClick={() => setIsEditMode(true)} className="bg-white text-onyx-950 px-6 py-1.5 text-[10px] font-bold uppercase tracking-widest clip-diagonal hover:bg-neutral-300 transition-colors shadow-[0_0_15px_rgba(255,255,255,0.3)] animate-pulse hover:animate-none flex items-center gap-2">
                           <Layout size={14} /> Кастомизировать
                         </button>
                      ) : (

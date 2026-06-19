@@ -1,13 +1,16 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
 
 @theme {
-  --color-onyx-900: #050505;
-  --color-onyx-800: #111111;
-  --color-onyx-700: #1f1f1f;
+  --color-onyx-950: #0b1536;
+  --color-onyx-900: #11204d;
+  --color-onyx-800: #1a2f6b;
+  --color-onyx-700: #25408f;
   --color-onyx-accent: #ffffff;
   --color-onyx-muted: #888888;
-  --font-sans: 'Space Grotesk', system-ui, sans-serif;
+  
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Manrope', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 
@@ -19,17 +22,18 @@ body {
 }
 
 .clip-diagonal {
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
 }
 
 .clip-diagonal-inverted {
-  clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px);
+  clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%, 0 20px);
 }
 
 .industrial-grid {
-  background-image: linear-gradient(var(--color-onyx-700) 1px, transparent 1px),
-                    linear-gradient(90deg, var(--color-onyx-700) 1px, transparent 1px);
-  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
 }
 
 @keyframes marquee {

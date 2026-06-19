@@ -135,7 +135,7 @@ export default function DentalClinic() {
             <div className="group rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-shadow bg-slate-50">
               <div className="flex h-64 relative">
                 <div className="w-1/2 bg-slate-300 relative border-r-2 border-white">
-                   <div className="absolute top-4 left-4 bg-black/50 backdrop-blur text-white text-xs px-2 py-1 rounded">До</div>
+                   <div className="absolute top-4 left-4 bg-onyx-950/50 backdrop-blur text-white text-xs px-2 py-1 rounded">До</div>
                 </div>
                 <div className="w-1/2 bg-sky-100 relative">
                    <div className="absolute top-4 right-4 bg-sky-600 text-white text-xs px-2 py-1 rounded shadow-lg shadow-sky-600/30">После</div>
@@ -153,7 +153,7 @@ export default function DentalClinic() {
             <div className="group rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-shadow bg-slate-50">
               <div className="flex h-64 relative">
                 <div className="w-1/2 bg-slate-200 relative border-r-2 border-white">
-                   <div className="absolute top-4 left-4 bg-black/50 backdrop-blur text-white text-xs px-2 py-1 rounded">До</div>
+                   <div className="absolute top-4 left-4 bg-onyx-950/50 backdrop-blur text-white text-xs px-2 py-1 rounded">До</div>
                 </div>
                 <div className="w-1/2 bg-sky-50 relative">
                    <div className="absolute top-4 right-4 bg-sky-600 text-white text-xs px-2 py-1 rounded shadow-lg shadow-sky-600/30">После</div>

@@ -6,14 +6,17 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import Problem from './components/Problem';
 import WhyWeb from './components/WhyWeb';
+import Problem from './components/Problem';
+import ComparisonTable from './components/ComparisonTable';
 import Romi from './components/Romi';
 import Templates from './components/Templates';
 import Stages from './components/Stages';
 import Services from './components/Services';
-import ScarcityGuarantee from './components/ScarcityGuarantee';
+import Reviews from './components/Reviews';
 import FAQ from './components/FAQ';
+import FormSection from './components/FormSection';
+import Partner from './components/Partner';
 import Footer from './components/Footer';
 
 // Cases
@@ -43,17 +46,20 @@ export default function App() {
   if (currentRoute === '#case/realestate') return <RealEstate />;
 
   return (
-    <main className="min-h-screen bg-onyx-900 text-white font-sans selection:bg-white selection:text-black">
+    <main className="bg-onyx-950 text-white font-sans selection:bg-blue-600 selection:text-onyx-950 w-full overflow-x-hidden">
       <Navbar />
       <Hero />
-      <Problem />
       <WhyWeb />
+      <Problem />
+      <ComparisonTable />
       <Romi />
       <Templates />
-      <Services />
       <Stages />
-      <ScarcityGuarantee />
+      <Services />
+      <Reviews />
       <FAQ />
+      <FormSection />
+      <Partner />
       <Footer />
     </main>
   );

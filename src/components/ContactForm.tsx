@@ -57,38 +57,44 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
 
   const formContent = (
     <>
-      <div className="mb-8">
-        <h3 className="text-3xl font-bold uppercase tracking-tight mb-2 text-transparent bg-clip-text bg-gradient-to-r from-violet-500 to-violet-700 drop-shadow-[0_0_15px_rgba(124,58,237,0.3)]">Начать проект</h3>
-        <p className="text-violet-500 font-mono text-sm">Заполните бриф для старта работы</p>
+      <div className="mb-8 relative z-10">
+        <h3 className="text-3xl font-black uppercase tracking-tight mb-2 text-white drop-shadow-[0_0_15px_rgba(59,130,246,0.4)] ">Начать проект</h3>
+        <p className="text-blue-500 font-mono text-sm drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]">Заполните бриф для старта работы</p>
       </div>
 
       {submitted ? (
-        <div className="bg-violet-700 text-white p-8 clip-diagonal font-bold uppercase tracking-widest text-center shadow-[0_0_30px_rgba(109,40,217,0.5)]">
+        <div className="bg-onyx-900 border border-blue-500 text-blue-500 p-8 clip-diagonal font-black uppercase tracking-[0.2em] text-center shadow-[0_0_30px_rgba(59,130,246,0.5)]  relative z-10">
           Заявка успешно отправлена
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+          <div className="grid sm:grid-cols-2 gap-x-8 gap-y-4">
             <Input name="fio" placeholder="1. ФИО" required />
-            <Input name="phone" placeholder="2. Контактный телефон / Telegram" required />
-            <Input name="position" placeholder="3. Должность в компании" required />
-            <Input name="city" placeholder="4. Город" required />
-            <Input name="business" placeholder="5. Род деятельности бизнеса" required />
-            <Input name="company" placeholder="6. Название компании" required />
-            <Input name="socials" placeholder="7. Ссылки на соц сети компании" />
-            <div className="relative group">
+            <Input name="phone" placeholder="2. Телефон / Telegram" required />
+            <Input name="position" placeholder="3. Должность" required />
+            <Input name="company" placeholder="4. Название компании" required />
+            <Input name="city" placeholder="5. Город" required />
+            <Input name="business" placeholder="6. Сфера бизнеса" required />
+            <div className="sm:col-span-2">
+              <Input name="socials" placeholder="7. Ссылки на соц. сети (опционально)" />
+            </div>
+            <div className="sm:col-span-2 relative mt-4">
               <textarea 
                 name="vision"
-                placeholder="8. Ваше видение сайта. Требования к визуалу и функционалу?" 
-                rows={4}
-                className="w-full bg-onyx-800 border border-onyx-700 p-4 text-white placeholder-neutral-600 focus:outline-none focus:border-violet-600 hover:border-onyx-600 transition-colors font-sans resize-none clip-diagonal"
+                placeholder="8. Ваше видение сайта, пожелания к визуалу и функционалу" 
+                rows={3}
+                className="w-full bg-onyx-950 border-b border-onyx-700 pb-2 pt-4 px-2 text-blue-500 placeholder-neutral-600 focus:outline-none focus:border-blue-500 hover:border-blue-500/50 transition-colors font-mono focus:shadow-[0_2px_10px_rgba(59,130,246,0.2)] focus:bg-onyx-900 resize-none"
               ></textarea>
             </div>
-            <Input name="source" placeholder="9. Откуда узнали о студии ONYX?" />
+            <div className="sm:col-span-2">
+              <Input name="source" placeholder="9. Откуда узнали о студии?" />
+            </div>
           </div>
-          <Button type="submit" disabled={loading} className="w-full hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-shadow">
-            {loading ? "Отправка..." : "Отправить бриф"}
-          </Button>
+          <div className="mt-8">
+            <Button type="submit" disabled={loading} className="w-full hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-shadow text-[10px] sm:text-xs tracking-[0.2em] py-4">
+              {loading ? "Отправка..." : "Отправить заявку"}
+            </Button>
+          </div>
         </form>
       )}
     </>
@@ -96,9 +102,11 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
 
   if (isModal) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto pt-24 pb-12">
-        <div className="relative w-full max-w-2xl bg-onyx-900 border border-onyx-700 p-8 clip-diagonal mt-auto mb-auto">
-          <button onClick={onClose} className="absolute top-4 right-4 text-neutral-500 hover:text-white transition-colors">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-onyx-950/90 backdrop-blur-md overflow-y-auto pt-24 pb-12 ">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent pointer-events-none" />
+        <div className="relative w-full max-w-2xl bg-onyx-900 border border-blue-400 p-8 clip-diagonal-inverted mt-auto mb-auto shadow-[0_0_50px_rgba(147,197,253,0.2)] group hover:border-blue-500 hover:shadow-[0_0_50px_rgba(59,130,246,0.2)] transition-colors">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 blur-[50px] pointer-events-none group-hover:bg-blue-400/10 transition-colors" />
+          <button onClick={onClose} className="absolute top-4 right-4 text-blue-300 hover:text-blue-500 transition-colors drop-shadow-[0_0_5px_currentColor]">
             <X size={32} strokeWidth={1} />
           </button>
           {formContent}
@@ -108,7 +116,8 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
   }
 
   return (
-    <div className="w-full max-w-3xl border-l-[4px] border-white pl-8 md:pl-16 py-8">
+    <div className="w-full max-w-3xl border-l-[2px] border-blue-500 pl-8 md:pl-16 py-8 relative">
+      <div className="absolute top-0 left-0 w-[2px] h-12 bg-gradient-to-b from-blue-400 to-transparent"></div>
       {formContent}
     </div>
   );
@@ -117,6 +126,6 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
 const Input = (props: React.InputHTMLAttributes<HTMLInputElement>) => (
   <input 
     {...props}
-    className="w-full bg-onyx-800 border-b border-onyx-700 pb-2 pt-4 px-2 text-white placeholder-neutral-600 focus:outline-none focus:border-violet-600 hover:border-onyx-600 transition-colors font-sans"
+    className="w-full bg-onyx-950 border-b border-onyx-700 pb-2 pt-4 px-2 text-blue-500 placeholder-neutral-600 focus:outline-none focus:border-blue-500 hover:border-blue-500/50 transition-colors font-mono focus:shadow-[0_2px_10px_rgba(59,130,246,0.2)] focus:bg-onyx-900"
   />
 );

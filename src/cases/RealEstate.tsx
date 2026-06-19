@@ -24,7 +24,7 @@ export default function RealEstate() {
           <a href="#agents" onClick={(e) => scrollTo(e, 'agents')} className="hover:text-white transition-colors">Агенты</a>
           <a href="#about" onClick={(e) => scrollTo(e, 'about')} className="hover:text-white transition-colors">О нас</a>
         </nav>
-        <button className="text-white border border-white/30 px-6 py-2 hover:bg-white hover:text-black transition-colors text-xs uppercase tracking-widest">
+        <button className="text-white border border-white/30 px-6 py-2 hover:bg-white hover:text-onyx-950 transition-colors text-xs uppercase tracking-widest">
           Связаться
         </button>
       </header>
@@ -32,7 +32,7 @@ export default function RealEstate() {
       {/* Hero */}
       <section className="relative h-screen flex items-center justify-center pt-20 overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-black/40 z-10"></div>
+          <div className="absolute inset-0 bg-onyx-950/40 z-10"></div>
           <img src="/case5.1.jpg" alt="Mansion" className="w-full h-full object-cover scale-105" />
         </div>
 
@@ -46,25 +46,25 @@ export default function RealEstate() {
 
           {/* Search/Filters */}
           <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-2 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-2">
-            <select className="bg-black/50 text-white border-none py-4 px-4 focus:outline-none focus:ring-1 focus:ring-white/50 text-sm appearance-none">
+            <select className="bg-onyx-950/50 text-white border-none py-4 px-4 focus:outline-none focus:ring-1 focus:ring-white/50 text-sm appearance-none">
               <option>Тип объекта</option>
               <option>Пентхаус</option>
               <option>Вилла</option>
               <option>Апартаменты</option>
             </select>
-            <select className="bg-black/50 text-white border-none py-4 px-4 focus:outline-none focus:ring-1 focus:ring-white/50 text-sm appearance-none">
+            <select className="bg-onyx-950/50 text-white border-none py-4 px-4 focus:outline-none focus:ring-1 focus:ring-white/50 text-sm appearance-none">
               <option>Локация</option>
               <option>Москва Сити</option>
               <option>Остоженка</option>
               <option>Рублево-Успенское</option>
             </select>
-            <select className="bg-black/50 text-white border-none py-4 px-4 focus:outline-none focus:ring-1 focus:ring-white/50 text-sm appearance-none">
+            <select className="bg-onyx-950/50 text-white border-none py-4 px-4 focus:outline-none focus:ring-1 focus:ring-white/50 text-sm appearance-none">
               <option>Бюджет</option>
               <option>От $1 млн</option>
               <option>От $5 млн</option>
               <option>По запросу</option>
             </select>
-            <button className="bg-white text-black font-medium uppercase tracking-widest text-xs py-4 px-4 hover:bg-neutral-200 transition-colors">
+            <button className="bg-white text-onyx-950 font-medium uppercase tracking-widest text-xs py-4 px-4 hover:bg-neutral-200 transition-colors">
               Найти объекты
             </button>
           </div>
@@ -83,7 +83,7 @@ export default function RealEstate() {
             {/* Property 1 */}
             <div className="group cursor-pointer">
               <div className="relative aspect-[4/3] overflow-hidden mb-6">
-                <div className="absolute top-4 left-4 z-10 bg-black/60 backdrop-blur-md px-3 py-1 text-white text-xs uppercase tracking-widest">
+                <div className="absolute top-4 left-4 z-10 bg-onyx-950/60 backdrop-blur-md px-3 py-1 text-white text-xs uppercase tracking-widest">
                   New
                 </div>
                 <img src="/case5.2.jpg" alt="Villa" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
@@ -119,7 +119,7 @@ export default function RealEstate() {
       </section>
 
       {/* Developments */}
-      <section id="developments" className="py-24 px-6 md:px-12 bg-black border-t border-white/5">
+      <section id="developments" className="py-24 px-6 md:px-12 bg-onyx-950 border-t border-white/5">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
              <div className="text-xs uppercase tracking-[0.2em] text-white/50 mb-4">Off-plan проекты</div>
@@ -135,12 +135,12 @@ export default function RealEstate() {
             ].map((dev, i) => (
               <div key={i} className="group relative aspect-[3/4] overflow-hidden cursor-pointer">
                 <img src={`/case5.${i+4}.jpg`} alt={dev.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80 group-hover:opacity-100" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-onyx-950/20 to-transparent"></div>
                 <div className="absolute inset-0 p-8 flex flex-col justify-end">
                   <div className="text-xs uppercase tracking-[0.2em] text-white/70 mb-2">{dev.location}</div>
                   <h3 className="text-2xl font-serif text-white mb-2">{dev.title}</h3>
                   <div className="text-sm font-light text-white/50 mb-6">{dev.status}</div>
-                  <button className="self-start uppercase tracking-widest text-xs border border-white/30 px-6 py-2 hover:bg-white hover:text-black transition-colors">
+                  <button className="self-start uppercase tracking-widest text-xs border border-white/30 px-6 py-2 hover:bg-white hover:text-onyx-950 transition-colors">
                     Детали проекта
                   </button>
                 </div>
@@ -177,7 +177,7 @@ export default function RealEstate() {
       </section>
 
       {/* About & Footer */}
-      <footer id="about" className="pt-24 pb-12 px-6 md:px-12 bg-black border-t border-white/10">
+      <footer id="about" className="pt-24 pb-12 px-6 md:px-12 bg-onyx-950 border-t border-white/10">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 mb-16">
           <div>
             <div className="text-3xl font-serif text-white tracking-widest uppercase mb-8">

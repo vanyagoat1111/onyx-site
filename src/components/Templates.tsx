@@ -12,7 +12,7 @@ const cases = [
     solutionList: ['доверие', 'врачей', 'услуги', 'запись онлайн'],
     done: 'UX-структура под запись пациента, премиальный дизайн, адаптация под мобильные устройства, формы записи.',
     result: 'До 40% рост конверсии, увеличение записей с рекламы.',
-    previewImg: '/case1.0.jpg'
+    previewImg: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'
   },
   { 
     name: 'Фитнес-Клуб', 
@@ -23,7 +23,7 @@ const cases = [
     solutionList: ['абонементы', 'тренеры', 'расписание', 'акции'],
     done: 'Продающая структура, блоки мотивации, быстрые заявки.',
     result: 'Рост вовлечённости и заявок.',
-    previewImg: '/case2.0.jpg'
+    previewImg: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'
   },
   { 
     name: 'Логистика / Грузоперевозки', 
@@ -34,7 +34,7 @@ const cases = [
     solutionList: [],
     done: 'Калькулятор заявки, формы расчёта доставки, блок доверия (склады, техника).',
     result: 'Упрощение получения заявок.',
-    previewImg: '/case3.0.jpg'
+    previewImg: 'https://images.unsplash.com/photo-1586528116311-ad8ed7c1590a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'
   },
   { 
     name: 'Юридическая Компания', 
@@ -45,7 +45,7 @@ const cases = [
     solutionList: ['кейсы', 'специалисты', 'консультация 24/7'],
     done: 'Проработка структуры, акцент на экспертность, удобные формы связи.',
     result: 'Рост обращений через форму.',
-    previewImg: '/case4.0.jpg'
+    previewImg: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'
   },
   { 
     name: 'Недвижимость (Премиум)', 
@@ -56,19 +56,25 @@ const cases = [
     solutionList: [],
     done: 'Карточки объектов, фильтрация, быстрый контакт.',
     result: 'Интуитивный поиск, увеличение целевых обращений.',
-    previewImg: '/case5.0.jpg'
+    previewImg: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'
   }
 ];
 
 export default function Templates() {
   return (
-    <div id="templates" className="py-32 bg-onyx-950">
-      <Container>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-24 w-full">
-          <SectionTitle subtitle="Направления" className="mb-0">Наши<br/>Кейсы</SectionTitle>
-          <p className="font-mono text-sm text-neutral-400 max-w-sm uppercase tracking-widest md:text-right">
-            Детальный разбор наших работ: от реальной проблемы бизнеса до измеримого результата.
-          </p>
+    <div id="templates" className="pb-16 lg:pb-24 bg-onyx-950 relative scroll-mt-20">
+      <div className="absolute inset-0 bg-gradient-to-b from-onyx-900 via-transparent to-onyx-900 pointer-events-none" />
+      <Container className="!pt-0 relative z-10">
+        <div className="flex flex-col gap-3 mb-8 w-full mt-8 md:mt-0">
+          <SectionTitle className="!mb-0 !pb-0 text-left">Наши<br/>Кейсы</SectionTitle>
+          <div className="max-w-3xl space-y-3">
+            <p className="text-lg font-sans text-neutral-300 font-light leading-snug">
+              Детальный разбор наших работ: от реальной проблемы бизнеса до измеримого результата.
+            </p>
+            <p className="text-base font-sans text-neutral-400 leading-snug">
+              Ниже предоставлены наши работы с клиентами из разных сфер. Мы покажем, как правильный подход к структуре и дизайну превращает обычных посетителей в клиентов. Изучите проекты и убедитесь в эффективности нашей модели.
+            </p>
+          </div>
         </div>
 
         <div className="space-y-32">
@@ -76,26 +82,26 @@ export default function Templates() {
             <div key={i} className={`flex flex-col lg:flex-row gap-12 lg:gap-24 items-center ${i % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}>
               {/* Left/Right: Preview */}
               <div className="w-full lg:w-1/2 relative group">
-                <div className="absolute -inset-4 bg-violet-600/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                <a href={tpl.url} className="block relative aspect-[4/3] bg-onyx-900 border border-onyx-800 overflow-hidden clip-diagonal group-hover:border-violet-500/50 transition-colors z-10">
-                  <div className="absolute top-0 w-full h-8 border-b border-onyx-800 bg-onyx-950 flex items-center px-4 gap-2 z-20">
-                    <div className="w-2.5 h-2.5 rounded-full bg-onyx-700 group-hover:bg-red-500/80 transition-colors"></div>
-                    <div className="w-2.5 h-2.5 rounded-full bg-onyx-700 group-hover:bg-yellow-500/80 transition-colors"></div>
-                    <div className="w-2.5 h-2.5 rounded-full bg-onyx-700 group-hover:bg-green-500/80 transition-colors"></div>
+                <div className="absolute -inset-4 bg-blue-600/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <a href={tpl.url} className="block relative aspect-[4/3] bg-onyx-900 border border-onyx-700 overflow-hidden clip-diagonal group-hover:border-blue-500 transition-all shadow-[0_0_20px_rgba(0,0,0,0.8)] group-hover:shadow-[0_0_40px_rgba(59,130,246,0.3)] z-10">
+                  <div className="absolute top-0 w-full h-8 border-b border-onyx-700 group-hover:border-blue-500/50 bg-onyx-950 flex items-center px-4 gap-2 z-20 transition-colors">
+                    <div className="w-2.5 h-2.5 rounded-none bg-blue-400 shadow-[0_0_8px_rgba(147,197,253,0.3)]"></div>
+                    <div className="w-2.5 h-2.5 rounded-none bg-blue-600 shadow-[0_0_8px_rgba(59,130,246,0.5)]"></div>
+                    <div className="w-2.5 h-2.5 rounded-none bg-neutral-600"></div>
                   </div>
                   <img 
                     src={tpl.previewImg} 
                     alt={tpl.name}
-                    className="w-full h-full object-cover opacity-60 mix-blend-luminosity group-hover:mix-blend-normal group-hover:opacity-100 transition-all duration-700 scale-105 group-hover:scale-100 mt-8"
+                    className="w-full h-full object-cover hue-rotate-[0deg] opacity-60 mix-blend-screen group-hover:mix-blend-normal group-hover:opacity-100 group-hover:hue-rotate-0 transition-all duration-700 scale-105 group-hover:scale-100 mt-8"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-onyx-900/20 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-onyx-950/30 to-transparent"></div>
                   
                   <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
                      <div>
-                        <div className="text-xs font-mono text-violet-400 mb-2 uppercase tracking-widest drop-shadow-md">{tpl.category}</div>
-                        <h3 className="text-2xl font-bold text-white drop-shadow-lg">{tpl.name}</h3>
+                        <div className="text-xs font-mono text-blue-500 mb-2 uppercase tracking-[0.2em] drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]">{tpl.category}</div>
+                        <h3 className="text-2xl font-black uppercase text-white tracking-tight drop-shadow-lg ">{tpl.name}</h3>
                      </div>
-                     <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center bg-black/50 text-white backdrop-blur-sm group-hover:bg-violet-600 group-hover:border-violet-500 transition-all">
+                     <div className="w-12 h-12 rounded-none border border-blue-500/30 flex items-center justify-center bg-onyx-900/80 text-blue-500 backdrop-blur-md group-hover:bg-blue-600 group-hover:text-onyx-950 group-hover:border-blue-500 transition-all shadow-[0_0_15px_rgba(59,130,246,0)] group-hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] clip-diagonal-inverted">
                         <ArrowUpRight className="w-6 h-6" />
                      </div>
                   </div>
@@ -103,20 +109,20 @@ export default function Templates() {
               </div>
               
               {/* Right/Left: Info */}
-              <div className="w-full lg:w-1/2 flex flex-col justify-center space-y-10">
+              <div className="w-full lg:w-1/2 flex flex-col justify-center space-y-10 p-8 bg-onyx-800/50 backdrop-blur-md border border-onyx-700 clip-diagonal shadow-[inset_0_0_30px_rgba(0,0,0,0.5)]">
                 <div className="space-y-4">
-                  <h4 className="text-xs font-mono text-neutral-500 uppercase tracking-[0.2em] border-l-2 border-red-500/50 pl-4">Задача</h4>
+                  <h4 className="text-[12px] font-bold font-mono text-neutral-400 uppercase tracking-[0.2em] border-l-2 border-onyx-700 pl-4">Проблема</h4>
                   <p className="text-xl lg:text-2xl font-light text-white leading-relaxed">{tpl.problem}</p>
                 </div>
                 
                 <div className="space-y-4">
-                  <h4 className="text-xs font-mono text-neutral-500 uppercase tracking-[0.2em] border-l-2 border-violet-500/50 pl-4">Решение</h4>
-                  <p className="text-base text-neutral-300 leading-relaxed">{tpl.solution}</p>
+                  <h4 className="text-[12px] font-bold font-mono text-blue-400 uppercase tracking-[0.2em] border-l-2 border-blue-500 pl-4 drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]">Решения</h4>
+                  <p className="text-lg text-neutral-200 leading-relaxed font-light">{tpl.solution}</p>
                   {tpl.solutionList.length > 0 && (
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 mt-4">
                       {tpl.solutionList.map((item, idx) => (
-                        <li key={idx} className="flex items-center gap-3 text-sm text-neutral-300 border-b border-onyx-800 pb-2">
-                           <CheckCircle2 className="w-4 h-4 text-violet-500 shrink-0" />
+                        <li key={idx} className="flex items-center gap-3 text-base text-neutral-200 border-b border-onyx-700 pb-2 font-sans">
+                           <CheckCircle2 className="w-4 h-4 text-blue-500 shrink-0 drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]" />
                            <span className="truncate">{item}</span>
                         </li>
                       ))}
@@ -124,21 +130,22 @@ export default function Templates() {
                   )}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 bg-black border border-onyx-800 rounded-sm shadow-inner clip-diagonal relative overflow-hidden">
-                   <div className="absolute inset-0 bg-gradient-to-br from-violet-900/5 to-transparent pointer-events-none"></div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 bg-onyx-900 border border-onyx-700 shadow-inner clip-diagonal relative overflow-hidden group">
+                   <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-transparent pointer-events-none group-hover:from-blue-600/10 transition-colors"></div>
                    <div className="relative z-10">
-                     <h4 className="text-[10px] font-mono text-neutral-500 uppercase tracking-[0.2em] mb-4">Что сделали</h4>
-                     <p className="text-sm text-neutral-400 leading-relaxed font-light">{tpl.done}</p>
+                     <h4 className="text-[12px] font-bold font-mono text-neutral-400 uppercase tracking-[0.2em] mb-4">Что сделали</h4>
+                     <p className="text-base text-neutral-200 leading-relaxed font-sans">{tpl.done}</p>
                    </div>
                    <div className="relative z-10">
-                     <h4 className="text-[10px] font-mono text-neutral-500 uppercase tracking-[0.2em] mb-4">Результат</h4>
-                     <p className="text-lg font-medium text-white tracking-wide border-l border-onyx-700 pl-4">{tpl.result}</p>
+                     <h4 className="text-[12px] font-bold font-mono text-[#ebff00] uppercase tracking-[0.2em] mb-4 drop-shadow-[0_0_5px_rgba(235,255,0,0.5)]">Результат</h4>
+                     <p className="text-lg font-black uppercase text-white tracking-wide border-l-2 border-[#ebff00] pl-4">{tpl.result}</p>
                    </div>
                 </div>
                 
                 <div className="pt-4">
-                   <a href={tpl.url} className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-white hover:bg-neutral-200 text-black font-bold uppercase tracking-widest text-[10px] sm:text-xs rounded-sm group w-full sm:w-max transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]">
-                     Смотреть сайт <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                   <a href={tpl.url} className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-blue-600 text-onyx-950 font-black uppercase tracking-widest text-[10px] sm:text-xs relative group/btn w-full sm:w-max transition-all shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] clip-diagonal overflow-hidden">
+                     <div className="absolute inset-0 bg-white/30 blur-md opacity-0 group-hover/btn:opacity-100 transition-opacity"></div>
+                     <span className="relative z-10 flex items-center gap-2">Смотреть сайт <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" /></span>
                    </a>
                 </div>
               </div>
