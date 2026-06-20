@@ -83,7 +83,7 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
                 name="vision"
                 placeholder="8. Ваше видение сайта, пожелания к визуалу" 
                 rows={3}
-                className="w-full bg-onyx-950 border-b border-onyx-700 pb-2 pt-4 px-2 text-blue-500 placeholder:font-sans placeholder:font-light placeholder:tracking-normal placeholder-neutral-500 focus:outline-none focus:border-blue-500 hover:border-blue-500/50 transition-colors font-mono focus:shadow-[0_2px_10px_rgba(59,130,246,0.2)] focus:bg-onyx-900 resize-none"
+                className="w-full bg-onyx-950 border-b border-onyx-700 pb-2 pt-4 px-2 text-blue-500 placeholder:font-serif placeholder:font-medium placeholder:italic placeholder:tracking-wide placeholder-neutral-400 focus:outline-none focus:border-blue-500 hover:border-blue-500/50 transition-colors font-mono focus:shadow-[0_2px_10px_rgba(59,130,246,0.2)] focus:bg-onyx-900 resize-none"
               ></textarea>
             </div>
             <div className="sm:col-span-2">
@@ -126,6 +126,6 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
 const Input = (props: React.InputHTMLAttributes<HTMLInputElement>) => (
   <input 
     {...props}
-    className="w-full bg-onyx-950 border-b border-onyx-700 pb-2 pt-4 px-2 text-blue-500 placeholder:font-sans placeholder:font-light placeholder:tracking-normal placeholder-neutral-500 focus:outline-none focus:border-blue-500 hover:border-blue-500/50 transition-colors font-mono focus:shadow-[0_2px_10px_rgba(59,130,246,0.2)] focus:bg-onyx-900"
+    className="w-full bg-onyx-950 border-b border-onyx-700 pb-2 pt-4 px-2 text-blue-500 placeholder:font-serif placeholder:font-medium placeholder:italic placeholder:tracking-wide placeholder-neutral-400 focus:outline-none focus:border-blue-500 hover:border-blue-500/50 transition-colors font-mono focus:shadow-[0_2px_10px_rgba(59,130,246,0.2)] focus:bg-onyx-900"
   />
 );

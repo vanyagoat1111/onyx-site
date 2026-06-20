@@ -13,7 +13,7 @@ const stages = [
 
 export default function Stages() {
   return (
-    <Container className="bg-onyx-950 border-y border-onyx-700 relative z-10 overflow-hidden ">
+    <Container className="bg-[#0c1c4e] border-y border-onyx-700 relative z-10 overflow-hidden ">
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none -z-10" />
       <SectionTitle subtitle="Процесс">Регламент<br/>Запуска</SectionTitle>
       

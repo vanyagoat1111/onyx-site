@@ -129,12 +129,12 @@ export default function Services() {
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
         {addons.map((a, i) => (
-          <div key={i} className="bg-onyx-900 border border-onyx-600 p-8 flex flex-col hover:bg-onyx-800 hover:border-blue-400/50 transition-all group hover:shadow-[0_0_30px_rgba(147,197,253,0.2)] clip-diagonal relative overflow-hidden">
+          <div key={i} className="bg-[#1c2f63] border border-onyx-500/50 p-8 flex flex-col hover:border-blue-400/50 transition-all group hover:shadow-[0_0_30px_rgba(147,197,253,0.3)] clip-diagonal relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-400/10 blur-[50px] pointer-events-none group-hover:bg-blue-400/20 transition-colors" />
             <h4 className="font-black uppercase tracking-tight text-xl mb-3 min-h-[56px] text-neutral-200 group-hover:text-white transition-colors">{a.title}</h4>
             <div className="text-2xl font-black tracking-tight mb-4 text-blue-500 group-hover:text-blue-300 transition-colors drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] group-hover:drop-shadow-[0_0_5px_rgba(147,197,253,0.5)]">{a.price}</div>
             <p className="text-sm text-neutral-300 mb-8 flex-grow leading-relaxed group-hover:text-white transition-colors">{a.desc}</p>
-            <button className="w-full border border-onyx-600 bg-onyx-800 text-white text-[10px] uppercase tracking-[0.2em] py-3 px-4 clip-diagonal group-hover:border-blue-400 group-hover:bg-blue-400/20 group-hover:text-white transition-all font-black group-hover:shadow-[0_0_15px_rgba(147,197,253,0.3)]">
+            <button className="w-full border border-onyx-500/50 bg-onyx-800 text-white text-[10px] uppercase tracking-[0.2em] py-3 px-4 clip-diagonal group-hover:border-blue-400 group-hover:bg-blue-400/20 group-hover:text-white transition-all font-black group-hover:shadow-[0_0_15px_rgba(147,197,253,0.3)]">
               {a.action}
             </button>
           </div>

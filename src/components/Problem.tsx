@@ -27,7 +27,7 @@ export default function Problem() {
               90%
             </div>
             <div>
-              <h3 className="text-lg md:text-xl font-bold uppercase mb-4 tracking-wide border-b border-onyx-700 pb-4 text-blue-500">
+              <h3 className="w-[110.09px] h-[126px] text-[13px] leading-[23px] text-left font-bold uppercase mb-4 tracking-wide border-b border-onyx-700 pb-4 text-blue-500">
                 Бизнесов закрываются в первый год
               </h3>
               <p className="text-neutral-300 font-sans leading-relaxed text-sm md:text-base max-w-sm">

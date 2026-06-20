@@ -64,14 +64,14 @@ export default function Templates() {
   return (
     <div id="templates" className="pb-16 lg:pb-24 bg-onyx-950 relative scroll-mt-20">
       <div className="absolute inset-0 bg-gradient-to-b from-onyx-900 via-transparent to-onyx-900 pointer-events-none" />
-      <Container className="!pt-8 lg:!pt-12 relative z-10">
-        <div className="flex flex-col gap-3 mb-8 w-full mt-4 md:mt-0">
-          <SectionTitle className="!mb-0 !pb-0 text-left">Наши<br/>Кейсы</SectionTitle>
+      <Container className="!pt-24 lg:!pt-32 relative z-10 w-full overflow-hidden">
+        <div className="flex flex-col gap-3 mb-10 w-full mt-12 md:mt-6">
+          <SectionTitle className="text-left w-[129.22px] h-[74px] pl-[1px] pr-0 pb-0 mt-[-61px] mb-[13px]">Наши<br/>Кейсы</SectionTitle>
           <div className="max-w-3xl space-y-3">
             <p className="text-lg font-sans text-neutral-300 font-light leading-snug">
               Детальный разбор наших работ: от реальной проблемы бизнеса до измеримого результата.
             </p>
-            <p className="text-base font-sans text-neutral-400 leading-snug">
+            <p className="text-base font-sans text-neutral-400 leading-snug mb-0 pl-[2px]">
               Ниже предоставлены наши работы с клиентами из разных сфер. Мы покажем, как правильный подход к структуре и дизайну превращает обычных посетителей в клиентов. Изучите проекты и убедитесь в эффективности нашей модели.
             </p>
           </div>

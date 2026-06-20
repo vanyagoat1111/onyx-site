@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import Stats from './components/Stats';
 import WhyWeb from './components/WhyWeb';
 import Problem from './components/Problem';
 import ComparisonTable from './components/ComparisonTable';
@@ -49,6 +50,7 @@ export default function App() {
     <main className="bg-onyx-950 text-white font-sans selection:bg-blue-600 selection:text-onyx-950 w-full overflow-x-hidden">
       <Navbar />
       <Hero />
+      <Stats />
       <WhyWeb />
       <Problem />
       <ComparisonTable />

@@ -13,7 +13,7 @@ export default function WhyWeb() {
   ];
 
   return (
-    <Container className="py-16 bg-onyx-950">
+    <Container className="py-16 bg-[#162455]">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black uppercase tracking-tight mb-8">Почему вашему бизнесу нужен сайт?</h2>
         
