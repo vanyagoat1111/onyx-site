@@ -14,11 +14,12 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-body {
+html, body {
   background-color: var(--color-onyx-900);
   color: var(--color-onyx-accent);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  max-width: 100vw;
 }
 
 .clip-diagonal {

@@ -21,12 +21,12 @@ export default function Hero() {
             transition={{ duration: 0.8 }}
             className="max-w-3xl"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-black uppercase tracking-tight leading-[1.1] mb-6 text-white break-words">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-heading font-black uppercase tracking-tight leading-[1.1] mb-6 text-white break-words text-left">
               Профессиональный сайт<br className="hidden lg:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]">по подписке</span> от 2990 ₽ в месяц
             </h1>
             
-            <p className="text-xl md:text-2xl text-neutral-300 font-sans max-w-2xl mb-8 leading-relaxed font-light mt-2">
+            <p className="text-xl md:text-2xl text-neutral-300 font-sans max-w-2xl mb-8 leading-relaxed font-light mt-2 text-justify sm:text-left hyphens-auto">
               Без затрат на разработку. Домен, поддержка и обновления включены.
             </p>
 

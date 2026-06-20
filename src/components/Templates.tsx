@@ -64,8 +64,8 @@ export default function Templates() {
   return (
     <div id="templates" className="pb-16 lg:pb-24 bg-onyx-950 relative scroll-mt-20">
       <div className="absolute inset-0 bg-gradient-to-b from-onyx-900 via-transparent to-onyx-900 pointer-events-none" />
-      <Container className="!pt-0 relative z-10">
-        <div className="flex flex-col gap-3 mb-8 w-full mt-8 md:mt-0">
+      <Container className="!pt-8 lg:!pt-12 relative z-10">
+        <div className="flex flex-col gap-3 mb-8 w-full mt-4 md:mt-0">
           <SectionTitle className="!mb-0 !pb-0 text-left">Наши<br/>Кейсы</SectionTitle>
           <div className="max-w-3xl space-y-3">
             <p className="text-lg font-sans text-neutral-300 font-light leading-snug">
