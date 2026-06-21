@@ -35,7 +35,7 @@ export default function DentalClinic() {
       </header>
 
       {/* Hero */}
-      <section className="relative pt-20 pb-32 px-6 md:px-12 bg-gradient-to-b from-sky-50 to-white overflow-hidden">
+      <section className="relative pt-12 pb-16 md:pt-20 md:pb-32 px-6 md:px-12 bg-gradient-to-b from-sky-50 to-white overflow-hidden">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="relative z-10">
             <div className="inline-block px-4 py-1.5 bg-sky-100 text-sky-700 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
@@ -56,9 +56,9 @@ export default function DentalClinic() {
               </button>
             </div>
           </div>
-          <div className="relative z-10">
+          <div className="relative z-10 mt-8 md:mt-0">
             <div className="aspect-square rounded-full bg-sky-100 absolute -top-12 -right-12 w-full h-full -z-10 blur-3xl opacity-50"></div>
-            <div className="relative h-[500px] w-full bg-slate-200 rounded-3xl overflow-hidden shadow-2xl">
+            <div className="relative h-[280px] sm:h-[350px] md:h-[500px] w-full bg-slate-200 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl">
               <img src="/case1.1.jpg" alt="Clinic Interior" className="w-full h-full object-cover" />
             </div>
           </div>
