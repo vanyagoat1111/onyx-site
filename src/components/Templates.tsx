@@ -12,7 +12,7 @@ const cases = [
     solutionList: ['доверие', 'врачей', 'услуги', 'запись онлайн'],
     done: 'UX-структура под запись пациента, премиальный дизайн, адаптация под мобильные устройства, формы записи.',
     result: 'До 40% рост конверсии, увеличение записей с рекламы.',
-    previewImg: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'
+    previewImg: '/main1.jpg'
   },
   { 
     name: 'Фитнес-Клуб', 
@@ -23,7 +23,7 @@ const cases = [
     solutionList: ['абонементы', 'тренеры', 'расписание', 'акции'],
     done: 'Продающая структура, блоки мотивации, быстрые заявки.',
     result: 'Рост вовлечённости и заявок.',
-    previewImg: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'
+    previewImg: '/main2.jpg'
   },
   { 
     name: 'Логистика / Грузоперевозки', 
@@ -34,7 +34,7 @@ const cases = [
     solutionList: [],
     done: 'Калькулятор заявки, формы расчёта доставки, блок доверия (склады, техника).',
     result: 'Упрощение получения заявок.',
-    previewImg: 'https://images.unsplash.com/photo-1586528116311-ad8ed7c1590a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'
+    previewImg: '/main3.jpg'
   },
   { 
     name: 'Юридическая Компания', 
@@ -45,7 +45,7 @@ const cases = [
     solutionList: ['кейсы', 'специалисты', 'консультация 24/7'],
     done: 'Проработка структуры, акцент на экспертность, удобные формы связи.',
     result: 'Рост обращений через форму.',
-    previewImg: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'
+    previewImg: '/main4.jpg'
   },
   { 
     name: 'Недвижимость (Премиум)', 
@@ -56,7 +56,7 @@ const cases = [
     solutionList: [],
     done: 'Карточки объектов, фильтрация, быстрый контакт.',
     result: 'Интуитивный поиск, увеличение целевых обращений.',
-    previewImg: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'
+    previewImg: '/main5.jpg'
   }
 ];
 
@@ -83,7 +83,7 @@ export default function Templates() {
               {/* Left/Right: Preview */}
               <div className="w-full lg:w-1/2 relative group">
                 <div className="absolute -inset-4 bg-blue-600/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                <a href={tpl.url} className="block relative aspect-[4/3] bg-onyx-900 border border-onyx-700 overflow-hidden clip-diagonal group-hover:border-blue-500 transition-all shadow-[0_0_20px_rgba(0,0,0,0.8)] group-hover:shadow-[0_0_40px_rgba(59,130,246,0.3)] z-10">
+                <a href={tpl.url} className="block relative bg-onyx-900 border border-onyx-700 overflow-hidden clip-diagonal group-hover:border-blue-500 transition-all shadow-[0_0_20px_rgba(0,0,0,0.8)] group-hover:shadow-[0_0_40px_rgba(59,130,246,0.3)] z-10 pt-8">
                   <div className="absolute top-0 w-full h-8 border-b border-onyx-700 group-hover:border-blue-500/50 bg-onyx-950 flex items-center px-4 gap-2 z-20 transition-colors">
                     <div className="w-2.5 h-2.5 rounded-none bg-blue-400 shadow-[0_0_8px_rgba(147,197,253,0.3)]"></div>
                     <div className="w-2.5 h-2.5 rounded-none bg-blue-600 shadow-[0_0_8px_rgba(59,130,246,0.5)]"></div>
@@ -92,7 +92,7 @@ export default function Templates() {
                   <img 
                     src={tpl.previewImg} 
                     alt={tpl.name}
-                    className="w-full h-full object-cover hue-rotate-[0deg] opacity-60 mix-blend-screen group-hover:mix-blend-normal group-hover:opacity-100 group-hover:hue-rotate-0 transition-all duration-700 scale-105 group-hover:scale-100 mt-8"
+                    className="w-full h-auto hue-rotate-[0deg] opacity-60 mix-blend-screen group-hover:mix-blend-normal group-hover:opacity-100 group-hover:hue-rotate-0 transition-all duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-onyx-950/30 to-transparent"></div>
                   

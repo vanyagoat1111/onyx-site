@@ -22,11 +22,11 @@ export default function Hero() {
             className="max-w-3xl"
           >
             <p className="text-sm sm:text-base md:text-lg text-blue-400 font-sans mb-4 uppercase tracking-wider font-bold text-left">
-              Помогаем бизнесу получать клиентов из интернета
+              Профессиональный сайт по подписке от 2990 ₽ в месяц
             </p>
-            <h1 className="text-[28px] leading-[40.6px] h-[126px] w-[342.77px] pl-0 sm:text-5xl lg:text-7xl text-left sm:text-left font-heading font-black uppercase tracking-tight mb-6 text-white break-words">
-              Профессиональный сайт<br className="hidden lg:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]">по подписке</span> от 2990 ₽ в месяц
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.2] sm:leading-[1.1] text-left font-heading font-black uppercase tracking-tight mb-6 text-white break-words">
+              Помогаем бизнесу получать клиентов<br className="hidden lg:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]"> из интернета</span>
             </h1>
             
             <p className="text-xl md:text-2xl text-neutral-300 font-sans max-w-2xl mb-8 leading-relaxed font-light mt-2 text-left hyphens-auto">

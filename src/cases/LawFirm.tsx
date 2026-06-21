@@ -20,8 +20,10 @@ export default function LawFirm() {
         </div>
         <nav className="hidden md:flex gap-8 text-sm font-sans tracking-wider text-slate-300 uppercase">
           <a href="#practice" onClick={(e) => scrollTo(e, 'practice')} className="hover:text-[#c9a263] transition-colors">Практики</a>
-          <a href="#team" onClick={(e) => scrollTo(e, 'team')} className="hover:text-[#c9a263] transition-colors">Команда</a>
+          <a href="#principles" onClick={(e) => scrollTo(e, 'principles')} className="hover:text-[#c9a263] transition-colors">Принципы</a>
+          <a href="#process" onClick={(e) => scrollTo(e, 'process')} className="hover:text-[#c9a263] transition-colors">Этапы</a>
           <a href="#cases" onClick={(e) => scrollTo(e, 'cases')} className="hover:text-[#c9a263] transition-colors">Дела</a>
+          <a href="#faq" onClick={(e) => scrollTo(e, 'faq')} className="hover:text-[#c9a263] transition-colors">FAQ</a>
           <a href="#contacts" onClick={(e) => scrollTo(e, 'contacts')} className="hover:text-[#c9a263] transition-colors">Контакты</a>
         </nav>
         <button className="hidden md:block bg-[#c9a263] text-[#0a1023] px-6 py-2 font-sans font-bold uppercase tracking-wider text-xs transition-colors hover:bg-[#b08b53]">
@@ -105,47 +107,104 @@ export default function LawFirm() {
           </div>
         </div>
       </section>
-      {/* Team */}
-      <section id="team" className="py-24 px-6 md:px-12 bg-[#0a1023] border-t border-[#2a365c]">
+      {/* Principles */}
+      <section id="principles" className="py-24 px-6 md:px-12 bg-[#0a1023] border-t border-[#2a365c]">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 text-white">
             <div>
-              <h2 className="text-3xl md:text-5xl font-medium mb-6">Партнеры бюро</h2>
+              <h2 className="text-3xl md:text-5xl font-medium mb-6">Принципы нашей работы</h2>
               <div className="w-16 h-0.5 bg-[#c9a263]"></div>
             </div>
             <p className="max-w-md font-sans font-light text-slate-300 leading-relaxed">
-              Ключевые эксперты с многолетним опытом работы в ведущих консалтинговых компаниях (Big4/Ильф) и глубокой экспертизой в своих отраслях.
+              Фундамент, на котором строятся отношения с доверителями и выигрываются самые сложные споры.
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="group flex flex-col sm:flex-row gap-6 bg-[#131d3b] border border-[#2a365c] p-6 hover:border-[#c9a263] transition-colors">
-               <div className="w-full sm:w-48 h-64 sm:h-auto bg-[#0a1023] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500">
-                  <img src="/case4.2.jpg" alt="Партнер" className="w-full h-full object-cover" />
-               </div>
-               <div className="flex-1 flex flex-col justify-center">
-                  <div className="text-[#c9a263] font-sans font-medium uppercase tracking-widest text-xs mb-2">Управляющий партнер</div>
-                  <h3 className="text-2xl text-white font-medium mb-4">Алексей Егоров</h3>
-                  <p className="font-sans font-light text-sm text-slate-400 mb-6 leading-relaxed">
-                    Специализируется на сопровождении M&A сделок, корпоративных конфликтах и защите активов. Включен в рейтинг Chambers Europe и Best Lawyers.
-                  </p>
-                  <a href="#" onClick={(e) => e.preventDefault()} className="text-[#c9a263] hover:text-white font-sans uppercase tracking-widest text-xs transition-colors flex items-center gap-2">Подробнее <span>→</span></a>
-               </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: 'Эксклюзивность', desc: 'Мы берем в работу ограниченное количество дел, чтобы гарантировать максимальное погружение команды в специфику вашего бизнеса.' },
+              { title: 'Конфиденциальность', desc: 'Строгое соблюдение адвокатской тайны. Информация о наших доверителях и деталях споров никогда не становится публичной без их согласия.' },
+              { title: 'Ориентация на результат', desc: 'Мы не просто консультируем о рисках, а предлагаем конкретные правовые решения для достижения экономической цели бизнеса.' },
+              { title: 'Прозрачность', desc: 'Честная оценка судебных перспектив до подписания договора. Фиксированная стоимость услуг, исключающая скрытые платежи.' }
+            ].map((p, i) => (
+              <div key={i} className="bg-[#131d3b] p-8 border border-[#2a365c] hover:border-[#c9a263] transition-colors flex flex-col min-h-[280px]">
+                <div className="text-[#c9a263] font-sans font-medium text-lg mb-6 tracking-widest">{`0${i + 1}`}</div>
+                <h3 className="text-xl text-white font-medium mb-4">{p.title}</h3>
+                <p className="font-sans font-light text-sm text-slate-400 flex-grow leading-relaxed">{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section id="process" className="py-24 px-6 md:px-12 bg-[#0d152e] border-t border-[#2a365c]">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl text-white font-medium mb-6">Этапы сотрудничества</h2>
+            <div className="w-16 h-0.5 bg-[#c9a263] mx-auto"></div>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="relative group">
+              <div className="hidden md:block absolute top-8 left-1/2 w-full h-px bg-[#2a365c] group-hover:bg-[#c9a263] transition-colors"></div>
+              <div className="bg-[#0a1023] w-16 h-16 rounded-full border-2 border-[#2a365c] group-hover:border-[#c9a263] text-[#c9a263] flex items-center justify-center font-sans font-medium text-xl mx-auto mb-6 relative z-10 transition-colors">
+                1
+              </div>
+              <div className="text-center px-4">
+                <h3 className="text-xl text-white font-medium mb-4">Правовой аудит</h3>
+                <p className="font-sans font-light text-slate-400 text-sm leading-relaxed">
+                  Изучение материалов дела, анализ судебной практики и выработка предварительной правовой позиции с оценкой рисков и перспектив.
+                </p>
+              </div>
             </div>
             
-            <div className="group flex flex-col sm:flex-row gap-6 bg-[#131d3b] border border-[#2a365c] p-6 hover:border-[#c9a263] transition-colors">
-               <div className="w-full sm:w-48 h-64 sm:h-auto bg-[#0a1023] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500">
-                  <img src="/case4.3.jpg" alt="Партнер" className="w-full h-full object-cover" />
-               </div>
-               <div className="flex-1 flex flex-col justify-center">
-                  <div className="text-[#c9a263] font-sans font-medium uppercase tracking-widest text-xs mb-2">Старший партнер</div>
-                  <h3 className="text-2xl text-white font-medium mb-4">Мария Соколова</h3>
-                  <p className="font-sans font-light text-sm text-slate-400 mb-6 leading-relaxed">
-                    Руководитель судебно-арбитражной практики и практики банкротства. Опыт представления интересов клиентов в Верховном Суде РФ.
-                  </p>
-                  <a href="#" onClick={(e) => e.preventDefault()} className="text-[#c9a263] hover:text-white font-sans uppercase tracking-widest text-xs transition-colors flex items-center gap-2">Подробнее <span>→</span></a>
-               </div>
+            <div className="relative group">
+              <div className="hidden md:block absolute top-8 left-1/2 w-full h-px bg-[#2a365c] group-hover:bg-[#c9a263] transition-colors"></div>
+              <div className="bg-[#0a1023] w-16 h-16 rounded-full border-2 border-[#2a365c] group-hover:border-[#c9a263] text-[#c9a263] flex items-center justify-center font-sans font-medium text-xl mx-auto mb-6 relative z-10 transition-colors">
+                2
+              </div>
+              <div className="text-center px-4">
+                <h3 className="text-xl text-white font-medium mb-4">Формирование стратегии</h3>
+                <p className="font-sans font-light text-slate-400 text-sm leading-relaxed">
+                  Выработка пошагового плана действий (дорожной карты), сбор доказательной базы и согласование с доверителем тактики ведения дела.
+                </p>
+              </div>
             </div>
+            
+            <div className="relative group">
+              <div className="bg-[#0a1023] w-16 h-16 rounded-full border-2 border-[#2a365c] group-hover:border-[#c9a263] text-[#c9a263] flex items-center justify-center font-sans font-medium text-xl mx-auto mb-6 relative z-10 transition-colors">
+                3
+              </div>
+              <div className="text-center px-4">
+                <h3 className="text-xl text-white font-medium mb-4">Реализация и защита</h3>
+                <p className="font-sans font-light text-slate-400 text-sm leading-relaxed">
+                  Активное представительство интересов в судах и на переговорах, реализация выработанной стратегии вплоть до достижения необходимого результата.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="py-20 px-6 md:px-12 bg-[#c9a263]">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 divide-x-0 md:divide-x md:divide-[#8a6a3b] text-center">
+          <div className="px-4">
+            <div className="text-4xl md:text-5xl font-medium text-[#0a1023] mb-2">15+</div>
+            <p className="text-xs md:text-sm font-sans font-medium text-[#0a1023] uppercase tracking-wider">Лет практики</p>
+          </div>
+          <div className="px-4">
+            <div className="text-4xl md:text-5xl font-medium text-[#0a1023] mb-2">92%</div>
+            <p className="text-xs md:text-sm font-sans font-medium text-[#0a1023] uppercase tracking-wider">Успешных дел</p>
+          </div>
+          <div className="px-4">
+            <div className="text-4xl md:text-5xl font-medium text-[#0a1023] mb-2">5млрд+</div>
+            <p className="text-xs md:text-sm font-sans font-medium text-[#0a1023] uppercase tracking-wider">Защищенных активов ₽</p>
+          </div>
+          <div className="px-4">
+            <div className="text-4xl md:text-5xl font-medium text-[#0a1023] mb-2">Топ-15</div>
+            <p className="text-xs md:text-sm font-sans font-medium text-[#0a1023] uppercase tracking-wider">Рейтингов Право-300</p>
           </div>
         </div>
       </section>
@@ -180,6 +239,34 @@ export default function LawFirm() {
                  <div className="font-sans font-light text-xs bg-[#131d3b] text-slate-300 px-3 py-1 border border-[#2a365c]">Победа</div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="py-24 px-6 md:px-12 bg-[#0a1023] border-t border-[#2a365c]">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+             <h2 className="text-3xl md:text-5xl text-white font-medium mb-6">Частые вопросы</h2>
+             <div className="w-16 h-0.5 bg-[#c9a263] mx-auto"></div>
+          </div>
+          <div className="space-y-4">
+            {[
+              { q: 'Как формируется стоимость услуг?', a: 'Мы работаем по системе фиксированных гонораров (Flat Fee) или по почасовым ставкам (Hourly Rate), в зависимости от специфики проекта. В некоторых делах возможен гонорар успеха (Success Fee).' },
+              { q: 'Даете ли вы стопроцентную гарантию выигрыша в суде?', a: 'В соответствии с Кодексом профессиональной этики адвоката, мы не имеем права давать гарантии исхода судебного спора. Однако мы гарантируем профессиональный подход, глубокую экспертизу и максимальную защиту ваших интересов.' },
+              { q: 'С какими регионами вы работаете?', a: 'Главный офис находится в Москве, но мы представляем интересы доверителей в арбитражных судах и судах общей юрисдикции по всей территории Российской Федерации.' },
+              { q: 'Как обеспечивается конфиденциальность?', a: 'Конфиденциальность защищена законом об адвокатской деятельности. Любые сведения, связанные с оказанием правовой помощи, составляют строгую адвокатскую тайну и не подлежат разглашению.' }
+            ].map((faq, i) => (
+              <details key={i} className="group bg-[#131d3b] border border-[#2a365c] p-6 lg:p-8 cursor-pointer open:border-[#c9a263] transition-colors rounded-none">
+                <summary className="text-white font-medium text-lg marker:content-none flex justify-between items-center outline-none">
+                  <span className="pr-8">{faq.q}</span>
+                  <span className="text-[#c9a263] text-2xl group-open:rotate-45 transition-transform shrink-0 font-light">+</span>
+                </summary>
+                <div className="mt-6 font-sans font-light text-slate-400 text-sm leading-relaxed pr-8 border-t border-[#2a365c] pt-6">
+                  {faq.a}
+                </div>
+              </details>
+            ))}
           </div>
         </div>
       </section>

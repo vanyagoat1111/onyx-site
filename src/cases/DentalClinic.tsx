@@ -11,15 +11,15 @@ export default function DentalClinic() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-800 font-sans">
+    <div className="min-h-screen bg-white text-slate-800 font-outfit">
       <DemoCloseButton />
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-sky-100 py-4 px-6 md:px-12 flex justify-between items-center">
-        <div className="text-2xl font-bold text-sky-900 tracking-tight">Dental<span className="text-sky-500">Art</span></div>
+        <div className="text-2xl font-serif font-bold text-sky-900 tracking-tight">Dental<span className="text-sky-500">Art</span></div>
         <nav className="hidden md:flex gap-8 text-sm font-medium text-slate-600">
           <a href="#services" onClick={(e) => scrollTo(e, 'services')} className="hover:text-sky-600 transition-colors">Услуги</a>
-          <a href="#doctors" onClick={(e) => scrollTo(e, 'doctors')} className="hover:text-sky-600 transition-colors">Врачи</a>
-          <a href="#cases" onClick={(e) => scrollTo(e, 'cases')} className="hover:text-sky-600 transition-colors">До/После</a>
+          <a href="#advantages" onClick={(e) => scrollTo(e, 'advantages')} className="hover:text-sky-600 transition-colors">Преимущества</a>
+          <a href="#faq" onClick={(e) => scrollTo(e, 'faq')} className="hover:text-sky-600 transition-colors">Частые вопросы</a>
           <a href="#reviews" onClick={(e) => scrollTo(e, 'reviews')} className="hover:text-sky-600 transition-colors">Отзывы</a>
           <a href="#contacts" onClick={(e) => scrollTo(e, 'contacts')} className="hover:text-sky-600 transition-colors">Контакты</a>
         </nav>
@@ -41,7 +41,7 @@ export default function DentalClinic() {
             <div className="inline-block px-4 py-1.5 bg-sky-100 text-sky-700 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
               Премиальная стоматология в Москве
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-slate-900 leading-tight mb-6">
+            <h1 className="text-4xl md:text-6xl font-serif font-bold text-slate-900 leading-tight mb-6">
               Здоровая улыбка <br/>с гарантией <span className="text-sky-600">экспертов</span>
             </h1>
             <p className="text-lg text-slate-600 mb-8 max-w-lg leading-relaxed">
@@ -68,7 +68,7 @@ export default function DentalClinic() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl font-bold text-slate-800 mb-6">Услуги и цены</h2>
+            <h2 className="text-3xl font-serif font-bold text-slate-800 mb-6">Услуги и цены</h2>
             <p className="text-slate-600">Мы предлагаем полный спектр стоматологических услуг.</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -88,86 +88,73 @@ export default function DentalClinic() {
         </div>
       </section>
 
-      {/* Doctors */}
-      <section id="doctors" className="py-24 px-6 md:px-12 bg-sky-50">
+      {/* Advantages */}
+      <section id="advantages" className="py-24 px-6 md:px-12 bg-sky-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Наши специалисты</h2>
-            <p className="text-slate-500 max-w-2xl mx-auto">Команда врачей высшей категории с международным опытом.</p>
+             <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-4">Почему выбирают DentalArt?</h2>
+             <p className="text-slate-500 max-w-2xl mx-auto">Стандарты качества, безопасность и бескомпромиссный подход к лечению.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((_, i) => (
-              <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-lg border border-sky-100 group">
-                <div className="aspect-[3/4] bg-slate-200 relative overflow-hidden">
-                  <img src={`/case1.${i+2}.jpg`} alt={['Александр Смирнов', 'Елена Вознесенская', 'Виктор Громов'][i]} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                </div>
-                <div className="p-8">
-                  <h3 className="font-bold text-lg text-slate-800 mb-1">
-                    {['Александр Смирнов', 'Елена Вознесенская', 'Виктор Громов'][i]}
-                  </h3>
-                  <p className="text-sky-600 font-medium text-sm mb-4">
-                    {['Стоматолог-хирург, имплантолог', 'Стоматолог-ортодонт', 'Стоматолог-эстетист, ортопед'][i]}
-                  </p>
-                  <p className="text-slate-500 text-sm mb-4">Опыт работы более 15 лет. Стажировки в Германии и Швейцарии.</p>
-                  <button className="w-full py-3 border border-sky-200 text-sky-700 rounded-xl hover:bg-sky-50 transition-colors font-semibold text-sm">
-                    Записаться к врачу
-                  </button>
-                </div>
-              </div>
-            ))}
+             <div className="bg-white p-8 rounded-2xl shadow-sm border border-sky-100">
+                <div className="text-sky-600 text-4xl mb-6 font-bold">01</div>
+                <h3 className="font-bold text-xl text-slate-800 mb-3">Пожизненная гарантия</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">Мы уверены в качестве нашей работы и материалах. На все виды имплантации предоставляется официальная пожизненная гарантия по договору.</p>
+             </div>
+             <div className="bg-white p-8 rounded-2xl shadow-sm border border-sky-100">
+                <div className="text-sky-600 text-4xl mb-6 font-bold">02</div>
+                <h3 className="font-bold text-xl text-slate-800 mb-3">Лечение во сне</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">Используем безопасный наркоз и седацию (закись азота, пропофол). Просыпаетесь — а красивая улыбка уже готова. Абсолютно без боли и стресса.</p>
+             </div>
+             <div className="bg-white p-8 rounded-2xl shadow-sm border border-sky-100">
+                <div className="text-sky-600 text-4xl mb-6 font-bold">03</div>
+                <h3 className="font-bold text-xl text-slate-800 mb-3">Искусственный интеллект</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">Компьютерная 3D-томография анализируется нейросетью. Это исключает врачебные ошибки на этапе диагностики и позволяет спланировать точный результат.</p>
+             </div>
+             <div className="bg-white p-8 rounded-2xl shadow-sm border border-sky-100">
+                <div className="text-sky-600 text-4xl mb-6 font-bold">04</div>
+                <h3 className="font-bold text-xl text-slate-800 mb-3">Современные протоколы</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">Лечение строго по международным стандартам. Использование микроскопа при лечении каналов увеличивает срок службы зуба в несколько раз.</p>
+             </div>
+             <div className="bg-white p-8 rounded-2xl shadow-sm border border-sky-100">
+                <div className="text-sky-600 text-4xl mb-6 font-bold">05</div>
+                <h3 className="font-bold text-xl text-slate-800 mb-3">Все специалисты в одном месте</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">Вам не нужно искать разных врачей. Ортодонт, хирург, терапевт и ортопед совместно работают над вашим клиническим случаем в рамках одной клиники.</p>
+             </div>
+             <div className="bg-white p-8 rounded-2xl shadow-sm border border-sky-100">
+                <div className="text-sky-600 text-4xl mb-6 font-bold">06</div>
+                <h3 className="font-bold text-xl text-slate-800 mb-3">Прозрачные цены</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">Фиксируем стоимость лечения в плане до начала работ. Никаких скрытых платежей или внезапных доплат. Возможна рассрочка 0%.</p>
+             </div>
           </div>
         </div>
       </section>
 
-      {/* Cases */}
-      <section id="cases" className="py-24 px-6 md:px-12 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Истории преображения</h2>
-              <p className="text-slate-500 max-w-2xl">Реальные кейсы наших пациентов: от комплекса до уверенной улыбки.</p>
-            </div>
-            <button className="bg-sky-50 text-sky-700 px-6 py-3 rounded-full font-semibold hover:bg-sky-100 transition-colors">
-              Все работы
-            </button>
+      {/* FAQ */}
+      <section id="faq" className="py-24 px-6 md:px-12 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+             <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-4">Часто задаваемые вопросы</h2>
+             <p className="text-slate-500 max-w-xl mx-auto">Мы собрали самые популярные вопросы от наших пациентов, чтобы развеять ваши сомнения.</p>
           </div>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="group rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-shadow bg-slate-50">
-              <div className="flex h-64 relative">
-                <div className="w-1/2 bg-slate-300 relative border-r-2 border-white">
-                   <div className="absolute top-4 left-4 bg-onyx-950/50 backdrop-blur text-white text-xs px-2 py-1 rounded">До</div>
+          <div className="space-y-4">
+            {[
+              { q: 'Больно ли устанавливать имплантат?', a: 'Современная анестезия делает процедуру полностью безболезненной. Большинство пациентов отмечают, что имплантация переносится легче, чем удаление зуба. Также доступно лечение "во сне" (седация).' },
+              { q: 'Даете ли вы гарантию на коронки и имплантаты?', a: 'Да, мы предоставляем пожизненную гарантию от производителя на все системы имплантатов, а также 5-летнюю гарантию на ортопедические конструкции при соблюдении графика профилактических осмотров.' },
+              { q: 'Как часто нужно делать профессиональную гигиену?', a: 'Врачи рекомендуют проводить профессиональную чистку зубов раз в 6 месяцев. Если у вас установлены брекеты, имплантаты или вы злоупотребляете кофе/курением — раз в 3-4 месяца.' },
+              { q: 'Можно ли вылечить зуб за один визит?', a: 'Большинство терапевтических вмешательств, включая лечение кариеса и корневых каналов, мы проводим за одно посещение с использованием дентального микроскопа. Сложные случаи могут потребовать 2-3 визитов.' },
+              { q: 'Принимаете ли вы полисы ДМС?', a: 'Да, наша клиника сотрудничает с ведущими страховыми компаниями СОГАЗ, Ингосстрах, РЕСО-Гарантия, АльфаСтрахование. Пожалуйста, уточните детали у администратора при записи.' }
+            ].map((item, i) => (
+              <details key={i} className="group bg-slate-50 rounded-2xl p-6 open:bg-sky-50 transition-colors border border-slate-100 cursor-pointer">
+                <summary className="font-bold text-lg text-slate-800 marker:content-none flex justify-between items-center outline-none">
+                  {item.q}
+                  <span className="text-sky-600 group-open:rotate-45 transition-transform text-2xl font-light">+</span>
+                </summary>
+                <div className="mt-4 text-slate-600 text-sm leading-relaxed pr-8">
+                  {item.a}
                 </div>
-                <div className="w-1/2 bg-sky-100 relative">
-                   <div className="absolute top-4 right-4 bg-sky-600 text-white text-xs px-2 py-1 rounded shadow-lg shadow-sky-600/30">После</div>
-                </div>
-              </div>
-              <div className="p-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Тотальное протезирование на 4х имплантатах</h3>
-                <p className="text-slate-600 text-sm mb-4">Срок лечения: 3 месяца. Установлены циркониевые коронки на систему Nobel Biocare.</p>
-                <div className="flex gap-2 flex-wrap">
-                   <span className="text-xs bg-white border border-slate-200 px-3 py-1 rounded-full text-slate-600">All-on-4</span>
-                   <span className="text-xs bg-white border border-slate-200 px-3 py-1 rounded-full text-slate-600">Цирконий</span>
-                </div>
-              </div>
-            </div>
-            <div className="group rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-shadow bg-slate-50">
-              <div className="flex h-64 relative">
-                <div className="w-1/2 bg-slate-200 relative border-r-2 border-white">
-                   <div className="absolute top-4 left-4 bg-onyx-950/50 backdrop-blur text-white text-xs px-2 py-1 rounded">До</div>
-                </div>
-                <div className="w-1/2 bg-sky-50 relative">
-                   <div className="absolute top-4 right-4 bg-sky-600 text-white text-xs px-2 py-1 rounded shadow-lg shadow-sky-600/30">После</div>
-                </div>
-              </div>
-              <div className="p-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Виниры E-max для идеальной эстетики</h3>
-                <p className="text-slate-600 text-sm mb-4">Срок лечения: 2 недели. Установлено 10 керамических виниров в зоне улыбки.</p>
-                <div className="flex gap-2 flex-wrap">
-                   <span className="text-xs bg-white border border-slate-200 px-3 py-1 rounded-full text-slate-600">Виниры</span>
-                   <span className="text-xs bg-white border border-slate-200 px-3 py-1 rounded-full text-slate-600">Керамика E-max</span>
-                </div>
-              </div>
-            </div>
+              </details>
+            ))}
           </div>
         </div>
       </section>
@@ -175,7 +162,7 @@ export default function DentalClinic() {
       {/* Reviews */}
       <section id="reviews" className="py-24 px-6 md:px-12 bg-sky-50 border-y border-sky-100">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12">Отзывы пациентов</h2>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-12">Отзывы пациентов</h2>
           <div className="grid md:grid-cols-3 gap-8 text-left">
             {[1, 2, 3].map((_, i) => (
               <div key={i} className="bg-white p-8 rounded-2xl shadow-sm">
@@ -202,7 +189,7 @@ export default function DentalClinic() {
       <section className="py-24 px-6 md:px-12 bg-sky-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
         <div className="max-w-4xl mx-auto relative z-10 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">Получите план лечения сегодня</h2>
+          <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6">Получите план лечения сегодня</h2>
           <p className="text-sky-200 mb-10 text-lg">Оставьте заявку на бесплатную консультацию с главным врачом клиники и КТ-снимок в подарок.</p>
           <form className="max-w-2xl mx-auto flex flex-col md:flex-row gap-4">
             <input type="text" placeholder="Ваше имя" className="flex-1 px-6 py-4 rounded-full bg-white/10 border border-white/20 text-white placeholder:text-sky-200 focus:outline-none focus:border-white focus:bg-white/20 transition-all" />
@@ -231,9 +218,9 @@ export default function DentalClinic() {
           <div>
              <h4 className="text-white font-bold mb-4">Клиника</h4>
              <ul className="space-y-2 text-sm">
-              <li><a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Врачи</a></li>
-              <li><a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Цены</a></li>
-              <li><a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Отзывы</a></li>
+              <li><a href="#advantages" onClick={(e) => scrollTo(e, 'advantages')} className="hover:text-white transition-colors">Преимущества</a></li>
+              <li><a href="#faq" onClick={(e) => scrollTo(e, 'faq')} className="hover:text-white transition-colors">Частые вопросы</a></li>
+              <li><a href="#reviews" onClick={(e) => scrollTo(e, 'reviews')} className="hover:text-white transition-colors">Отзывы</a></li>
             </ul>
           </div>
           <div>

@@ -32,8 +32,23 @@ export default function App() {
 
   useEffect(() => {
     const handleHashChange = () => {
-      setCurrentRoute(window.location.hash);
-      window.scrollTo(0, 0);
+      const hash = window.location.hash;
+      setCurrentRoute(hash);
+      
+      if (hash.startsWith('#case/')) {
+        window.scrollTo(0, 0);
+      } else if (hash) {
+        setTimeout(() => {
+          const el = document.getElementById(hash.slice(1));
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            window.scrollTo(0, 0);
+          }
+        }, 100);
+      } else {
+        window.scrollTo(0, 0);
+      }
     };
     
     window.addEventListener('hashchange', handleHashChange);

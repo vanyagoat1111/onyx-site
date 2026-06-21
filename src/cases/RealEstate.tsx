@@ -11,106 +11,117 @@ export default function RealEstate() {
   };
 
   return (
-    <div className="min-h-screen bg-[#111111] text-neutral-300 font-sans">
+    <div className="min-h-screen bg-[#080808] text-neutral-300 font-sans selection:bg-white/20 selection:text-white">
       <DemoCloseButton />
       {/* Header */}
-      <header className="absolute top-0 w-full z-50 px-6 md:px-12 py-6 flex justify-between items-center border-b border-white/10">
-        <div className="text-2xl font-serif text-white tracking-widest uppercase">
+      <header className="absolute top-0 w-full z-50 px-6 md:px-12 py-8 flex justify-between items-center border-b border-white/5">
+        <div className="text-2xl font-cormorant text-white tracking-[0.2em] uppercase">
           Vanguard <span className="opacity-50">Estates</span>
         </div>
-        <nav className="hidden md:flex gap-8 text-xs uppercase tracking-[0.2em] font-medium text-white/80">
+        <nav className="hidden md:flex gap-10 text-[10px] uppercase tracking-[0.2em] font-medium text-white/70">
+          <a href="#philosophy" onClick={(e) => scrollTo(e, 'philosophy')} className="hover:text-white transition-colors">Философия</a>
           <a href="#properties" onClick={(e) => scrollTo(e, 'properties')} className="hover:text-white transition-colors">Объекты</a>
-          <a href="#developments" onClick={(e) => scrollTo(e, 'developments')} className="hover:text-white transition-colors">Новостройки</a>
-          <a href="#agents" onClick={(e) => scrollTo(e, 'agents')} className="hover:text-white transition-colors">Агенты</a>
-          <a href="#about" onClick={(e) => scrollTo(e, 'about')} className="hover:text-white transition-colors">О нас</a>
+          <a href="#services" onClick={(e) => scrollTo(e, 'services')} className="hover:text-white transition-colors">Услуги</a>
+          <a href="#analytics" onClick={(e) => scrollTo(e, 'analytics')} className="hover:text-white transition-colors">Аналитика</a>
+          <a href="#trust" onClick={(e) => scrollTo(e, 'trust')} className="hover:text-white transition-colors">Доверие</a>
         </nav>
-        <button className="text-white border border-white/30 px-6 py-2 hover:bg-white hover:text-onyx-950 transition-colors text-xs uppercase tracking-widest">
+        <button className="text-white border border-white/20 px-8 py-3 hover:bg-white hover:text-black transition-colors text-[10px] uppercase tracking-[0.2em]">
           Связаться
         </button>
       </header>
 
       {/* Hero */}
-      <section className="relative h-screen flex items-center justify-center pt-20 overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-onyx-950/40 z-10"></div>
-          <img src="/case5.1.jpg" alt="Mansion" className="w-full h-full object-cover scale-105" />
+      <section className="relative min-h-screen md:h-[90vh] md:min-h-[700px] flex items-center justify-center pt-32 pb-16">
+        <div className="absolute inset-0 z-0">
+          <img src="/case5.1.jpg" alt="Mansion" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-black/50 z-10"></div>
+          {/* Smooth gradient transition to dark background */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-[#0a0a0a] z-10"></div>
         </div>
 
-        <div className="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 text-center mt-16">
-          <h1 className="text-4xl md:text-7xl font-serif text-white mb-6 tracking-wide drop-shadow-lg">
-            Исключительная недвижимость <br/>для искушенных
+        <div className="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center mt-12">
+          <div className="text-[10px] text-[#c9a263] uppercase tracking-[0.4em] mb-10 font-bold">Бутик элитной недвижимости</div>
+          <h1 className="text-[46px] md:text-8xl lg:text-[100px] font-cormorant text-white mb-10 tracking-wide drop-shadow-2xl text-center leading-tight md:leading-[1.05]">
+            Исключительная <br className="hidden md:block" /> <i className="font-light text-white/90">недвижимость</i> <br className="hidden md:block" /> для искушенных
           </h1>
-          <p className="text-lg text-white/80 max-w-2xl mx-auto mb-12 font-light tracking-wide">
-            Коллекция лучших пентхаусов, вилл и исторических особняков в самых престижных локациях мира.
+          <p className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-16 md:mb-20 font-light tracking-wide text-center leading-relaxed">
+            Коллекция лучших пентхаусов, вилл и исторических особняков в самых престижных локациях мира. Искусство жить стильно.
           </p>
 
           {/* Search/Filters */}
-          <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-2 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-2">
-            <select className="bg-onyx-950/50 text-white border-none py-4 px-4 focus:outline-none focus:ring-1 focus:ring-white/50 text-sm appearance-none">
-              <option>Тип объекта</option>
-              <option>Пентхаус</option>
-              <option>Вилла</option>
-              <option>Апартаменты</option>
+          <div className="bg-[#111]/80 backdrop-blur-2xl border border-white/10 p-3 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-3 w-full shadow-2xl">
+            <select className="bg-transparent text-white border border-white/5 py-4 px-6 focus:outline-none focus:border-white/20 text-sm appearance-none cursor-pointer [&>option]:bg-[#111]">
+              <option value="" disabled selected hidden>Тип объекта</option>
+              <option value="penthouse">Пентхаус</option>
+              <option value="villa">Вилла</option>
+              <option value="mansion">Особняк</option>
             </select>
-            <select className="bg-onyx-950/50 text-white border-none py-4 px-4 focus:outline-none focus:ring-1 focus:ring-white/50 text-sm appearance-none">
-              <option>Локация</option>
-              <option>Москва Сити</option>
-              <option>Остоженка</option>
-              <option>Рублево-Успенское</option>
+            <select className="bg-transparent text-white border-x md:border-y-0 border-y border-white/5 py-4 px-6 focus:outline-none focus:border-white/20 text-sm appearance-none cursor-pointer [&>option]:bg-[#111]">
+              <option value="" disabled selected hidden>Локация</option>
+              <option value="ost">Остоженка</option>
+              <option value="patr">Патриаршие пруды</option>
+              <option value="rubl">Рублево-Успенское</option>
             </select>
-            <select className="bg-onyx-950/50 text-white border-none py-4 px-4 focus:outline-none focus:ring-1 focus:ring-white/50 text-sm appearance-none">
-              <option>Бюджет</option>
-              <option>От $1 млн</option>
-              <option>От $5 млн</option>
-              <option>По запросу</option>
+            <select className="bg-transparent text-white border-b md:border-b-0 md:border-r border-white/5 py-4 px-6 focus:outline-none focus:border-white/20 text-sm appearance-none cursor-pointer [&>option]:bg-[#111]">
+              <option value="" disabled selected hidden>Бюджет</option>
+              <option value="3m">От $3 млн</option>
+              <option value="10m">От $10 млн</option>
+              <option value="custom">По запросу</option>
             </select>
-            <button className="bg-white text-onyx-950 font-medium uppercase tracking-widest text-xs py-4 px-4 hover:bg-neutral-200 transition-colors">
-              Найти объекты
+            <button className="bg-white text-black font-semibold uppercase tracking-[0.2em] text-[10px] py-4 px-4 hover:bg-gray-200 transition-colors">
+              Поиск объектов
             </button>
           </div>
         </div>
       </section>
 
       {/* Featured Properties */}
-      <section id="properties" className="py-24 px-6 md:px-12 bg-[#111111]">
-        <div className="max-w-7xl mx-auto border-t border-white/10 pt-16">
-          <div className="flex justify-between items-end mb-12">
-            <h2 className="text-3xl md:text-4xl font-serif text-white tracking-wide">Эксклюзивные предложения</h2>
-            <a href="#" onClick={(e) => e.preventDefault()} className="uppercase tracking-[0.2em] text-xs text-white/50 hover:text-white transition-colors border-b border-white/20 pb-1">Посмотреть все</a>
+      <section id="properties" className="pt-12 pb-32 md:pt-20 md:pb-32 px-6 md:px-12 bg-[#0a0a0a] border-t border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+            <div>
+               <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Коллекция</div>
+               <h2 className="text-4xl md:text-5xl font-cormorant text-white tracking-wide">Эксклюзивные предложения</h2>
+            </div>
+            <a href="#" onClick={(e) => e.preventDefault()} className="uppercase tracking-[0.2em] text-[10px] text-white/50 border border-white/20 px-8 py-3 hover:bg-white hover:text-black transition-colors">
+              Посмотреть все объекты
+            </a>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-16">
             {/* Property 1 */}
             <div className="group cursor-pointer">
-              <div className="relative aspect-[4/3] overflow-hidden mb-6">
-                <div className="absolute top-4 left-4 z-10 bg-onyx-950/60 backdrop-blur-md px-3 py-1 text-white text-xs uppercase tracking-widest">
-                  New
+              <div className="relative aspect-[4/3] overflow-hidden mb-8">
+                <div className="absolute top-6 left-6 z-10 bg-black/60 backdrop-blur-md px-4 py-2 text-white text-[10px] uppercase tracking-widest border border-white/10">
+                  Новое предложение
                 </div>
-                <img src="/case5.2.jpg" alt="Villa" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                <img src="/building1.jpg" alt="Penthouse" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100" />
               </div>
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-2xl font-serif text-white mb-2">Вилла на берегу залива</h3>
-                  <p className="text-white/50 text-sm font-light">Крестовский остров • 650 м² • 5 спален</p>
-                </div>
-                <div className="text-right">
-                  <div className="text-xl text-white tracking-wide">$ 8,500,000</div>
+              <div>
+                <h3 className="text-3xl font-cormorant text-white mb-3 group-hover:text-white/80 transition-colors">Пентхаус с панорамной террасой</h3>
+                <div className="flex justify-between items-end mt-4">
+                  <div className="space-y-1">
+                     <p className="text-white/50 text-sm font-light">Москва Сити, Башня Федерация</p>
+                     <p className="text-white/40 text-[11px] uppercase tracking-wider">320 м² • 4 Спальни • 5 Ванных</p>
+                  </div>
+                  <div className="text-2xl font-cormorant text-white tracking-wide">$ 5,200,000</div>
                 </div>
               </div>
             </div>
 
             {/* Property 2 */}
-            <div className="group cursor-pointer md:mt-16">
-              <div className="relative aspect-[4/3] overflow-hidden mb-6">
-                <img src="/case5.3.jpg" alt="Penthouse" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+            <div className="group cursor-pointer md:mt-24">
+              <div className="relative aspect-[4/3] overflow-hidden mb-8">
+                <img src="/building2.jpg" alt="Villa" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100" />
               </div>
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-2xl font-serif text-white mb-2">Пентхаус с террасой</h3>
-                  <p className="text-white/50 text-sm font-light">Москва Сити • 320 м² • Панорамный вид</p>
-                </div>
-                <div className="text-right">
-                  <div className="text-xl text-white tracking-wide">$ 5,200,000</div>
+              <div>
+                <h3 className="text-3xl font-cormorant text-white mb-3 group-hover:text-white/80 transition-colors">Резиденция у залива</h3>
+                <div className="flex justify-between items-end mt-4">
+                  <div className="space-y-1">
+                     <p className="text-white/50 text-sm font-light">Крестовский Остров</p>
+                     <p className="text-white/40 text-[11px] uppercase tracking-wider">650 м² • 5 Спален • Причал</p>
+                  </div>
+                  <div className="text-2xl font-cormorant text-white tracking-wide">$ 8,500,000</div>
                 </div>
               </div>
             </div>
@@ -118,110 +129,158 @@ export default function RealEstate() {
         </div>
       </section>
 
-      {/* Developments */}
-      <section id="developments" className="py-24 px-6 md:px-12 bg-onyx-950 border-t border-white/5">
+      {/* Services/Expertise */}
+      <section id="services" className="py-32 px-6 md:px-12 bg-[#080808]">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-             <div className="text-xs uppercase tracking-[0.2em] text-white/50 mb-4">Off-plan проекты</div>
-             <h2 className="text-3xl md:text-5xl font-serif text-white tracking-wide mb-6">Новостройки</h2>
-             <p className="text-white/60 max-w-2xl mx-auto font-light">Эксклюзивный доступ к закрытым продажам клубных домов и элитных жилых комплексов до официального старта продаж.</p>
+          <div className="text-center mb-24">
+             <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Наши компетенции</div>
+             <h2 className="text-4xl md:text-5xl font-cormorant text-white tracking-wide">Безупречный сервис <br/>на каждом этапе</h2>
           </div>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { title: 'The Residence', location: 'Остоженка', status: 'Сдача в 2025', img: '1486406146926-c627a92ad1ab' },
-              { title: 'Sky View', location: 'Пресненский район', status: 'Сдача в 2026', img: '1449844908441-8829872d2607' },
-              { title: 'Park Lane', location: 'Патриаршие пруды', status: 'Закрытые продажи', img: '1545324418-cc1a3fa10c00' }
-            ].map((dev, i) => (
-              <div key={i} className="group relative aspect-[3/4] overflow-hidden cursor-pointer">
-                <img src={`/case5.${i+4}.jpg`} alt={dev.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80 group-hover:opacity-100" />
-                <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-onyx-950/20 to-transparent"></div>
-                <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                  <div className="text-xs uppercase tracking-[0.2em] text-white/70 mb-2">{dev.location}</div>
-                  <h3 className="text-2xl font-serif text-white mb-2">{dev.title}</h3>
-                  <div className="text-sm font-light text-white/50 mb-6">{dev.status}</div>
-                  <button className="self-start uppercase tracking-widest text-xs border border-white/30 px-6 py-2 hover:bg-white hover:text-onyx-950 transition-colors">
-                    Детали проекта
-                  </button>
+          <div className="grid md:grid-cols-3 gap-y-16 gap-x-12">
+             {[
+               { num: '01', title: 'Off-Market Сделки', desc: 'Доступ к закрытой базе премиальных объектов, которые не публикуются на открытом рынке для сохранения приватности владельцев.' },
+               { num: '02', title: 'Инвестиционный брокеридж', desc: 'Анализ рынка, подбор ликвидных активов с высокой доходностью и структурирование инвестиционных портфелей.' },
+               { num: '03', title: 'Юридическое сопровождение', desc: 'Полный Due Diligence объектов, безопасные расчеты и оформление сделок с участием ведущих юристов.' },
+               { num: '04', title: 'Продажа вашей недвижимости', desc: 'Создание премиальных маркетинговых материалов и таргетированный поиск покупателей.' },
+               { num: '05', title: 'Relocation & Lifestyle', desc: 'Организация переездов, подбор персонала и консьерж-сопровождение для вас и вашей семьи.' },
+               { num: '06', title: 'Архитектура и дизайн', desc: 'Рекомендации лучших архитектурных бюро и дизайнеров интерьера для создания дома вашей мечты.' },
+             ].map((svc, i) => (
+                <div key={i} className="group border-t border-white/10 pt-8 hover:border-white/30 transition-colors">
+                  <div className="text-white/20 font-cormorant text-4xl mb-6">{svc.num}</div>
+                  <h3 className="text-xl text-white mb-4 tracking-wide">{svc.title}</h3>
+                  <p className="text-white/50 text-sm font-light leading-relaxed">{svc.desc}</p>
                 </div>
-              </div>
-            ))}
+             ))}
           </div>
         </div>
       </section>
 
-      {/* Agents */}
-      <section id="agents" className="py-24 px-6 md:px-12 bg-[#111111] border-t border-white/5">
+      {/* Analytics */}
+      <section id="analytics" className="py-32 px-6 md:px-12 bg-[#0a0a0a] border-t border-white/5">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-            <h2 className="text-3xl md:text-5xl font-serif text-white tracking-wide">Ваши персональные<br/>брокеры</h2>
-            <p className="text-white/60 max-w-sm font-light">Доверьте поиск и оформление недвижимости экспертам с безупречной репутацией.</p>
+          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
+            <div>
+               <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Рыночная экспертиза</div>
+               <h2 className="text-4xl md:text-5xl font-cormorant text-white tracking-wide">Цифры, которым <br/>можно доверять</h2>
+            </div>
+            <p className="text-white/50 max-w-sm font-light text-sm">Мы опираемся на глубокую аналитику и закрытые данные сделок для формирования справедливой оценки и прогнозирования инвестиционной привлекательности.</p>
           </div>
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-               { name: 'Михаил Воронцов', img: '1507003211169-0a1dd7228f2d', role: 'Управляющий партнер' },
-               { name: 'Анна Демидова', img: '1573497019940-1ab532b21eece', role: 'Эксперт по новостройкам' },
-               { name: 'Константин Лисов', img: '1500648767791-00dcc994a43e', role: 'Брокер, Загородная недвижимость' },
-               { name: 'Елизавета Райт', img: '1580489944761-15a19d654956', role: 'VIP-клиенты' }
-            ].map((agent, i) => (
-              <div key={i} className="text-center group cursor-pointer">
-                <div className="relative aspect-[3/4] mb-6 overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500">
-                  <img src={`/case5.${i+7}.jpg`} alt={agent.name} className="w-full h-full object-cover" />
-                </div>
-                <h3 className="text-xl font-serif text-white mb-1">{agent.name}</h3>
-                <p className="text-xs uppercase tracking-widest text-white/50">{agent.role}</p>
-              </div>
-            ))}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-y border-white/10 py-16">
+             <div className="text-center">
+                <div className="text-5xl font-cormorant text-white mb-4">12<span className="text-white/40">%</span></div>
+                <div className="text-[10px] uppercase tracking-[0.2em] text-white/40">Средняя доходность</div>
+             </div>
+             <div className="text-center md:border-l border-white/10">
+                <div className="text-5xl font-cormorant text-white mb-4">$2.5<span className="text-white/40">B</span></div>
+                <div className="text-[10px] uppercase tracking-[0.2em] text-white/40">Объем сделок</div>
+             </div>
+             <div className="text-center md:border-l border-white/10">
+                <div className="text-5xl font-cormorant text-white mb-4">400<span className="text-white/40">+</span></div>
+                <div className="text-[10px] uppercase tracking-[0.2em] text-white/40">Активных клиентов</div>
+             </div>
+             <div className="text-center md:border-l border-white/10">
+                <div className="text-5xl font-cormorant text-white mb-4">15<span className="text-white/40">y</span></div>
+                <div className="text-[10px] uppercase tracking-[0.2em] text-white/40">Опыта на рынке</div>
+             </div>
           </div>
         </div>
       </section>
 
-      {/* About & Footer */}
-      <footer id="about" className="pt-24 pb-12 px-6 md:px-12 bg-onyx-950 border-t border-white/10">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 mb-16">
-          <div>
-            <div className="text-3xl font-serif text-white tracking-widest uppercase mb-8">
+      {/* Trust */}
+      <section id="trust" className="py-32 px-6 md:px-12 bg-[#080808] border-t border-white/5">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-16">
+          <div className="md:w-1/2">
+             <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Принципы</div>
+             <h2 className="text-4xl md:text-5xl font-cormorant text-white tracking-wide mb-8">Безопасность и<br/>конфиденциальность</h2>
+             <p className="text-white/60 font-light leading-relaxed mb-8">Мы понимаем, что в сделках с премиальной недвижимостью публичность не всегда уместна. Наши стандарты защиты информации соответствуют швейцарскому банковскому уровню.</p>
+             <ul className="space-y-4">
+                <li className="flex items-start gap-4">
+                   <div className="w-1.5 h-1.5 bg-white/40 rounded-full mt-2 shrink-0"></div>
+                   <p className="text-white/80 font-light text-sm">Полная анонимность клиента на всех этапах переговоров.</p>
+                </li>
+                <li className="flex items-start gap-4">
+                   <div className="w-1.5 h-1.5 bg-white/40 rounded-full mt-2 shrink-0"></div>
+                   <p className="text-white/80 font-light text-sm">Подписание NDA перед началом любого сотрудничества.</p>
+                </li>
+                <li className="flex items-start gap-4">
+                   <div className="w-1.5 h-1.5 bg-white/40 rounded-full mt-2 shrink-0"></div>
+                   <p className="text-white/80 font-light text-sm">Сопровождение сделки доверенными юристами и Family Офисами.</p>
+                </li>
+             </ul>
+          </div>
+          <div className="md:w-1/2 bg-[#111] p-12 border border-white/5">
+             <div className="text-2xl font-cormorant text-white mb-6">«Идеальная сделка — это та, о которой не пишут в газетах, но которая приносит максимальную выгоду ее участникам.»</div>
+             <div className="text-[10px] uppercase tracking-[0.2em] text-white/40">— Управляющий комитет Vanguard</div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA / Big Form */}
+      <section className="py-32 px-6 md:px-12 bg-[#080808] border-t border-white/5 pb-0">
+         <div className="max-w-5xl mx-auto bg-[#111] p-12 md:p-20 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-[100px]"></div>
+            <div className="relative z-10 grid md:grid-cols-2 gap-16">
+               <div>
+                  <h2 className="text-3xl md:text-5xl font-cormorant text-white mb-6">Поручить задачу экспертам</h2>
+                  <p className="text-white/50 font-light text-sm mb-10">Оставьте запрос, и управляющий партнер свяжется с вами в течение часа для обсуждения деталей.</p>
+                  <p className="text-white/30 text-[10px] uppercase tracking-widest">Строгая конфиденциальность гарантирована.</p>
+               </div>
+               <form className="space-y-6">
+                  <input type="text" placeholder="Имя" className="w-full bg-transparent border-b border-white/20 pb-4 text-white placeholder:text-white/30 focus:outline-none focus:border-white font-light text-sm transition-colors" />
+                  <input type="tel" placeholder="Телефон" className="w-full bg-transparent border-b border-white/20 pb-4 text-white placeholder:text-white/30 focus:outline-none focus:border-white font-light text-sm transition-colors" />
+                  <input type="email" placeholder="Email" className="w-full bg-transparent border-b border-white/20 pb-4 text-white placeholder:text-white/30 focus:outline-none focus:border-white font-light text-sm transition-colors" />
+                  <div className="pt-6">
+                     <button type="button" className="w-full border border-white/30 text-white py-5 hover:bg-white hover:text-black transition-colors text-[10px] uppercase tracking-[0.2em]">
+                        Отправить запрос
+                     </button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="pt-32 pb-12 px-6 md:px-12 bg-[#080808]">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-16 mb-24 border-t border-white/5 pt-16">
+          <div className="md:col-span-2">
+            <div className="text-2xl font-cormorant text-white tracking-[0.2em] uppercase mb-8">
               Vanguard <span className="opacity-50">Estates</span>
             </div>
-            <p className="text-white/60 font-light leading-relaxed max-w-md mb-8">
-              Vanguard Estates — это бутик элитной недвижимости, где конфиденциальность и индивидуальный подход стоят на первом месте. Мы находим уникальные объекты для тех, кто не согласен на компромиссы.
+            <p className="text-white/40 font-light leading-relaxed max-w-sm mb-12 text-sm">
+              Закрытый клуб элитной недвижимости. <br/>Только исключительные объекты.
             </p>
-            <div className="grid grid-cols-2 gap-8 text-white/80">
-              <div>
-                <div className="text-3xl font-serif text-white mb-2">15+</div>
-                <div className="text-xs uppercase tracking-widest text-white/50">Лет опыта</div>
-              </div>
-              <div>
-                <div className="text-3xl font-serif text-white mb-2">$2B+</div>
-                <div className="text-xs uppercase tracking-widest text-white/50">Объем сделок</div>
-              </div>
+            <div className="flex gap-6">
+               <div className="w-10 h-10 border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:border-white/30 transition-colors cursor-pointer text-xs">IG</div>
+               <div className="w-10 h-10 border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:border-white/30 transition-colors cursor-pointer text-xs">TG</div>
+               <div className="w-10 h-10 border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:border-white/30 transition-colors cursor-pointer text-xs">WA</div>
             </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-8">
-            <div>
-              <h4 className="text-white uppercase tracking-widest text-xs mb-6">Офис</h4>
-              <p className="text-white/60 font-light text-sm mb-4">г. Москва, Пресненская наб., 12</p>
-              <p className="text-white/60 font-light text-sm mb-4">+7 (495) 999-00-00</p>
-              <p className="text-white/60 font-light text-sm">concierge@vanguard-estates.ru</p>
+          <div>
+            <h4 className="text-white uppercase tracking-[0.2em] text-[10px] mb-8 opacity-50">Контакты</h4>
+            <div className="space-y-4 font-light text-sm text-white/80">
+              <p>+7 (495) 100-20-30</p>
+              <p>concierge@vanguard.ru</p>
+              <p className="text-white/50 pt-2">Москва, Пресненская наб., 12<br/>Башня Федерация, 90 этаж</p>
             </div>
-            <div>
-              <h4 className="text-white uppercase tracking-widest text-xs mb-6">Навигация</h4>
-              <ul className="space-y-4 font-light text-sm text-white/60">
-                <li><a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Все объекты</a></li>
-                <li><a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Аналитика рынка</a></li>
-                <li><a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Оценить объект</a></li>
-                <li><a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Карьера</a></li>
-              </ul>
-            </div>
+          </div>
+          
+          <div>
+            <h4 className="text-white uppercase tracking-[0.2em] text-[10px] mb-8 opacity-50">Навигация</h4>
+            <ul className="space-y-4 font-light text-sm text-white/60">
+              <li><a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Каталог объектов</a></li>
+              <li><a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Услуги брокериджа</a></li>
+              <li><a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Аналитика рынка</a></li>
+              <li><a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Оценить актив</a></li>
+            </ul>
           </div>
         </div>
         
-        <div className="max-w-7xl mx-auto border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-white/30 uppercase tracking-widest gap-4">
+        <div className="max-w-7xl mx-auto border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-white/30 uppercase tracking-[0.2em] gap-4">
           <div>© 2026 Vanguard Estates. Все права защищены.</div>
           <div className="flex gap-8">
             <a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Конфиденциальность</a>
-            <a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Условия использования</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Оферта</a>
           </div>
         </div>
       </footer>
