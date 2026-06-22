@@ -30,26 +30,23 @@ export default function Hero() {
             </h1>
             
             <p className="text-xl md:text-2xl text-neutral-300 font-sans max-w-2xl mb-8 leading-relaxed font-light mt-2 text-left hyphens-auto">
-              Без затрат на разработку. Домен, поддержка и обновления включены.
+              Создаем сайты, которые помогают бизнесу получать больше клиентов
             </p>
 
             <ul className="space-y-4 mb-10 flex-grow font-sans">
                 <li className="flex gap-4 text-base md:text-lg font-medium text-neutral-200 transition-colors items-center text-left">
-                  <div className="w-2 h-2 rounded-none bg-blue-400 shadow-[0_0_10px_rgba(147,197,253,0.3)] shrink-0" /> Разработка — 0 ₽
+                  <span className="text-blue-500 font-bold shrink-0 text-xl">✓</span> Дизайн под вашу нишу
                 </li>
                 <li className="flex gap-4 text-base md:text-lg font-medium text-neutral-200 transition-colors items-center text-left">
-                  <div className="w-2 h-2 rounded-none bg-blue-400 shadow-[0_0_10px_rgba(147,197,253,0.3)] shrink-0" /> Запуск от 7 дней
+                  <span className="text-blue-500 font-bold shrink-0 text-xl">✓</span> Разработка под ключ
                 </li>
                 <li className="flex gap-4 text-base md:text-lg font-medium text-neutral-200 transition-colors items-center text-left">
-                  <div className="w-2 h-2 rounded-none bg-blue-400 shadow-[0_0_10px_rgba(147,197,253,0.3)] shrink-0" /> Домен в подарок
-                </li>
-                <li className="flex gap-4 text-base md:text-lg font-medium text-neutral-200 transition-colors items-center text-left">
-                  <div className="w-2 h-2 rounded-none bg-blue-400 shadow-[0_0_10px_rgba(147,197,253,0.3)] shrink-0" /> Поддержка включена навсегда
+                  <span className="text-blue-500 font-bold shrink-0 text-xl">✓</span> Поддержка после запуска
                 </li>
             </ul>
             
             <div className="flex flex-col sm:flex-row gap-6 pb-20">
-              <Button onClick={() => setFormOpen(true)}>Заполнить анкету</Button>
+              <Button onClick={() => setFormOpen(true)}>Получить бесплатную консультацию</Button>
               <Button variant="outline" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth'})}>Наши кейсы</Button>
             </div>
           </motion.div>

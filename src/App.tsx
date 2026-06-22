@@ -66,11 +66,11 @@ export default function App() {
       <Navbar />
       <Hero />
       <Stats />
+      <Templates />
       <WhyWeb />
       <Problem />
       <ComparisonTable />
       <Romi />
-      <Templates />
       <Stages />
       <Services />
       <Reviews />

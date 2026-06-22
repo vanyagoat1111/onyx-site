@@ -64,17 +64,9 @@ export default function Templates() {
   return (
     <div id="templates" className="pb-16 lg:pb-24 bg-onyx-950 relative scroll-mt-20">
       <div className="absolute inset-0 bg-gradient-to-b from-onyx-900 via-transparent to-onyx-900 pointer-events-none" />
-      <Container className="!pt-24 lg:!pt-32 relative z-10 w-full overflow-hidden">
-        <div className="flex flex-col gap-3 mb-10 w-full mt-12 md:mt-6">
-          <SectionTitle className="text-left w-[129.22px] h-[74px] pl-[1px] pr-0 pb-0 mt-[-61px] mb-[13px]">Наши<br/>Кейсы</SectionTitle>
-          <div className="max-w-3xl space-y-3">
-            <p className="text-lg font-sans text-neutral-300 font-light leading-snug">
-              Детальный разбор наших работ: от реальной проблемы бизнеса до измеримого результата.
-            </p>
-            <p className="text-base font-sans text-neutral-400 leading-snug mb-0 pl-[2px]">
-              Ниже предоставлены наши работы с клиентами из разных сфер. Мы покажем, как правильный подход к структуре и дизайну превращает обычных посетителей в клиентов. Изучите проекты и убедитесь в эффективности нашей модели.
-            </p>
-          </div>
+      <Container className="!pt-12 lg:!pt-16 relative z-10 w-full overflow-hidden">
+        <div className="flex flex-col mb-12 lg:mb-16 w-full">
+          <SectionTitle className="text-left max-w-4xl text-white !mb-0">КЕЙСЫ: КАК МЫ РЕШИЛИ ЗАДАЧИ БИЗНЕСА</SectionTitle>
         </div>
 
         <div className="space-y-32">
