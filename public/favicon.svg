@@ -1,4 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="20" fill="#0f172a" />
-  <path d="M35 30L20 50l15 20M65 30l15 20-15 20M55 20L45 80" fill="none" stroke="#3b82f6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="grad1" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#60a5fa" />
+      <stop offset="100%" stop-color="#d946ef" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#7dd3fc" />
+      <stop offset="100%" stop-color="#4f46e5" />
+    </linearGradient>
+    <linearGradient id="gradBack" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#3730a3" />
+    </linearGradient>
+    <linearGradient id="gradBack2" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Back folds -->
+  <path d="M 40 20 L 55 80" stroke="url(#gradBack)" stroke-width="15" stroke-linecap="round" />
+  <path d="M 68 35 L 75 60" stroke="url(#gradBack2)" stroke-width="15" stroke-linecap="round" />
+  
+  <!-- Front folds -->
+  <path d="M 25 80 L 40 20" stroke="url(#grad1)" stroke-width="15" stroke-linecap="round" />
+  <path d="M 55 80 L 68 35" stroke="url(#grad2)" stroke-width="15" stroke-linecap="round" />
 </svg>
