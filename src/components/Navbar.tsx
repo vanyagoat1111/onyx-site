@@ -20,7 +20,7 @@ export default function Navbar() {
     { name: 'Тарифы и услуги', href: '#services' },
     { name: 'Отзывы', href: '#reviews' },
     { name: 'FAQ', href: '#faq' },
-    { name: 'Контакты', href: '#contact-form' },
+    { name: 'Контакты', href: '#contacts' },
     { name: 'Партнерам', href: '#partner' },
   ];
 
