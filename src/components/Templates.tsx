@@ -98,7 +98,6 @@ export default function Templates() {
                   
                   <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
                      <div>
-                        <div className="text-xs font-mono text-blue-500 mb-2 uppercase tracking-[0.2em] drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]">{tpl.category}</div>
                         <h3 className="text-2xl font-black uppercase text-white tracking-tight drop-shadow-lg ">{tpl.name}</h3>
                      </div>
                      <div className="w-12 h-12 rounded-none border border-blue-500/30 flex items-center justify-center bg-onyx-900/80 text-blue-500 backdrop-blur-md group-hover:bg-blue-600 group-hover:text-onyx-950 group-hover:border-blue-500 transition-all shadow-[0_0_15px_rgba(59,130,246,0)] group-hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] clip-diagonal-inverted">
