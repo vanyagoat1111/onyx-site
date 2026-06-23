@@ -1,5 +1,5 @@
 import React from 'react';
-import DemoCloseButton from '../components/DemoCloseButton';
+
 
 export default function Logistics() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -12,7 +12,7 @@ export default function Logistics() {
 
   return (
     <div className="min-h-screen bg-onyx-950 text-white font-sans selection:bg-blue-600 selection:text-white w-full overflow-x-hidden">
-      <DemoCloseButton />
+      
       
       {/* HEADER */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-onyx-950/80 backdrop-blur-md border-b border-white/5">

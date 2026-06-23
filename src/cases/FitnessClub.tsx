@@ -1,5 +1,5 @@
 import React from 'react';
-import DemoCloseButton from '../components/DemoCloseButton';
+
 
 export default function FitnessClub() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -12,7 +12,7 @@ export default function FitnessClub() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white font-sport selection:bg-red-500 selection:text-white">
-      <DemoCloseButton />
+      
       {/* Header */}
       <header className="fixed top-0 w-full z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-red-900/30 py-4 px-6 md:px-12 flex justify-between items-center transition-all">
         <div className="text-3xl font-black italic tracking-tight uppercase text-white">

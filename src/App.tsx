@@ -19,6 +19,7 @@ import FAQ from './components/FAQ';
 import FormSection from './components/FormSection';
 import Partner from './components/Partner';
 import Footer from './components/Footer';
+import CaseEditorWrapper from './components/CaseEditorWrapper';
 
 // Cases
 import DentalClinic from './cases/DentalClinic';
@@ -55,11 +56,11 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  if (currentRoute === '#case/dental') return <DentalClinic />;
-  if (currentRoute === '#case/fitness') return <FitnessClub />;
-  if (currentRoute === '#case/logistics') return <Logistics />;
-  if (currentRoute === '#case/lawfirm') return <LawFirm />;
-  if (currentRoute === '#case/realestate') return <RealEstate />;
+  if (currentRoute === '#case/dental') return <CaseEditorWrapper><DentalClinic /></CaseEditorWrapper>;
+  if (currentRoute === '#case/fitness') return <CaseEditorWrapper><FitnessClub /></CaseEditorWrapper>;
+  if (currentRoute === '#case/logistics') return <CaseEditorWrapper><Logistics /></CaseEditorWrapper>;
+  if (currentRoute === '#case/lawfirm') return <CaseEditorWrapper><LawFirm /></CaseEditorWrapper>;
+  if (currentRoute === '#case/realestate') return <CaseEditorWrapper><RealEstate /></CaseEditorWrapper>;
 
   return (
     <main className="bg-onyx-950 text-white font-sans selection:bg-blue-600 selection:text-onyx-950 w-full overflow-x-hidden">

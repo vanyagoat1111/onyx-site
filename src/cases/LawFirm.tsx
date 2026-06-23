@@ -1,5 +1,5 @@
 import React from 'react';
-import DemoCloseButton from '../components/DemoCloseButton';
+
 
 export default function LawFirm() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -12,7 +12,7 @@ export default function LawFirm() {
 
   return (
     <div className="min-h-screen bg-[#0a1023] text-slate-300 font-serif selection:bg-[#c9a263] selection:text-white">
-      <DemoCloseButton />
+      
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a1023]/95 backdrop-blur border-b border-[#2a365c] py-5 px-6 md:px-12 flex justify-between items-center">
         <div className="text-xl md:text-2xl font-bold tracking-widest text-[#c9a263] uppercase">

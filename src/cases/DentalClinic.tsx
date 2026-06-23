@@ -1,5 +1,5 @@
 import React from 'react';
-import DemoCloseButton from '../components/DemoCloseButton';
+
 
 export default function DentalClinic() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -12,7 +12,7 @@ export default function DentalClinic() {
 
   return (
     <div className="min-h-screen bg-white text-slate-800 font-outfit">
-      <DemoCloseButton />
+      
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-sky-100 py-4 px-6 md:px-12 flex justify-between items-center">
         <div className="text-2xl font-serif font-bold text-sky-900 tracking-tight">Dental<span className="text-sky-500">Art</span></div>

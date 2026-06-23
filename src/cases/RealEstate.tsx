@@ -1,5 +1,5 @@
 import React from 'react';
-import DemoCloseButton from '../components/DemoCloseButton';
+
 
 export default function RealEstate() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -12,7 +12,7 @@ export default function RealEstate() {
 
   return (
     <div className="min-h-screen bg-[#080808] text-neutral-300 font-sans selection:bg-white/20 selection:text-white">
-      <DemoCloseButton />
+      
       {/* Header */}
       <header className="absolute top-0 w-full z-50 px-6 md:px-12 py-8 flex justify-between items-center border-b border-white/5">
         <div className="text-2xl font-cormorant text-white tracking-[0.2em] uppercase">
