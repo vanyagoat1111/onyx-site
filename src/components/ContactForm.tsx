@@ -53,8 +53,7 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
       const responseData = await response.json();
       if (!response.ok) {
         console.error("Ошибка Telegram API:", responseData.error);
-        // Не выбрасываем исключение, чтобы показать пользователю, что заявка условно отправлена 
-        // даже если токен еще не настроен
+        alert("Ошибка отправки в Telegram: " + (responseData.error || "Неизвестная ошибка"));
       }
     } catch (error) {
       console.error("Ошибка при отправке", error);
