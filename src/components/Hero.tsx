@@ -24,14 +24,15 @@ export default function Hero() {
             <p className="text-sm sm:text-base md:text-lg text-blue-400 font-sans mb-4 uppercase tracking-wider font-bold text-left">
               Профессиональный сайт по подписке от 2990 ₽ в месяц
             </p>
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.2] sm:leading-[1.1] text-left font-heading font-black uppercase tracking-tight mb-6 text-white break-words">
-              Помогаем бизнесу получать клиентов<br className="hidden lg:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]"> из интернета</span>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl leading-[1.2] sm:leading-[1.1] text-left font-heading font-black uppercase tracking-tight mb-6 text-white break-words">
+              Создаем сайты, которые помогают бизнесу получать <br className="hidden lg:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]">больше клиентов</span>
             </h1>
             
-            <p className="text-xl md:text-2xl text-neutral-300 font-sans max-w-2xl mb-8 leading-relaxed font-light mt-2 text-left hyphens-auto">
-              Создаем сайты, которые помогают бизнесу получать больше клиентов
-            </p>
+            <div className="text-xl md:text-2xl text-neutral-300 font-sans max-w-2xl mb-8 leading-relaxed font-light mt-2 text-left hyphens-auto">
+              <p>Без затрат на разработку.</p>
+              <p className="mt-2 text-lg md:text-xl text-neutral-400">Домен, поддержка и обновления включены.</p>
+            </div>
 
             <ul className="space-y-4 mb-10 flex-grow font-sans">
                 <li className="flex gap-4 text-base md:text-lg font-medium text-neutral-200 transition-colors items-center text-left">
@@ -45,9 +46,9 @@ export default function Hero() {
                 </li>
             </ul>
             
-            <div className="flex flex-col sm:flex-row gap-6 pb-20">
-              <Button onClick={() => setFormOpen(true)}>Получить бесплатную консультацию</Button>
-              <Button variant="outline" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth'})}>Наши кейсы</Button>
+            <div className="flex flex-col sm:flex-row gap-6 items-stretch pb-20 w-full max-w-2xl">
+              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px]" onClick={() => setFormOpen(true)}>Получить бесплатную консультацию</Button>
+              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px]" variant="outline" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth'})}>Наши кейсы</Button>
             </div>
           </motion.div>
 
