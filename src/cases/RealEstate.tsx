@@ -33,7 +33,7 @@ export default function RealEstate() {
       {/* Hero */}
       <section className="relative min-h-screen md:h-[90vh] md:min-h-[700px] flex items-center justify-center pt-32 pb-16">
         <div className="absolute inset-0 z-0">
-          <img src="/case5.1.jpg?v=6" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+          <img src="./case5.1.jpg?v=6" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
           <div className="absolute inset-0 bg-black/50 z-10"></div>
           {/* Smooth gradient transition to dark background */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-[#0a0a0a] z-10"></div>
@@ -95,7 +95,7 @@ export default function RealEstate() {
                 <div className="absolute top-6 left-6 z-10 bg-black/60 backdrop-blur-md px-4 py-2 text-white text-[10px] uppercase tracking-widest border border-white/10">
                   Новое предложение
                 </div>
-                <img src="/building1.jpg?v=4" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100" referrerPolicy="no-referrer" />
+                <img src="./building1.jpg?v=4" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100" referrerPolicy="no-referrer" />
               </div>
               <div>
                 <h3 className="text-3xl font-cormorant text-white mb-3 group-hover:text-white/80 transition-colors">Пентхаус с панорамной террасой</h3>
@@ -112,7 +112,7 @@ export default function RealEstate() {
             {/* Property 2 */}
             <div className="group cursor-pointer md:mt-24">
               <div className="relative aspect-[4/3] overflow-hidden mb-8">
-                <img src="/building2.jpg?v=4" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100" referrerPolicy="no-referrer" />
+                <img src="./building2.jpg?v=4" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100" referrerPolicy="no-referrer" />
               </div>
               <div>
                 <h3 className="text-3xl font-cormorant text-white mb-3 group-hover:text-white/80 transition-colors">Резиденция у залива</h3>

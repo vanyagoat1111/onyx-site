@@ -8,9 +8,6 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden bg-onyx-900  mask-image-b group">
-      <div className="absolute right-0 top-0 w-full md:w-1/2 h-full opacity-60 mix-blend-screen pointer-events-none" style={{ maskImage: "radial-gradient(circle at center, black 30%, transparent 70%)", WebkitMaskImage: "radial-gradient(circle at center, black 30%, transparent 70%)" }}>
-        <video src="/blob.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover" />
-      </div>
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/40 via-onyx-900/90 to-onyx-950 pointer-events-none" />
       
       <Container className="relative z-10 pt-12">

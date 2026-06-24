@@ -30,7 +30,7 @@ export default function Navbar() {
         <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(59,130,246,0.05)_50%,transparent_100%)] pointer-events-none" />
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center relative z-10">
           <a href="#" className="flex items-center gap-3 group">
-            <img src="/favicon.svg" alt="ONYX Logo" className="w-10 h-10 group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(59,130,246,0.4)]" referrerPolicy="no-referrer" />
+            <img src="./favicon.svg" alt="ONYX Logo" className="w-10 h-10 group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(59,130,246,0.4)]" referrerPolicy="no-referrer" />
             <span className="text-3xl font-black tracking-tight uppercase text-blue-500 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)] group-hover:drop-shadow-[0_0_20px_rgba(59,130,246,0.5)] group-hover:text-white transition-all">
               ONYX
             </span>

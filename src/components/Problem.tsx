@@ -7,16 +7,24 @@ export default function Problem() {
     <Container id="problem" className="bg-onyx-900 border-y border-onyx-700 relative  overflow-hidden">
       <div className="absolute top-1/2 left-0 w-1/4 h-1/2 bg-[radial-gradient(circle_at_left,_var(--tw-gradient-stops))] from-blue-600/20 via-transparent to-transparent pointer-events-none -translate-y-1/2" />
       <div className="absolute top-0 right-0 w-1/3 h-full bg-[radial-gradient(circle_at_right,_var(--tw-gradient-stops))] from-blue-400/10 via-transparent to-transparent pointer-events-none" />
-      <div className="grid lg:grid-cols-2 gap-16 items-center relative z-10 p-8 border-l border-r border-blue-500/30 shadow-[inset_0_0_50px_rgba(59,130,246,0.05)] bg-onyx-800/80 backdrop-blur-md">
-        <div className="relative">
+      <div className="grid lg:grid-cols-2 gap-16 items-center relative z-10 p-8 border-l border-r border-blue-500/30 shadow-[inset_0_0_50px_rgba(59,130,246,0.05)] bg-onyx-800/80 backdrop-blur-md overflow-hidden">
+        <video 
+          src="./blob.mp4" 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute inset-0 w-full h-[120%] -top-[10%] object-cover mix-blend-screen opacity-50 pointer-events-none"
+          style={{ maskImage: "radial-gradient(ellipse at center, black 40%, transparent 70%)", WebkitMaskImage: "radial-gradient(ellipse at center, black 40%, transparent 70%)" }}
+        />
+        <div className="relative z-10">
           <div className="absolute -inset-8 bg-gradient-to-r from-onyx-900 to-transparent z-10 pointer-events-none hidden lg:block" />
-          <img src="https://loremflickr.com/1200/800/abstract?lock=1" alt="Abstract structure" className="absolute inset-0 w-full h-full object-cover hue-rotate-[0deg] opacity-20 clip-diagonal mix-blend-overlay" referrerPolicy="no-referrer" />
           <div className="relative z-20">
             <SectionTitle subtitle="Определение проблемы">Суровая<br/>статистика</SectionTitle>
           </div>
         </div>
         
-        <div className="space-y-8">
+        <div className="space-y-8 relative z-10">
           <motion.div 
             initial={{ opacity: 1, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
