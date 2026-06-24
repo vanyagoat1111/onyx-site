@@ -43,7 +43,7 @@ export default function Logistics() {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-onyx-950 via-onyx-950/90 to-transparent z-10" />
           <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-transparent to-transparent z-10" />
-          <img src="/" alt="Logistics background" className="w-full h-full object-cover object-center opacity-40 grayscale-[20%]" />
+          <img src="/case3.1.jpg?v=6" className="w-full h-full object-cover object-center opacity-40 grayscale-[20%]" referrerPolicy="no-referrer" />
         </div>
         
         <div className="max-w-[1400px] mx-auto w-full relative z-20">
@@ -190,7 +190,7 @@ export default function Logistics() {
              <div className="relative order-2 lg:order-1 pt-12 lg:pt-0">
                <div className="absolute inset-x-0 -bottom-12 top-1/4 bg-blue-600/10 blur-[80px] -z-10 rounded-full" />
                <div className="relative border-2 border-onyx-700 p-3 bg-onyx-800 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-                 <img src="/" alt="Fleet" className="w-full h-auto object-cover grayscale-[10%]" />
+                 <img src="https://loremflickr.com/1200/800/fleet?lock=6" className="w-full h-auto object-cover grayscale-[10%]" referrerPolicy="no-referrer" />
                </div>
                
                {/* Overlay Card */}

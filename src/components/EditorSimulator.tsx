@@ -26,7 +26,7 @@ const FurnitureMock = () => (
          {[1,2,3,4,5,6].map(i => (
            <div key={i} className="space-y-4 group cursor-pointer">
              <div className="overflow-hidden clip-diagonal relative">
-               <img src={} alt="Chair" className="bg-neutral-200 aspect-square object-cover w-full grayscale contrast-125 group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
+               <img src={`https://loremflickr.com/400/400/chair?lock=${i}`} alt="Chair" className="bg-neutral-200 aspect-square object-cover w-full grayscale contrast-125 group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
                <div className="absolute top-4 left-4 bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest">New</div>
              </div>
              <div className="flex justify-between items-end border-b border-neutral-200 pb-4">
@@ -161,7 +161,7 @@ const ConsultingMock = () => (
      
      <div className="flex-grow grid grid-cols-1 lg:grid-cols-2 border-2 border-violet-950/10 mb-12">
         <div className="p-12 md:p-24 flex flex-col justify-center lg:border-r-2 border-violet-950/10 relative overflow-hidden">
-           <img src="https://loremflickr.com/1200/800/business,meeting?lock=15" alt="Consulting" className="absolute inset-0 w-full h-full object-cover grayscale opacity-5 mix-blend-multiply pointer-events-none" referrerPolicy="no-referrer"/>
+           <img src="https://loremflickr.com/1200/800/business,meeting?lock=15" alt="Consulting" className="absolute inset-0 w-full h-full object-cover grayscale opacity-5 mix-blend-multiply pointer-events-none" referrerPolicy="no-referrer" />
            <div className="relative z-10">
              <div className="text-violet-700 font-bold uppercase tracking-widest text-xs mb-8">Стратегическое партнерство</div>
              <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tight leading-[0.9] mb-8 text-violet-950">Решения для<br/>Лидеров<br/>Рынка</h1>

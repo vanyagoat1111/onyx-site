@@ -12,7 +12,7 @@ const cases = [
     solutionList: ['доверие', 'врачей', 'услуги', 'запись онлайн'],
     done: 'UX-структура под запись пациента, премиальный дизайн, адаптация под мобильные устройства, формы записи.',
     result: 'До 40% рост конверсии, увеличение записей с рекламы.',
-    previewImg: "/main1.jpg"
+    previewImg: "/main1.jpg?v=5"
   },
   { 
     name: 'Фитнес-Клуб', 
@@ -23,7 +23,7 @@ const cases = [
     solutionList: ['абонементы', 'тренеры', 'расписание', 'акции'],
     done: 'Продающая структура, блоки мотивации, быстрые заявки.',
     result: 'Рост вовлечённости и заявок.',
-    previewImg: "/main2.jpg"
+    previewImg: "/main2.jpg?v=5"
   },
   { 
     name: 'Логистика / Грузоперевозки', 
@@ -34,7 +34,7 @@ const cases = [
     solutionList: [],
     done: 'Калькулятор заявки, формы расчёта доставки, блок доверия (склады, техника).',
     result: 'Упрощение получения заявок.',
-    previewImg: "/main3.jpg"
+    previewImg: "/main3.jpg?v=5"
   },
   { 
     name: 'Юридическая Компания', 
@@ -45,7 +45,7 @@ const cases = [
     solutionList: ['кейсы', 'специалисты', 'консультация 24/7'],
     done: 'Проработка структуры, акцент на экспертность, удобные формы связи.',
     result: 'Рост обращений через форму.',
-    previewImg: "/main4.jpg"
+    previewImg: "/main4.jpg?v=5"
   },
   { 
     name: 'Недвижимость (Премиум)', 
@@ -56,7 +56,7 @@ const cases = [
     solutionList: [],
     done: 'Карточки объектов, фильтрация, быстрый контакт.',
     result: 'Интуитивный поиск, увеличение целевых обращений.',
-    previewImg: "/main5.jpg"
+    previewImg: "/main5.jpg?v=5"
   }
 ];
 
@@ -81,11 +81,9 @@ export default function Templates() {
                     <div className="w-2.5 h-2.5 rounded-none bg-blue-600 shadow-[0_0_8px_rgba(59,130,246,0.5)]"></div>
                     <div className="w-2.5 h-2.5 rounded-none bg-neutral-600"></div>
                   </div>
-                  <img 
-                    src={tpl.previewImg} 
+                  <img src={tpl.previewImg} 
                     alt={tpl.name}
-                    className="w-full h-auto hue-rotate-[0deg] opacity-60 mix-blend-screen group-hover:mix-blend-normal group-hover:opacity-100 group-hover:hue-rotate-0 transition-all duration-700 group-hover:scale-105"
-                  />
+                    className="w-full h-auto hue-rotate-[0deg] opacity-60 mix-blend-screen group-hover:mix-blend-normal group-hover:opacity-100 group-hover:hue-rotate-0 transition-all duration-700 group-hover:scale-105" referrerPolicy="no-referrer" />
                   <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-onyx-950/30 to-transparent"></div>
                   
                   <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">

@@ -24,7 +24,7 @@ export default function ComparisonTable() {
           
           {/* Card 1: Traditional Studio */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
+            initial={{ opacity: 1, y: 20 }} 
             whileInView={{ opacity: 1, y: 0 }} 
             viewport={{ once: true }} 
             className="bg-onyx-950 border border-onyx-700 p-6 sm:p-10 clip-diagonal relative group"
@@ -56,7 +56,7 @@ export default function ComparisonTable() {
 
           {/* Card 2: ONYX Model */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
+            initial={{ opacity: 1, y: 20 }} 
             whileInView={{ opacity: 1, y: 0 }} 
             viewport={{ once: true }} 
             transition={{ delay: 0.1 }}

@@ -24,7 +24,7 @@ html, body {
   background-color: var(--color-onyx-900);
   color: var(--color-onyx-accent);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
 }
 
