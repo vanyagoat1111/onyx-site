@@ -1,3 +1,4 @@
+import case3_1 from '../assets/case3.1.jpg';
 import React from 'react';
 
 
@@ -43,7 +44,7 @@ export default function Logistics() {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-onyx-950 via-onyx-950/90 to-transparent z-10" />
           <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-transparent to-transparent z-10" />
-          <img src="./case3.1.jpg?v=6" className="w-full h-full object-cover object-center opacity-40 grayscale-[20%]" referrerPolicy="no-referrer" />
+          <img src={case3_1} className="w-full h-full object-cover object-center opacity-40 grayscale-[20%]" referrerPolicy="no-referrer" />
         </div>
         
         <div className="max-w-[1400px] mx-auto w-full relative z-20">

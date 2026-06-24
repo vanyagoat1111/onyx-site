@@ -1,3 +1,4 @@
+import blobVid from '../assets/blob.mp4';
 import React from 'react';
 import { Container, SectionTitle } from './ui';
 import { motion } from 'motion/react';
@@ -5,18 +6,18 @@ import { motion } from 'motion/react';
 export default function Problem() {
   return (
     <Container id="problem" className="bg-onyx-900 border-y border-onyx-700 relative  overflow-hidden">
+      <video 
+        src={blobVid} 
+        autoPlay 
+        loop 
+        muted 
+        playsInline 
+        className="absolute left-0 w-full h-[200%] top-[-50%] object-cover mix-blend-screen opacity-30 pointer-events-none"
+        style={{ maskImage: "radial-gradient(ellipse at center, black 30%, transparent 70%)", WebkitMaskImage: "radial-gradient(ellipse at center, black 30%, transparent 70%)" }}
+      />
       <div className="absolute top-1/2 left-0 w-1/4 h-1/2 bg-[radial-gradient(circle_at_left,_var(--tw-gradient-stops))] from-blue-600/20 via-transparent to-transparent pointer-events-none -translate-y-1/2" />
       <div className="absolute top-0 right-0 w-1/3 h-full bg-[radial-gradient(circle_at_right,_var(--tw-gradient-stops))] from-blue-400/10 via-transparent to-transparent pointer-events-none" />
       <div className="grid lg:grid-cols-2 gap-16 items-center relative z-10 p-8 border-l border-r border-blue-500/30 shadow-[inset_0_0_50px_rgba(59,130,246,0.05)] bg-onyx-800/80 backdrop-blur-md overflow-hidden">
-        <video 
-          src="./blob.mp4" 
-          autoPlay 
-          loop 
-          muted 
-          playsInline 
-          className="absolute inset-0 w-full h-[120%] -top-[10%] object-cover mix-blend-screen opacity-50 pointer-events-none"
-          style={{ maskImage: "radial-gradient(ellipse at center, black 40%, transparent 70%)", WebkitMaskImage: "radial-gradient(ellipse at center, black 40%, transparent 70%)" }}
-        />
         <div className="relative z-10">
           <div className="absolute -inset-8 bg-gradient-to-r from-onyx-900 to-transparent z-10 pointer-events-none hidden lg:block" />
           <div className="relative z-20">
@@ -35,7 +36,7 @@ export default function Problem() {
               90%
             </div>
             <div>
-              <h3 className="w-[110.09px] h-[126px] text-[13px] leading-[23px] text-left font-bold uppercase mb-4 tracking-wide border-b border-onyx-700 pb-4 text-blue-500">
+              <h3 className="text-[13px] leading-[23px] text-left font-bold uppercase mb-4 tracking-wide border-b border-onyx-700 pb-4 text-blue-500">
                 Бизнесов закрываются в первый год
               </h3>
               <p className="text-neutral-300 font-sans leading-relaxed text-sm md:text-base max-w-sm">

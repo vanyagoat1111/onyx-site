@@ -1,3 +1,8 @@
+import main1 from '../assets/main1.jpg';
+import main2 from '../assets/main2.jpg';
+import main3 from '../assets/main3.jpg';
+import main4 from '../assets/main4.jpg';
+import main5 from '../assets/main5.jpg';
 import React from 'react';
 import { Container, SectionTitle } from './ui';
 import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
@@ -12,7 +17,7 @@ const cases = [
     solutionList: ['доверие', 'врачей', 'услуги', 'запись онлайн'],
     done: 'UX-структура под запись пациента, премиальный дизайн, адаптация под мобильные устройства, формы записи.',
     result: 'До 40% рост конверсии, увеличение записей с рекламы.',
-    previewImg: "./main1.jpg?v=5"
+    previewImg: main1
   },
   { 
     name: 'Фитнес-Клуб', 
@@ -23,7 +28,7 @@ const cases = [
     solutionList: ['абонементы', 'тренеры', 'расписание', 'акции'],
     done: 'Продающая структура, блоки мотивации, быстрые заявки.',
     result: 'Рост вовлечённости и заявок.',
-    previewImg: "./main2.jpg?v=5"
+    previewImg: main2
   },
   { 
     name: 'Логистика / Грузоперевозки', 
@@ -34,7 +39,7 @@ const cases = [
     solutionList: [],
     done: 'Калькулятор заявки, формы расчёта доставки, блок доверия (склады, техника).',
     result: 'Упрощение получения заявок.',
-    previewImg: "./main3.jpg?v=5"
+    previewImg: main3
   },
   { 
     name: 'Юридическая Компания', 
@@ -45,7 +50,7 @@ const cases = [
     solutionList: ['кейсы', 'специалисты', 'консультация 24/7'],
     done: 'Проработка структуры, акцент на экспертность, удобные формы связи.',
     result: 'Рост обращений через форму.',
-    previewImg: "./main4.jpg?v=5"
+    previewImg: main4
   },
   { 
     name: 'Недвижимость (Премиум)', 
@@ -56,7 +61,7 @@ const cases = [
     solutionList: [],
     done: 'Карточки объектов, фильтрация, быстрый контакт.',
     result: 'Интуитивный поиск, увеличение целевых обращений.',
-    previewImg: "./main5.jpg?v=5"
+    previewImg: main5
   }
 ];
 

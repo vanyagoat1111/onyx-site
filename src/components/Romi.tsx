@@ -1,3 +1,4 @@
+import portfolioVid from '../assets/portfolio.mp4';
 import React from 'react';
 import { Container, SectionTitle } from './ui';
 
@@ -25,7 +26,7 @@ export default function Romi() {
           <div className="relative aspect-square md:aspect-video lg:aspect-square w-full clip-diagonal border border-onyx-700 overflow-hidden shadow-[0_0_50px_rgba(59,130,246,0.1)] group">
              <div className="absolute inset-0 bg-gradient-to-t from-onyx-950/80 via-transparent to-transparent z-10 pointer-events-none" />
              <video 
-                src="./portfolio.mp4" 
+                src={portfolioVid} 
                 autoPlay 
                 loop 
                 muted 
