@@ -1,4 +1,3 @@
-import case4_1 from '../assets/case4.1.jpg';
 import React from 'react';
 
 
@@ -34,7 +33,7 @@ export default function LawFirm() {
 
       {/* Hero */}
       <section className="relative min-h-[85vh] flex items-center pt-20 px-6 md:px-12 bg-[#0a1023] overflow-hidden">
-        <img src={case4_1} className="absolute inset-0 w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
+        <img src={import.meta.env.BASE_URL + 'case4.1.jpg'} className="absolute inset-0 w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a1023] via-[#0a1023]/60 to-transparent"></div>
         <div className="max-w-7xl mx-auto w-full relative z-10">
           <div className="max-w-2xl relative z-10">

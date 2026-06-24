@@ -1,4 +1,3 @@
-import case1_1 from '../assets/case1.1.jpg';
 import React from 'react';
 
 
@@ -60,7 +59,7 @@ export default function DentalClinic() {
           <div className="relative z-10 mt-8 md:mt-0">
             <div className="aspect-square rounded-full bg-sky-100 absolute -top-12 -right-12 w-full h-full -z-10 blur-3xl opacity-50"></div>
             <div className="relative h-[280px] sm:h-[350px] md:h-[500px] w-full bg-slate-200 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl">
-              <img src={case1_1} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+              <img src={import.meta.env.BASE_URL + 'case1.1.jpg'} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
             </div>
           </div>
         </div>
