@@ -10,7 +10,7 @@ export default function Problem() {
       <div className="grid lg:grid-cols-2 gap-16 items-center relative z-10 p-8 border-l border-r border-blue-500/30 shadow-[inset_0_0_50px_rgba(59,130,246,0.05)] bg-onyx-800/80 backdrop-blur-md">
         <div className="relative">
           <div className="absolute -inset-8 bg-gradient-to-r from-onyx-900 to-transparent z-10 pointer-events-none hidden lg:block" />
-          <img src="./case0.1.jpg" alt="Abstract structure" className="absolute inset-0 w-full h-full object-cover hue-rotate-[0deg] opacity-20 clip-diagonal mix-blend-overlay" referrerPolicy="no-referrer" />
+          <img src="/" alt="Abstract structure" className="absolute inset-0 w-full h-full object-cover hue-rotate-[0deg] opacity-20 clip-diagonal mix-blend-overlay" referrerPolicy="no-referrer" />
           <div className="relative z-20">
             <SectionTitle subtitle="Определение проблемы">Суровая<br/>статистика</SectionTitle>
           </div>

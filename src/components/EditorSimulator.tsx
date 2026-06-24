@@ -26,7 +26,7 @@ const FurnitureMock = () => (
          {[1,2,3,4,5,6].map(i => (
            <div key={i} className="space-y-4 group cursor-pointer">
              <div className="overflow-hidden clip-diagonal relative">
-               <img src={`./editor-chair-${i+1}.jpg`} alt="Chair" className="bg-neutral-200 aspect-square object-cover w-full grayscale contrast-125 group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
+               <img src={} alt="Chair" className="bg-neutral-200 aspect-square object-cover w-full grayscale contrast-125 group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
                <div className="absolute top-4 left-4 bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest">New</div>
              </div>
              <div className="flex justify-between items-end border-b border-neutral-200 pb-4">
