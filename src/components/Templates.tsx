@@ -1,3 +1,8 @@
+import main1 from '../assets/main1.png';
+import main2 from '../assets/main2.png';
+import main3 from '../assets/main3.png';
+import main4 from '../assets/main4.png';
+import main5 from '../assets/main5.png';
 import React from 'react';
 import { Container, SectionTitle } from './ui';
 import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
@@ -12,7 +17,7 @@ const cases = [
     solutionList: ['доверие', 'врачей', 'услуги', 'запись онлайн'],
     done: 'UX-структура под запись пациента, премиальный дизайн, адаптация под мобильные устройства, формы записи.',
     result: 'До 40% рост конверсии, увеличение записей с рекламы.',
-    previewImg: import.meta.env.BASE_URL + 'main1.jpg'
+    previewImg: main1
   },
   { 
     name: 'Фитнес-Клуб', 
@@ -23,7 +28,7 @@ const cases = [
     solutionList: ['абонементы', 'тренеры', 'расписание', 'акции'],
     done: 'Продающая структура, блоки мотивации, быстрые заявки.',
     result: 'Рост вовлечённости и заявок.',
-    previewImg: import.meta.env.BASE_URL + 'main2.jpg'
+    previewImg: main2
   },
   { 
     name: 'Логистика / Грузоперевозки', 
@@ -34,7 +39,7 @@ const cases = [
     solutionList: [],
     done: 'Калькулятор заявки, формы расчёта доставки, блок доверия (склады, техника).',
     result: 'Упрощение получения заявок.',
-    previewImg: import.meta.env.BASE_URL + 'main3.jpg'
+    previewImg: main3
   },
   { 
     name: 'Юридическая Компания', 
@@ -45,7 +50,7 @@ const cases = [
     solutionList: ['кейсы', 'специалисты', 'консультация 24/7'],
     done: 'Проработка структуры, акцент на экспертность, удобные формы связи.',
     result: 'Рост обращений через форму.',
-    previewImg: import.meta.env.BASE_URL + 'main4.jpg'
+    previewImg: main4
   },
   { 
     name: 'Недвижимость (Премиум)', 
@@ -56,7 +61,7 @@ const cases = [
     solutionList: [],
     done: 'Карточки объектов, фильтрация, быстрый контакт.',
     result: 'Интуитивный поиск, увеличение целевых обращений.',
-    previewImg: import.meta.env.BASE_URL + 'main5.jpg'
+    previewImg: main5
   }
 ];
 
@@ -83,7 +88,7 @@ export default function Templates() {
                   </div>
                   <img src={tpl.previewImg} 
                     alt={tpl.name}
-                    className="w-full h-auto hue-rotate-[0deg] opacity-60 mix-blend-screen group-hover:mix-blend-normal group-hover:opacity-100 group-hover:hue-rotate-0 transition-all duration-700 group-hover:scale-105" referrerPolicy="no-referrer" />
+                    className="w-full h-auto hue-rotate-[0deg] opacity-60 mix-blend-screen group-hover:mix-blend-normal group-hover:opacity-100 group-hover:hue-rotate-0 transition-all duration-700 group-hover:scale-105"  />
                   <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-onyx-950/30 to-transparent"></div>
                   
                   <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">

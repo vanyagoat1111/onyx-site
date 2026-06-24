@@ -1,3 +1,4 @@
+import blobVid from '../assets/blob.mp4';
 import React from 'react';
 import { Container, SectionTitle } from './ui';
 import { motion } from 'motion/react';
@@ -6,7 +7,7 @@ export default function Problem() {
   return (
     <Container id="problem" className="bg-onyx-900 border-y border-onyx-700 relative  overflow-hidden">
       <video 
-        src={import.meta.env.BASE_URL + 'blob.mp4'} 
+        src={blobVid} 
         autoPlay 
         loop 
         muted 
