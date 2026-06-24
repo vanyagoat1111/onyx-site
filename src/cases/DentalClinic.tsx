@@ -59,7 +59,7 @@ export default function DentalClinic() {
           <div className="relative z-10 mt-8 md:mt-0">
             <div className="aspect-square rounded-full bg-sky-100 absolute -top-12 -right-12 w-full h-full -z-10 blur-3xl opacity-50"></div>
             <div className="relative h-[280px] sm:h-[350px] md:h-[500px] w-full bg-slate-200 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl">
-              <img src="/case1.1.jpg" alt="Clinic Interior" className="w-full h-full object-cover" />
+              <img src="./case1.1.jpg" alt="Clinic Interior" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
