@@ -1,4 +1,4 @@
-import case4_1 from '../assets/case4.1.jpg';
+const case4_1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 import React from 'react';
 
 

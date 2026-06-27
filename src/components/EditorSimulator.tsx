@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Type, Palette, Monitor, Smartphone, Settings, MousePointer2, X } from 'lucide-react';
 
-import case1 from '../assets/case1.1.jpg';
-import case2 from '../assets/case2.1.jpg';
-import case3 from '../assets/case3.1.jpg';
-import case4 from '../assets/case4.1.jpg';
-import case5 from '../assets/case5.1.jpg';
-import building1 from '../assets/building1.jpg';
-import building2 from '../assets/building2.jpg';
+const case1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const case2 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const case3 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const case4 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const case5 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const building1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const building2 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 
 const FurnitureMock = () => (
   <div className="bg-white text-onyx-950 min-h-max flex flex-col font-sans">

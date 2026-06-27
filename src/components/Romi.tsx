@@ -1,4 +1,4 @@
-import portfolioVid from '../assets/portfolio.mp4';
+const portfolioVid = "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4";
 import React from 'react';
 import { Container, SectionTitle } from './ui';
 

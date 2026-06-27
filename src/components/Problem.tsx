@@ -1,4 +1,3 @@
-import blobVid from '../assets/blob.mp4';
 import React from 'react';
 import { Container, SectionTitle } from './ui';
 import { motion } from 'motion/react';
@@ -6,15 +5,6 @@ import { motion } from 'motion/react';
 export default function Problem() {
   return (
     <Container id="problem" className="bg-onyx-900 border-y border-onyx-700 relative  overflow-hidden">
-      <video 
-        src={blobVid} 
-        autoPlay 
-        loop 
-        muted 
-        playsInline 
-        className="absolute left-0 w-full h-[200%] top-[-50%] object-cover mix-blend-screen opacity-30 pointer-events-none"
-        style={{ maskImage: "radial-gradient(ellipse at center, black 30%, transparent 70%)", WebkitMaskImage: "radial-gradient(ellipse at center, black 30%, transparent 70%)" }}
-      />
       <div className="absolute top-1/2 left-0 w-1/4 h-1/2 bg-[radial-gradient(circle_at_left,_var(--tw-gradient-stops))] from-blue-600/20 via-transparent to-transparent pointer-events-none -translate-y-1/2" />
       <div className="absolute top-0 right-0 w-1/3 h-full bg-[radial-gradient(circle_at_right,_var(--tw-gradient-stops))] from-blue-400/10 via-transparent to-transparent pointer-events-none" />
       <div className="grid lg:grid-cols-2 gap-16 items-center relative z-10 p-8 border-l border-r border-blue-500/30 shadow-[inset_0_0_50px_rgba(59,130,246,0.05)] bg-onyx-800/80 backdrop-blur-md overflow-hidden">

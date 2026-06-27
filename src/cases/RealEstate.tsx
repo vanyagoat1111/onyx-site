@@ -1,6 +1,6 @@
-import case5_1 from '../assets/case5.1.jpg';
-import building1 from '../assets/building1.jpg';
-import building2 from '../assets/building2.jpg';
+const case5_1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const building1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const building2 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 import React from 'react';
 
 

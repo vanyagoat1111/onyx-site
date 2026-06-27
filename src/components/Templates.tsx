@@ -1,8 +1,8 @@
-import main1 from '../assets/main1.png';
-import main2 from '../assets/main2.png';
-import main3 from '../assets/main3.png';
-import main4 from '../assets/main4.png';
-import main5 from '../assets/main5.png';
+const main1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const main2 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const main3 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const main4 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const main5 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 import React from 'react';
 import { Container, SectionTitle } from './ui';
 import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
