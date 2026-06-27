@@ -8,7 +8,7 @@ const puppeteer = require('puppeteer');
   page.on('pageerror', error => console.log('PAGE ERROR:', error.message));
   page.on('requestfailed', request => console.log('REQUEST FAILED:', request.url(), request.failure().errorText));
 
-  await page.goto('http://localhost:8080', { waitUntil: 'networkidle2' });
+  await page.goto('http://localhost:3001', { waitUntil: 'networkidle2' });
   
   const content = await page.content();
   console.log('HTML Length:', content.length);
