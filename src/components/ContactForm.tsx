@@ -29,7 +29,7 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby0CXnLnIyY3sfJSlGEwERIkYal-DdxWG0cz-m4DlnUq5nimNC8meaAeDN2ivoAYLpbCQ/exec";
 
     try {
-      // Отправка в Google Таблицу (параллельно)
+      // Отправка в Google Таблицу
       if (GOOGLE_SCRIPT_URL) {
         fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
@@ -39,21 +39,6 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
           },
           body: JSON.stringify(data),
         }).catch(err => console.error("Ошибка при отправке в Google Таблицы", err));
-      }
-
-      // Отправка в Telegram через наш сервер
-      const response = await fetch('/api/telegram', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      const responseData = await response.json();
-      if (!response.ok) {
-        console.error("Ошибка Telegram API:", responseData.error);
-        alert("Ошибка отправки в Telegram: " + (responseData.error || "Неизвестная ошибка"));
       }
     } catch (error) {
       console.error("Ошибка при отправке", error);
