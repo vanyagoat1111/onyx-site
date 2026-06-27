@@ -8,8 +8,8 @@ const main4 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto
 const main5 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 
 const cases = [
-  { 
-    name: 'Стоматология Премиум', 
+  {
+    name: 'Стоматология Премиум',
     category: 'Медицина',
     url: '#case/dental',
     problem: 'Устаревший сайт, нет доверия, мало заявок.',
@@ -19,8 +19,8 @@ const cases = [
     result: 'До 40% рост конверсии, увеличение записей с рекламы.',
     previewImg: main1
   },
-  { 
-    name: 'Фитнес-Клуб', 
+  {
+    name: 'Фитнес-Клуб',
     category: 'Спорт',
     url: '#case/fitness',
     problem: 'Сайт не продаёт абонементы.',
@@ -30,8 +30,8 @@ const cases = [
     result: 'Рост вовлечённости и заявок.',
     previewImg: main2
   },
-  { 
-    name: 'Логистика / Грузоперевозки', 
+  {
+    name: 'Логистика / Грузоперевозки',
     category: 'B2B',
     url: '#case/logistics',
     problem: 'Нет заявок с сайта.',
@@ -41,8 +41,8 @@ const cases = [
     result: 'Упрощение получения заявок.',
     previewImg: main3
   },
-  { 
-    name: 'Юридическая Компания', 
+  {
+    name: 'Юридическая Компания',
     category: 'Право',
     url: '#case/lawfirm',
     problem: 'Низкое доверие клиентов.',
@@ -52,8 +52,8 @@ const cases = [
     result: 'Рост обращений через форму.',
     previewImg: main4
   },
-  { 
-    name: 'Недвижимость (Премиум)', 
+  {
+    name: 'Недвижимость (Премиум)',
     category: 'Элитная недвижимость',
     url: '#case/realestate',
     problem: 'Сложно продавать объекты через сайт.',
@@ -86,11 +86,11 @@ export default function Templates() {
                     <div className="w-2.5 h-2.5 rounded-none bg-blue-600 shadow-[0_0_8px_rgba(59,130,246,0.5)]"></div>
                     <div className="w-2.5 h-2.5 rounded-none bg-neutral-600"></div>
                   </div>
-                  <img src={tpl.previewImg} 
+                  <img src={tpl.previewImg}
                     alt={tpl.name}
                     className="w-full h-auto hue-rotate-[0deg] opacity-60 mix-blend-screen group-hover:mix-blend-normal group-hover:opacity-100 group-hover:hue-rotate-0 transition-all duration-700 group-hover:scale-105"  />
                   <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-onyx-950/30 to-transparent"></div>
-                  
+
                   <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
                      <div>
                         <h3 className="text-2xl font-black uppercase text-white tracking-tight drop-shadow-lg ">{tpl.name}</h3>
@@ -101,14 +101,14 @@ export default function Templates() {
                   </div>
                 </a>
               </div>
-              
+
               {/* Right/Left: Info */}
               <div className="w-full lg:w-1/2 flex flex-col justify-center space-y-10 p-8 bg-onyx-800/50 backdrop-blur-md border border-onyx-700 clip-diagonal shadow-[inset_0_0_30px_rgba(0,0,0,0.5)]">
                 <div className="space-y-4">
                   <h4 className="text-[12px] font-bold font-mono text-neutral-400 uppercase tracking-[0.2em] border-l-2 border-onyx-700 pl-4">Проблема</h4>
                   <p className="text-xl lg:text-2xl font-light text-white leading-relaxed">{tpl.problem}</p>
                 </div>
-                
+
                 <div className="space-y-4">
                   <h4 className="text-[12px] font-bold font-mono text-blue-400 uppercase tracking-[0.2em] border-l-2 border-blue-500 pl-4 drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]">Решения</h4>
                   <p className="text-lg text-neutral-200 leading-relaxed font-light">{tpl.solution}</p>
@@ -135,7 +135,7 @@ export default function Templates() {
                      <p className="text-lg font-black uppercase text-white tracking-wide border-l-2 border-[#ebff00] pl-4">{tpl.result}</p>
                    </div>
                 </div>
-                
+
                 <div className="pt-4">
                    <a href={tpl.url} className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-blue-600 text-onyx-950 font-black uppercase tracking-widest text-[10px] sm:text-xs relative group/btn w-full sm:w-max transition-all shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] clip-diagonal overflow-hidden">
                      <div className="absolute inset-0 bg-white/30 blur-md opacity-0 group-hover/btn:opacity-100 transition-opacity"></div>

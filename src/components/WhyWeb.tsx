@@ -16,7 +16,7 @@ export default function WhyWeb() {
     <Container className="py-16 bg-[#162455]">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black uppercase tracking-tight mb-8">Почему вашему бизнесу нужен сайт?</h2>
-        
+
         <p className="text-xl md:text-2xl text-neutral-300 font-medium leading-relaxed mb-16">
           Сегодня сайт — это не просто визитная карточка компании. Это инструмент продаж, который работает для вашего бизнеса <span className="text-blue-400 font-bold">24 часа в сутки</span>.
         </p>

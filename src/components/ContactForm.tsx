@@ -9,7 +9,7 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    
+
     // Собираем данные из формы
     const formData = new FormData(e.currentTarget);
     const data = {
@@ -26,7 +26,7 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
     };
 
     // Чтобы заявки начали приходить в гугл таблицу:
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby0CXnLnIyY3sfJSlGEwERIkYal-DdxWG0cz-m4DlnUq5nimNC8meaAeDN2ivoAYLpbCQ/exec"; 
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby0CXnLnIyY3sfJSlGEwERIkYal-DdxWG0cz-m4DlnUq5nimNC8meaAeDN2ivoAYLpbCQ/exec";
 
     try {
       // Отправка в Google Таблицу (параллельно)
@@ -49,7 +49,7 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
         },
         body: JSON.stringify(data),
       });
-      
+
       const responseData = await response.json();
       if (!response.ok) {
         console.error("Ошибка Telegram API:", responseData.error);
@@ -61,7 +61,7 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
 
     setLoading(false);
     setSubmitted(true);
-    
+
     setTimeout(() => {
       setSubmitted(false);
       onClose?.();
@@ -92,9 +92,9 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
               <Input name="socials" placeholder="7. Ссылки на соц. сети (опционально)" />
             </div>
             <div className="sm:col-span-2 relative mt-4">
-              <textarea 
+              <textarea
                 name="vision"
-                placeholder="8. Ваше видение сайта, пожелания к визуалу" 
+                placeholder="8. Ваше видение сайта, пожелания к визуалу"
                 rows={3}
                 className="w-full bg-onyx-950 border-b border-onyx-700 pb-2 pt-4 px-2 text-blue-500 placeholder:font-serif placeholder:font-medium placeholder:italic placeholder:tracking-wide placeholder-neutral-400 focus:outline-none focus:border-blue-500 hover:border-blue-500/50 transition-colors font-mono focus:shadow-[0_2px_10px_rgba(59,130,246,0.2)] focus:bg-onyx-900 resize-none"
               ></textarea>
@@ -137,7 +137,7 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
 }
 
 const Input = (props: React.InputHTMLAttributes<HTMLInputElement>) => (
-  <input 
+  <input
     {...props}
     className="w-full bg-onyx-950 border-b border-onyx-700 pb-2 pt-4 px-2 text-blue-500 placeholder:font-serif placeholder:font-medium placeholder:italic placeholder:tracking-wide placeholder-neutral-400 focus:outline-none focus:border-blue-500 hover:border-blue-500/50 transition-colors font-mono focus:shadow-[0_2px_10px_rgba(59,130,246,0.2)] focus:bg-onyx-900"
   />

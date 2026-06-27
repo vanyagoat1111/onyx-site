@@ -8,7 +8,6 @@ const case5 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto
 const building1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 const building2 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 
-
 const FurnitureMock = () => (
   <div className="bg-white text-onyx-950 min-h-max flex flex-col font-sans">
     <nav className="p-6 flex justify-between items-center border-b border-neutral-200 sticky top-0 bg-white/95 backdrop-blur z-50">
@@ -78,7 +77,7 @@ const CourseMock = () => (
           <div className="bg-neutral-100 text-onyx-950 px-12 py-5 font-bold uppercase tracking-widest clip-diagonal inline-block hover:bg-white transition-colors cursor-pointer text-sm">Занять место на курсе</div>
         </div>
      </div>
-     
+
      <div className="px-6 md:px-8 py-20 max-w-7xl mx-auto">
        <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-16 text-center border-b border-white/10 pb-8">Программа обучения</h2>
        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -98,7 +97,7 @@ const CourseMock = () => (
           ))}
        </div>
      </div>
-     
+
      <div className="max-w-4xl mx-auto px-6 mt-12 bg-white/5 p-12 clip-diagonal text-center border border-white/10">
        <h2 className="text-3xl font-bold uppercase tracking-tight mb-6">Готовы к росту?</h2>
        <p className="text-neutral-400 mb-8 max-w-md mx-auto">Оставьте заявку на бесплатную диагностику вашего бизнеса перед курсом.</p>
@@ -144,7 +143,7 @@ const BookingMock = () => (
            <button className="md:col-span-1 bg-[#2c2c2c] text-white py-5 uppercase tracking-widest text-[10px] font-bold w-full hover:bg-onyx-950 transition-colors">Search</button>
         </div>
      </div>
-     
+
      <div className="max-w-7xl mx-auto px-6 md:px-8 mt-24 md:mt-32 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-32 items-center">
        <div>
          <h2 className="text-3xl md:text-5xl font-light uppercase tracking-widest mb-8 leading-tight">A Sanctuary<br/>of Minimalism</h2>
@@ -166,7 +165,7 @@ const ConsultingMock = () => (
          <span className="cursor-pointer hover:text-violet-700 transition-colors">О Нас</span>
        </div>
      </nav>
-     
+
      <div className="flex-grow grid grid-cols-1 lg:grid-cols-2 border-2 border-violet-950/10 mb-12">
         <div className="p-12 md:p-24 flex flex-col justify-center lg:border-r-2 border-violet-950/10 relative overflow-hidden">
            <img src={case4} alt="Image" className="" />
@@ -200,7 +199,7 @@ const PsychologistMock = () => (
      <nav className="p-8 flex justify-center border-b border-[#E5E2DC] sticky top-0 bg-[#FAF9F7]/95 backdrop-blur z-50">
        <span className="font-sans text-xs uppercase tracking-[0.3em] font-bold text-[#8C877D]">Анна Смирнова • Психотерапия</span>
      </nav>
-     
+
      <div className="max-w-4xl mx-auto py-24 px-6 md:px-8 text-center space-y-12">
         <img src={case5} alt="Image" className="" />
         <h1 className="text-5xl md:text-6xl italic text-[#2C2A28] leading-tight max-w-3xl mx-auto">Пространство для диалога<br/>и внутренних трансформаций</h1>
@@ -209,7 +208,7 @@ const PsychologistMock = () => (
           "В бережной и безопасной атмосфере я помогаю найти внутреннюю опору, справиться с тревогой и выстроить честные отношения с собой."
         </p>
      </div>
-     
+
      <div className="bg-white py-24 px-6">
        <div className="max-w-5xl mx-auto">
          <h2 className="text-2xl font-sans uppercase tracking-[0.2em] font-bold text-center mb-16 text-[#2C2A28]">Направления работы</h2>
@@ -236,7 +235,7 @@ const PsychologistMock = () => (
               <div className="text-[#2C2A28] font-bold border-t border-[#E5E2DC] pt-4">3000 ₽ / сессия</div>
             </div>
          </div>
-         
+
          <div className="mt-20 text-center">
            <button className="bg-[#4A4743] text-[#FAF9F7] px-12 py-5 uppercase tracking-[0.2em] text-xs max-w-sm mx-auto hover:bg-[#2C2A28] transition-colors font-sans font-bold w-full">Записаться на прием</button>
          </div>
@@ -251,13 +250,13 @@ const SmmMock = () => (
        <span>VIRAL_</span>
        <span className="text-sm font-sans font-bold tracking-widest border border-[#ebff00] px-4 py-2 rounded-full cursor-pointer hover:bg-[#ebff00] hover:text-onyx-950 transition-colors">СВЯЗАТЬСЯ</span>
      </nav>
-     
+
      <div className="p-6 md:p-12 text-6xl lg:text-[140px] leading-[0.85] mt-12 mb-20 break-words">
         МЫ ДЕЛАЕМ<br/>
         ВАШ БРЕНД<br/>
         <span className="text-white drop-shadow-[4px_4px_0_black]">ЗАМЕТНЫМ.</span>
      </div>
-     
+
      <div className="px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-white text-3xl mb-20">
         <div className="bg-onyx-950 aspect-square p-8 flex flex-col justify-between clip-diagonal hover:scale-[1.03] cursor-pointer transition-transform relative overflow-hidden group">
            <img src={case1} alt="Image" className="" />
@@ -273,7 +272,7 @@ const SmmMock = () => (
            <span className="text-6xl self-end">↗</span>
         </div>
      </div>
-     
+
      <div className="px-6 md:px-12">
         <div className="bg-onyx-950 text-white p-12 lg:p-24 border-[12px] border-white outline outline-8 outline-black">
            <h2 className="text-5xl md:text-7xl mb-12">ХВАТИТ ДЕЛАТЬ СКУЧНО.</h2>
@@ -404,7 +403,7 @@ export default function EditorSimulator({ templateName, onClose }: { templateNam
                        <Smartphone size={18} /> <span className="hidden lg:inline text-[10px] font-bold uppercase tracking-widest">Mobile</span>
                      </button>
                    </div>
-                   
+
                    <div className="flex items-center gap-4">
                      {!isEditMode ? (
                         <button onClick={() => setIsEditMode(true)} className="bg-white text-onyx-950 px-6 py-1.5 text-[10px] font-bold uppercase tracking-widest clip-diagonal hover:bg-neutral-300 transition-colors shadow-[0_0_15px_rgba(255,255,255,0.3)] animate-pulse hover:animate-none flex items-center gap-2">
@@ -422,11 +421,11 @@ export default function EditorSimulator({ templateName, onClose }: { templateNam
                  <div className="flex-grow overflow-auto flex items-start sm:items-center justify-center p-0 pt-12 sm:pt-4 sm:p-8 relative industrial-grid bg-onyx-950 scroll-smooth">
                     <div className={`shadow-2xl transition-all duration-500 bg-white overflow-y-auto overflow-x-hidden ${device === 'desktop' ? 'w-full h-full max-w-[1920px] shadow-black/50' : 'w-[320px] sm:w-[375px] h-[650px] sm:h-[812px] mt-4 sm:mt-0 rounded-[40px] border-[12px] border-onyx-800 relative shadow-black/80'}`}>
                        {device === 'mobile' && <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-onyx-800 rounded-b-2xl z-50"></div>}
-                       
+
                        {/* Interactive Area */}
                        <div className={`min-h-full w-full relative ${isEditMode ? 'group cursor-crosshair' : ''}`} onClick={handlePreviewClick}>
                           <TemplateSwitcher name={templateName} />
-                          
+
                           {/* Hover Editor Overlay Lines (Only in Edit Mode) */}
                           {isEditMode && (
                             <>

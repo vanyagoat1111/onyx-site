@@ -8,13 +8,13 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden bg-onyx-900  mask-image-b group">
-      <div 
-        className="absolute inset-0 pointer-events-none" 
+      <div
+        className="absolute inset-0 pointer-events-none"
         style={{
           background: 'radial-gradient(ellipse at top right, rgba(30,58,138,0.4) 0%, rgba(8,8,8,0.9) 50%, rgba(0,0,0,1) 100%)'
         }}
       />
-      
+
       <Container className="relative z-10 pt-12">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <motion.div
@@ -30,7 +30,7 @@ export default function Hero() {
               Создаем сайты, которые помогают бизнесу получать <br className="hidden lg:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]">больше клиентов</span>
             </h1>
-            
+
             <div className="text-xl md:text-2xl text-neutral-300 font-sans max-w-2xl mb-8 leading-relaxed font-light mt-2 text-left hyphens-auto">
               <p>Без затрат на разработку.</p>
               <p className="mt-2 text-lg md:text-xl text-neutral-400">Домен, поддержка и обновления включены.</p>
@@ -47,7 +47,7 @@ export default function Hero() {
                   <span className="text-blue-500 font-bold shrink-0 text-xl">✓</span> Поддержка после запуска
                 </li>
             </ul>
-            
+
             <div className="flex flex-col sm:flex-row gap-6 items-stretch pb-20 w-full max-w-2xl">
               <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px]" onClick={() => setFormOpen(true)}>Получить бесплатную консультацию</Button>
               <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px]" variant="outline" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth'})}>Наши кейсы</Button>
@@ -78,14 +78,14 @@ export default function Hero() {
                    </div>
                 </div>
              </div>
-             
+
              {/* Decorative Elements */}
              <div className="absolute -bottom-6 -left-6 w-24 h-24 border-b-2 border-l-2 border-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)] -z-10 animate-pulse"></div>
              <div className="absolute -top-6 -right-6 w-24 h-24 border-t-2 border-r-2 border-blue-400 shadow-[0_0_10px_rgba(147,197,253,0.3)] -z-10 animate-pulse"></div>
           </motion.div>
         </div>
       </Container>
-      
+
       <div className="absolute bottom-0 left-0 w-full overflow-hidden border-t border-b border-blue-500/30 bg-onyx-800/80 backdrop-blur-md py-4 z-20 flex whitespace-nowrap shadow-[0_0_30px_rgba(59,130,246,0.2)]">
         <div className="animate-marquee flex gap-8 items-center font-mono font-bold uppercase tracking-tight text-4xl select-none">
           {Array(8).fill("").map((_, i) => (
@@ -97,7 +97,7 @@ export default function Hero() {
           ))}
         </div>
       </div>
-      
+
       {formOpen && <ContactForm isModal onClose={() => setFormOpen(false)} />}
     </section>
   );

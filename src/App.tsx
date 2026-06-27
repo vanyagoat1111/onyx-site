@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -35,7 +30,7 @@ export default function App() {
     const handleHashChange = () => {
       const hash = window.location.hash;
       setCurrentRoute(hash);
-      
+
       if (hash.startsWith('#case/')) {
         window.scrollTo(0, 0);
       } else if (hash) {
@@ -51,7 +46,7 @@ export default function App() {
         window.scrollTo(0, 0);
       }
     };
-    
+
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Palette, Type, Square, Smartphone, Monitor, MousePointer2, 
+import {
+  Palette, Type, Square, Smartphone, Monitor, MousePointer2,
   Settings2, Wand2, RefreshCcw, X, GripHorizontal, Sun, Moon, Sparkles, Image as ImageIcon, Box, Grid
 } from 'lucide-react';
 import DemoCloseButton from './DemoCloseButton';
@@ -8,13 +8,13 @@ import DemoCloseButton from './DemoCloseButton';
 export default function CaseEditorWrapper({ children }: { children: React.ReactNode }) {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [showTooltip, setShowTooltip] = useState(true);
-  
+
   // Editor State
   const [viewMode, setViewMode] = useState<'desktop' | 'mobile'>('desktop');
   const [isEditable, setIsEditable] = useState(false);
   const [font, setFont] = useState('font-sans');
   const [radius, setRadius] = useState('default');
-  
+
   // Visual FX State
   const [hue, setHue] = useState(0);
   const [brightness, setBrightness] = useState(100);
@@ -61,7 +61,7 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
             <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-white border-b border-r border-slate-200 rotate-45"></div>
           </div>
         )}
-        <button 
+        <button
           onClick={() => setIsEditorOpen(!isEditorOpen)}
           className="w-14 h-14 bg-slate-950 text-white rounded-full shadow-[0_0_20px_rgba(0,0,0,0.3)] border border-slate-800 flex items-center justify-center hover:bg-white hover:text-slate-950 hover:scale-110 transition-all z-50 group"
         >
@@ -82,36 +82,36 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
         </div>
 
         <div className="space-y-6 max-h-[60vh] overflow-y-auto custom-scrollbar pr-2">
-          
+
           {/* Режим просмотра */}
           <div className="space-y-3">
             <div className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
               <Monitor className="w-3.5 h-3.5" /> Устройство и вид
             </div>
             <div className="flex bg-slate-900 p-1 rounded-lg">
-              <button 
-                onClick={() => setViewMode('desktop')} 
+              <button
+                onClick={() => setViewMode('desktop')}
                 className={`flex-1 py-2 text-xs font-medium rounded-md transition-colors ${viewMode === 'desktop' ? 'bg-white text-slate-950 shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
               >
                 Desktop
               </button>
-              <button 
-                onClick={() => setViewMode('mobile')} 
+              <button
+                onClick={() => setViewMode('mobile')}
                 className={`flex-1 py-2 text-xs font-medium rounded-md transition-colors ${viewMode === 'mobile' ? 'bg-white text-slate-950 shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
               >
                 Mobile
               </button>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-2 mt-2">
-              <button 
-                onClick={() => setPerspective(!perspective)} 
+              <button
+                onClick={() => setPerspective(!perspective)}
                 className={`p-2 text-xs border rounded-lg transition-all flex items-center justify-center gap-2 ${perspective ? 'bg-white text-slate-950 border-white' : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-600'}`}
               >
                 <Box className="w-3.5 h-3.5" /> 3D Режим
               </button>
-              <button 
-                onClick={() => setWireframe(!wireframe)} 
+              <button
+                onClick={() => setWireframe(!wireframe)}
                 className={`p-2 text-xs border rounded-lg transition-all flex items-center justify-center gap-2 ${wireframe ? 'bg-white text-slate-950 border-white' : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-600'}`}
               >
                 <Grid className="w-3.5 h-3.5" /> Каркас
@@ -133,7 +133,7 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
               </div>
             </label>
             {isEditable && <div className="text-[10px] text-neutral-400 leading-tight">Кликните на любой текст на странице, чтобы изменить его.</div>}
-            
+
             <label className="flex items-center justify-between cursor-pointer group bg-slate-900 p-3 rounded-lg border border-transparent hover:border-slate-700 transition-colors mt-2">
               <span className="text-sm text-neutral-200 group-hover:text-white transition-colors flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> Анимации элементов</span>
               <div className="relative">
@@ -181,7 +181,7 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
               <button onClick={() => setGrayscale(grayscale === 100 ? 0 : 100)} className={`p-2 text-xs border rounded-lg transition-all ${grayscale === 100 ? 'bg-white text-slate-950 border-white' : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-600'}`}>Ч/Б фильтр</button>
               <button onClick={() => setSepia(sepia === 100 ? 0 : 100)} className={`p-2 text-xs border rounded-lg transition-all ${sepia === 100 ? 'bg-white text-slate-950 border-white' : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-600'}`}>Сепия</button>
               <button onClick={() => setInvert(!invert)} className={`p-2 text-xs border rounded-lg transition-all col-span-2 flex items-center justify-center gap-2 ${invert ? 'bg-white text-slate-950 border-white' : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-600'}`}>
-                {invert ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />} 
+                {invert ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
                 {invert ? 'Светлая/Темная тема' : 'Светлая/Темная тема'}
               </button>
             </div>
@@ -193,13 +193,13 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
         .case-preview-container {
            filter: hue-rotate(${hue}deg) brightness(${brightness}%) contrast(${contrast}%) saturate(${saturate}%) grayscale(${grayscale}%) sepia(${sepia}%) ${invert ? 'invert(1) hue-rotate(180deg)' : ''};
         }
-        
+
         ${invert ? `
           .case-preview-container img, .case-preview-container video {
              filter: invert(1) hue-rotate(180deg);
           }
         ` : ''}
-        
+
         ${animations ? `
           .case-preview-container img, .case-preview-container button, .case-preview-container a {
              animation: breathe 4s ease-in-out infinite;
@@ -212,7 +212,7 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
 
         ${radius === 'square' ? `.case-preview-container * { border-radius: 0 !important; }` : ''}
         ${radius === 'rounded' ? `.case-preview-container button, .case-preview-container .card { border-radius: 9999px !important; }` : ''}
-        
+
         ${wireframe ? `
           .case-preview-container * {
              background: transparent !important;
@@ -235,7 +235,7 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
              border-radius: 3.5rem;
           }
         ` : ''}
-        
+
         ${perspective && viewMode === 'desktop' ? `
           .render-area-wrapper {
              perspective: 3000px;
@@ -259,7 +259,7 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
           background: #fff;
           cursor: pointer;
         }
-        
+
         .accent-slider {
           background: hsl(${hue}, 80%, 50%) !important;
         }
@@ -267,10 +267,10 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
 
       {/* Render Area */}
       <div className="render-area-wrapper w-full flex-1 flex flex-col items-center min-h-screen pt-4 pb-12 overflow-x-hidden">
-        <div 
+        <div
           className={`render-area-inner w-full transition-all duration-700 ease-in-out flex flex-col items-center relative
-            ${viewMode === 'mobile' 
-              ? 'max-w-[393px] h-[852px] my-10 mx-auto border-[14px] border-black rounded-[3.5rem] shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-y-auto overflow-x-hidden bg-white ring-1 ring-slate-800' 
+            ${viewMode === 'mobile'
+              ? 'max-w-[393px] h-[852px] my-10 mx-auto border-[14px] border-black rounded-[3.5rem] shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-y-auto overflow-x-hidden bg-white ring-1 ring-slate-800'
               : `max-w-full ${perspective ? 'w-full max-w-[1600px] my-12' : 'bg-white min-h-screen'}`
             }`}
         >
@@ -294,8 +294,8 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
                   </div>
                   {/* Screen Content - Scrollable */}
                   <div className="w-full h-full overflow-y-auto overflow-x-hidden bg-white custom-scrollbar relative">
-                    <div 
-                      className={`case-preview-container w-full min-h-full origin-top ${font}`} 
+                    <div
+                      className={`case-preview-container w-full min-h-full origin-top ${font}`}
                       contentEditable={isEditable}
                       suppressContentEditableWarning={true}
                       style={{ outline: 'none' }}
@@ -306,7 +306,7 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
                     </div>
                   </div>
                </div>
-               
+
                {/* Macbook Base Component */}
                <div className="relative z-20 w-[115%] -mt-1 mx-auto flex flex-col items-center">
                  {/* Top edge of base */}
@@ -324,8 +324,8 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
                </div>
             </div>
           ) : (
-            <div 
-              className={`case-preview-container w-full h-full flex-1 origin-top ${font}`} 
+            <div
+              className={`case-preview-container w-full h-full flex-1 origin-top ${font}`}
               contentEditable={isEditable}
               suppressContentEditableWarning={true}
               style={{ outline: 'none' }}

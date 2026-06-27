@@ -32,11 +32,11 @@ export default function FAQ() {
         <div>
           <SectionTitle subtitle="Вопросы">FAQ</SectionTitle>
         </div>
-        
+
         <div className="space-y-4">
           {faqs.map((faq, i) => (
             <div key={i} className={`border clip-diagonal ${open === i ? 'border-blue-500 bg-onyx-900 shadow-[0_0_20px_rgba(59,130,246,0.2)]' : 'border-onyx-700 bg-onyx-800/30 hover:border-blue-400/50 hover:bg-onyx-800/80'} overflow-hidden transition-all duration-300`}>
-              <button 
+              <button
                 onClick={() => setOpen(open === i ? null : i)}
                 className={`w-full flex items-center justify-between p-6 text-left font-bold uppercase tracking-wide transition-colors ${open === i ? 'text-blue-500 drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]' : 'text-neutral-300 group-hover:text-white'}`}
               >

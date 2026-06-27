@@ -89,11 +89,11 @@ export default function Services() {
   return (
     <Container id="services">
       <SectionTitle subtitle="Наши продукты">Тарифы и<br/>Услуги</SectionTitle>
-      
+
       <div className="mb-8 font-mono text-blue-500 uppercase tracking-widest text-sm border-b border-blue-500/30 pb-2 drop-shadow-[0_0_8px_rgba(59,130,246,0.8)] ">
         Сайты по подписке (Месяц)
       </div>
-      
+
       <div className="grid md:grid-cols-3 gap-8 mb-24 relative z-10 p-4 -m-4">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent pointer-events-none -z-10 blur-3xl" />
         {products.map((p, i) => (

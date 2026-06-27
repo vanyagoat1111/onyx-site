@@ -1,3 +1,4 @@
+import React from 'react';
 import { Container, SectionTitle } from './ui';
 
 export default function Stats() {
@@ -15,10 +16,10 @@ export default function Stats() {
   return (
     <Container className="bg-onyx-950 py-16 md:py-24 border-t border-onyx-800/50 relative z-10">
       <div className="absolute inset-0 bg-blue-600/5 blur-[120px] pointer-events-none -z-10" />
-      
+
       <div className="max-w-4xl max-w-full">
-        <SectionTitle 
-          subtitle="Цифры доверия" 
+        <SectionTitle
+          subtitle="Цифры доверия"
           className="text-left !mb-12 md:!mb-16"
         >
           Вместо красивых слов предлагаем вам взглянуть на цифры

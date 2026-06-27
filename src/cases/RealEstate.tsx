@@ -3,7 +3,6 @@ const case5_1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?au
 const building1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 const building2 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 
-
 export default function RealEstate() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
@@ -15,7 +14,7 @@ export default function RealEstate() {
 
   return (
     <div className="min-h-screen bg-[#080808] text-neutral-300 font-sans selection:bg-white/20 selection:text-white">
-      
+
       {/* Header */}
       <header className="absolute top-0 w-full z-50 px-6 md:px-12 py-8 flex justify-between items-center border-b border-white/5">
         <div className="text-2xl font-cormorant text-white tracking-[0.2em] uppercase">
@@ -258,7 +257,7 @@ export default function RealEstate() {
                <div className="w-10 h-10 border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:border-white/30 transition-colors cursor-pointer text-xs">WA</div>
             </div>
           </div>
-          
+
           <div>
             <h4 className="text-white uppercase tracking-[0.2em] text-[10px] mb-8 opacity-50">Контакты</h4>
             <div className="space-y-4 font-light text-sm text-white/80">
@@ -267,7 +266,7 @@ export default function RealEstate() {
               <p className="text-white/50 pt-2">Москва, Пресненская наб., 12<br/>Башня Федерация, 90 этаж</p>
             </div>
           </div>
-          
+
           <div>
             <h4 className="text-white uppercase tracking-[0.2em] text-[10px] mb-8 opacity-50">Навигация</h4>
             <ul className="space-y-4 font-light text-sm text-white/60">
@@ -278,7 +277,7 @@ export default function RealEstate() {
             </ul>
           </div>
         </div>
-        
+
         <div className="max-w-7xl mx-auto border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-white/30 uppercase tracking-[0.2em] gap-4">
           <div>© 2026 Vanguard Estates. Все права защищены.</div>
           <div className="flex gap-8">

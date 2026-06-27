@@ -1,7 +1,6 @@
 import React from 'react';
 const case1_1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 
-
 export default function DentalClinic() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
@@ -13,7 +12,7 @@ export default function DentalClinic() {
 
   return (
     <div className="min-h-screen bg-white text-slate-800 font-outfit">
-      
+
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-sky-100 py-4 px-6 md:px-12 flex justify-between items-center">
         <div className="text-2xl font-serif font-bold text-sky-900 tracking-tight">Dental<span className="text-sky-500">Art</span></div>

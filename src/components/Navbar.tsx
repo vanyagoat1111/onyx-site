@@ -35,12 +35,12 @@ export default function Navbar() {
               ONYX
             </span>
           </a>
-          
+
           <div className="hidden lg:flex items-center space-x-8">
             {links.map(link => (
-              <a 
-                key={link.name} 
-                href={link.href} 
+              <a
+                key={link.name}
+                href={link.href}
                 className="text-sm font-mono text-neutral-400 hover:text-blue-500 hover:drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] uppercase tracking-widest transition-all relative group"
                 onClick={(e) => {
                   if (link.href.startsWith('#')) {
@@ -67,9 +67,9 @@ export default function Navbar() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent pointer-events-none" />
           <div className="relative z-10">
             {links.map(link => (
-              <a 
-                key={link.name} 
-                href={link.href} 
+              <a
+                key={link.name}
+                href={link.href}
                 className="block text-2xl font-black uppercase tracking-widest border-b border-onyx-700 pb-4 mb-4 text-white hover:text-blue-500 hover:border-blue-500 transition-colors drop-shadow-[0_0_5px_rgba(255,255,255,0.2)] hover:drop-shadow-[0_0_10px_rgba(59,130,246,0.5)] "
                 onClick={(e) => {
                   setMobileMenuOpen(false);

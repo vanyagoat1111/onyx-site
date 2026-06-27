@@ -5,12 +5,12 @@ export default function Footer() {
   return (
     <footer id="contacts" className="bg-onyx-950 border-t border-onyx-800 relative z-10">
       <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-600/5 via-transparent to-transparent pointer-events-none" />
-      
+
       {/* Contacts & Footer Meta */}
       <div className="px-6 py-12 relative z-10 before:absolute before:top-0 before:left-0 before:w-full before:h-[1px] before:bg-gradient-to-r before:from-onyx-800 before:via-blue-600/30 before:to-onyx-800">
         <Container>
           <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-8">
-            
+
             {/* Contacts Info */}
             <div className="flex flex-col gap-4 text-sm md:text-base font-black uppercase tracking-[0.2em] text-blue-500">
               <span className="text-neutral-500 font-mono text-xs uppercase tracking-widest mb-2">Наши контакты</span>

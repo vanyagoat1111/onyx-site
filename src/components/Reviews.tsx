@@ -25,15 +25,15 @@ export default function Reviews() {
   return (
     <Container id="reviews" className="bg-onyx-950 py-16">
       <SectionTitle subtitle="Отзывы">Отзывы наших<br/>клиентов</SectionTitle>
-      
+
       <div className="grid md:grid-cols-3 gap-6 mt-16">
         {reviews.map((r, i) => (
-          <motion.div 
-            initial={{ opacity: 1, y: 20 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            viewport={{ once: true }} 
+          <motion.div
+            initial={{ opacity: 1, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            key={i} 
+            key={i}
             className="bg-onyx-900 border border-onyx-800 p-8 clip-diagonal hover:border-blue-500/30 transition-colors group relative"
           >
             <div className="flex gap-1 mb-6">

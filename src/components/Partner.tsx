@@ -43,7 +43,7 @@ export default function Partner() {
   return (
     <Container id="partner" className="bg-onyx-950 py-16 pb-24 border-t border-onyx-800">
       <SectionTitle subtitle="Партнерская программа">Стать<br/>Партнером</SectionTitle>
-      
+
       <div className="max-w-3xl mb-16">
         <h3 className="text-2xl md:text-4xl font-heading font-black uppercase tracking-tight text-white mb-6">
           Повысьте конверсию своих продаж с помощью <span className="text-blue-500 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]">ONYX</span>
@@ -55,12 +55,12 @@ export default function Partner() {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
         {benefits.map((b, i) => (
-          <motion.div 
-            initial={{ opacity: 1, y: 20 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            viewport={{ once: true }} 
+          <motion.div
+            initial={{ opacity: 1, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            key={i} 
+            key={i}
             className="bg-onyx-900 border border-onyx-800 p-8 clip-diagonal hover:border-blue-500/50 transition-colors group"
           >
             <div className="w-12 h-12 bg-blue-500/10 border border-blue-500/30 flex items-center justify-center mb-6 clip-diagonal group-hover:bg-blue-500/20 transition-colors shadow-[0_0_15px_rgba(59,130,246,0.1)]">
@@ -81,7 +81,7 @@ export default function Partner() {
         </div>
         <Button onClick={() => setFormOpen(true)} className="w-full md:w-auto whitespace-nowrap">Заполнить анкету</Button>
       </div>
-      
+
       {formOpen && <ContactForm isModal onClose={() => setFormOpen(false)} />}
     </Container>
   );

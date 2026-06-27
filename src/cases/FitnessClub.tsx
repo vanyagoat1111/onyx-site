@@ -1,7 +1,6 @@
 import React from 'react';
 const case2_1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 
-
 export default function FitnessClub() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
@@ -13,7 +12,7 @@ export default function FitnessClub() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white font-sport selection:bg-red-500 selection:text-white">
-      
+
       {/* Header */}
       <header className="fixed top-0 w-full z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-red-900/30 py-4 px-6 md:px-12 flex justify-between items-center transition-all">
         <div className="text-3xl font-black italic tracking-tight uppercase text-white">
@@ -96,9 +95,9 @@ export default function FitnessClub() {
             </div>
             <p className="text-neutral-400 max-w-md text-sm md:text-base md:text-right">Все необходимое для продуктивных тренировок и качественного восстановления.</p>
           </div>
-          
+
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[ 
+            {[
               { title: "Тренажерный зал", desc: "Премиальное оборудование от Life Fitness и Hammer Strength.", num: "01" },
               { title: "Зона Кроссфита", desc: "Помосты, рамы, канаты и свободные веса для функционального тренинга.", num: "02" },
               { title: "SPA-зона", desc: "Финская сауна, хамам, ледяной душ и массажный кабинет.", num: "03" },
@@ -176,7 +175,7 @@ export default function FitnessClub() {
               <button className="px-6 py-2 bg-transparent hover:bg-neutral-800 text-neutral-400 font-bold uppercase tracking-widest text-xs transition-colors">Неделя</button>
             </div>
           </div>
-          
+
           <div className="space-y-2">
             {[1, 2, 3, 4, 5].map((_, i) => (
               <div key={i} className="flex flex-col md:flex-row items-center justify-between p-6 bg-neutral-900/50 border border-neutral-800 hover:border-red-500/50 hover:bg-neutral-900 transition-colors group">
@@ -210,7 +209,7 @@ export default function FitnessClub() {
             <p className="text-neutral-400">Популярные вопросы о работе клуба и абонементах.</p>
           </div>
           <div className="space-y-4">
-            {[ 
+            {[
               { q: "Как проходит первая тренировка?", a: "Первая тренировка вводная. Под руководством дежурного тренера вы пройдете фитнес-тестирование, поставите технику работы на тренажерах и получите персональные рекомендации." },
               { q: "Есть ли заморозка абонемента?", a: "Да, для годовых карт предусмотрена заморозка от 45 до 90 дней в зависимости от тарифа. Управлять ей можно в личном кабинете." },
               { q: "Что брать с собой на занятие?", a: "Спортивную форму, кроссовки и бутылку для воды. В раздевалках выдаются полотенца и есть вся необходимая косметика в душевых." },

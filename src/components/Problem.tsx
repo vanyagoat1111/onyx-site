@@ -14,9 +14,9 @@ export default function Problem() {
             <SectionTitle subtitle="Определение проблемы">Суровая<br/>статистика</SectionTitle>
           </div>
         </div>
-        
+
         <div className="space-y-8 relative z-10">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 1, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}

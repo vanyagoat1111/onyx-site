@@ -1,7 +1,6 @@
 import React from 'react';
 const case3_1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 
-
 export default function Logistics() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
@@ -13,8 +12,7 @@ export default function Logistics() {
 
   return (
     <div className="min-h-screen bg-onyx-950 text-white font-sans selection:bg-blue-600 selection:text-white w-full overflow-x-hidden">
-      
-      
+
       {/* HEADER */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-onyx-950/80 backdrop-blur-md border-b border-white/5">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
@@ -46,7 +44,7 @@ export default function Logistics() {
           <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-transparent to-transparent z-10" />
           <img src={case3_1} className="w-full h-full object-cover object-center opacity-40 grayscale-[20%]"  />
         </div>
-        
+
         <div className="max-w-[1400px] mx-auto w-full relative z-20">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="flex flex-col gap-8">
@@ -54,18 +52,18 @@ export default function Logistics() {
                 <div className="w-2 h-2 rounded-none bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
                 <span className="text-sm font-bold uppercase tracking-wider text-blue-400">Международная логистика 3PL</span>
               </div>
-              
+
               <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black font-heading uppercase tracking-tight text-white leading-[1.1]">
                 Доставка грузов<br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400 drop-shadow-[0_0_20px_rgba(59,130,246,0.3)]">
                   без задержек<br/>и скрытых платежей
                 </span>
               </h1>
-              
+
               <p className="text-lg lg:text-xl text-neutral-300 max-w-xl font-light leading-relaxed">
                 Собственный автопарк из 230 единиц техники, современные кросс-доки полного цикла и 100% материальная ответственность по договору. Обеспечиваем бесперебойные поставки для среднего и крупного бизнеса.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4 mt-4">
                 <button className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 font-bold uppercase tracking-wider transition-all text-center clip-diagonal shadow-[0_0_30px_rgba(59,130,246,0.3)] border border-blue-400/50 hover:border-transparent">
                   Рассчитать ставку
@@ -80,13 +78,13 @@ export default function Logistics() {
             <div className="bg-onyx-900/80 backdrop-blur-xl border border-onyx-700 p-8 clip-diagonal-inverted shadow-2xl relative lg:ml-auto w-full max-w-md">
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-[50px] pointer-events-none" />
               <h3 className="text-2xl font-bold font-heading uppercase text-white mb-6">Экспресс-расчет</h3>
-              
+
               <div className="space-y-5 relative z-10">
                 <div className="flex flex-col gap-2">
                   <label className="text-xs uppercase font-bold text-neutral-400 tracking-wider">Пункт отправления</label>
                   <input type="text" placeholder="Укажите город или порт" className="w-full bg-onyx-950 border border-onyx-800 px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors placeholder:text-neutral-600 font-medium" />
                 </div>
-                
+
                 <div className="flex flex-col gap-2">
                   <label className="text-xs uppercase font-bold text-neutral-400 tracking-wider">Пункт назначения</label>
                   <input type="text" placeholder="Укажите город или порт" className="w-full bg-onyx-950 border border-onyx-800 px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors placeholder:text-neutral-600 font-medium" />
@@ -140,7 +138,7 @@ export default function Logistics() {
       <section id="services" className="py-24 lg:py-32 bg-[#0b1536] relative overflow-hidden">
         <div className="absolute inset-0 industrial-grid opacity-30 pointer-events-none" />
         <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-blue-500/5 blur-[120px] pointer-events-none" />
-        
+
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
           <div className="flex flex-col lg:flex-row justify-between items-end gap-8 mb-16">
             <div className="max-w-2xl">
@@ -186,14 +184,14 @@ export default function Logistics() {
       <section id="fleet" className="py-24 lg:py-32 bg-onyx-900 border-y border-onyx-800 flex items-center relative overflow-hidden min-h-[90vh]">
         <div className="absolute left-0 top-0 bottom-0 w-1/3 bg-gradient-to-r from-blue-900/20 to-transparent pointer-events-none" />
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10 w-full">
-          
+
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
              <div className="relative order-2 lg:order-1 pt-12 lg:pt-0">
                <div className="absolute inset-x-0 -bottom-12 top-1/4 bg-blue-600/10 blur-[80px] -z-10 rounded-full" />
                <div className="relative border-2 border-onyx-700 p-3 bg-onyx-800 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
                  <img src={case3_1} className="w-full h-auto object-cover grayscale-[10%]" />
                </div>
-               
+
                {/* Overlay Card */}
                <div className="absolute -top-8 -right-8 lg:-right-12 bg-onyx-950 border border-onyx-700 p-6 shadow-2xl max-w-[280px] hidden sm:block">
                  <div className="flex items-center gap-4 mb-3">
@@ -217,7 +215,7 @@ export default function Logistics() {
               <p className="text-neutral-300 text-lg mb-12 font-light leading-relaxed">
                 Мы не зависим от посредников и арендной техники. В нашем распоряжении 230 современных тягачей Mercedes-Benz Actros, VOLVO FH и Scania R-серии не старше 3х лет. Вся техника проходит регулярное обслуживание на собственных авторизованных СТО.
               </p>
-              
+
               <div className="space-y-4">
                 {[
                   { title: 'Еврофуры тентованные 90-120 м³', count: '135 ед.', spec: 'Грузоподъемность: 20-22 т. / Вместимость: 33 паллеты.' },
@@ -261,11 +259,11 @@ export default function Logistics() {
             ].map((p, i) => (
               <div key={i} className="relative group p-8 lg:p-10 border border-onyx-800 bg-onyx-900 hover:bg-onyx-800 transition-colors clip-diagonal">
                 <div className="text-7xl font-black font-heading text-onyx-950 group-hover:text-onyx-950/80 transition-colors absolute top-6 right-6 pointer-events-none select-none drop-shadow-[0_2px_2px_rgba(255,255,255,0.05)]">{p.step}</div>
-                
+
                 <div className="w-16 h-16 bg-blue-600 flex items-center justify-center font-bold text-2xl text-white mb-8 relative z-10 clip-diagonal shadow-lg shadow-blue-600/30">
                   {p.step}
                 </div>
-                
+
                 <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-tight relative z-10 font-heading leading-tight">{p.title}</h3>
                 <div className="w-10 h-0.5 bg-blue-500 mb-6" />
                 <p className="text-neutral-400 leading-relaxed relative z-10 text-sm font-medium">{p.desc}</p>
@@ -277,7 +275,7 @@ export default function Logistics() {
 
       {/* GEOGRAPHY & WAREHOUSES */}
       <section id="geography" className="py-24 lg:py-32 bg-onyx-900 relative border-t border-onyx-800">
-        
+
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10 grid lg:grid-cols-12 gap-16 lg:gap-24 items-center">
           <div className="lg:col-span-6">
             <div className="text-blue-500 font-bold uppercase tracking-wider mb-4 flex items-center gap-3">
@@ -291,7 +289,7 @@ export default function Logistics() {
               <p>Мы осуществляем регулярные магистральные отгрузки по всей территории РФ от Калининграда до Владивостока. Выполняем экспортно-импортные рейсы в страны ЕврАзЭС, Азию и ЕС.</p>
               <p>Разветвленная партнерская и собственная терминальная сеть позволяет эффективно консолидировать товаропотоки и оптимизировать логистический бюджет заказчика.</p>
             </div>
-            
+
             <div className="flex flex-wrap gap-3">
               <div className="bg-onyx-950 border border-onyx-700 px-6 py-3 font-bold text-white clip-diagonal hover:border-blue-500 transition-colors cursor-pointer">Москва</div>
               <div className="bg-onyx-950 border border-onyx-700 px-6 py-3 font-bold text-white clip-diagonal hover:border-blue-500 transition-colors cursor-pointer">Санкт-Петербург</div>
@@ -382,7 +380,7 @@ export default function Logistics() {
                 <li><a href="#" className="text-neutral-500 hover:text-blue-400 transition-colors">Таможенный консалтинг</a></li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className="text-white font-bold uppercase tracking-wider mb-8 text-lg">Штаб-квартира</h4>
               <ul className="space-y-6 font-medium">
@@ -401,7 +399,7 @@ export default function Logistics() {
               </ul>
             </div>
           </div>
-          
+
           <div className="border-t border-onyx-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-neutral-500">
             <div className="font-semibold uppercase tracking-wider">© 2026 Prime Logistics. Все права сохранены.</div>
             <div className="flex flex-wrap gap-6 justify-center">

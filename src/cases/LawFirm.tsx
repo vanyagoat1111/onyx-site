@@ -1,7 +1,6 @@
 import React from 'react';
 const case4_1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 
-
 export default function LawFirm() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
@@ -13,7 +12,7 @@ export default function LawFirm() {
 
   return (
     <div className="min-h-screen bg-[#0a1023] text-slate-300 font-serif selection:bg-[#c9a263] selection:text-white">
-      
+
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a1023]/95 backdrop-blur border-b border-[#2a365c] py-5 px-6 md:px-12 flex justify-between items-center">
         <div className="text-xl md:text-2xl font-bold tracking-widest text-[#c9a263] uppercase">
@@ -90,7 +89,7 @@ export default function LawFirm() {
             <h2 className="text-3xl md:text-5xl text-white font-medium mb-6">Ключевые практики</h2>
             <div className="w-16 h-0.5 bg-[#c9a263] mx-auto"></div>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-1">
             {[
               'Корпоративное право и M&A',
@@ -122,7 +121,7 @@ export default function LawFirm() {
               Фундамент, на котором строятся отношения с доверителями и выигрываются самые сложные споры.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { title: 'Эксклюзивность', desc: 'Мы берем в работу ограниченное количество дел, чтобы гарантировать максимальное погружение команды в специфику вашего бизнеса.' },
@@ -147,7 +146,7 @@ export default function LawFirm() {
             <h2 className="text-3xl md:text-5xl text-white font-medium mb-6">Этапы сотрудничества</h2>
             <div className="w-16 h-0.5 bg-[#c9a263] mx-auto"></div>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             <div className="relative group">
               <div className="hidden md:block absolute top-8 left-1/2 w-full h-px bg-[#2a365c] group-hover:bg-[#c9a263] transition-colors"></div>
@@ -161,7 +160,7 @@ export default function LawFirm() {
                 </p>
               </div>
             </div>
-            
+
             <div className="relative group">
               <div className="hidden md:block absolute top-8 left-1/2 w-full h-px bg-[#2a365c] group-hover:bg-[#c9a263] transition-colors"></div>
               <div className="bg-[#0a1023] w-16 h-16 rounded-full border-2 border-[#2a365c] group-hover:border-[#c9a263] text-[#c9a263] flex items-center justify-center font-sans font-medium text-xl mx-auto mb-6 relative z-10 transition-colors">
@@ -174,7 +173,7 @@ export default function LawFirm() {
                 </p>
               </div>
             </div>
-            
+
             <div className="relative group">
               <div className="bg-[#0a1023] w-16 h-16 rounded-full border-2 border-[#2a365c] group-hover:border-[#c9a263] text-[#c9a263] flex items-center justify-center font-sans font-medium text-xl mx-auto mb-6 relative z-10 transition-colors">
                 3
