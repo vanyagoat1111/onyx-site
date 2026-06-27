@@ -8,7 +8,12 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden bg-onyx-900  mask-image-b group">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/40 via-onyx-900/90 to-onyx-950 pointer-events-none" />
+      <div 
+        className="absolute inset-0 pointer-events-none" 
+        style={{
+          background: 'radial-gradient(ellipse at top right, rgba(30,58,138,0.4) 0%, rgba(8,8,8,0.9) 50%, rgba(0,0,0,1) 100%)'
+        }}
+      />
       
       <Container className="relative z-10 pt-12">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
