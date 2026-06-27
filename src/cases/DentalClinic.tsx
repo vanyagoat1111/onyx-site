@@ -1,5 +1,5 @@
-const case1_1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 import React from 'react';
+const case1_1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 
 
 export default function DentalClinic() {

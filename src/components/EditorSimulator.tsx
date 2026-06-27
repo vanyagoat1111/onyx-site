@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Type, Palette, Monitor, Smartphone, Settings, MousePointer2, X } from 'lucide-react';
-
 const case1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 const case2 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 const case3 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
@@ -8,6 +7,7 @@ const case4 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto
 const case5 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 const building1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
 const building2 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+
 
 const FurnitureMock = () => (
   <div className="bg-white text-onyx-950 min-h-max flex flex-col font-sans">
