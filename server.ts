@@ -5,7 +5,7 @@ import { createServer as createViteServer } from "vite";
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
   
   const httpServer = http.createServer(app);
 
@@ -71,7 +71,10 @@ ${vision || "Не указано"}
   // Vite middleware для development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
-      server: { middlewareMode: true, hmr: { server: httpServer } },
+      server: { 
+        middlewareMode: true, 
+        hmr: process.env.DISABLE_HMR === 'true' ? false : { server: httpServer, overlay: false, clientPort: 443 } 
+      },
       appType: "spa",
     });
     app.use(vite.middlewares);
