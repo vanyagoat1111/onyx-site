@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, SectionTitle } from './ui';
-const portfolioVid = "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4";
+const portfolioVid = "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80";
 
 export default function Romi() {
   return (
@@ -25,12 +25,9 @@ export default function Romi() {
           </div>
           <div className="relative aspect-square md:aspect-video lg:aspect-square w-full clip-diagonal border border-onyx-700 overflow-hidden shadow-[0_0_50px_rgba(59,130,246,0.1)] group">
              <div className="absolute inset-0 bg-gradient-to-t from-onyx-950/80 via-transparent to-transparent z-10 pointer-events-none" />
-             <video
+             <img
                 src={portfolioVid}
-                autoPlay
-                loop
-                muted
-                playsInline
+                alt="ROMI Background"
                 className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 mix-blend-screen"
              />
              <div className="absolute bottom-6 left-6 right-6 z-20">
