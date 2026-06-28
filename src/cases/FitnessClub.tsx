@@ -1,5 +1,5 @@
 import React from 'react';
-const case2_1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const case2_1 = "/demo-main-2.jpg";
 
 export default function FitnessClub() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -30,7 +30,7 @@ export default function FitnessClub() {
       </header>
 
       {/* Hero */}
-      <section className="relative min-h-[90vh] flex items-center pt-24 px-6 md:px-12 overflow-hidden">
+      <section className="relative min-h-[90vh] flex items-center pt-24 pb-20 lg:pb-0 px-6 md:px-12 overflow-hidden">
         {/* Background Image & Overlay */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-10"></div>
@@ -63,7 +63,7 @@ export default function FitnessClub() {
           </div>
 
           {/* Video Placeholder/Stat block */}
-          <div className="hidden lg:grid grid-cols-2 gap-4 mt-auto mb-12">
+          <div className="grid grid-cols-2 gap-4 mt-12 lg:mt-auto mb-12">
             <div className="bg-neutral-900 border-b-2 border-red-600 p-6 flex flex-col gap-2">
               <div className="text-4xl font-bold text-white">24/7</div>
               <div className="text-xs text-neutral-500 uppercase tracking-widest">Режим работы</div>
@@ -88,10 +88,10 @@ export default function FitnessClub() {
       <section className="py-32 px-6 md:px-12 bg-neutral-900 border-t border-red-900/30 overflow-hidden relative">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-red-900/10 blur-[100px] pointer-events-none"></div>
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
             <div>
               <h2 className="text-[13px] font-mono text-red-500 uppercase tracking-widest mb-2">Технологии и комфорт</h2>
-              <h3 className="text-[35px] font-black text-white uppercase tracking-tight">Инфраструктура</h3>
+              <h3 className="text-3xl sm:text-4xl lg:text-[40px] font-black text-white uppercase tracking-tight break-words sm:break-normal">Инфраструктура</h3>
             </div>
             <p className="text-neutral-400 max-w-md text-sm md:text-base md:text-right">Все необходимое для продуктивных тренировок и качественного восстановления.</p>
           </div>
@@ -120,12 +120,12 @@ export default function FitnessClub() {
       {/* Pricing */}
       <section id="rates" className="py-32 bg-[#0a0a0a]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
             <div>
               <h2 className="text-sm font-mono text-neutral-500 uppercase tracking-widest mb-2">Клубные карты</h2>
               <h3 className="text-[32px] font-bold text-white uppercase">Тарифы</h3>
             </div>
-            <button className="text-sm font-bold text-white border-b border-red-500 pb-1 hover:text-red-500 transition-colors uppercase tracking-widest">
+            <button className="text-sm font-bold text-white border-b border-red-500 pb-1 hover:text-red-500 transition-colors uppercase tracking-widest self-start md:self-auto">
               Сравнить опции
             </button>
           </div>
@@ -167,9 +167,9 @@ export default function FitnessClub() {
       {/* Schedule */}
       <section id="schedule" className="py-32 px-6 md:px-12 bg-[#0a0a0a]">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-8">
             <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight">Расписание</h2>
-            <div className="flex gap-2 p-1 bg-neutral-900 border border-neutral-800 rounded-sm">
+            <div className="flex flex-wrap gap-2 p-1 bg-neutral-900 border border-neutral-800 rounded-sm self-start md:self-auto">
               <button className="px-6 py-2 bg-red-600 text-white font-bold uppercase tracking-widest text-xs">Сегодня</button>
               <button className="px-6 py-2 bg-transparent hover:bg-neutral-800 text-neutral-400 font-bold uppercase tracking-widest text-xs transition-colors">Завтра</button>
               <button className="px-6 py-2 bg-transparent hover:bg-neutral-800 text-neutral-400 font-bold uppercase tracking-widest text-xs transition-colors">Неделя</button>

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Container, SectionTitle } from './ui';
 import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
-const main1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
-const main2 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
-const main3 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
-const main4 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
-const main5 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const main1 = "/case1.1.png";
+const main2 = "/case2.1.png";
+const main3 = "/case3.1.png";
+const main4 = "/case4.1.png";
+const main5 = "/case5.1.png";
 
 const cases = [
   {
@@ -88,12 +88,12 @@ export default function Templates() {
                   </div>
                   <img src={tpl.previewImg}
                     alt={tpl.name}
-                    className="w-full h-auto hue-rotate-[0deg] opacity-60 mix-blend-screen group-hover:mix-blend-normal group-hover:opacity-100 group-hover:hue-rotate-0 transition-all duration-700 group-hover:scale-105"  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-onyx-950/30 to-transparent"></div>
+                    className="w-full h-auto object-cover object-top opacity-90 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-onyx-950/80 to-transparent opacity-90 group-hover:opacity-70 transition-opacity"></div>
 
                   <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
                      <div>
-                        <h3 className="text-2xl font-black uppercase text-white tracking-tight drop-shadow-lg ">{tpl.name}</h3>
+                        <h3 className="text-[29px] leading-[43.5px] font-black uppercase text-white tracking-tight drop-shadow-lg ">{tpl.name}</h3>
                      </div>
                      <div className="w-12 h-12 rounded-none border border-blue-500/30 flex items-center justify-center bg-onyx-900/80 text-blue-500 backdrop-blur-md group-hover:bg-blue-600 group-hover:text-onyx-950 group-hover:border-blue-500 transition-all shadow-[0_0_15px_rgba(59,130,246,0)] group-hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] clip-diagonal-inverted">
                         <ArrowUpRight className="w-6 h-6" />

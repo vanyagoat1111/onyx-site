@@ -1,5 +1,5 @@
 import React from 'react';
-const case3_1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const case3_1 = "/demo-main-3.jpg";
 
 export default function Logistics() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {

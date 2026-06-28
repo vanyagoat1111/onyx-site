@@ -1,5 +1,5 @@
 import React from 'react';
-const case1_1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const case1_1 = "/demo-main-1.jpg";
 
 export default function DentalClinic() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {

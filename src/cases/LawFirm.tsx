@@ -1,5 +1,5 @@
 import React from 'react';
-const case4_1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const case4_1 = "/demo-main-4.jpg";
 
 export default function LawFirm() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -112,7 +112,7 @@ export default function LawFirm() {
       {/* Principles */}
       <section id="principles" className="py-24 px-6 md:px-12 bg-[#0a1023] border-t border-[#2a365c]">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 text-white">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8 text-white">
             <div>
               <h2 className="text-3xl md:text-5xl font-medium mb-6">Принципы нашей работы</h2>
               <div className="w-16 h-0.5 bg-[#c9a263]"></div>

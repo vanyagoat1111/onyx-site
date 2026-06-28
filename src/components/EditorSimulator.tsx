@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Type, Palette, Monitor, Smartphone, Settings, MousePointer2, X } from 'lucide-react';
-const case1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
-const case2 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
-const case3 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
-const case4 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
-const case5 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
-const building1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
-const building2 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const case1 = "/demo-main-1.jpg";
+const case2 = "/demo-main-2.jpg";
+const case3 = "/demo-main-3.jpg";
+const case4 = "/demo-main-4.jpg";
+const case5 = "/demo-main-5.jpg";
+const building1 = "/estate-1.jpg";
+const building2 = "/estate-2.jpg";
 
 const FurnitureMock = () => (
   <div className="bg-white text-onyx-950 min-h-max flex flex-col font-sans">

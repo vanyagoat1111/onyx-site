@@ -1,7 +1,7 @@
 import React from 'react';
-const case5_1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
-const building1 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
-const building2 = "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=800&q=80";
+const case5_1 = "/demo-main-5.jpg";
+const building1 = "/estate-1.jpg";
+const building2 = "/estate-2.jpg";
 
 export default function RealEstate() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -52,20 +52,20 @@ export default function RealEstate() {
 
           {/* Search/Filters */}
           <div className="bg-[#111]/80 backdrop-blur-2xl border border-white/10 p-3 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-3 w-full shadow-2xl">
-            <select className="bg-transparent text-white border border-white/5 py-4 px-6 focus:outline-none focus:border-white/20 text-sm appearance-none cursor-pointer [&>option]:bg-[#111]">
-              <option value="" disabled selected hidden>Тип объекта</option>
+            <select defaultValue="" className="bg-transparent text-white border border-white/5 py-4 px-6 focus:outline-none focus:border-white/20 text-sm appearance-none cursor-pointer [&>option]:bg-[#111]">
+              <option value="" disabled hidden>Тип объекта</option>
               <option value="penthouse">Пентхаус</option>
               <option value="villa">Вилла</option>
               <option value="mansion">Особняк</option>
             </select>
-            <select className="bg-transparent text-white border-x md:border-y-0 border-y border-white/5 py-4 px-6 focus:outline-none focus:border-white/20 text-sm appearance-none cursor-pointer [&>option]:bg-[#111]">
-              <option value="" disabled selected hidden>Локация</option>
+            <select defaultValue="" className="bg-transparent text-white border-x md:border-y-0 border-y border-white/5 py-4 px-6 focus:outline-none focus:border-white/20 text-sm appearance-none cursor-pointer [&>option]:bg-[#111]">
+              <option value="" disabled hidden>Локация</option>
               <option value="ost">Остоженка</option>
               <option value="patr">Патриаршие пруды</option>
               <option value="rubl">Рублево-Успенское</option>
             </select>
-            <select className="bg-transparent text-white border-b md:border-b-0 md:border-r border-white/5 py-4 px-6 focus:outline-none focus:border-white/20 text-sm appearance-none cursor-pointer [&>option]:bg-[#111]">
-              <option value="" disabled selected hidden>Бюджет</option>
+            <select defaultValue="" className="bg-transparent text-white border-b md:border-b-0 md:border-r border-white/5 py-4 px-6 focus:outline-none focus:border-white/20 text-sm appearance-none cursor-pointer [&>option]:bg-[#111]">
+              <option value="" disabled hidden>Бюджет</option>
               <option value="3m">От $3 млн</option>
               <option value="10m">От $10 млн</option>
               <option value="custom">По запросу</option>
@@ -80,12 +80,12 @@ export default function RealEstate() {
       {/* Featured Properties */}
       <section id="properties" className="pt-12 pb-32 md:pt-20 md:pb-32 px-6 md:px-12 bg-[#0a0a0a] border-t border-white/5">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8">
             <div>
                <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Коллекция</div>
                <h2 className="text-4xl md:text-5xl font-cormorant text-white tracking-wide">Эксклюзивные предложения</h2>
             </div>
-            <a href="#" onClick={(e) => e.preventDefault()} className="uppercase tracking-[0.2em] text-[10px] text-white/50 border border-white/20 px-8 py-3 hover:bg-white hover:text-black transition-colors">
+            <a href="#" onClick={(e) => e.preventDefault()} className="uppercase tracking-[0.2em] text-[10px] text-white/50 border border-white/20 px-8 py-3 hover:bg-white hover:text-black transition-colors self-start md:self-auto">
               Посмотреть все объекты
             </a>
           </div>
@@ -160,7 +160,7 @@ export default function RealEstate() {
       {/* Analytics */}
       <section id="analytics" className="py-32 px-6 md:px-12 bg-[#0a0a0a] border-t border-white/5">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 gap-8">
             <div>
                <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Рыночная экспертиза</div>
                <h2 className="text-4xl md:text-5xl font-cormorant text-white tracking-wide">Цифры, которым <br/>можно доверять</h2>
