@@ -17,7 +17,7 @@ export default function Navbar() {
   const links = [
     { name: 'Выгоды', href: '#comparison' },
     { name: 'Кейсы', href: '#templates' },
-    { name: 'Тарифы и услуги', href: '#services' },
+    { name: 'Услуги', href: '#services' },
     { name: 'Отзывы', href: '#reviews' },
     { name: 'FAQ', href: '#faq' },
     { name: 'Контакты', href: '#contacts' },

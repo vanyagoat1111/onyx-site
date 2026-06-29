@@ -419,8 +419,8 @@ export default function EditorSimulator({ templateName, onClose }: { templateNam
 
                  {/* Canvas Workspace */}
                  <div className="flex-grow overflow-auto flex items-start sm:items-center justify-center p-0 pt-12 sm:pt-4 sm:p-8 relative industrial-grid bg-onyx-950 scroll-smooth">
-                    <div className={`shadow-2xl transition-all duration-500 bg-white overflow-y-auto overflow-x-hidden ${device === 'desktop' ? 'w-full h-full max-w-[1920px] shadow-black/50' : 'w-[320px] sm:w-[375px] h-[650px] sm:h-[812px] mt-4 sm:mt-0 rounded-[40px] border-[12px] border-onyx-800 relative shadow-black/80'}`}>
-                       {device === 'mobile' && <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-onyx-800 rounded-b-2xl z-50"></div>}
+                    <div className={`shadow-2xl transition-all duration-500 bg-white overflow-y-auto overflow-x-hidden no-scrollbar ${device === 'desktop' ? 'w-full h-full max-w-[1920px] shadow-black/50' : 'w-[320px] sm:w-[393px] h-[calc(100vh-6rem)] max-h-[852px] mt-4 sm:mt-0 rounded-[40px] border-[14px] border-black relative shadow-[0_0_50px_rgba(0,0,0,0.5)] ring-1 ring-slate-800'}`}>
+                       {device === 'mobile' && <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-50"></div>}
 
                        {/* Interactive Area */}
                        <div className={`min-h-full w-full relative ${isEditMode ? 'group cursor-crosshair' : ''}`} onClick={handlePreviewClick}>

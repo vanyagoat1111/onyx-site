@@ -4,24 +4,19 @@ import { Container, SectionTitle, Button } from './ui';
 const products = [
   {
     type: 'monthly',
-    title: 'Лендинг',
-    price: '1990р',
-    desc: 'Для рекламы и отдельных предложений. Одностраничный сайт визитка.',
-    features: ['Разработка', 'Хостинг', 'Домен', 'Адаптация под мобильные', 'Ссылки на ваши соцсети', 'Техническое обслуживание']
+    title: 'Разработка под ключ',
+    price: '0 ₽',
+    desc: 'Лендинги, корпоративные сайты и интернет-магазины. Мы разрабатываем сайт абсолютно бесплатно.',
+    features: ['Индивидуальный дизайн', 'Адаптивная верстка', 'Настройка SEO', 'Установка SSL-сертификата'],
+    action: 'Начать проект'
   },
   {
     type: 'monthly',
-    title: 'Корпоративный',
-    price: '2990р',
-    desc: 'Полноценное представительство для компаний и услуг.',
-    features: ['Разработка', 'Хостинг', 'Домен', 'Формы захвата', 'Адаптация под мобильные', 'Техническое обслуживание']
-  },
-  {
-    type: 'monthly',
-    title: 'Интернет-Магазин',
-    price: '6990р',
-    desc: 'Мощная платформа электронной коммерции.',
-    features: ['Каталог товаров', 'Формы', 'Онлайн оплата', 'Домен', 'Хостинг', 'Техническое обслуживание']
+    title: 'Домен и Хостинг',
+    price: '2 990 ₽',
+    desc: 'Пакет инфраструктуры. Включает надежный хостинг, домен и техническую поддержку вашего сайта.',
+    features: ['Регистрация домена .ru/.com', 'Высокоскоростной хостинг', 'Ежедневные бэкапы', 'Техническая поддержка', 'Круглосуточный мониторинг'],
+    action: 'Выбрать тариф'
   }
 ];
 
@@ -88,13 +83,13 @@ const addons = [
 export default function Services() {
   return (
     <Container id="services">
-      <SectionTitle subtitle="Наши продукты">Тарифы и<br/>Услуги</SectionTitle>
+      <SectionTitle subtitle="Наши услуги">Наши<br/>Услуги</SectionTitle>
 
       <div className="mb-8 font-mono text-blue-500 uppercase tracking-widest text-sm border-b border-blue-500/30 pb-2 drop-shadow-[0_0_8px_rgba(59,130,246,0.8)] ">
-        Сайты по подписке (Месяц)
+        Бесплатная разработка и инфраструктура
       </div>
 
-      <div className="grid md:grid-cols-3 gap-8 mb-24 relative z-10 p-4 -m-4">
+      <div className="grid md:grid-cols-2 gap-8 mb-24 relative z-10 p-4 -m-4">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent pointer-events-none -z-10 blur-3xl" />
         {products.map((p, i) => (
           <div key={i} className="flex flex-col bg-onyx-900 border border-onyx-700 hover:border-blue-500 transition-all duration-500 p-10 clip-diagonal group shadow-2xl hover:shadow-[0_0_50px_rgba(59,130,246,0.3)] relative overflow-hidden">
@@ -105,7 +100,9 @@ export default function Services() {
             <div className="mb-10 block relative">
               <div className="absolute -inset-4 bg-blue-500/20 blur-xl rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"></div>
               <span className="text-4xl md:text-5xl font-black tracking-tight text-blue-500 group-hover:text-blue-400 transition-all drop-shadow-[0_0_10px_rgba(59,130,246,0.8)] relative z-10">{p.price}</span>
-              <span className="text-blue-500 font-mono text-sm uppercase tracking-[0.2em] ml-3 drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] relative z-10">/мес</span>
+              {p.title === 'Домен и Хостинг' && (
+                <span className="text-blue-500 font-mono text-sm uppercase tracking-[0.2em] ml-3 drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] relative z-10">/мес</span>
+              )}
             </div>
             <ul className="space-y-4 mb-12 flex-grow">
               {p.features.map((f, j) => (
@@ -115,7 +112,7 @@ export default function Services() {
               ))}
             </ul>
             <button className="w-full relative px-6 py-4 bg-blue-600 text-onyx-950 font-black uppercase tracking-[0.2em] text-[10px] sm:text-xs clip-diagonal hover:bg-white hover:text-onyx-950 transition-all shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] group/btn z-10 overflow-hidden">
-              Выбрать тариф
+              {p.action}
               <div className="absolute inset-0 bg-white/40 blur-md opacity-0 group-hover/btn:opacity-100 transition-opacity"></div>
             </button>
           </div>

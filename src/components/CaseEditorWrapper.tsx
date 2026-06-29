@@ -50,7 +50,11 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
   };
 
   return (
-    <div className={`min-h-screen bg-slate-100 flex transition-colors duration-500 ${invert ? 'bg-slate-900' : ''}`}>
+    <div className={`min-h-screen flex transition-colors duration-500 overflow-hidden ${
+      (viewMode === 'mobile' || perspective) 
+        ? 'bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-slate-900 via-blue-900/20 to-onyx-950' 
+        : 'bg-slate-100'
+    } ${invert ? 'bg-slate-900' : ''}`}>
       <DemoCloseButton />
 
       {/* Editor Panel Toggle Button */}
@@ -266,12 +270,12 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
       `}</style>
 
       {/* Render Area */}
-      <div className="render-area-wrapper w-full flex-1 flex flex-col items-center min-h-screen pt-4 pb-12 overflow-x-hidden">
+      <div className="render-area-wrapper w-full flex-1 flex flex-col items-center justify-center h-screen overflow-hidden">
         <div
           className={`render-area-inner w-full transition-all duration-700 ease-in-out flex flex-col items-center relative
             ${viewMode === 'mobile'
-              ? 'max-w-[393px] h-[852px] my-10 mx-auto border-[14px] border-black rounded-[3.5rem] shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-y-auto overflow-x-hidden bg-white ring-1 ring-slate-800'
-              : `max-w-full ${perspective ? 'w-full max-w-[1600px] my-12' : 'bg-white min-h-screen'}`
+              ? 'w-[393px] h-[calc(100vh-2rem)] max-h-[852px] my-auto mx-auto border-[14px] border-black rounded-[3.5rem] shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-y-auto overflow-x-hidden bg-white ring-1 ring-slate-800 no-scrollbar'
+              : `max-w-full h-full overflow-y-auto overflow-x-hidden no-scrollbar ${perspective ? 'w-full max-w-[1600px] my-auto h-[calc(100vh-2rem)]' : 'bg-white h-screen'}`
             }`}
         >
           {viewMode === 'mobile' && (
@@ -293,7 +297,7 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
                      <div className="w-1.5 h-1.5 rounded-full bg-green-500/80 absolute right-6 opacity-70 shadow-[0_0_8px_rgba(34,197,94,1)]"></div>
                   </div>
                   {/* Screen Content - Scrollable */}
-                  <div className="w-full h-full overflow-y-auto overflow-x-hidden bg-white custom-scrollbar relative">
+                  <div className="w-full h-full overflow-y-auto overflow-x-hidden bg-white relative no-scrollbar">
                     <div
                       className={`case-preview-container w-full min-h-full origin-top ${font}`}
                       contentEditable={isEditable}

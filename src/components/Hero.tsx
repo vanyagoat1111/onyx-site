@@ -24,7 +24,7 @@ export default function Hero() {
             className="max-w-3xl"
           >
             <p className="text-sm sm:text-base md:text-lg text-blue-400 font-sans mb-4 uppercase tracking-wider font-bold text-left">
-              Профессиональный сайт по подписке от 2990 ₽ в месяц
+              Профессиональный сайт. Разработка абсолютно бесплатно.
             </p>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl leading-[1.2] sm:leading-[1.1] text-left font-heading font-black uppercase tracking-tight mb-6 text-white break-words">
               Создаем сайты, которые помогают бизнесу получать <br className="hidden lg:block" />
@@ -33,7 +33,7 @@ export default function Hero() {
 
             <div className="text-xl md:text-2xl text-neutral-300 font-sans max-w-2xl mb-8 leading-relaxed font-light mt-2 text-left hyphens-auto">
               <p>Без затрат на разработку.</p>
-              <p className="mt-2 text-lg md:text-xl text-neutral-400">Домен, поддержка и обновления включены.</p>
+              <p className="mt-2 text-lg md:text-xl text-neutral-400">Вся инфраструктура, домен и поддержка в одном тарифе.</p>
             </div>
 
             <ul className="space-y-4 mb-10 flex-grow font-sans">

@@ -5,11 +5,11 @@ import { motion } from 'motion/react';
 
 export default function ComparisonTable() {
   const calculations = [
-    { label: 'Разработка сайта (Дизайн + Код)', ourPrice: 'Входит в подписку', competitorPrice: 'от 80 000 ₽', bad: true },
-    { label: 'Доменное имя (.ru / .com / .рф)', ourPrice: 'Входит в подписку', competitorPrice: 'от 1 500 ₽ / год', bad: true },
-    { label: 'Хостинг (Сервер сайта)', ourPrice: 'Входит в подписку', competitorPrice: 'от 3 000 ₽ / год', bad: true },
-    { label: 'Техническая поддержка', ourPrice: 'Входит в подписку', competitorPrice: 'от 10 000 ₽ / мес', bad: true },
-    { label: 'Установка SSL-сертификата', ourPrice: 'Входит в подписку', competitorPrice: 'от 2 000 ₽', bad: true },
+    { label: 'Разработка сайта (Дизайн + Код)', ourPrice: '0 ₽', competitorPrice: 'от 80 000 ₽', bad: true },
+    { label: 'Доменное имя (.ru / .com / .рф)', ourPrice: 'Включено в тариф', competitorPrice: 'от 1 500 ₽ / год', bad: true },
+    { label: 'Хостинг (Сервер сайта)', ourPrice: 'Включено в тариф', competitorPrice: 'от 3 000 ₽ / год', bad: true },
+    { label: 'Техническая поддержка', ourPrice: 'Включено в тариф', competitorPrice: 'от 10 000 ₽ / мес', bad: true },
+    { label: 'Установка SSL-сертификата', ourPrice: '0 ₽', competitorPrice: 'от 2 000 ₽', bad: true },
     { label: 'Установка CRM и форм', ourPrice: 'Опционально', competitorPrice: 'от 15 000 ₽', bad: false },
   ]
 
@@ -47,7 +47,7 @@ export default function ComparisonTable() {
               </ul>
 
               <div className="pt-6 border-t-2 border-onyx-800">
-                <div className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-red-500/80 mb-3">Итого к оплате на старте:</div>
+                <div className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-red-500/80 mb-3">Итого к оплате за разработку:</div>
                 <div className="text-3xl sm:text-5xl font-black text-neutral-300 line-through decoration-red-500/50 decoration-4">от 111 500 ₽</div>
                 <div className="text-[10px] sm:text-xs font-mono text-neutral-500 mt-4 uppercase tracking-widest leading-relaxed">+ ежемесячные траты на <br className="hidden sm:block"/>хостинг и поддержку</div>
               </div>
@@ -86,19 +86,19 @@ export default function ComparisonTable() {
               <div className="pt-6 border-t-2 border-blue-500/30">
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
                   <div>
-                    <div className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-blue-400 mb-3">Абонентская плата:</div>
+                    <div className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-blue-400 mb-3">Затраты на разработку:</div>
                     <div className="text-4xl sm:text-6xl font-black text-white drop-shadow-[0_0_20px_rgba(59,130,246,0.6)]">
-                      2 990 ₽ <span className="text-base sm:text-lg font-mono text-blue-400 font-bold">/мес</span>
+                      0 ₽
                     </div>
                   </div>
                   <div className="text-left sm:text-right hidden sm:block">
                      <div className="text-[10px] font-mono text-blue-300 uppercase tracking-widest leading-relaxed opacity-80 border-l sm:border-l-0 sm:border-r border-blue-500/30 pl-3 sm:pl-0 sm:pr-3 py-1">
-                       Запуск за <br/>пару дней
+                       Оплата только за <br/>домен и хостинг
                      </div>
                   </div>
                 </div>
                 <div className="text-[10px] sm:text-xs font-mono text-blue-300 mt-6 uppercase tracking-widest leading-relaxed px-4 py-3 bg-blue-500/10 border border-blue-500/20 inline-block font-bold">
-                  Без огромных вложений на старте
+                  Без вложений в разработку
                 </div>
               </div>
             </div>
