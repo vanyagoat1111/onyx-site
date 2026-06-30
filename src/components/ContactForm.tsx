@@ -13,14 +13,22 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
     // Собираем данные из формы
     const formData = new FormData(e.currentTarget);
     const data = {
-      company: formData.get('company'),
-      niche: formData.get('niche'),
+      // Сохраняем старые ключи для совместимости со скриптом отправки в Telegram
+      fio: formData.get('company') ? `Заявка от: ${formData.get('company')}` : 'Новая заявка',
+      phone: formData.get('phone'),
+      position: `Адрес: ${formData.get('address')}`,
       city: formData.get('city'),
+      business: `Ниша: ${formData.get('niche')}, Услуги: ${formData.get('services')}`,
+      company: formData.get('company'),
+      socials: `${formData.get('socials')} | Фото: ${formData.get('photo')}`,
+      vision: `Цвета: ${formData.get('colors')} | Доп. функции: ${formData.get('features')}`,
+      source: `Преимущества: ${formData.get('advantages')}`,
+
+      // Новые ключи на всякий случай
+      niche: formData.get('niche'),
       services: formData.get('services'),
       advantages: formData.get('advantages'),
-      phone: formData.get('phone'),
       address: formData.get('address'),
-      socials: formData.get('socials'),
       photo: formData.get('photo'),
       colors: formData.get('colors'),
       features: formData.get('features'),
