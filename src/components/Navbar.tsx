@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Button } from './ui';
 import { Menu, X } from 'lucide-react';
 import ContactForm from './ContactForm';
+import AddonsModal from './AddonsModal';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
+  const [addonsOpen, setAddonsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -17,6 +19,8 @@ export default function Navbar() {
   const links = [
     { name: 'Кейсы', href: '#templates' },
     { name: 'Услуги', href: '#services' },
+    { name: 'Доп. опции', action: () => setAddonsOpen(true) },
+    { name: 'Заявка', action: () => setFormOpen(true) },
     { name: 'Отзывы', href: '#reviews' },
     { name: 'FAQ', href: '#faq' },
     { name: 'Контакты', href: '#contacts' },
@@ -39,11 +43,13 @@ export default function Navbar() {
             {links.map(link => (
               <a
                 key={link.name}
-                href={link.href}
-                className="text-sm font-mono text-neutral-400 hover:text-blue-500 hover:drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] uppercase tracking-widest transition-all relative group"
+                href={link.href || '#'}
+                className="text-sm font-mono text-neutral-400 hover:text-blue-500 hover:drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] uppercase tracking-widest transition-all relative group cursor-pointer"
                 onClick={(e) => {
-                  if (link.href.startsWith('#')) {
-                    e.preventDefault();
+                  e.preventDefault();
+                  if (link.action) {
+                    link.action();
+                  } else if (link.href && link.href.startsWith('#')) {
                     document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
@@ -68,14 +74,16 @@ export default function Navbar() {
             {links.map(link => (
               <a
                 key={link.name}
-                href={link.href}
-                className="block text-2xl font-black uppercase tracking-widest border-b border-onyx-700 pb-4 mb-4 text-white hover:text-blue-500 hover:border-blue-500 transition-colors drop-shadow-[0_0_5px_rgba(255,255,255,0.2)] hover:drop-shadow-[0_0_10px_rgba(59,130,246,0.5)] "
+                href={link.href || '#'}
+                className="block text-2xl font-black uppercase tracking-widest border-b border-onyx-700 pb-4 mb-4 text-white hover:text-blue-500 hover:border-blue-500 transition-colors drop-shadow-[0_0_5px_rgba(255,255,255,0.2)] hover:drop-shadow-[0_0_10px_rgba(59,130,246,0.5)] cursor-pointer"
                 onClick={(e) => {
+                  e.preventDefault();
                   setMobileMenuOpen(false);
-                  if (link.href.startsWith('#')) {
-                    e.preventDefault();
+                  if (link.action) {
+                    setTimeout(() => link.action!(), 50);
+                  } else if (link.href && link.href.startsWith('#')) {
                     setTimeout(() => {
-                      document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
+                      document.querySelector(link.href!)?.scrollIntoView({ behavior: 'smooth' });
                     }, 50);
                   }
                 }}
@@ -89,6 +97,7 @@ export default function Navbar() {
       )}
 
       {formOpen && <ContactForm isModal onClose={() => setFormOpen(false)} />}
+      {addonsOpen && <AddonsModal onClose={() => setAddonsOpen(false)} />}
     </>
   );
 }
