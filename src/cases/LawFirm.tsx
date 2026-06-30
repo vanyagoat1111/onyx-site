@@ -11,7 +11,7 @@ export default function LawFirm() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a1023] text-slate-300 font-serif selection:bg-[#c9a263] selection:text-white">
+    <div className="relative min-h-screen bg-[#0a1023] text-slate-300 font-serif selection:bg-[#c9a263] selection:text-white overflow-hidden">
 
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a1023]/95 backdrop-blur border-b border-[#2a365c] py-5 px-6 md:px-12 flex justify-between items-center">
@@ -26,7 +26,7 @@ export default function LawFirm() {
           <a href="#faq" onClick={(e) => scrollTo(e, 'faq')} className="hover:text-[#c9a263] transition-colors">FAQ</a>
           <a href="#contacts" onClick={(e) => scrollTo(e, 'contacts')} className="hover:text-[#c9a263] transition-colors">Контакты</a>
         </nav>
-        <button className="hidden md:block bg-[#c9a263] text-[#0a1023] px-6 py-2 font-sans font-bold uppercase tracking-wider text-xs transition-colors hover:bg-[#b08b53]">
+        <button className="bg-[#c9a263] text-[#0a1023] px-4 md:px-6 py-2 font-sans font-bold uppercase tracking-wider text-[10px] md:text-xs transition-colors hover:bg-[#b08b53]">
           Консультация
         </button>
       </header>
@@ -41,7 +41,7 @@ export default function LawFirm() {
                <div className="h-px bg-[#c9a263] w-12"></div>
                <div className="text-[#c9a263] font-sans font-medium uppercase tracking-widest text-xs">Юридическое бюро</div>
             </div>
-            <h1 className="text-4xl md:text-6xl text-white leading-[1.1] mb-8 font-medium">
+            <h1 className="text-4xl md:text-6xl text-white leading-[1.1] mb-8 font-medium break-words hyphens-auto">
               Безупречная защита <br/>интересов вашего бизнеса в суде
             </h1>
             <p className="text-lg md:text-xl mb-12 font-sans font-light leading-relaxed max-w-lg">

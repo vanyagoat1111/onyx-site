@@ -11,7 +11,7 @@ export default function DentalClinic() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-800 font-outfit">
+    <div className="relative min-h-screen bg-white text-slate-800 font-outfit overflow-hidden">
 
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-sky-100 py-4 px-6 md:px-12 flex justify-between items-center">
@@ -41,7 +41,7 @@ export default function DentalClinic() {
             <div className="inline-block px-4 py-1.5 bg-sky-100 text-sky-700 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
               Премиальная стоматология в Москве
             </div>
-            <h1 className="text-4xl md:text-6xl font-serif font-bold text-slate-900 leading-tight mb-6">
+            <h1 className="text-4xl md:text-6xl font-serif font-bold text-slate-900 leading-tight mb-6 break-words hyphens-auto">
               Здоровая улыбка <br/>с гарантией <span className="text-sky-600">экспертов</span>
             </h1>
             <p className="text-lg text-slate-600 mb-8 max-w-lg leading-relaxed">

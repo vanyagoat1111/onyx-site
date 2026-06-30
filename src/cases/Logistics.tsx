@@ -11,10 +11,10 @@ export default function Logistics() {
   };
 
   return (
-    <div className="min-h-screen bg-onyx-950 text-white font-sans selection:bg-blue-600 selection:text-white w-full overflow-x-hidden">
+    <div className="relative min-h-screen bg-onyx-950 text-white font-sans selection:bg-blue-600 selection:text-white w-full overflow-hidden">
 
       {/* HEADER */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-onyx-950/80 backdrop-blur-md border-b border-white/5">
+      <header className="sticky top-0 z-50 bg-onyx-950/80 backdrop-blur-md border-b border-white/5">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
           <div className="text-2xl font-black font-heading tracking-tight flex items-center gap-2">
             <span className="text-white">PRIME</span><span className="text-blue-500">LOGISTICS</span>
@@ -25,12 +25,12 @@ export default function Logistics() {
             <a href="#geography" onClick={(e) => scrollTo(e, 'geography')} className="hover:text-blue-400 transition-colors">География</a>
             <a href="#advantages" onClick={(e) => scrollTo(e, 'advantages')} className="hover:text-blue-400 transition-colors">Преимущества</a>
           </nav>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 md:gap-6">
             <div className="hidden md:flex flex-col text-right">
               <span className="text-xs text-neutral-400 font-medium">Бесплатный звонок по РФ</span>
               <a href="tel:88000000000" className="text-white font-bold hover:text-blue-400 transition-colors">8 (800) 500-00-00</a>
             </div>
-            <button className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 text-sm font-bold uppercase tracking-wider transition-all hidden sm:block clip-diagonal">
+            <button className="bg-blue-600 hover:bg-blue-500 text-white px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-sm font-bold uppercase tracking-wider transition-all clip-diagonal">
               Расчет стоимости
             </button>
           </div>
@@ -53,7 +53,7 @@ export default function Logistics() {
                 <span className="text-sm font-bold uppercase tracking-wider text-blue-400">Международная логистика 3PL</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black font-heading uppercase tracking-tight text-white leading-[1.1]">
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black font-heading uppercase tracking-tight text-white leading-[1.1] break-words hyphens-auto">
                 Доставка грузов<br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400 drop-shadow-[0_0_20px_rgba(59,130,246,0.3)]">
                   без задержек<br/>и скрытых платежей

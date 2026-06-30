@@ -58,8 +58,8 @@ export default function AddonsModal({ onClose }: { onClose: () => void }) {
       className="fixed inset-0 z-[100] bg-onyx-950/90 backdrop-blur-md overflow-y-auto"
       onClick={handleOverlayClick}
     >
-      <div className="min-h-full flex items-center justify-center p-4 sm:p-8">
-        <div className="bg-onyx-900 border border-onyx-700 w-full max-w-5xl relative clip-diagonal shadow-[0_0_50px_rgba(59,130,246,0.15)] p-6 md:p-10 my-8">
+      <div className="min-h-full flex items-start justify-center p-4 sm:p-8">
+        <div className="bg-onyx-900 border border-onyx-700 w-full max-w-5xl relative clip-diagonal shadow-[0_0_50px_rgba(59,130,246,0.15)] p-6 md:p-10 mt-8 mb-16">
         <button 
           onClick={onClose}
           className="absolute top-4 right-4 md:top-6 md:right-6 text-neutral-400 hover:text-white transition-colors"

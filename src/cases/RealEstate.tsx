@@ -13,27 +13,27 @@ export default function RealEstate() {
   };
 
   return (
-    <div className="min-h-screen bg-[#080808] text-neutral-300 font-sans selection:bg-white/20 selection:text-white">
+    <div className="relative min-h-screen bg-[#080808] text-neutral-300 font-sans selection:bg-white/20 selection:text-white overflow-hidden">
 
       {/* Header */}
       <header className="absolute top-0 w-full z-50 px-6 md:px-12 py-8 flex justify-between items-center border-b border-white/5">
-        <div className="text-2xl font-cormorant text-white tracking-[0.2em] uppercase">
+        <div className="text-xl md:text-2xl font-cormorant text-white tracking-[0.2em] uppercase">
           Vanguard <span className="opacity-50">Estates</span>
         </div>
-        <nav className="hidden md:flex gap-10 text-[10px] uppercase tracking-[0.2em] font-medium text-white/70">
+        <nav className="hidden lg:flex gap-10 text-[10px] uppercase tracking-[0.2em] font-medium text-white/70">
           <a href="#philosophy" onClick={(e) => scrollTo(e, 'philosophy')} className="hover:text-white transition-colors">Философия</a>
           <a href="#properties" onClick={(e) => scrollTo(e, 'properties')} className="hover:text-white transition-colors">Объекты</a>
           <a href="#services" onClick={(e) => scrollTo(e, 'services')} className="hover:text-white transition-colors">Услуги</a>
           <a href="#analytics" onClick={(e) => scrollTo(e, 'analytics')} className="hover:text-white transition-colors">Аналитика</a>
           <a href="#trust" onClick={(e) => scrollTo(e, 'trust')} className="hover:text-white transition-colors">Доверие</a>
         </nav>
-        <button className="text-white border border-white/20 px-8 py-3 hover:bg-white hover:text-black transition-colors text-[10px] uppercase tracking-[0.2em]">
+        <button className="text-white border border-white/20 px-4 md:px-8 py-2 md:py-3 hover:bg-white hover:text-black transition-colors text-[9px] md:text-[10px] uppercase tracking-[0.2em]">
           Связаться
         </button>
       </header>
 
       {/* Hero */}
-      <section className="relative min-h-screen md:h-[90vh] md:min-h-[700px] flex items-center justify-center pt-32 pb-16">
+      <section className="relative min-h-screen flex items-center justify-center pt-32 pb-16">
         <div className="absolute inset-0 z-0">
           <img src={case5_1} className="w-full h-full object-cover"  />
           <div className="absolute inset-0 bg-black/50 z-10"></div>
@@ -43,7 +43,7 @@ export default function RealEstate() {
 
         <div className="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center mt-12">
           <div className="text-[10px] text-[#c9a263] uppercase tracking-[0.4em] mb-10 font-bold">Бутик элитной недвижимости</div>
-          <h1 className="text-[46px] md:text-8xl lg:text-[100px] font-cormorant text-white mb-10 tracking-wide drop-shadow-2xl text-center leading-tight md:leading-[1.05]">
+          <h1 className="text-5xl md:text-7xl lg:text-[100px] font-cormorant text-white mb-10 tracking-wide drop-shadow-2xl text-center leading-tight md:leading-[1.05] break-words hyphens-auto">
             Исключительная <br className="hidden md:block" /> <i className="font-light text-white/90">недвижимость</i> <br className="hidden md:block" /> для искушенных
           </h1>
           <p className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-16 md:mb-20 font-light tracking-wide text-center leading-relaxed">
@@ -152,6 +152,35 @@ export default function RealEstate() {
                   <h3 className="text-xl text-white mb-4 tracking-wide">{svc.title}</h3>
                   <p className="text-white/50 text-sm font-light leading-relaxed">{svc.desc}</p>
                 </div>
+             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-32 px-6 md:px-12 bg-[#080808] border-t border-white/5">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-16">
+          <div className="md:w-1/3">
+             <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Информация</div>
+             <h2 className="text-4xl font-cormorant text-white tracking-wide mb-8">Частые<br/>вопросы</h2>
+             <p className="text-white/50 text-sm font-light leading-relaxed">Прозрачность процесса — основа нашего подхода. Мы отвечаем на самые важные вопросы наших клиентов.</p>
+          </div>
+          <div className="md:w-2/3 space-y-6">
+             {[
+               { q: 'Как происходит оценка премиальной недвижимости?', a: 'Оценка включает анализ закрытых баз данных сделок, архитектурной и исторической ценности объекта, а также потенциала капитализации в перспективе 5-10 лет. Мы привлекаем независимых международных экспертов для формирования объективной стоимости.' },
+               { q: 'Возможна ли полностью дистанционная сделка?', a: 'Да. Мы предоставляем услуги виртуальных туров, а также юридическое сопровождение по доверенности. Вся документация оформляется через защищенные каналы связи с участием аккредитованных нотариусов.' },
+               { q: 'Работаете ли вы с коммерческой недвижимостью?', a: 'Наш фокус — элитная жилая недвижимость, однако в рамках Family Office мы помогаем клиентам формировать диверсифицированные портфели, включающие высокодоходные коммерческие объекты класса А.' },
+               { q: 'Какие гарантии конфиденциальности вы предоставляете?', a: 'Перед началом любого обсуждения мы подписываем строгий NDA. Информация о клиентах не передается третьим лицам, а показы организуются в индивидуальном закрытом формате.' }
+             ].map((faq, i) => (
+                <details key={i} className="group border border-white/10 bg-[#111] open:bg-white/5 transition-colors duration-300">
+                  <summary className="cursor-pointer list-none flex justify-between items-center p-8 text-white font-medium">
+                     <span className="text-lg font-cormorant tracking-wide">{faq.q}</span>
+                     <span className="text-white/40 group-open:rotate-45 transition-transform duration-300 text-2xl font-light">+</span>
+                  </summary>
+                  <div className="px-8 pb-8 text-white/50 text-sm font-light leading-relaxed border-t border-white/5 pt-6 mt-2">
+                     {faq.a}
+                  </div>
+                </details>
              ))}
           </div>
         </div>

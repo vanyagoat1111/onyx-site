@@ -11,11 +11,11 @@ export default function FitnessClub() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white font-sport selection:bg-red-500 selection:text-white">
+    <div className="relative min-h-screen bg-[#0a0a0a] text-white font-sport selection:bg-red-500 selection:text-white overflow-hidden">
 
       {/* Header */}
-      <header className="fixed top-0 w-full z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-red-900/30 py-4 px-6 md:px-12 flex justify-between items-center transition-all">
-        <div className="text-3xl font-black italic tracking-tight uppercase text-white">
+      <header className="sticky top-0 w-full z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-red-900/30 py-4 px-6 md:px-12 flex justify-between items-center transition-all">
+        <div className="text-2xl md:text-3xl font-black italic tracking-tight uppercase text-white">
           IRON<span className="text-red-600">CORE</span>
         </div>
         <nav className="hidden md:flex gap-8 text-sm font-bold uppercase tracking-widest text-neutral-400">
@@ -24,13 +24,13 @@ export default function FitnessClub() {
           <a href="#schedule" onClick={(e) => scrollTo(e, 'schedule')} className="hover:text-red-500 transition-colors">Расписание</a>
           <a href="#contacts" onClick={(e) => scrollTo(e, 'contacts')} className="hover:text-red-500 transition-colors">Контакты</a>
         </nav>
-        <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 font-bold uppercase tracking-wider text-xs transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] skew-x-[-10deg]">
+        <button className="bg-red-600 hover:bg-red-700 text-white px-4 md:px-6 py-2 md:py-2.5 font-bold uppercase tracking-wider text-[10px] md:text-xs transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] skew-x-[-10deg]">
           <div className="skew-x-[10deg]">Стать резидентом</div>
         </button>
       </header>
 
       {/* Hero */}
-      <section className="relative min-h-[90vh] flex items-center pt-24 pb-20 lg:pb-0 px-6 md:px-12 overflow-hidden">
+      <section className="relative min-h-[90vh] flex items-center py-24 md:py-32 px-6 md:px-12 overflow-hidden">
         {/* Background Image & Overlay */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-10"></div>
@@ -45,7 +45,7 @@ export default function FitnessClub() {
               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
               Новый уровень
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold text-white uppercase leading-none tracking-tight">
+            <h1 className="text-5xl md:text-7xl font-bold text-white uppercase leading-none tracking-tight break-words hyphens-auto">
               Не предел,
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-500">а старт</span>
             </h1>
@@ -247,7 +247,7 @@ export default function FitnessClub() {
       <footer className="bg-[#050505] pt-20 pb-10 px-6 md:px-12 text-neutral-400">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-12 mb-16">
           <div className="max-w-xs">
-            <div className="text-2xl font-black text-white tracking-widest uppercase mb-4">Forge<span className="text-red-600">Gym</span></div>
+            <div className="text-2xl font-black text-white tracking-widest uppercase mb-4">IRON<span className="text-red-600">CORE</span></div>
             <p className="text-sm font-medium leading-relaxed mb-6">Бескомпромиссный подход к тренировкам. Премиальное оборудование, лучшие тренеры и атмосфера результата.</p>
             <div className="flex gap-4 border-l border-red-600 pl-4">
                {/* Social Icons Placeholder */}
