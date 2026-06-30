@@ -4,7 +4,6 @@ import Hero from './components/Hero';
 import Stats from './components/Stats';
 import WhyWeb from './components/WhyWeb';
 import Problem from './components/Problem';
-import ComparisonTable from './components/ComparisonTable';
 import Romi from './components/Romi';
 import Templates from './components/Templates';
 import Stages from './components/Stages';
@@ -63,12 +62,11 @@ export default function App() {
       <Hero />
       <Stats />
       <Templates />
+      <Services />
       <WhyWeb />
       <Problem />
-      <ComparisonTable />
       <Romi />
       <Stages />
-      <Services />
       <Reviews />
       <FAQ />
       <FormSection />

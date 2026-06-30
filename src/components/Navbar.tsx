@@ -15,7 +15,6 @@ export default function Navbar() {
   }, []);
 
   const links = [
-    { name: 'Выгоды', href: '#comparison' },
     { name: 'Кейсы', href: '#templates' },
     { name: 'Услуги', href: '#services' },
     { name: 'Отзывы', href: '#reviews' },

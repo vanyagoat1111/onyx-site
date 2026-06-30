@@ -13,15 +13,17 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
     // Собираем данные из формы
     const formData = new FormData(e.currentTarget);
     const data = {
-      fio: formData.get('fio'),
-      phone: formData.get('phone'),
-      position: formData.get('position'),
-      city: formData.get('city'),
-      business: formData.get('business'),
       company: formData.get('company'),
+      niche: formData.get('niche'),
+      city: formData.get('city'),
+      services: formData.get('services'),
+      advantages: formData.get('advantages'),
+      phone: formData.get('phone'),
+      address: formData.get('address'),
       socials: formData.get('socials'),
-      vision: formData.get('vision'),
-      source: formData.get('source'),
+      photo: formData.get('photo'),
+      colors: formData.get('colors'),
+      features: formData.get('features'),
       date: new Date().toLocaleString("ru-RU", { timeZone: "Europe/Moscow" })
     };
 
@@ -67,25 +69,25 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
           <div className="grid sm:grid-cols-2 gap-x-8 gap-y-4">
-            <Input name="fio" placeholder="1. ФИО" required />
-            <Input name="phone" placeholder="2. Телефон / Telegram" required />
-            <Input name="position" placeholder="3. Должность" required />
-            <Input name="company" placeholder="4. Название компании" required />
-            <Input name="city" placeholder="5. Город" required />
-            <Input name="business" placeholder="6. Сфера бизнеса" required />
+            <Input name="company" placeholder="1. Название компании" required />
+            <Input name="niche" placeholder="2. Ниша" required />
+            <Input name="city" placeholder="3. Город" required />
+            <Input name="services" placeholder="4. Услуги" required />
+            <Input name="advantages" placeholder="5. Преимущества" required />
+            <Input name="phone" placeholder="6. Телефон" required />
+            <Input name="address" placeholder="7. Адрес" required />
+            <Input name="socials" placeholder="8. Соцсети (ссылки)" />
             <div className="sm:col-span-2">
-              <Input name="socials" placeholder="7. Ссылки на соц. сети (опционально)" />
-            </div>
-            <div className="sm:col-span-2 relative mt-4">
-              <textarea
-                name="vision"
-                placeholder="8. Ваше видение сайта, пожелания к визуалу"
-                rows={3}
-                className="w-full bg-onyx-950 border-b border-onyx-700 pb-2 pt-4 px-2 text-blue-500 placeholder:font-serif placeholder:font-medium placeholder:italic placeholder:tracking-wide placeholder-neutral-400 focus:outline-none focus:border-blue-500 hover:border-blue-500/50 transition-colors font-mono focus:shadow-[0_2px_10px_rgba(59,130,246,0.2)] focus:bg-onyx-900 resize-none"
-              ></textarea>
+              <Input name="photo" placeholder="9. Ссылка на фото/логотип" />
             </div>
             <div className="sm:col-span-2">
-              <Input name="source" placeholder="9. Откуда узнали о студии?" />
+              <Input name="colors" placeholder="10. Пожелания по цветам" />
+            </div>
+            <div className="sm:col-span-2 relative mt-2">
+              <Input
+                name="features"
+                placeholder="11. Нужны ли доп. функции (корзина, бронирование и т.д.)?"
+              />
             </div>
           </div>
           <div className="mt-8">

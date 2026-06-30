@@ -15,7 +15,7 @@ export default function Hero() {
         }}
       />
 
-      <Container className="relative z-10 pt-12">
+      <Container className="relative z-10 pt-[23px] border-0 rounded-none">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 1, y: 20 }}
@@ -24,32 +24,19 @@ export default function Hero() {
             className="max-w-3xl"
           >
             <p className="text-sm sm:text-base md:text-lg text-blue-400 font-sans mb-4 uppercase tracking-wider font-bold text-left">
-              Профессиональный сайт. Разработка абсолютно бесплатно.
+              Сайт для бизнеса — 0 ₽ за разработку
             </p>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl leading-[1.2] sm:leading-[1.1] text-left font-heading font-black uppercase tracking-tight mb-6 text-white break-words">
               Создаем сайты, которые помогают бизнесу получать <br className="hidden lg:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]">больше клиентов</span>
             </h1>
 
-            <div className="text-xl md:text-2xl text-neutral-300 font-sans max-w-2xl mb-8 leading-relaxed font-light mt-2 text-left hyphens-auto">
-              <p>Без затрат на разработку.</p>
-              <p className="mt-2 text-lg md:text-xl text-neutral-400">Вся инфраструктура, домен и поддержка в одном тарифе.</p>
+            <div className="text-xl md:text-2xl text-neutral-300 font-sans max-w-2xl mb-10 leading-relaxed font-light mt-2 text-left hyphens-auto">
+              <p>Современный сайт для заявок, доверия и продаж. Вы оплачиваете только запуск, домен, хостинг.</p>
             </div>
 
-            <ul className="space-y-4 mb-10 flex-grow font-sans">
-                <li className="flex gap-4 text-base md:text-lg font-medium text-neutral-200 transition-colors items-center text-left">
-                  <span className="text-blue-500 font-bold shrink-0 text-xl">✓</span> Дизайн под вашу нишу
-                </li>
-                <li className="flex gap-4 text-base md:text-lg font-medium text-neutral-200 transition-colors items-center text-left">
-                  <span className="text-blue-500 font-bold shrink-0 text-xl">✓</span> Разработка под ключ
-                </li>
-                <li className="flex gap-4 text-base md:text-lg font-medium text-neutral-200 transition-colors items-center text-left">
-                  <span className="text-blue-500 font-bold shrink-0 text-xl">✓</span> Поддержка после запуска
-                </li>
-            </ul>
-
             <div className="flex flex-col sm:flex-row gap-6 items-stretch pb-20 w-full max-w-2xl">
-              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px]" onClick={() => setFormOpen(true)}>Получить бесплатную консультацию</Button>
+              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px]" onClick={() => setFormOpen(true)}>Получить сайт бесплатно</Button>
               <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px]" variant="outline" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth'})}>Наши кейсы</Button>
             </div>
           </motion.div>

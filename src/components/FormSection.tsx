@@ -18,7 +18,7 @@ export default function FormSection() {
                <ul className="space-y-6">
                   <li className="flex gap-5 text-neutral-200 text-lg items-center bg-onyx-800/30 p-4 border border-onyx-700 clip-diagonal"><div className="w-3 h-3 bg-blue-400 shrink-0 shadow-[0_0_10px_rgba(147,197,253,0.5)]" /> Бесплатная консультация с экспертом</li>
                   <li className="flex gap-5 text-neutral-200 text-lg items-center bg-onyx-800/30 p-4 border border-onyx-700 clip-diagonal"><div className="w-3 h-3 bg-blue-400 shrink-0 shadow-[0_0_10px_rgba(147,197,253,0.5)]" /> Точная оценка сроков и бюджета</li>
-                  <li className="flex gap-5 text-neutral-200 text-lg items-center bg-onyx-800/30 p-4 border border-onyx-700 clip-diagonal"><div className="w-3 h-3 bg-blue-400 shrink-0 shadow-[0_0_10px_rgba(147,197,253,0.5)]" /> Подбор идеального тарифа</li>
+                  <li className="flex gap-5 text-neutral-200 text-lg items-center bg-onyx-800/30 p-4 border border-onyx-700 clip-diagonal"><div className="w-3 h-3 bg-blue-400 shrink-0 shadow-[0_0_10px_rgba(147,197,253,0.5)]" /> Подбор подходящей инфраструктуры</li>
                </ul>
             </div>
             <div className="bg-onyx-950/90 p-8 md:p-12 clip-diagonal border-2 border-onyx-700 shadow-[0_0_50px_rgba(59,130,246,0.15)] backdrop-blur-xl hover:border-blue-500/50 transition-colors relative group">
