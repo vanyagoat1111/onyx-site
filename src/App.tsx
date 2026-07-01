@@ -14,6 +14,8 @@ import FormSection from './components/FormSection';
 import Partner from './components/Partner';
 import Footer from './components/Footer';
 import CaseEditorWrapper from './components/CaseEditorWrapper';
+import LegalModal from './components/LegalModal';
+import CookieConsent from './components/CookieConsent';
 
 // Cases
 import DentalClinic from './cases/DentalClinic';
@@ -72,6 +74,8 @@ export default function App() {
       <FormSection />
       <Partner />
       <Footer />
+      <LegalModal />
+      <CookieConsent />
     </main>
   );
 }

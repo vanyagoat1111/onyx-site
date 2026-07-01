@@ -53,7 +53,7 @@ export default function Logistics() {
                 <span className="text-sm font-bold uppercase tracking-wider text-blue-400">Международная логистика 3PL</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black font-heading uppercase tracking-tight text-white leading-[1.1] break-words hyphens-auto">
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black font-heading uppercase tracking-tight text-white leading-[1.1]">
                 Доставка грузов<br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400 drop-shadow-[0_0_20px_rgba(59,130,246,0.3)]">
                   без задержек<br/>и скрытых платежей

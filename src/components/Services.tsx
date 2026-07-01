@@ -1,12 +1,57 @@
 import React from 'react';
 import { Container, SectionTitle, Button } from './ui';
 
+const addons = [
+  {
+    title: 'Подключение оплаты',
+    price: '5 990 ₽',
+    desc: 'Через ЮKassa, Т-Банк или CloudPayments.',
+    action: 'Оплатить'
+  },
+  {
+    title: 'Подключение CRM',
+    price: '9 990 ₽',
+    desc: 'Битрикс24, amoCRM. Клиент -> Сайт -> CRM -> Менеджер.',
+    action: 'Оплатить'
+  },
+  {
+    title: 'Индивидуальный Дизайн',
+    price: 'от 15 000 ₽',
+    desc: 'Разработка уникального дизайна по вашему промпту.',
+    action: 'Оплатить'
+  },
+  {
+    title: 'SMM ONYX',
+    price: 'от 50 000 ₽ / мес',
+    desc: 'Ведение вашего бизнеса под ключ в ONYX SMM.',
+    action: 'Подробнее'
+  },
+  {
+    title: 'Настройка Аналитики',
+    price: '3 990 ₽',
+    desc: 'Яндекс Метрика, Google Analytics.',
+    action: 'Оплатить'
+  },
+  {
+    title: 'Онлайн Запись',
+    price: '6 990 ₽',
+    desc: 'Для стоматологий, фитнес-клубов, салонов, мед.центров. Подключаются сторонние сервисы записи.',
+    action: 'Оплатить'
+  },
+  {
+    title: 'Telegram Уведомления',
+    price: '3 990 ₽',
+    desc: 'Новые заявки сразу приходят в Telegram владельца.',
+    action: 'Оплатить'
+  }
+];
+
 export default function Services() {
   return (
-    <Container id="services">
-      <SectionTitle subtitle="Наши услуги">Услуги</SectionTitle>
+    <Container id="prices">
+      <SectionTitle subtitle="Наши тарифы">Тарифы</SectionTitle>
 
-      <div className="grid lg:grid-cols-3 gap-8 relative z-10 p-4 -m-4">
+      <div className="grid lg:grid-cols-3 gap-8 relative z-10 p-4 -m-4 mb-16">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent pointer-events-none -z-10 blur-3xl" />
         
         {/* Card 1: Стартовый сайт */}
@@ -14,7 +59,7 @@ export default function Services() {
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
           <div className="absolute top-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-600 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_15px_rgba(59,130,246,0.5)]"></div>
           
-          <h3 className="text-xl md:text-2xl lg:text-3xl font-black tracking-tight mb-4 group-hover:text-white text-neutral-200 transition-colors uppercase break-words hyphens-auto">СТАРТОВЫЙ САЙТ</h3>
+          <h3 className="text-xl md:text-2xl lg:text-3xl font-black tracking-tight mb-4 group-hover:text-white text-neutral-200 transition-colors uppercase">СТАРТОВЫЙ САЙТ</h3>
           <p className="text-neutral-300 text-base mb-8 pb-8 border-b border-onyx-700 group-hover:border-blue-500/50 transition-colors font-mono leading-relaxed">Быстрый сайт для бизнеса, который поможет рассказать о компании, показать услуги и принимать заявки от клиентов.</p>
           
           <div className="grid md:grid-cols-2 gap-8 mb-8">
@@ -90,17 +135,37 @@ export default function Services() {
               Оплатить
             </button>
           </div>
-          
-          {/* Card 3: Дополнительно */}
-          <div className="bg-onyx-900 border border-onyx-700 p-8 flex flex-col hover:border-onyx-500 transition-all group clip-diagonal relative overflow-hidden">
-            <h4 className="font-black uppercase tracking-tight text-xl mb-3 text-neutral-200 group-hover:text-white transition-colors">ДОПОЛНИТЕЛЬНЫЕ СТРАНИЦЫ</h4>
-            <div className="text-2xl font-black tracking-tight mb-4 text-blue-500">от 1 500 ₽</div>
-            <p className="text-sm text-neutral-400 mb-6 group-hover:text-neutral-300 transition-colors">Разработка и добавление дополнительных страниц к вашему сайту (цена за одну страницу).</p>
-            <button className="w-full border border-onyx-500/50 bg-onyx-800 text-white text-[10px] uppercase tracking-[0.2em] py-3 px-4 clip-diagonal hover:border-blue-400 hover:bg-blue-400/20 transition-all font-black" onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth'})}>
-              Подробнее
+        </div>
+      </div>
+
+      <div className="mb-8">
+        <h3 className="text-2xl md:text-3xl font-black uppercase text-white tracking-tight mb-8">Дополнительные опции</h3>
+      </div>
+      
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
+        <div className="bg-onyx-900 border border-onyx-700 p-6 flex flex-col hover:border-onyx-500 transition-all group clip-diagonal relative overflow-hidden">
+          <h4 className="font-black uppercase tracking-tight text-lg mb-3 min-h-[56px] text-neutral-200 group-hover:text-white transition-colors">Дополнительные страницы</h4>
+          <div className="text-xl font-black tracking-tight mb-3 text-blue-500 group-hover:text-blue-300 transition-colors drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]">от 1 500 ₽</div>
+          <p className="text-sm text-neutral-400 mb-6 flex-grow leading-relaxed group-hover:text-neutral-300 transition-colors">Разработка и добавление дополнительных страниц к вашему сайту (цена за одну страницу).</p>
+          <button className="w-full border border-onyx-500/50 bg-onyx-800 text-white text-[10px] uppercase tracking-[0.2em] py-3 px-4 clip-diagonal hover:border-blue-400 hover:bg-blue-400/20 transition-all font-black" onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth'})}>
+            Подробнее
+          </button>
+        </div>
+        
+        {addons.map((a, i) => (
+          <div key={i} className="bg-onyx-900 border border-onyx-700 p-6 flex flex-col hover:border-blue-400/50 transition-all group hover:shadow-[0_0_30px_rgba(147,197,253,0.3)] clip-diagonal relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-400/10 blur-[50px] pointer-events-none group-hover:bg-blue-400/20 transition-colors" />
+            <h4 className="font-black uppercase tracking-tight text-lg mb-3 min-h-[56px] text-neutral-200 group-hover:text-white transition-colors">{a.title}</h4>
+            <div className="text-xl font-black tracking-tight mb-3 text-blue-500 group-hover:text-blue-300 transition-colors drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] group-hover:drop-shadow-[0_0_5px_rgba(147,197,253,0.5)]">{a.price}</div>
+            <p className="text-sm text-neutral-400 mb-6 flex-grow leading-relaxed group-hover:text-white transition-colors">{a.desc}</p>
+            <button 
+              className="w-full border border-onyx-500/50 bg-onyx-800 text-white text-[10px] uppercase tracking-[0.2em] py-3 px-4 clip-diagonal group-hover:border-blue-400 group-hover:bg-blue-400/20 group-hover:text-white transition-all font-black group-hover:shadow-[0_0_15px_rgba(147,197,253,0.3)]"
+              onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth'})}
+            >
+              {a.action}
             </button>
           </div>
-        </div>
+        ))}
       </div>
     </Container>
   );

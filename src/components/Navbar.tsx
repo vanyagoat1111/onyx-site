@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Button } from './ui';
 import { Menu, X } from 'lucide-react';
 import ContactForm from './ContactForm';
-import AddonsModal from './AddonsModal';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
-  const [addonsOpen, setAddonsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -17,9 +15,9 @@ export default function Navbar() {
   }, []);
 
   const links = [
-    { name: 'Кейсы', href: '#templates' },
+    { name: 'Шаблоны сайтов', href: '#templates' },
+    { name: 'Тарифы', href: '#prices' },
     { name: 'Услуги', href: '#services' },
-    { name: 'Доп. опции', action: () => setAddonsOpen(true) },
     { name: 'Заявка', action: () => setFormOpen(true) },
     { name: 'Отзывы', href: '#reviews' },
     { name: 'FAQ', href: '#faq' },
@@ -97,7 +95,6 @@ export default function Navbar() {
       )}
 
       {formOpen && <ContactForm isModal onClose={() => setFormOpen(false)} />}
-      {addonsOpen && <AddonsModal onClose={() => setAddonsOpen(false)} />}
     </>
   );
 }

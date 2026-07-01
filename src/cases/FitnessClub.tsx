@@ -45,7 +45,7 @@ export default function FitnessClub() {
               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
               Новый уровень
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold text-white uppercase leading-none tracking-tight break-words hyphens-auto">
+            <h1 className="text-5xl md:text-7xl font-bold text-white uppercase leading-none tracking-tight">
               Не предел,
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-500">а старт</span>
             </h1>
@@ -91,7 +91,7 @@ export default function FitnessClub() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
             <div>
               <h2 className="text-[13px] font-mono text-red-500 uppercase tracking-widest mb-2">Технологии и комфорт</h2>
-              <h3 className="text-3xl sm:text-4xl lg:text-[40px] font-black text-white uppercase tracking-tight break-words sm:break-normal">Инфраструктура</h3>
+              <h3 className="text-3xl sm:text-4xl lg:text-[40px] font-black text-white uppercase tracking-tight">Инфраструктура</h3>
             </div>
             <p className="text-neutral-400 max-w-md text-sm md:text-base md:text-right">Все необходимое для продуктивных тренировок и качественного восстановления.</p>
           </div>

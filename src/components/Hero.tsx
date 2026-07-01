@@ -23,21 +23,19 @@ export default function Hero() {
             transition={{ duration: 0.8 }}
             className="max-w-3xl"
           >
-            <p className="text-sm sm:text-base md:text-lg text-blue-400 font-sans mb-4 uppercase tracking-wider font-bold text-left">
-              Сайт для бизнеса — 0 ₽ за разработку
-            </p>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl leading-[1.2] sm:leading-[1.1] text-left font-heading font-black uppercase tracking-tight mb-6 text-white break-words">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl leading-[1.2] sm:leading-[1.1] text-left font-heading font-black uppercase tracking-tight mb-6 text-white">
               Создаем сайты, которые помогают бизнесу получать <br className="hidden lg:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]">больше клиентов</span>
             </h1>
 
-            <div className="text-xl md:text-2xl text-neutral-300 font-sans max-w-2xl mb-10 leading-relaxed font-light mt-2 text-left hyphens-auto">
+            <div className="text-xl md:text-2xl text-neutral-300 font-sans max-w-2xl mb-10 leading-relaxed font-light mt-2 text-left">
+              <p className="mb-2 font-bold text-blue-400">Сайт для бизнеса — 0 ₽ за разработку</p>
               <p>Современный сайт для заявок, доверия и продаж. Вы оплачиваете только запуск, домен, хостинг.</p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-6 items-stretch pb-20 w-full max-w-2xl">
               <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px]" onClick={() => setFormOpen(true)}>Получить сайт бесплатно</Button>
-              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px]" variant="outline" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth'})}>Наши кейсы</Button>
+              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px]" variant="outline" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth'})}>Шаблоны сайтов</Button>
             </div>
           </motion.div>
 

@@ -41,7 +41,7 @@ export default function LawFirm() {
                <div className="h-px bg-[#c9a263] w-12"></div>
                <div className="text-[#c9a263] font-sans font-medium uppercase tracking-widest text-xs">Юридическое бюро</div>
             </div>
-            <h1 className="text-4xl md:text-6xl text-white leading-[1.1] mb-8 font-medium break-words hyphens-auto">
+            <h1 className="text-4xl md:text-6xl text-white leading-[1.1] mb-8 font-medium">
               Безупречная защита <br/>интересов вашего бизнеса в суде
             </h1>
             <p className="text-lg md:text-xl mb-12 font-sans font-light leading-relaxed max-w-lg">

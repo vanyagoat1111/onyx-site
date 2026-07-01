@@ -43,12 +43,47 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
       if (GOOGLE_SCRIPT_URL) {
         fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
-          mode: 'no-cors', // Важно для запросов к Google Scripts с клиента
+          mode: 'no-cors',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(data),
         }).catch(err => console.error("Ошибка при отправке в Google Таблицы", err));
+      }
+
+      // Отправка в Telegram
+      const TELEGRAM_BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+      const TELEGRAM_CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+      
+      if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
+        const text = `
+🔥 *Новая заявка с сайта!*
+
+*Название компании:* ${data.company || '-'}
+*Ниша:* ${data.niche || '-'}
+*Город:* ${data.city || '-'}
+*Услуги:* ${data.services || '-'}
+*Преимущества:* ${data.advantages || '-'}
+*Телефон:* ${data.phone || '-'}
+*Адрес:* ${data.address || '-'}
+*Соцсети:* ${data.socials || '-'}
+*Фото/лого:* ${data.photo || '-'}
+*Цвета:* ${data.colors || '-'}
+*Доп. функции:* ${data.features || '-'}
+*Дата:* ${data.date}
+        `;
+
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: text,
+            parse_mode: 'Markdown',
+          }),
+        });
       }
     } catch (error) {
       console.error("Ошибка при отправке", error);

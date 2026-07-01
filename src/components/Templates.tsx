@@ -71,7 +71,7 @@ export default function Templates() {
       <div className="absolute inset-0 bg-gradient-to-b from-onyx-900 via-transparent to-onyx-900 pointer-events-none" />
       <Container className="!pt-12 lg:!pt-16 relative z-10 w-full overflow-hidden">
         <div className="flex flex-col mb-12 lg:mb-16 w-full">
-          <SectionTitle className="text-left max-w-4xl text-white !mb-0">КЕЙСЫ: КАК МЫ РЕШИЛИ ЗАДАЧИ БИЗНЕСА</SectionTitle>
+          <SectionTitle className="text-left max-w-4xl text-white !mb-0">Шаблоны сайтов: КАК МЫ РЕШИЛИ ЗАДАЧИ бизнеса</SectionTitle>
         </div>
 
         <div className="space-y-32">

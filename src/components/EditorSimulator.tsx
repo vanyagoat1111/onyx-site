@@ -251,7 +251,7 @@ const SmmMock = () => (
        <span className="text-sm font-sans font-bold tracking-widest border border-[#ebff00] px-4 py-2 rounded-full cursor-pointer hover:bg-[#ebff00] hover:text-onyx-950 transition-colors">СВЯЗАТЬСЯ</span>
      </nav>
 
-     <div className="p-6 md:p-12 text-6xl lg:text-[140px] leading-[0.85] mt-12 mb-20 break-words">
+     <div className="p-6 md:p-12 text-6xl lg:text-[140px] leading-[0.85] mt-12 mb-20">
         МЫ ДЕЛАЕМ<br/>
         ВАШ БРЕНД<br/>
         <span className="text-white drop-shadow-[4px_4px_0_black]">ЗАМЕТНЫМ.</span>

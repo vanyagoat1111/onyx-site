@@ -43,7 +43,7 @@ export default function RealEstate() {
 
         <div className="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center mt-12">
           <div className="text-[10px] text-[#c9a263] uppercase tracking-[0.4em] mb-10 font-bold">Бутик элитной недвижимости</div>
-          <h1 className="text-5xl md:text-7xl lg:text-[100px] font-cormorant text-white mb-10 tracking-wide drop-shadow-2xl text-center leading-tight md:leading-[1.05] break-words hyphens-auto">
+          <h1 className="text-5xl md:text-7xl lg:text-[100px] font-cormorant text-white mb-10 tracking-wide drop-shadow-2xl text-center leading-tight md:leading-[1.05]">
             Исключительная <br className="hidden md:block" /> <i className="font-light text-white/90">недвижимость</i> <br className="hidden md:block" /> для искушенных
           </h1>
           <p className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-16 md:mb-20 font-light tracking-wide text-center leading-relaxed">

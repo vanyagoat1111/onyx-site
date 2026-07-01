@@ -14,8 +14,8 @@ export default function Footer() {
             {/* Contacts Info */}
             <div className="flex flex-col gap-4 text-sm md:text-base font-black uppercase tracking-[0.2em] text-blue-500">
               <span className="text-neutral-500 font-mono text-xs uppercase tracking-widest mb-2">Наши контакты</span>
-              <a href="mailto:bossybestzzz@gmail.com" className="hover:text-white hover:drop-shadow-[0_0_10px_#fff] transition-all flex items-center gap-4 group">
-                <span className="w-8 h-[2px] bg-onyx-700 group-hover:bg-blue-600 transition-colors"></span> bossybestzzz@gmail.com
+              <a href="mailto:onyxwebcooperation@gmail.com" className="hover:text-white hover:drop-shadow-[0_0_10px_#fff] transition-all flex items-center gap-4 group">
+                <span className="w-8 h-[2px] bg-onyx-700 group-hover:bg-blue-600 transition-colors"></span> onyxwebcooperation@gmail.com
               </a>
               <a href="tel:+79082420204" className="hover:text-white hover:drop-shadow-[0_0_10px_#fff] transition-all flex items-center gap-4 group">
                 <span className="w-8 h-[2px] bg-onyx-700 group-hover:bg-blue-600 transition-colors"></span> +7 (908) 242-02-04
@@ -31,12 +31,15 @@ export default function Footer() {
               <div className="text-[10px] md:text-xs text-neutral-500 space-y-1">
                 <div className="block">Самозанятый: Бутаев Давид Александрович</div>
                 <div className="block">ИНН: 540538092505</div>
-                <div className="block">Email: <a href="mailto:butatygoth@mail.ru" className="hover:text-blue-500 hover:drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] transition-all">butatygoth@mail.ru</a></div>
+                <div className="block">ОГРНИП: 323000000000000 (Укажите свой ОГРН)</div>
+                <div className="block">Юридический адрес: г. Москва (Укажите полный адрес)</div>
+                <div className="block">Email: <a href="mailto:onyxwebcooperation@gmail.com" className="hover:text-blue-500 hover:drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] transition-all">onyxwebcooperation@gmail.com</a></div>
                 <div className="block">Телефон: <a href="tel:+79223767525" className="hover:text-blue-500 hover:drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] transition-all">+7 (922) 376-75-25</a></div>
               </div>
               <div className="flex flex-wrap gap-4 md:gap-6 mt-6">
-                <a href="#" onClick={(e) => e.preventDefault()} className="hover:text-blue-300 hover:drop-shadow-[0_0_5px_rgba(147,197,253,0.3)] transition-all">Политика конфиденциальности</a>
-                <a href="#" onClick={(e) => e.preventDefault()} className="hover:text-blue-300 hover:drop-shadow-[0_0_5px_rgba(147,197,253,0.3)] transition-all">Оферта</a>
+                <a href="#" onClick={(e) => { e.preventDefault(); document.dispatchEvent(new CustomEvent('open-legal', { detail: 'privacy' })); }} className="hover:text-blue-300 hover:drop-shadow-[0_0_5px_rgba(147,197,253,0.3)] transition-all">Политика обработки персональных данных</a>
+                <a href="#" onClick={(e) => { e.preventDefault(); document.dispatchEvent(new CustomEvent('open-legal', { detail: 'terms' })); }} className="hover:text-blue-300 hover:drop-shadow-[0_0_5px_rgba(147,197,253,0.3)] transition-all">Пользовательское соглашение (оферта)</a>
+                <a href="#" onClick={(e) => { e.preventDefault(); document.dispatchEvent(new CustomEvent('open-legal', { detail: 'payment' })); }} className="hover:text-blue-300 hover:drop-shadow-[0_0_5px_rgba(147,197,253,0.3)] transition-all">Условия оплаты, доставки и возврата</a>
               </div>
             </div>
 

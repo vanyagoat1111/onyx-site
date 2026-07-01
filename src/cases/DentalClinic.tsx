@@ -41,7 +41,7 @@ export default function DentalClinic() {
             <div className="inline-block px-4 py-1.5 bg-sky-100 text-sky-700 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
               Премиальная стоматология в Москве
             </div>
-            <h1 className="text-4xl md:text-6xl font-serif font-bold text-slate-900 leading-tight mb-6 break-words hyphens-auto">
+            <h1 className="text-4xl md:text-6xl font-serif font-bold text-slate-900 leading-tight mb-6">
               Здоровая улыбка <br/>с гарантией <span className="text-sky-600">экспертов</span>
             </h1>
             <p className="text-lg text-slate-600 mb-8 max-w-lg leading-relaxed">
