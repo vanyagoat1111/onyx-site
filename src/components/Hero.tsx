@@ -82,7 +82,7 @@ export default function Hero() {
           {Array(8).fill("").map((_, i) => (
              <React.Fragment key={i}>
                 <span style={{ WebkitTextStroke: "1px rgba(59,130,246,0.5)" }} className="text-transparent ">ПРОФЕССИОНАЛЬНЫЙ САЙТ</span>
-                <span className="text-blue-500 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">БЕЗ ЗАТРАТ НА ЗАПУСК</span>
+                <span className="text-blue-500 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">ЗА 0 РУБЛЕЙ</span>
                 <span className="text-blue-300">+++</span>
              </React.Fragment>
           ))}

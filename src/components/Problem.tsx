@@ -22,7 +22,7 @@ export default function Problem() {
             viewport={{ once: true }}
             className="flex items-start gap-8"
           >
-            <div className="text-6xl md:text-8xl font-heading font-black text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-[#8100ff] tracking-tight shrink-0 select-none drop-shadow-[0_0_15px_rgba(147,197,253,0.8)] ">
+            <div className="text-6xl md:text-8xl font-heading font-black text-blue-500 tracking-tight shrink-0 select-none drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]">
               90%
             </div>
             <div>

@@ -49,7 +49,7 @@ const addons = [
 export default function Services() {
   return (
     <Container id="prices">
-      <SectionTitle subtitle="Наши тарифы">Разработка за 0 ₽</SectionTitle>
+      <SectionTitle subtitle="Наши тарифы"><span className="whitespace-nowrap">Разработка за 0 ₽</span></SectionTitle>
 
       <div className="grid lg:grid-cols-3 gap-8 relative z-10 p-4 -m-4 mb-16">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent pointer-events-none -z-10 blur-3xl" />
