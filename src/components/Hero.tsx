@@ -29,18 +29,18 @@ export default function Hero() {
             transition={{ duration: 0.8 }}
             className="max-w-3xl"
           >
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl leading-[1.2] sm:leading-[1.1] text-left font-heading font-black uppercase tracking-tight mb-6 text-white">
-              Создаем сайты, которые помогают бизнесу получать <br className="hidden lg:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]">больше клиентов</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.2] sm:leading-[1.1] text-left font-heading font-black uppercase tracking-tight mb-6 text-white">
+              Сайт для бизнеса за <br className="hidden lg:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]">0 ₽</span>
             </h1>
 
-            <div className="text-xl md:text-2xl text-neutral-300 font-sans max-w-2xl mb-10 leading-relaxed font-light mt-2 text-left">
-              <p className="mb-2 font-bold text-blue-400">Сайт для бизнеса — 0 ₽ за разработку</p>
-              <p>Современный сайт для заявок, доверия и продаж. Вы оплачиваете только запуск, домен, хостинг.</p>
+            <div className="text-lg md:text-xl text-neutral-300 font-sans max-w-2xl mb-10 leading-relaxed font-light mt-2 text-left space-y-4">
+              <p>Создадим профессиональный сайт без оплаты разработки — вы оплачиваете только домен, хостинг и обслуживание.</p>
+              <p>ONYX WEB берёт на себя запуск, настройку и поддержку, а ваш бизнес получает сайт для заявок, доверия и независимости от соцсетей.</p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-6 items-stretch pb-20 w-full max-w-2xl">
-              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px]" onClick={() => setFormOpen(true)}>Получить сайт бесплатно</Button>
+              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px]" onClick={() => setFormOpen(true)}>Получить сайт за 0 ₽</Button>
               <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px]" variant="outline" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth'})}>Шаблоны сайтов</Button>
             </div>
           </motion.div>
