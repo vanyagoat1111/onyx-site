@@ -24,7 +24,7 @@ const addons = [
     title: 'SMM ONYX',
     price: 'от 50 000 ₽ / мес',
     desc: 'Ведение вашего бизнеса под ключ в ONYX SMM.',
-    action: 'Подробнее'
+    action: 'Оплатить'
   },
   {
     title: 'Настройка Аналитики',
@@ -140,7 +140,7 @@ export default function Services() {
         </div>
       </div>
 
-      <div className="mb-8">
+      <div className="mb-8 scroll-mt-24" id="services">
         <h3 className="text-2xl md:text-3xl font-black uppercase text-white tracking-tight mb-8">Дополнительные опции</h3>
       </div>
       
@@ -150,7 +150,7 @@ export default function Services() {
           <div className="text-xl font-black tracking-tight mb-3 text-blue-500 group-hover:text-blue-300 transition-colors drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]">от 1 500 ₽</div>
           <p className="text-sm text-neutral-400 mb-6 flex-grow leading-relaxed group-hover:text-neutral-300 transition-colors">Разработка и добавление дополнительных страниц к вашему сайту (цена за одну страницу).</p>
           <button className="w-full border border-onyx-500/50 bg-onyx-800 text-white text-[10px] uppercase tracking-[0.2em] py-3 px-4 clip-diagonal hover:border-blue-400 hover:bg-blue-400/20 transition-all font-black" onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth'})}>
-            Подробнее
+            Оплатить
           </button>
         </div>
         

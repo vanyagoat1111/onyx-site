@@ -16,22 +16,11 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
       // Сохраняем старые ключи для совместимости со скриптом отправки в Telegram
       fio: formData.get('company') ? `Заявка от: ${formData.get('company')}` : 'Новая заявка',
       phone: formData.get('phone'),
-      position: `Адрес: ${formData.get('address')}`,
-      city: formData.get('city'),
-      business: `Ниша: ${formData.get('niche')}, Услуги: ${formData.get('services')}`,
       company: formData.get('company'),
-      socials: `${formData.get('socials')} | Фото: ${formData.get('photo')}`,
-      vision: `Цвета: ${formData.get('colors')} | Доп. функции: ${formData.get('features')}`,
-      source: `Преимущества: ${formData.get('advantages')}`,
-
-      // Новые ключи на всякий случай
+      socials: formData.get('socials'),
+      business: `Ниша: ${formData.get('niche')}`,
       niche: formData.get('niche'),
-      services: formData.get('services'),
-      advantages: formData.get('advantages'),
-      address: formData.get('address'),
-      photo: formData.get('photo'),
-      colors: formData.get('colors'),
-      features: formData.get('features'),
+      
       date: new Date().toLocaleString("ru-RU", { timeZone: "Europe/Moscow" })
     };
 
@@ -61,15 +50,8 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
 
 *Название компании:* ${data.company || '-'}
 *Ниша:* ${data.niche || '-'}
-*Город:* ${data.city || '-'}
-*Услуги:* ${data.services || '-'}
-*Преимущества:* ${data.advantages || '-'}
 *Телефон:* ${data.phone || '-'}
-*Адрес:* ${data.address || '-'}
 *Соцсети:* ${data.socials || '-'}
-*Фото/лого:* ${data.photo || '-'}
-*Цвета:* ${data.colors || '-'}
-*Доп. функции:* ${data.features || '-'}
 *Дата:* ${data.date}
         `;
 
@@ -114,25 +96,10 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
           <div className="grid sm:grid-cols-2 gap-x-8 gap-y-4">
             <Input name="company" placeholder="1. Название компании" required />
             <Input name="niche" placeholder="2. Ниша" required />
-            <Input name="city" placeholder="3. Город" required />
-            <Input name="services" placeholder="4. Услуги" required />
-            <Input name="advantages" placeholder="5. Преимущества" required />
-            <Input name="phone" placeholder="6. Телефон" required />
-            <Input name="address" placeholder="7. Адрес" required />
-            <Input name="socials" placeholder="8. Соцсети (ссылки)" />
-            <div className="sm:col-span-2">
-              <Input name="photo" placeholder="9. Ссылка на фото/логотип" />
-            </div>
-            <div className="sm:col-span-2">
-              <Input name="colors" placeholder="10. Пожелания по цветам" />
-            </div>
-            <div className="sm:col-span-2 relative mt-2">
-              <Input
-                name="features"
-                placeholder="11. Нужны ли доп. функции (корзина, бронирование и т.д.)?"
-              />
-            </div>
+            <Input name="phone" placeholder="3. Телефон" required />
+            <Input name="socials" placeholder="4. Соцсети (ссылки)" />
           </div>
+
           <div className="mt-8">
             <Button type="submit" disabled={loading} className="w-full hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-shadow text-[10px] sm:text-xs tracking-[0.2em] py-4">
               {loading ? "Отправка..." : "Отправить заявку"}

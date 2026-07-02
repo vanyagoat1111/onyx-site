@@ -60,7 +60,7 @@ export default function WhyWeb() {
 
         <motion.div initial={{ opacity: 1, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mt-20 bg-onyx-900 border border-onyx-800 p-8 md:p-12 clip-diagonal relative overflow-hidden group hover:border-blue-500/50 transition-colors">
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/5 blur-[80px] pointer-events-none group-hover:bg-blue-600/10 transition-colors"></div>
-          <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white mb-8">Профессиональный сайт помогает:</h3>
+          <h3 className="text-[23px] font-black uppercase tracking-tight text-white mb-8">Профессиональный сайт помогает:</h3>
           <ul className="grid sm:grid-cols-2 gap-6 mb-10">
             {points.map((pt, i) => (
               <li key={i} className="flex gap-4 text-neutral-300 font-medium">

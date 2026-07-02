@@ -31,8 +31,6 @@ export default function Footer() {
               <div className="text-[10px] md:text-xs text-neutral-500 space-y-1">
                 <div className="block">Самозанятый: Бутаев Давид Александрович</div>
                 <div className="block">ИНН: 540538092505</div>
-                <div className="block">ОГРНИП: 323000000000000 (Укажите свой ОГРН)</div>
-                <div className="block">Юридический адрес: г. Москва (Укажите полный адрес)</div>
                 <div className="block">Email: <a href="mailto:onyxwebcooperation@gmail.com" className="hover:text-blue-500 hover:drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] transition-all">onyxwebcooperation@gmail.com</a></div>
                 <div className="block">Телефон: <a href="tel:+79223767525" className="hover:text-blue-500 hover:drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] transition-all">+7 (922) 376-75-25</a></div>
               </div>
