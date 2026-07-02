@@ -49,7 +49,7 @@ const addons = [
 export default function Services() {
   return (
     <Container id="prices">
-      <SectionTitle subtitle="Наши тарифы">Тарифы</SectionTitle>
+      <SectionTitle subtitle="Наши тарифы">Разработка за 0 ₽</SectionTitle>
 
       <div className="grid lg:grid-cols-3 gap-8 relative z-10 p-4 -m-4 mb-16">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent pointer-events-none -z-10 blur-3xl" />
@@ -59,7 +59,9 @@ export default function Services() {
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
           <div className="absolute top-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-600 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_15px_rgba(59,130,246,0.5)]"></div>
           
-          <h3 className="text-xl md:text-2xl lg:text-3xl font-black tracking-tight mb-4 group-hover:text-white text-neutral-200 transition-colors uppercase">СТАРТОВЫЙ САЙТ</h3>
+          <h3 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight mb-4 group-hover:text-white text-neutral-200 transition-colors uppercase">
+            СТАРТОВЫЙ САЙТ — <span className="text-blue-500 drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">0 ₽</span>
+          </h3>
           <p className="text-neutral-300 text-base mb-8 pb-8 border-b border-onyx-700 group-hover:border-blue-500/50 transition-colors font-mono leading-relaxed">Быстрый сайт для бизнеса, который поможет рассказать о компании, показать услуги и принимать заявки от клиентов.</p>
           
           <div className="grid md:grid-cols-2 gap-8 mb-8">
