@@ -7,13 +7,19 @@ export default function Hero() {
   const [formOpen, setFormOpen] = useState(false);
 
   return (
-    <section className="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden bg-onyx-900  mask-image-b group">
+    <section className="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden bg-onyx-900 mask-image-b group">
+      {/* Dynamic Backgrounds */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background: 'radial-gradient(ellipse at top right, rgba(30,58,138,0.4) 0%, rgba(8,8,8,0.9) 50%, rgba(0,0,0,1) 100%)'
         }}
       />
+      
+      {/* Abstract Shapes */}
+      <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-purple-600/30 rounded-full blur-[120px] pointer-events-none mix-blend-screen animate-pulse" style={{ animationDuration: '8s' }} />
+      <div className="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[150px] pointer-events-none mix-blend-screen animate-pulse" style={{ animationDuration: '10s' }} />
+      <div className="absolute -bottom-32 left-1/3 w-[400px] h-[400px] bg-indigo-600/20 rounded-full blur-[100px] pointer-events-none mix-blend-screen animate-pulse" style={{ animationDuration: '6s' }} />
 
       <Container className="relative z-10 pt-[23px] border-0 rounded-none">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
