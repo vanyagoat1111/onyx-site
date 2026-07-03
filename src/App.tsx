@@ -6,6 +6,7 @@ import WhyWeb from './components/WhyWeb';
 import Problem from './components/Problem';
 import Romi from './components/Romi';
 import Templates from './components/Templates';
+import Benefits from './components/Benefits';
 import Stages from './components/Stages';
 import Services from './components/Services';
 import Reviews from './components/Reviews';
@@ -63,6 +64,7 @@ export default function App() {
       <Navbar />
       <Hero />
       <Stats />
+      <Benefits />
       <Templates />
       <Services />
       <WhyWeb />

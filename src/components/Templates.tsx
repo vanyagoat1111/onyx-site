@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, SectionTitle } from './ui';
-import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
+
 const main1 = "/case1.1.png";
 const main2 = "/case2.1.png";
 const main3 = "/case3.1.png";
@@ -67,34 +68,39 @@ const cases = [
 
 export default function Templates() {
   return (
-    <div id="templates" className="pb-16 lg:pb-24 bg-onyx-950 relative scroll-mt-20">
+    <div id="templates" className="pb-16 lg:pb-32 bg-onyx-950 relative scroll-mt-20">
       <div className="absolute inset-0 bg-gradient-to-b from-onyx-900 via-transparent to-onyx-900 pointer-events-none" />
-      <Container className="!pt-12 lg:!pt-16 relative z-10 w-full overflow-hidden">
-        <div className="flex flex-col mb-12 lg:mb-16 w-full">
-          <SectionTitle className="text-left max-w-4xl text-white !mb-0">Шаблоны сайтов: КАК МЫ РЕШИЛИ ЗАДАЧИ бизнеса</SectionTitle>
+      <Container className="!pt-12 lg:!pt-24 relative z-10 w-full overflow-hidden">
+        <div className="flex flex-col mb-12 lg:mb-20 w-full relative">
+          <SectionTitle className="text-left max-w-4xl text-white !mb-0 relative z-10">
+            Шаблоны сайтов: КАК МЫ РЕШИЛИ ЗАДАЧИ бизнеса
+          </SectionTitle>
+          <div className="absolute -top-10 -left-10 w-64 h-64 bg-blue-600/10 blur-[80px] pointer-events-none -z-10" />
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-14">
           {cases.map((tpl, i) => (
-            <div key={i} className="w-full relative group">
-              <div className="absolute -inset-4 bg-blue-600/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-              <a href={tpl.url} className="block relative bg-onyx-900 border border-onyx-700 overflow-hidden clip-diagonal group-hover:border-blue-500 transition-all shadow-[0_0_20px_rgba(0,0,0,0.8)] group-hover:shadow-[0_0_40px_rgba(59,130,246,0.3)] z-10 pt-8 h-full">
-                <div className="absolute top-0 w-full h-8 border-b border-onyx-700 group-hover:border-blue-500/50 bg-onyx-950 flex items-center px-4 gap-2 z-20 transition-colors">
-                  <div className="w-2.5 h-2.5 rounded-none bg-blue-400 shadow-[0_0_8px_rgba(147,197,253,0.3)]"></div>
-                  <div className="w-2.5 h-2.5 rounded-none bg-blue-600 shadow-[0_0_8px_rgba(59,130,246,0.5)]"></div>
-                  <div className="w-2.5 h-2.5 rounded-none bg-neutral-600"></div>
+            <div key={i} className="w-full relative group perspective-1000">
+              <div className="absolute -inset-6 bg-blue-500/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0"></div>
+              <a href={tpl.url} className="block relative bg-onyx-900 border border-onyx-800 overflow-hidden clip-diagonal group-hover:border-blue-500/80 transition-all duration-700 shadow-[0_20px_40px_rgba(0,0,0,0.8)] group-hover:shadow-[0_30px_60px_rgba(59,130,246,0.2)] z-10 pt-10 h-full group-hover:-translate-y-2">
+                <div className="absolute top-0 w-full h-10 border-b border-onyx-800 group-hover:border-blue-500/40 bg-onyx-950 flex items-center px-5 gap-2.5 z-20 transition-colors duration-500 shadow-md">
+                  <div className="w-2.5 h-2.5 rounded-none bg-onyx-700 group-hover:bg-blue-400 group-hover:shadow-[0_0_8px_rgba(96,165,250,0.6)] transition-all duration-300"></div>
+                  <div className="w-2.5 h-2.5 rounded-none bg-onyx-700 group-hover:bg-blue-500 group-hover:shadow-[0_0_8px_rgba(59,130,246,0.6)] transition-all duration-500 delay-75"></div>
+                  <div className="w-2.5 h-2.5 rounded-none bg-onyx-700 group-hover:bg-blue-600 group-hover:shadow-[0_0_8px_rgba(37,99,235,0.6)] transition-all duration-700 delay-150"></div>
                 </div>
                 <img src={tpl.previewImg}
                   alt={tpl.name}
-                  className="w-full h-auto object-cover object-top opacity-90 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"  />
-                <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-onyx-950/80 to-transparent opacity-90 group-hover:opacity-70 transition-opacity"></div>
-
-                <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end gap-4">
+                  className="w-full h-auto object-cover object-top opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-onyx-950/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-700 pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-8 flex justify-between items-end gap-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                    <div>
-                      <h3 className="text-xl sm:text-2xl font-black uppercase text-white tracking-tight drop-shadow-lg">{tpl.name}</h3>
+                      <h3 className="text-xl sm:text-2xl lg:text-3xl font-black uppercase text-white tracking-tight drop-shadow-xl mb-2">{tpl.name}</h3>
+                      <div className="text-xs font-mono uppercase tracking-[0.2em] text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                        Посмотреть кейс &gt;&gt;
+                      </div>
                    </div>
-                   <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-none border border-blue-500/30 flex items-center justify-center bg-onyx-900/80 text-blue-500 backdrop-blur-md group-hover:bg-blue-600 group-hover:text-onyx-950 group-hover:border-blue-500 transition-all shadow-[0_0_15px_rgba(59,130,246,0)] group-hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] clip-diagonal-inverted">
-                      <ArrowUpRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                   <div className="w-12 h-12 shrink-0 rounded-none border border-onyx-700 flex items-center justify-center bg-onyx-900/50 text-white backdrop-blur-md group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 transition-all duration-500 clip-diagonal-inverted shadow-[0_0_15px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]">
+                      <ArrowUpRight className="w-6 h-6 group-hover:scale-110 transition-transform duration-500" />
                    </div>
                 </div>
               </a>

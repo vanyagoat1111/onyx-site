@@ -31,27 +31,27 @@ const faqs = [
 
 export default function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
-
   return (
-    <Container id="faq" className="border-t border-onyx-700 bg-onyx-950  relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none" />
+    <Container id="faq" className="border-t border-onyx-800 bg-onyx-950 py-24 relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-[800px] h-[800px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-indigo-500/5 blur-[120px] rounded-full pointer-events-none" />
+      
       <div className="grid lg:grid-cols-2 gap-16 relative z-10">
         <div>
-          <SectionTitle subtitle="Вопросы">FAQ</SectionTitle>
+          <SectionTitle subtitle="Вопросы" className="!mb-12">FAQ</SectionTitle>
         </div>
-
         <div className="space-y-4">
           {faqs.map((faq, i) => (
-            <div key={i} className={`border clip-diagonal ${open === i ? 'border-blue-500 bg-onyx-900 shadow-[0_0_20px_rgba(59,130,246,0.2)]' : 'border-onyx-700 bg-onyx-800/30 hover:border-blue-400/50 hover:bg-onyx-800/80'} overflow-hidden transition-all duration-300`}>
+            <div key={i} className={`border clip-diagonal ${open === i ? "border-blue-500/80 bg-onyx-900/80 shadow-[0_10px_30px_rgba(59,130,246,0.15)]" : "border-onyx-800/80 bg-onyx-900/30 hover:border-blue-500/40 hover:bg-onyx-900/60"} overflow-hidden transition-all duration-500 backdrop-blur-sm group`}>
               <button
                 onClick={() => setOpen(open === i ? null : i)}
-                className={`w-full flex items-center justify-between p-6 text-left font-bold uppercase tracking-wide transition-colors ${open === i ? 'text-blue-500 drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]' : 'text-neutral-300 group-hover:text-white'}`}
+                className={`w-full flex items-center justify-between p-6 text-left font-bold uppercase tracking-wide transition-colors duration-300 ${open === i ? "text-white drop-shadow-sm" : "text-neutral-300 group-hover:text-blue-50"}`}
               >
                 {faq.q}
-                <ChevronDown size={24} className={`transform transition-transform ${open === i ? 'rotate-180 text-blue-500 drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]' : 'text-blue-300'}`} />
+                <ChevronDown size={24} className={`transform transition-transform duration-500 ${open === i ? "rotate-180 text-blue-500 drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]" : "text-onyx-600 group-hover:text-blue-400"}`} />
               </button>
               {open === i && (
-                <div className="p-6 pt-0 text-neutral-200 font-sans text-base md:text-lg leading-relaxed border-t border-blue-500/20 mt-2 mx-6 pb-6 relative before:absolute before:left-0 before:top-0 before:h-full before:w-[2px] before:bg-gradient-to-b before:from-blue-600/50 before:to-transparent pl-4 shadow-[inset_4px_0_15px_rgba(59,130,246,0.05)]">
+                <div className="p-6 pt-0 text-neutral-300 font-sans text-base md:text-lg leading-relaxed border-t border-onyx-800 mt-2 mx-6 pb-6 relative before:absolute before:left-0 before:top-0 before:h-full before:w-[2px] before:bg-gradient-to-b before:from-blue-500 before:to-transparent pl-5 shadow-[inset_10px_0_20px_rgba(59,130,246,0.02)]">
                   {faq.a}
                 </div>
               )}
