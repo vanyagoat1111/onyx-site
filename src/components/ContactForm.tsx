@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from './ui';
 import { X } from 'lucide-react';
 
-export default function ContactForm({ isModal = false, onClose }: { isModal?: boolean, onClose?: () => void }) {
+export default function ContactForm({ isModal = false, isPartner = false, onClose }: { isModal?: boolean, isPartner?: boolean, onClose?: () => void }) {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -20,12 +20,14 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
       socials: formData.get('socials'),
       business: `Ниша: ${formData.get('niche')}`,
       niche: formData.get('niche'),
-      
+      promocode: formData.get('promocode'),
       date: new Date().toLocaleString("ru-RU", { timeZone: "Europe/Moscow" })
     };
 
     // Чтобы заявки начали приходить в гугл таблицу:
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby0CXnLnIyY3sfJSlGEwERIkYal-DdxWG0cz-m4DlnUq5nimNC8meaAeDN2ivoAYLpbCQ/exec";
+    const GOOGLE_SCRIPT_URL = isPartner
+      ? (import.meta.env.VITE_PARTNER_GOOGLE_SCRIPT_URL || "") // Вставьте сюда URL скрипта для новой таблицы партнеров
+      : "https://script.google.com/macros/s/AKfycby0CXnLnIyY3sfJSlGEwERIkYal-DdxWG0cz-m4DlnUq5nimNC8meaAeDN2ivoAYLpbCQ/exec";
 
     try {
       // Отправка в Google Таблицу
@@ -45,13 +47,13 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
       const TELEGRAM_CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID;
       
       if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
-        const text = `
-🔥 *Новая заявка с сайта!*
+        const text = `🔥 *Новая заявка с сайта!* ${isPartner ? '(ПАРТНЕР)' : ''}
 
 *Название компании:* ${data.company || '-'}
 *Ниша:* ${data.niche || '-'}
 *Телефон:* ${data.phone || '-'}
 *Соцсети:* ${data.socials || '-'}
+*Промокод:* ${data.promocode || '-'}
 *Дата:* ${data.date}
         `;
 
@@ -83,8 +85,12 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
   const formContent = (
     <>
       <div className="mb-8 relative z-10">
-        <h3 className="text-3xl font-black uppercase tracking-tight mb-2 text-white drop-shadow-[0_0_15px_rgba(59,130,246,0.4)] ">Начать проект</h3>
-        <p className="text-blue-500 font-mono text-sm drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]">Заполните бриф для старта работы</p>
+        <h3 className="text-3xl font-black uppercase tracking-tight mb-2 text-white drop-shadow-[0_0_15px_rgba(59,130,246,0.4)] ">
+          {isPartner ? "Стать партнером" : "Начать проект"}
+        </h3>
+        <p className="text-blue-500 font-mono text-sm drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]">
+          {isPartner ? "Заполните анкету для сотрудничества" : "Заполните бриф для старта работы"}
+        </p>
       </div>
 
       {submitted ? (
@@ -98,6 +104,7 @@ export default function ContactForm({ isModal = false, onClose }: { isModal?: bo
             <Input name="niche" placeholder="2. Ниша" required />
             <Input name="phone" placeholder="3. Телефон" required />
             <Input name="socials" placeholder="4. Соцсети (ссылки)" />
+            <Input name="promocode" placeholder="5. Промокод (если есть)" />
           </div>
 
           <div className="mt-8">

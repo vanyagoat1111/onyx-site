@@ -7,7 +7,7 @@ export default function Hero() {
   const [formOpen, setFormOpen] = useState(false);
 
   return (
-    <section className="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden bg-onyx-900 group">
+    <section id="home" className="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden bg-onyx-900 group">
       {/* Dynamic Backgrounds */}
       <div
         className="absolute inset-0 pointer-events-none"

@@ -15,6 +15,7 @@ export default function Navbar() {
   }, []);
 
   const links = [
+    { name: 'Главная', href: '#home' },
     { name: 'Шаблоны сайтов', href: '#templates' },
     { name: 'Тарифы', href: '#prices' },
     { name: 'Услуги', href: '#services' },

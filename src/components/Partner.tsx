@@ -82,7 +82,7 @@ export default function Partner() {
         <Button onClick={() => setFormOpen(true)} className="w-full md:w-auto whitespace-nowrap">Заполнить анкету</Button>
       </div>
 
-      {formOpen && <ContactForm isModal onClose={() => setFormOpen(false)} />}
+      {formOpen && <ContactForm isModal isPartner onClose={() => setFormOpen(false)} />}
     </Container>
   );
 }
