@@ -47,15 +47,7 @@ export default function ContactForm({ isModal = false, isPartner = false, onClos
       const TELEGRAM_CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID;
       
       if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
-        const text = `🔥 *Новая заявка с сайта!* ${isPartner ? '(ПАРТНЕР)' : ''}
-
-*Название компании:* ${data.company || '-'}
-*Ниша:* ${data.niche || '-'}
-*Телефон:* ${data.phone || '-'}
-*Соцсети:* ${data.socials || '-'}
-*Промокод:* ${data.promocode || '-'}
-*Дата:* ${data.date}
-        `;
+        const text = `🔥 *Новая заявка с сайта!* ${isPartner ? '(ПАРТНЕР)' : ''}\n\n*Название компании:* ${data.company || '-'}\n*Ниша:* ${data.niche || '-'}\n*Телефон:* ${data.phone || '-'}\n*Соцсети:* ${data.socials || '-'}\n${!isPartner ? `*Промокод:* ${data.promocode || '-'}\n` : ''}*Дата:* ${data.date}\n        `;
 
         await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
           method: 'POST',
@@ -104,7 +96,7 @@ export default function ContactForm({ isModal = false, isPartner = false, onClos
             <Input name="niche" placeholder="2. Ниша" required />
             <Input name="phone" placeholder="3. Телефон" required />
             <Input name="socials" placeholder="4. Соцсети (ссылки)" />
-            <Input name="promocode" placeholder="5. Промокод (если есть)" />
+            {!isPartner && <Input name="promocode" placeholder="5. Промокод (если есть)" />}
           </div>
 
           <div className="mt-8">

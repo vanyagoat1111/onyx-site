@@ -73,7 +73,7 @@ export default function Templates() {
       <Container className="!pt-12 lg:!pt-24 relative z-10 w-full overflow-hidden">
         <div className="flex flex-col mb-12 lg:mb-20 w-full relative">
           <SectionTitle className="text-left max-w-4xl text-white !mb-0 relative z-10">
-            Шаблоны сайтов: КАК МЫ РЕШИЛИ ЗАДАЧИ бизнеса
+            Шаблоны сайтов
           </SectionTitle>
           <div className="absolute -top-10 -left-10 w-64 h-64 bg-blue-600/10 blur-[80px] pointer-events-none -z-10" />
         </div>
@@ -95,9 +95,7 @@ export default function Templates() {
                 <div className="absolute bottom-0 left-0 right-0 p-8 flex justify-between items-end gap-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                    <div>
                       <h3 className="text-xl sm:text-2xl lg:text-3xl font-black uppercase text-white tracking-tight drop-shadow-xl mb-2">{tpl.name}</h3>
-                      <div className="text-xs font-mono uppercase tracking-[0.2em] text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                        Посмотреть кейс &gt;&gt;
-                      </div>
+                      
                    </div>
                    <div className="w-12 h-12 shrink-0 rounded-none border border-onyx-700 flex items-center justify-center bg-onyx-900/50 text-white backdrop-blur-md group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 transition-all duration-500 clip-diagonal-inverted shadow-[0_0_15px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]">
                       <ArrowUpRight className="w-6 h-6 group-hover:scale-110 transition-transform duration-500" />
