@@ -87,7 +87,8 @@ export default function AnimatedBackground() {
 
     const init = () => {
       stars.length = 0;
-      for (let i = 0; i < numStars; i++) {
+      const currentNumStars = (window.innerWidth < 768) ? 100 : 350;
+      for (let i = 0; i < currentNumStars; i++) {
         stars.push(new Star());
       }
     };

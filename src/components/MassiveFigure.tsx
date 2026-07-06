@@ -13,35 +13,42 @@ export default function MassiveFigure() {
     let w = canvas.width = window.innerWidth;
     let h = canvas.height = window.innerHeight;
     
-    const nodes: [number, number, number][] = [];
-    const edges: [number, number][] = [];
+    let nodes: [number, number, number][] = [];
+    let edges: [number, number][] = [];
     
-    // Geometry parameters for a Torus
-    const numU = 50; // main ring segments
-    const numV = 25; // tube segments
-    const R = 1.8;   // main radius
-    const r = 0.7;   // tube radius
-    
-    for (let i = 0; i <= numU; i++) {
-      const u = 2 * Math.PI * i / numU;
-      for (let j = 0; j <= numV; j++) {
-        const v = 2 * Math.PI * j / numV;
-        const x = (R + r * Math.cos(v)) * Math.cos(u);
-        const y = (R + r * Math.cos(v)) * Math.sin(u);
-        const z = r * Math.sin(v);
-        nodes.push([x, y, z]);
+    const init = () => {
+      nodes = [];
+      edges = [];
+      
+      const isMobile = window.innerWidth < 768;
+      const numU = isMobile ? 25 : 40; // main ring segments
+      const numV = isMobile ? 12 : 20; // tube segments
+      const R = 1.8;   // main radius
+      const r = 0.7;   // tube radius
+      
+      for (let i = 0; i <= numU; i++) {
+        const u = 2 * Math.PI * i / numU;
+        for (let j = 0; j <= numV; j++) {
+          const v = 2 * Math.PI * j / numV;
+          const x = (R + r * Math.cos(v)) * Math.cos(u);
+          const y = (R + r * Math.cos(v)) * Math.sin(u);
+          const z = r * Math.sin(v);
+          nodes.push([x, y, z]);
+        }
       }
-    }
-    
-    for (let i = 0; i < numU; i++) {
-      for (let j = 0; j < numV; j++) {
-        const current = i * (numV + 1) + j;
-        const next = current + 1;
-        const bottom = (i + 1) * (numV + 1) + j;
-        edges.push([current, next]);
-        edges.push([current, bottom]);
+      
+      for (let i = 0; i < numU; i++) {
+        for (let j = 0; j < numV; j++) {
+          const current = i * (numV + 1) + j;
+          const next = current + 1;
+          const bottom = (i + 1) * (numV + 1) + j;
+          edges.push([current, next]);
+          edges.push([current, bottom]);
+        }
       }
-    }
+    };
+    
+    init();
     
     let angleX = 0;
     let angleY = 0;
@@ -118,6 +125,7 @@ export default function MassiveFigure() {
     const handleResize = () => {
       w = canvas.width = window.innerWidth;
       h = canvas.height = window.innerHeight;
+      init();
     };
     
     window.addEventListener('resize', handleResize);

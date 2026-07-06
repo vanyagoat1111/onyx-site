@@ -18,7 +18,7 @@ export default function WhyWeb() {
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-500/5 blur-[100px] pointer-events-none -z-10" />
 
       <div className="max-w-5xl mx-auto relative z-10">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black uppercase tracking-tight mb-8 drop-shadow-md">
+        <h2 className="text-[34px] font-heading font-black uppercase tracking-tight mb-8 drop-shadow-md">
           Почему вашему бизнесу <br className="hidden md:block"/>
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">нужен сайт?</span>
         </h2>
@@ -44,7 +44,7 @@ export default function WhyWeb() {
               <ShieldCheck className="w-10 h-10 text-blue-400 group-hover:text-white transition-colors duration-500" />
             </div>
             <div className="pt-2">
-              <h3 className="text-2xl font-black uppercase tracking-tight text-white mb-4 group-hover:text-blue-100 transition-colors duration-500">Доверие B2B и B2C сегментов</h3>
+              <h3 className="text-[23px] font-black uppercase tracking-tight text-white mb-4 group-hover:text-blue-100 transition-colors duration-500">Доверие B2B и B2C сегментов</h3>
               <p className="text-lg md:text-xl text-neutral-300 leading-relaxed font-sans group-hover:text-neutral-100 transition-colors duration-500">
                 В 2026 году социальные сети и мессенджеры стали перегруженным инфошумом. Наличие собственного брендированного веб-сайта — ключевой маркер надежности и стабильности вашей компании для клиентов.
               </p>
@@ -56,7 +56,7 @@ export default function WhyWeb() {
               <Zap className="w-10 h-10 text-blue-400 group-hover:text-white transition-colors duration-500" />
             </div>
             <div className="pt-2">
-              <h3 className="text-2xl font-black uppercase tracking-tight text-white mb-4 group-hover:text-blue-100 transition-colors duration-500">Автоматический прием заявки</h3>
+              <h3 className="text-[23px] font-black uppercase tracking-tight text-white mb-4 group-hover:text-blue-100 transition-colors duration-500">Автоматический прием заявки</h3>
               <p className="text-lg md:text-xl text-neutral-300 leading-relaxed font-sans group-hover:text-neutral-100 transition-colors duration-500">
                 Сайт работает автономно круглые сутки. Интегрированные формы и квизы мгновенно перенаправляют структурированные лиды в ваши корпоративные чаты и CRM-системы.
               </p>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, SectionTitle } from './ui';
+import { TechNodesEffect } from './BackgroundEffects';
 
 const addons = [
   {
@@ -72,7 +73,8 @@ const addons = [
 
 export default function Services() {
   return (
-    <Container id="prices">
+    <Container id="prices" className="relative overflow-hidden">
+      <TechNodesEffect />
       <SectionTitle subtitle="Наши тарифы"><span className="whitespace-nowrap text-3xl sm:text-4xl md:text-5xl lg:text-7xl drop-shadow-md">Разработка за 0 ₽</span></SectionTitle>
 
       <div className="grid lg:grid-cols-3 gap-8 relative z-10 p-4 -m-4 mb-16">

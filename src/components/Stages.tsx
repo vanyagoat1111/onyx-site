@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, SectionTitle } from './ui';
 import { Search, PenTool, Layout, Code2, Rocket, Wrench } from 'lucide-react';
 import { motion } from 'motion/react';
+import { DataStreamEffect } from './BackgroundEffects';
 
 const stages = [
   { num: '01', title: 'Анализ', desc: 'Погружаемся в ваш бизнес и определяем цели проекта.', icon: <Search className="w-8 h-8" /> },
@@ -17,6 +18,7 @@ export default function Stages() {
     <Container className="bg-onyx-950 border-y border-onyx-800 relative z-10 overflow-hidden py-24 md:py-32">
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none -z-10" />
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-600/5 blur-[120px] rounded-full pointer-events-none -z-10" />
+      <DataStreamEffect />
       
       <SectionTitle subtitle="Процесс" className="!mb-24">Регламент<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-600">Запуска</span></SectionTitle>
       

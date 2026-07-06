@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, SectionTitle } from './ui';
 import { motion } from 'motion/react';
 import { Wallet, ShieldCheck, Handshake, Zap, Blocks, Wrench } from 'lucide-react';
+import { RadarEffect } from './BackgroundEffects';
 
 export default function Benefits() {
   const benefits = [
@@ -41,6 +42,7 @@ export default function Benefits() {
     <Container className="bg-onyx-950 py-16 md:py-32 relative overflow-hidden">
       <div className="absolute top-1/2 left-0 w-1/3 h-1/2 bg-[radial-gradient(circle_at_left,_var(--tw-gradient-stops))] from-indigo-600/10 via-transparent to-transparent pointer-events-none -translate-y-1/2 blur-[80px]" />
       <div className="absolute top-1/4 right-0 w-1/4 h-1/3 bg-[radial-gradient(circle_at_right,_var(--tw-gradient-stops))] from-blue-600/5 via-transparent to-transparent pointer-events-none blur-[100px]" />
+      <RadarEffect />
       
       <SectionTitle subtitle="Преимущества ONYX">
         Почему бизнесу выгодно <br className="hidden md:block" />

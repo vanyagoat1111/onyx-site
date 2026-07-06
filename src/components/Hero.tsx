@@ -36,12 +36,12 @@ export default function Hero() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]">0 ₽</span>
             </h1>
             <div className="text-lg md:text-xl text-neutral-300 font-sans max-w-2xl mb-12 leading-relaxed font-light text-left space-y-6">
-              <p>Создадим профессиональный сайт без оплаты разработки — вы оплачиваете только домен, хостинг и обслуживание.</p>
-              <p>ONYX WEB берёт на себя запуск, настройку и поддержку, а ваш бизнес получает сайт для заявок, доверия и независимости от соцсетей.</p>
+              <p>Создадим профессиональный сайт без оплаты разработки — вы платите только за домен и хостинг.</p>
+              <p>ONYX WEB берёт всё на себя, а ваш бизнес получает сайт для заявок, доверия и независимости от соцсетей.</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-6 items-stretch pb-20 w-full max-w-2xl">
-              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px]" onClick={() => setFormOpen(true)}>Получить сайт за 0 ₽</Button>
-              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px]" variant="outline" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth'})}>Шаблоны сайтов</Button>
+              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px] text-[13px]" onClick={() => setFormOpen(true)}>Получить сайт за 0 ₽</Button>
+              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px] text-[14px]" variant="outline" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth'})}>Шаблоны сайтов</Button>
             </div>
           </motion.div>
 
