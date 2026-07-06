@@ -60,7 +60,7 @@ export default function App() {
   if (currentRoute === '#case/realestate') return <CaseEditorWrapper><RealEstate /></CaseEditorWrapper>;
 
   return (
-    <main className="bg-onyx-950 text-white font-sans selection:bg-blue-600 selection:text-onyx-950 w-full overflow-clip">
+    <main className="bg-obsidian-canvas text-bone font-sans selection:bg-signal-orange selection:text-obsidian-canvas w-full overflow-clip">
       <Navbar />
       <Hero />
       <Stats />

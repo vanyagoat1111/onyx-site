@@ -6,3 +6,10 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# System files
+.gemini/
+github_skills/
+.aistudio/
+.vscode/
+*.py
