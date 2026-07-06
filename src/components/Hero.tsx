@@ -9,7 +9,7 @@ export default function Hero() {
   const [formOpen, setFormOpen] = useState(false);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden bg-[#020617] group">
+    <section id="home" className="relative min-h-[90svh] flex items-center pt-28 pb-16 overflow-hidden bg-[#020617] group">
       {/* Massive Floor Grid */}
       <div className="absolute inset-0 z-0 [mask-image:linear-gradient(to_bottom,transparent_20%,black_100%)] opacity-30 pointer-events-none">
         <div className="absolute inset-[-100%] bg-[linear-gradient(rgba(59,130,246,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.3)_1px,transparent_1px)] bg-[size:100px_100px] animate-[grid-massive_10s_linear_infinite]" />
@@ -31,15 +31,15 @@ export default function Hero() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="max-w-3xl"
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] text-left font-heading font-black uppercase tracking-tight mb-8 text-white drop-shadow-md">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] text-left font-heading font-black uppercase tracking-tight mb-6 text-white drop-shadow-md">
               Сайт для бизнеса за <br className="hidden lg:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]">0 ₽</span>
             </h1>
-            <div className="text-lg md:text-xl text-neutral-300 font-sans max-w-2xl mb-12 leading-relaxed font-light text-left space-y-6">
+            <div className="text-lg md:text-xl text-neutral-300 font-sans max-w-2xl mb-8 leading-relaxed font-light text-left space-y-6">
               <p>Создадим профессиональный сайт без оплаты разработки — вы платите только за домен и хостинг.</p>
               <p>ONYX WEB берёт всё на себя, а ваш бизнес получает сайт для заявок, доверия и независимости от соцсетей.</p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-6 items-stretch pb-20 w-full max-w-2xl">
+            <div className="flex flex-col sm:flex-row gap-4 items-stretch pb-4 w-full max-w-2xl">
               <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px] text-[13px]" onClick={() => setFormOpen(true)}>Получить сайт за 0 ₽</Button>
               <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px] text-[14px]" variant="outline" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth'})}>Шаблоны сайтов</Button>
             </div>
