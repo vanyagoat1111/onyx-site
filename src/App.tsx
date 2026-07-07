@@ -27,7 +27,7 @@ import LawFirm from './cases/LawFirm';
 import RealEstate from './cases/RealEstate';
 
 export default function App() {
-  const [currentRoute, setCurrentRoute] = useState(window.location.hash);
+  const [currentRoute, setCurrentRoute] = useState(typeof window !== 'undefined' ? window.location.hash : '');
 
   useEffect(() => {
     const handleHashChange = () => {
