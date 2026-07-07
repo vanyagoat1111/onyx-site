@@ -35,7 +35,7 @@ export default function FitnessClub() {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-10"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent z-10"></div>
-          <img src={case2_1} className="w-full h-full object-cover object-center grayscale contrast-125"  />
+          <img src={case2_1} alt="Фитнес клуб обложка" className="w-full h-full object-cover object-center grayscale contrast-125" />
         </div>
 
         {/* Content */}

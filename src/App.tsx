@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Stats from './components/Stats';
@@ -61,6 +62,12 @@ export default function App() {
 
   return (
     <main className="bg-onyx-950 text-white font-sans selection:bg-blue-600 selection:text-onyx-950 w-full overflow-clip">
+      <Helmet>
+        <title>ONYX WEB — Разработка сайтов для бизнеса</title>
+        <meta name="description" content="Создание современных и эффективных сайтов для бизнеса по подписке за 0 рублей." />
+        <meta property="og:title" content="ONYX WEB — Разработка сайтов для бизнеса" />
+        <meta property="og:description" content="Создание современных и эффективных сайтов для бизнеса по подписке за 0 рублей." />
+      </Helmet>
       <Navbar />
       <Hero />
       <Stats />
