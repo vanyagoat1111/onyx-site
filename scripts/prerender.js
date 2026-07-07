@@ -15,17 +15,17 @@ async function prerender() {
     const { render } = await vite.ssrLoadModule('/src/entry-server.tsx');
     const appHtml = render();
 
-    const templatePath = path.resolve(__dirname, '../dist/index.html');
+    const templatePath = path.resolve(__dirname, '../index.html');
     let template = fs.readFileSync(templatePath, 'utf-8');
+
+    // Remove any existing prerendered content to avoid duplication if run multiple times
+    template = template.replace(/<div id="root">[\s\S]*?<\/div>/, '<div id="root"><!--app-html--></div>');
 
     // Replace the inner HTML of #root
     const html = template.replace(
       '<!--app-html-->',
       appHtml
-    ).replace(
-      '<div id="root">',
-      `<div id="root">${appHtml}`
-    ); // For fallback if we don't use <!--app-html-->
+    );
 
     fs.writeFileSync(templatePath, html);
     console.log('Pre-rendered HTML successfully.');
