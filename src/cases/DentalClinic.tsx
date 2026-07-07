@@ -1,5 +1,4 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
 const case1_1 = "/demo-main-1.jpg";
 
 export default function DentalClinic() {
