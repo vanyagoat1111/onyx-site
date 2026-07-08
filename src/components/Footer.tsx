@@ -36,7 +36,7 @@ export default function Footer() {
               </div>
               <div className="flex flex-wrap gap-4 md:gap-6 mt-6">
                 <a href="#" onClick={(e) => { e.preventDefault(); document.dispatchEvent(new CustomEvent('open-legal', { detail: 'privacy' })); }} className="hover:text-blue-300 hover:drop-shadow-[0_0_5px_rgba(147,197,253,0.3)] transition-all">Политика обработки персональных данных</a>
-                <a href="#" onClick={(e) => { e.preventDefault(); document.dispatchEvent(new CustomEvent('open-legal', { detail: 'terms' })); }} className="hover:text-blue-300 hover:drop-shadow-[0_0_5px_rgba(147,197,253,0.3)] transition-all">Пользовательское соглашение (оферта)</a>
+                <a href="#" onClick={(e) => { e.preventDefault(); document.dispatchEvent(new CustomEvent('open-legal', { detail: 'terms' })); }} className="hover:text-blue-300 hover:drop-shadow-[0_0_5px_rgba(147,197,253,0.3)] transition-all">Публичная оферта</a>
                 <a href="#" onClick={(e) => { e.preventDefault(); document.dispatchEvent(new CustomEvent('open-legal', { detail: 'payment' })); }} className="hover:text-blue-300 hover:drop-shadow-[0_0_5px_rgba(147,197,253,0.3)] transition-all">Условия оплаты, доставки и возврата</a>
               </div>
             </div>
