@@ -40,7 +40,7 @@ export default function Hero() {
               <p>ONYX WEB берёт всё на себя, а ваш бизнес получает сайт для заявок, доверия и независимости от соцсетей.</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 items-stretch pb-4 w-full max-w-2xl">
-              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px] text-[13px]" onClick={() => setFormOpen(true)}>Получить сайт за 0 ₽</Button>
+              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px] text-[13px]" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>Получить сайт за 0 ₽</Button>
               <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px] text-[14px]" variant="outline" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth'})}>Шаблоны сайтов</Button>
             </div>
           </motion.div>

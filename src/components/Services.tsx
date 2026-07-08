@@ -125,7 +125,7 @@ export default function Services() {
           </div>
           
           <div className="mt-auto pt-8 border-t border-onyx-800/80">
-            <button className="w-full md:w-auto relative px-10 py-5 bg-blue-600 text-white font-black uppercase tracking-[0.2em] text-xs sm:text-sm clip-diagonal hover:bg-white hover:text-blue-600 transition-all duration-500 shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] group/btn z-10 overflow-hidden" onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth'})}>
+            <button className="w-full md:w-auto relative px-10 py-5 bg-blue-600 text-white font-black uppercase tracking-[0.2em] text-xs sm:text-sm clip-diagonal hover:bg-white hover:text-blue-600 transition-all duration-500 shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] group/btn z-10 overflow-hidden" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>
               Получить сайт бесплатно
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500"></div>
             </button>
@@ -160,7 +160,7 @@ export default function Services() {
               ))}
             </ul>
             
-            <button className="w-full border border-blue-400/50 bg-blue-600 text-white text-[11px] uppercase tracking-[0.2em] py-4 px-4 clip-diagonal hover:bg-white hover:text-blue-600 hover:border-white transition-all duration-500 font-black shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] mt-auto" onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth'})}>
+            <button className="w-full border border-blue-400/50 bg-blue-600 text-white text-[11px] uppercase tracking-[0.2em] py-4 px-4 clip-diagonal hover:bg-white hover:text-blue-600 hover:border-white transition-all duration-500 font-black shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] mt-auto" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>
               Оплатить
             </button>
           </div>
@@ -176,7 +176,7 @@ export default function Services() {
           <h4 className="font-black uppercase tracking-tight text-xl mb-4 min-h-[56px] text-neutral-200 group-hover:text-white transition-colors">Дополнительные страницы</h4>
           <div className="text-2xl font-black tracking-tight mb-4 text-blue-500 group-hover:text-blue-400 transition-colors drop-shadow-[0_0_10px_rgba(59,130,246,0.3)] group-hover:drop-shadow-[0_0_15px_rgba(96,165,250,0.5)]">от 1 500 ₽</div>
           <p className="text-sm text-neutral-400 mb-8 flex-grow leading-relaxed group-hover:text-neutral-300 transition-colors">Разработка и добавление дополнительных страниц к вашему сайту (цена за одну страницу).</p>
-          <button className="w-full border border-onyx-700 bg-onyx-800 text-white text-[11px] uppercase tracking-[0.2em] py-4 px-4 clip-diagonal hover:border-blue-500 hover:bg-blue-500/20 transition-all duration-500 font-black group-hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]" onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth'})}>
+          <button className="w-full border border-onyx-700 bg-onyx-800 text-white text-[11px] uppercase tracking-[0.2em] py-4 px-4 clip-diagonal hover:border-blue-500 hover:bg-blue-500/20 transition-all duration-500 font-black group-hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>
             Оплатить
           </button>
         </div>
@@ -189,7 +189,7 @@ export default function Services() {
             <p className="text-sm text-neutral-400 mb-8 flex-grow leading-relaxed group-hover:text-neutral-300 transition-colors">{a.desc}</p>
             <button 
               className="w-full border border-onyx-700 bg-onyx-800 text-white text-[11px] uppercase tracking-[0.2em] py-4 px-4 clip-diagonal hover:border-blue-500 hover:bg-blue-500/20 transition-all duration-500 font-black group-hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]"
-              onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth'})}
+              onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}
             >
               {a.action}
             </button>

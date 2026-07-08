@@ -83,7 +83,7 @@ export default function AddonsModal({ onClose }: { onClose: () => void }) {
                 onClick={() => {
                   onClose();
                   setTimeout(() => {
-                    document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' });
+                    window.open('https://t.me/onyxwebsites_bot', '_blank');
                   }, 100);
                 }}
               >
