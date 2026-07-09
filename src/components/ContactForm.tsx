@@ -13,13 +13,9 @@ export default function ContactForm({ isModal = false, isPartner = false, onClos
     // Собираем данные из формы
     const formData = new FormData(e.currentTarget);
     const data = {
-      // Сохраняем старые ключи для совместимости со скриптом отправки в Telegram
-      fio: formData.get('company') ? `Заявка от: ${formData.get('company')}` : 'Новая заявка',
-      phone: formData.get('phone'),
-      company: formData.get('company'),
-      socials: formData.get('socials'),
-      business: `Ниша: ${formData.get('niche')}`,
-      niche: formData.get('niche'),
+      fio: formData.get('name') ? `Заявка от: ${formData.get('name')}` : 'Новая заявка',
+      name: formData.get('name'),
+      contact: formData.get('contact'),
       promocode: formData.get('promocode'),
       date: new Date().toLocaleString("ru-RU", { timeZone: "Europe/Moscow" })
     };
@@ -47,7 +43,7 @@ export default function ContactForm({ isModal = false, isPartner = false, onClos
       const TELEGRAM_CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID;
       
       if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
-        const text = `🔥 *Новая заявка с сайта!* ${isPartner ? '(ПАРТНЕР)' : ''}\n\n*Название компании:* ${data.company || '-'}\n*Ниша:* ${data.niche || '-'}\n*Телефон:* ${data.phone || '-'}\n*Соцсети:* ${data.socials || '-'}\n${!isPartner ? `*Промокод:* ${data.promocode || '-'}\n` : ''}*Дата:* ${data.date}\n        `;
+        const text = `🔥 *Новая заявка с сайта!* ${isPartner ? '(ПАРТНЕР)' : ''}\n\n*Имя:* ${data.name || '-'}\n*Контакт:* ${data.contact || '-'}\n${!isPartner ? `*Промокод:* ${data.promocode || '-'}\n` : ''}*Дата:* ${data.date}\n        `;
 
         await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
           method: 'POST',
@@ -92,11 +88,9 @@ export default function ContactForm({ isModal = false, isPartner = false, onClos
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
           <div className="grid sm:grid-cols-2 gap-x-8 gap-y-4">
-            <Input name="company" placeholder="1. Название компании" required />
-            <Input name="niche" placeholder="2. Ниша" required />
-            <Input name="phone" placeholder="3. Телефон" required />
-            <Input name="socials" placeholder="4. Соцсети (ссылки)" />
-            {!isPartner && <Input name="promocode" placeholder="5. Промокод (если есть)" />}
+            <Input name="name" placeholder="Как к вам обращаться?" required />
+            <Input name="contact" placeholder="Телефон/телеграм" required />
+            {!isPartner && <Input name="promocode" placeholder="Промокод (если есть)" />}
           </div>
 
           <div className="mt-8">
