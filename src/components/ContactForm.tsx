@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from './ui';
 import { X } from 'lucide-react';
 
-export default function ContactForm({ isModal = false, isPartner = false, onClose }: { isModal?: boolean, isPartner?: boolean, onClose?: () => void }) {
+export default function ContactForm({ isModal = false, isPartner = false, subject = '', buttonText = '', onClose }: { isModal?: boolean, isPartner?: boolean, subject?: string, buttonText?: string, onClose?: () => void }) {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -13,6 +13,7 @@ export default function ContactForm({ isModal = false, isPartner = false, onClos
     // Собираем данные из формы
     const formData = new FormData(e.currentTarget);
     const data = {
+      subject: subject || 'Новая заявка',
       fio: formData.get('name') ? `Заявка от: ${formData.get('name')}` : 'Новая заявка',
       name: formData.get('name'),
       contact: formData.get('contact'),
@@ -23,7 +24,7 @@ export default function ContactForm({ isModal = false, isPartner = false, onClos
     // Чтобы заявки начали приходить в гугл таблицу:
     const GOOGLE_SCRIPT_URL = isPartner
       ? (import.meta.env.VITE_PARTNER_GOOGLE_SCRIPT_URL || "") // Вставьте сюда URL скрипта для новой таблицы партнеров
-      : "https://script.google.com/macros/s/AKfycby0CXnLnIyY3sfJSlGEwERIkYal-DdxWG0cz-m4DlnUq5nimNC8meaAeDN2ivoAYLpbCQ/exec";
+      : (import.meta.env.VITE_GOOGLE_SCRIPT_URL || "https://script.google.com/macros/s/AKfycby0CXnLnIyY3sfJSlGEwERIkYal-DdxWG0cz-m4DlnUq5nimNC8meaAeDN2ivoAYLpbCQ/exec");
 
     try {
       // Отправка в Google Таблицу
@@ -43,7 +44,7 @@ export default function ContactForm({ isModal = false, isPartner = false, onClos
       const TELEGRAM_CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID;
       
       if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
-        const text = `🔥 *Новая заявка с сайта!* ${isPartner ? '(ПАРТНЕР)' : ''}\n\n*Имя:* ${data.name || '-'}\n*Контакт:* ${data.contact || '-'}\n${!isPartner ? `*Промокод:* ${data.promocode || '-'}\n` : ''}*Дата:* ${data.date}\n        `;
+        const text = `🔥 *Новая заявка с сайта!* ${isPartner ? '(ПАРТНЕР)' : ''}\n\n*Тема:* ${subject || 'Общая заявка'}\n*Имя:* ${data.name || '-'}\n*Контакт:* ${data.contact || '-'}\n${!isPartner ? `*Промокод:* ${data.promocode || '-'}\n` : ''}*Дата:* ${data.date}\n        `;
 
         await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
           method: 'POST',
@@ -64,6 +65,13 @@ export default function ContactForm({ isModal = false, isPartner = false, onClos
     setLoading(false);
     setSubmitted(true);
 
+    if (subject && subject.includes('чек-лист')) {
+      const checklistUrl = import.meta.env.VITE_CHECKLIST_URL;
+      if (checklistUrl) {
+         window.open(checklistUrl, '_blank');
+      }
+    }
+
     setTimeout(() => {
       setSubmitted(false);
       onClose?.();
@@ -77,7 +85,7 @@ export default function ContactForm({ isModal = false, isPartner = false, onClos
           {isPartner ? "Стать партнером" : "Начать проект"}
         </h3>
         <p className="text-blue-500 font-mono text-sm drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]">
-          {isPartner ? "Заполните анкету для сотрудничества" : "Заполните бриф для старта работы"}
+          {isPartner ? "Заполните анкету для сотрудничества" : (subject ? `Оставьте контакты, чтобы ${subject.toLowerCase()}` : "Заполните бриф для старта работы")}
         </p>
       </div>
 

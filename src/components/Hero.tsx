@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Container, Button } from './ui';
 import { motion } from 'motion/react';
-import { Button, Container } from './ui';
-import ContactForm from './ContactForm';
 import AnimatedBackground from './AnimatedBackground';
 import MassiveFigure from './MassiveFigure';
 
 export default function Hero() {
-  const [formOpen, setFormOpen] = useState(false);
-
   return (
-    <section id="home" className="relative min-h-[90svh] flex items-center pt-28 pb-16 overflow-hidden bg-[#020617] group">
+    <section id="home" className="relative min-h-[95svh] flex items-center pt-32 pb-32 overflow-hidden bg-[#020617] group">
       {/* Massive Floor Grid */}
       <div className="absolute inset-0 z-0 [mask-image:linear-gradient(to_bottom,transparent_20%,black_100%)] opacity-30 pointer-events-none">
         <div className="absolute inset-[-100%] bg-[linear-gradient(rgba(59,130,246,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.3)_1px,transparent_1px)] bg-[size:100px_100px] animate-[grid-massive_10s_linear_infinite]" />
@@ -23,7 +20,7 @@ export default function Hero() {
       <AnimatedBackground />
       <MassiveFigure />
 
-      <Container className="relative z-10 pt-[23px] border-0 rounded-none">
+      <Container className="relative z-10 py-0 md:py-0 border-0 rounded-none">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -32,16 +29,28 @@ export default function Hero() {
             className="max-w-3xl"
           >
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] text-left font-heading font-black uppercase tracking-tight mb-6 text-white drop-shadow-md">
-              Сайт для бизнеса за <br className="hidden lg:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]">0 ₽</span>
+              Сайты, которые<br className="hidden lg:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]">продают за вас 24/7</span>
             </h1>
             <div className="text-lg md:text-xl text-neutral-300 font-sans max-w-2xl mb-8 leading-relaxed font-light text-left space-y-6">
-              <p>Создадим профессиональный сайт без оплаты разработки — вы платите только за домен и хостинг.</p>
-              <p>ONYX WEB берёт всё на себя, а ваш бизнес получает сайт для заявок, доверия и независимости от соцсетей.</p>
+              <p>Превратите посетителей в клиентов с помощью системы, которая работает без выходных.</p>
+              <p>Мы создаем не просто красивую картинку, а инструмент для регулярного потока заявок и увеличения вашей прибыли. И всё это — за 0 рублей на старте.</p>
             </div>
+            
             <div className="flex flex-col sm:flex-row gap-4 items-stretch pb-4 w-full max-w-2xl">
-              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px] text-[13px]" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>Получить сайт за 0 ₽</Button>
-              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px] text-[14px]" variant="outline" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth'})}>Шаблоны сайтов</Button>
+              <Button 
+                className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px] text-[12px] sm:text-[13px] md:text-[14px]" 
+                onClick={() => document.getElementById('lead-magnets')?.scrollIntoView({ behavior: 'smooth'})}
+              >
+                Получить бесплатный аудит
+              </Button>
+              <Button 
+                className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px] text-[12px] sm:text-[13px] md:text-[14px]" 
+                variant="outline" 
+                onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth'})}
+              >
+                Посмотреть демо-версии
+              </Button>
             </div>
           </motion.div>
 
@@ -74,27 +83,29 @@ export default function Hero() {
                         </div>
                         <span className="font-mono text-[10px] uppercase tracking-widest text-blue-400 drop-shadow-[0_0_5px_rgba(96,165,250,0.6)]">System Active...</span>
                       </div>
+
                       <div className="h-1.5 w-full bg-onyx-800 rounded-none overflow-hidden relative">
-                        <div className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-600 to-blue-400 w-2/3 animate-[pulse_2s_ease-in-out_infinite] shadow-[0_0_20px_rgba(59,130,246,0.8)]"></div>
+                        <div className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-600 to-blue-400 w-full animate-[pulse_2s_ease-in-out_infinite] shadow-[0_0_20px_rgba(59,130,246,0.8)]"></div>
                       </div>
                       
                       <div className="mt-6 flex flex-col gap-3 font-mono text-[11px] text-blue-400/70">
                         <div className="flex justify-between">
-                          <span>&gt; INITIALIZING MODULES</span>
-                          <span className="text-blue-400">100%</span>
+                          <span>&gt; CONVERTING VISITORS</span>
+                          <span className="text-blue-400">+340%</span>
                         </div>
                         <div className="flex justify-between">
-                          <span>&gt; ESTABLISHING CONNECTION</span>
-                          <span className="text-blue-400">OK</span>
+                          <span>&gt; AUTOMATING SALES</span>
+                          <span className="text-blue-400">ACTIVE</span>
                         </div>
                         <div className="flex justify-between">
-                          <span>&gt; DEPLOYING UI COMPONENTS</span>
+                          <span>&gt; GENERATING LEADS</span>
                           <span className="text-blue-400 animate-pulse">IN PROGRESS...</span>
                         </div>
                       </div>
                    </div>
                 </div>
              </div>
+
              {/* Decorative Elements */}
              <div className="absolute -bottom-8 -left-8 w-32 h-32 border-b border-l border-blue-500/50 shadow-[-10px_10px_30px_rgba(59,130,246,0.15)] -z-10 animate-[pulse_4s_ease-in-out_infinite]"></div>
              <div className="absolute -top-8 -right-8 w-32 h-32 border-t border-r border-blue-400/50 shadow-[10px_-10px_30px_rgba(147,197,253,0.15)] -z-10 animate-[pulse_5s_ease-in-out_infinite]"></div>
@@ -106,15 +117,13 @@ export default function Hero() {
         <div className="animate-marquee flex gap-12 items-center font-mono font-black uppercase tracking-widest text-3xl select-none">
           {Array(8).fill("").map((_, i) => (
              <React.Fragment key={i}>
-                <span style={{ WebkitTextStroke: "1px rgba(96,165,250,0.4)" }} className="text-transparent">ПРОФЕССИОНАЛЬНЫЙ САЙТ</span>
-                <span className="text-blue-500 drop-shadow-[0_0_10px_rgba(59,130,246,0.4)]">ЗА 0 РУБЛЕЙ</span>
+                <span style={{ WebkitTextStroke: "1px rgba(96,165,250,0.4)" }} className="text-transparent">АВТОМАТИЗАЦИЯ ПРОДАЖ</span>
+                <span className="text-blue-500 drop-shadow-[0_0_10px_rgba(59,130,246,0.4)]">ГЕНЕРАЦИЯ ЗАЯВОК</span>
                 <span className="text-blue-400/30">/</span>
              </React.Fragment>
           ))}
         </div>
       </div>
-
-      {formOpen && <ContactForm isModal onClose={() => setFormOpen(false)} />}
     </section>
   );
 }

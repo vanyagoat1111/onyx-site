@@ -75,9 +75,9 @@ export default function Services() {
   return (
     <Container id="prices" className="relative overflow-hidden">
       <TechNodesEffect />
-      <SectionTitle subtitle="Наши тарифы"><span className="whitespace-nowrap text-3xl sm:text-4xl md:text-5xl lg:text-7xl drop-shadow-md">Разработка за 0 ₽</span></SectionTitle>
+      <SectionTitle subtitle="Наши тарифы"><span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl drop-shadow-md">Разработка за 0 ₽</span></SectionTitle>
 
-      <div className="grid lg:grid-cols-3 gap-8 relative z-10 p-4 -m-4 mb-16">
+      <div className="grid lg:grid-cols-3 gap-8 relative z-10  mb-16">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent pointer-events-none -z-10 blur-[100px]" />
         
         {/* Card 1: Стартовый сайт */}
