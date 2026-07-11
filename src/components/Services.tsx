@@ -7,67 +7,67 @@ const addons = [
     title: 'Каталог товаров и услуг',
     price: '7 990 ₽',
     desc: 'Добавление каталога с вашими товарами или услугами на сайт.',
-    action: 'Добавить опцию'
+    action: 'Оплатить'
   },
   {
     title: 'Интеграция с системами CRM',
     price: '5 900 ₽',
     desc: 'Связь сайта с вашей CRM для автоматического получения заявок.',
-    action: 'Добавить опцию'
+    action: 'Оплатить'
   },
   {
     title: 'Корзина',
     price: 'от 10 790 ₽',
     desc: 'Функционал корзины для оформления заказов на сайте.',
-    action: 'Добавить опцию'
+    action: 'Оплатить'
   },
   {
     title: 'Подключение карт и геосервисов',
     price: 'от 3 900 ₽',
     desc: 'Интеграция интерактивных Яндекс или Google карт.',
-    action: 'Добавить опцию'
+    action: 'Оплатить'
   },
   {
     title: 'Калькулятор стоимости',
     price: 'от 7 990 ₽',
     desc: 'Интерактивный калькулятор для расчёта стоимости ваших услуг.',
-    action: 'Добавить опцию'
+    action: 'Оплатить'
   },
   {
     title: 'Политика конфиденциальности и документы',
     price: 'от 2 900 ₽',
     desc: 'Составление и размещение обязательных правовых документов.',
-    action: 'Добавить опцию'
+    action: 'Оплатить'
   },
   {
     title: 'Индивидуальный Дизайн',
     price: 'от 15 000 ₽',
     desc: 'Разработка уникального дизайна по вашему промпту.',
-    action: 'Добавить опцию'
+    action: 'Оплатить'
   },
   {
     title: 'SMM ONYX',
     price: 'от 50 000 ₽ / мес',
     desc: 'Ведение вашего бизнеса под ключ в ONYX SMM.',
-    action: 'Добавить опцию'
+    action: 'Оплатить'
   },
   {
     title: 'Настройка Аналитики',
     price: '3 990 ₽',
     desc: 'Яндекс Метрика, Google Analytics.',
-    action: 'Добавить опцию'
+    action: 'Оплатить'
   },
   {
     title: 'Онлайн Запись',
     price: '6 990 ₽',
     desc: 'Для стоматологий, фитнес-клубов, салонов, мед.центров. Подключаются сторонние сервисы записи.',
-    action: 'Добавить опцию'
+    action: 'Оплатить'
   },
   {
     title: 'Telegram Уведомления',
     price: '3 990 ₽',
     desc: 'Новые заявки сразу приходят в Telegram владельца.',
-    action: 'Добавить опцию'
+    action: 'Оплатить'
   }
 ];
 
@@ -75,9 +75,9 @@ export default function Services() {
   return (
     <Container id="prices" className="relative overflow-hidden">
       <TechNodesEffect />
-      <SectionTitle subtitle="Наши тарифы"><span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl drop-shadow-md">Разработка за 0 ₽</span></SectionTitle>
+      <SectionTitle subtitle="Наши тарифы"><span className="whitespace-nowrap text-3xl sm:text-4xl md:text-5xl lg:text-7xl drop-shadow-md">Разработка за 0 ₽</span></SectionTitle>
 
-      <div className="grid lg:grid-cols-3 gap-8 relative z-10  mb-16">
+      <div className="grid lg:grid-cols-3 gap-8 relative z-10 p-4 -m-4 mb-16">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent pointer-events-none -z-10 blur-[100px]" />
         
         {/* Card 1: Стартовый сайт */}
@@ -161,7 +161,7 @@ export default function Services() {
             </ul>
             
             <button className="w-full border border-blue-400/50 bg-blue-600 text-white text-[11px] uppercase tracking-[0.2em] py-4 px-4 clip-diagonal hover:bg-white hover:text-blue-600 hover:border-white transition-all duration-500 font-black shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] mt-auto" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>
-              Выбрать тариф
+              Оплатить
             </button>
           </div>
         </div>
@@ -177,7 +177,7 @@ export default function Services() {
           <div className="text-2xl font-black tracking-tight mb-4 text-blue-500 group-hover:text-blue-400 transition-colors drop-shadow-[0_0_10px_rgba(59,130,246,0.3)] group-hover:drop-shadow-[0_0_15px_rgba(96,165,250,0.5)]">от 1 500 ₽</div>
           <p className="text-sm text-neutral-400 mb-8 flex-grow leading-relaxed group-hover:text-neutral-300 transition-colors">Разработка и добавление дополнительных страниц к вашему сайту (цена за одну страницу).</p>
           <button className="w-full border border-onyx-700 bg-onyx-800 text-white text-[11px] uppercase tracking-[0.2em] py-4 px-4 clip-diagonal hover:border-blue-500 hover:bg-blue-500/20 transition-all duration-500 font-black group-hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>
-            Выбрать тариф
+            Оплатить
           </button>
         </div>
         

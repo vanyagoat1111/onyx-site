@@ -25,7 +25,7 @@ const FurnitureMock = () => (
           <p className="text-neutral-600 text-lg">Инновационные формы и дорогие текстуры. Мы создаем мебель, которая становится центром притяжения.</p>
           <button className="bg-onyx-950 text-white px-10 py-5 font-bold uppercase tracking-widest text-sm clip-diagonal hover:bg-neutral-800 transition-colors">Смотреть каталог</button>
        </div>
-       <img src={case1} alt="Пример сайта стоматологии" className="" />
+       <img src={case1} alt="Image" className="" />
     </div>
     <div className="px-6 py-16 md:py-24 max-w-7xl mx-auto">
       <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-12 text-center">Бестселлеры</h2>
@@ -33,7 +33,7 @@ const FurnitureMock = () => (
          {[1,2,3,4,5,6].map(i => (
            <div key={i} className="space-y-4 group cursor-pointer">
              <div className="overflow-hidden clip-diagonal relative">
-               <img src={case2} alt="Пример сайта фитнес клуба" className="" />
+               <img src={case2} alt="Image" className="" />
                <div className="absolute top-4 left-4 bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest">New</div>
              </div>
              <div className="flex justify-between items-end border-b border-neutral-200 pb-4">
@@ -69,7 +69,7 @@ const FurnitureMock = () => (
 const CourseMock = () => (
   <div className="bg-[#050505] text-white min-h-max font-sans pb-16">
      <div className="pt-24 md:pt-32 px-6 md:px-8 pb-16 md:pb-24 text-center relative overflow-hidden border-b border-white/10">
-        <img src={case3} alt="Пример сайта логистической компании" className="" />
+        <img src={case3} alt="Image" className="" />
         <div className="relative z-10 max-w-4xl mx-auto">
           <div className="inline-block bg-white text-onyx-950 text-xs px-4 py-2 uppercase tracking-widest font-bold mb-8">Новый поток: 15 Ноября</div>
           <h1 className="text-5xl md:text-8xl font-bold uppercase tracking-tight mb-8 leading-none">Масштабирование<br/>бизнеса</h1>
@@ -121,7 +121,7 @@ const BookingMock = () => (
      </header>
      <div className="p-4 md:p-8 max-w-[1600px] mx-auto">
         <div className="h-[60vh] md:h-[80vh] border border-onyx-950/10 flex items-end p-8 md:p-16 relative overflow-hidden bg-[#2c2c2c]">
-           <img src={building1} alt="Фото здания 1" className="" />
+           <img src={building1} alt="Image" className="" />
            <div className="relative z-10 w-full">
                <h1 className="text-6xl md:text-[120px] font-light uppercase tracking-widest text-white drop-shadow-lg leading-none mb-4">Unwind.</h1>
                <div className="w-1/3 h-[1px] bg-white/50 mb-8"></div>
@@ -150,7 +150,7 @@ const BookingMock = () => (
          <p className="text-lg text-[#2c2c2c]/70 leading-relaxed font-serif italic mb-8">"Rediscover yourself in a space where architecture meets untouched nature. Every detail is curated for perfect stillness."</p>
          <button className="border-b border-[#2c2c2c] pb-1 uppercase text-xs font-bold tracking-widest hover:text-[#2c2c2c]/50 transition-colors">Discover Philosophy</button>
        </div>
-       <img src={building2} alt="Фото здания 2" className="" />
+       <img src={building2} alt="Image" className="" />
      </div>
   </div>
 );
@@ -168,7 +168,7 @@ const ConsultingMock = () => (
 
      <div className="flex-grow grid grid-cols-1 lg:grid-cols-2 border-2 border-violet-950/10 mb-12">
         <div className="p-12 md:p-24 flex flex-col justify-center lg:border-r-2 border-violet-950/10 relative overflow-hidden">
-           <img src={case4} alt="Пример сайта юридической фирмы" className="" />
+           <img src={case4} alt="Image" className="" />
            <div className="relative z-10">
              <div className="text-violet-700 font-bold uppercase tracking-widest text-xs mb-8">Стратегическое партнерство</div>
              <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tight leading-[0.9] mb-8 text-violet-950">Решения для<br/>Лидеров<br/>Рынка</h1>
@@ -201,7 +201,7 @@ const PsychologistMock = () => (
      </nav>
 
      <div className="max-w-4xl mx-auto py-24 px-6 md:px-8 text-center space-y-12">
-        <img src={case5} alt="Пример сайта недвижимости" className="" />
+        <img src={case5} alt="Image" className="" />
         <h1 className="text-5xl md:text-6xl italic text-[#2C2A28] leading-tight max-w-3xl mx-auto">Пространство для диалога<br/>и внутренних трансформаций</h1>
         <div className="h-[1px] bg-[#E5E2DC] w-1/3 mx-auto my-12"></div>
         <p className="text-xl md:text-2xl leading-relaxed text-[#6E6A62] italic max-w-2xl mx-auto">
@@ -259,7 +259,7 @@ const SmmMock = () => (
 
      <div className="px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-white text-3xl mb-20">
         <div className="bg-onyx-950 aspect-square p-8 flex flex-col justify-between clip-diagonal hover:scale-[1.03] cursor-pointer transition-transform relative overflow-hidden group">
-           <img src={case1} alt="Пример сайта стоматологии" className="" />
+           <img src={case1} alt="Image" className="" />
            <span className="text-5xl text-[#ebff00] relative z-10">#</span>
            <span className="tracking-widest relative z-10 text-4xl">REELS &<br/>TIKTOK</span>
         </div>

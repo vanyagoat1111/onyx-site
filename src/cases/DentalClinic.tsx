@@ -194,7 +194,7 @@ export default function DentalClinic() {
           <form className="max-w-2xl mx-auto flex flex-col md:flex-row gap-4">
             <input type="text" placeholder="Ваше имя" className="flex-1 px-6 py-4 rounded-full bg-white/10 border border-white/20 text-white placeholder:text-sky-200 focus:outline-none focus:border-white focus:bg-white/20 transition-all" />
             <input type="tel" placeholder="Номер телефона" className="flex-1 px-6 py-4 rounded-full bg-white/10 border border-white/20 text-white placeholder:text-sky-200 focus:outline-none focus:border-white focus:bg-white/20 transition-all" />
-            <button type="button" className="bg-white text-sky-900 px-8 py-4 rounded-full font-bold hover:bg-sky-50 transition-colors shadow-xl">Записаться на прием</button>
+            <button type="button" className="bg-white text-sky-900 px-8 py-4 rounded-full font-bold hover:bg-sky-50 transition-colors shadow-xl">Отправить</button>
           </form>
           <p className="text-sky-400/60 text-xs mt-4">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности.</p>
         </div>
