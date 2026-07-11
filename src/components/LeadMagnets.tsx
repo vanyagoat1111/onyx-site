@@ -9,7 +9,7 @@ export default function LeadMagnets() {
   const [formSubject, setFormSubject] = useState('');
   const [formBtnText, setFormBtnText] = useState('');
 
-  const openForm = (subject, btnText) => {
+  const openForm = (subject: string, btnText: string) => {
     setFormSubject(subject);
     setFormBtnText(btnText);
     setFormOpen(true);
@@ -41,8 +41,8 @@ export default function LeadMagnets() {
             <p className="text-neutral-300 font-sans leading-relaxed mb-8">
               Разберем ваш текущий сайт (или соцсети), найдем слабые места, где вы теряете клиентов, и предложим пошаговый план по увеличению конверсии.
             </p>
-            <Button onClick={() => setFormOpen(true)} className="w-full text-center justify-center p-4">
-              Получить разбор
+            <Button onClick={() => openForm('Получить разбор', 'Получить аудит')} className="w-full text-center justify-center p-4">
+              Получить разбор сайта
             </Button>
           </div>
         </motion.div>
@@ -66,7 +66,7 @@ export default function LeadMagnets() {
             </p>
             <Button 
               variant="outline" 
-              onClick={() => setFormOpen(true)} 
+              onClick={() => openForm('Получить чек-лист', 'Получить чек-лист')} 
               className="w-full text-center justify-center p-4 group-hover:bg-onyx-800 transition-colors"
             >
               Скачать бесплатно

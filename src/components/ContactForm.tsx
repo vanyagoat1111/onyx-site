@@ -103,7 +103,7 @@ export default function ContactForm({ isModal = false, isPartner = false, subjec
 
           <div className="mt-8">
             <Button type="submit" disabled={loading} className="w-full hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-shadow text-[10px] sm:text-xs tracking-[0.2em] py-4">
-              {loading ? "Отправка..." : "Отправить заявку"}
+              {loading ? "ОБРАБОТКА..." : (buttonText || "ПОЛУЧИТЬ РЕЗУЛЬТАТ")}
             </Button>
           </div>
         </form>

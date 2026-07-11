@@ -10,10 +10,10 @@ export default function Navbar() {
   const [formSubject, setFormSubject] = useState('');
   const [formBtnText, setFormBtnText] = useState('');
 
-  const openForm = (subject, btnText) => {
+  const openForm = (subject: string, btnText: string) => {
     setFormSubject(subject);
     setFormBtnText(btnText);
-    openForm('Получить разбор', 'Получить разбор бесплатно');
+    setFormOpen(true);
   };
 
   useEffect(() => {

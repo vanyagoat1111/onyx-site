@@ -7,34 +7,34 @@ import { RadarEffect } from './BackgroundEffects';
 export default function WhyUs() {
   const benefits = [
     {
-      icon: <Clock className="w-8 h-8 text-blue-400 group-hover:text-white transition-colors" />,
-      title: "Экономия времени",
-      desc: "Вам не нужно вникать в код или дизайн. Мы берем на себя всю техническую часть, освобождая ваше время для управления бизнесом."
+      icon: <Target className="w-8 h-8 text-blue-400 group-hover:text-white transition-colors" />,
+      title: "Фокус на одной нише",
+      desc: "Мы не делаем сайты для всех подряд. Наша команда изучила десятки медицинских клиник и точно знает, какие блоки и триггеры заставляют пациента записаться на прием."
     },
     {
       icon: <TrendingUp className="w-8 h-8 text-blue-400 group-hover:text-white transition-colors" />,
-      title: "Рост конверсии",
-      desc: "Наши сайты создаются с фокусом на продажи. Продуманная структура и дизайн превращают посетителей в реальных клиентов."
+      title: "Отвечаем за результат",
+      desc: "Мы внедряем только те решения, которые уже доказали свою эффективность на практике и стабильно приносят целевые заявки."
     },
     {
       icon: <ShieldCheck className="w-8 h-8 text-blue-400 group-hover:text-white transition-colors" />,
-      title: "Без рисков",
-      desc: "Вы не платите десятки тысяч рублей за разработку кота в мешке. Сначала вы видите готовый сайт, и только потом оплачиваете подписку."
+      title: "Гарантия 100%",
+      desc: "Если структура не приносит заявок, мы бесплатно переработаем смыслы и логику сайта до тех пор, пока не получим нужную конверсию."
     },
     {
       icon: <Zap className="w-8 h-8 text-blue-400 group-hover:text-white transition-colors" />,
-      title: "Быстрый старт",
-      desc: "Запуск готового решения за 1-2 дня. Вы начинаете получать первые заявки уже на этой неделе, опережая конкурентов."
+      title: "Быстрый старт за 2 дня",
+      desc: "Не нужно ждать месяцами. Наше решение уже продумано, спроектировано и готово к запуску — вы начинаете получать пациентов уже на этой неделе."
     },
     {
-      icon: <Target className="w-8 h-8 text-blue-400 group-hover:text-white transition-colors" />,
-      title: "Попадание в цель",
-      desc: "Мы анализируем вашу нишу и целевую аудиторию, чтобы сайт бил точно в боли и потребности ваших потенциальных клиентов."
+      icon: <Clock className="w-8 h-8 text-blue-400 group-hover:text-white transition-colors" />,
+      title: "Всегда на связи",
+      desc: "Вам не придется искать нас днями. Отвечаем на запросы в течение 10 минут, даже в выходные дни, чтобы ваш бизнес работал без перебоев."
     },
     {
       icon: <Handshake className="w-8 h-8 text-blue-400 group-hover:text-white transition-colors" />,
-      title: "Надежное партнерство",
-      desc: "Мы всегда на связи. Отвечаем в течение 10 минут даже в выходные дни и бесплатно вносим мелкие правки по вашему запросу."
+      title: "Без скрытых рисков",
+      desc: "Вы не платите сотни тысяч за кота в мешке. Прозрачные тарифы, понятный результат и система, которая окупает себя с первых месяцев."
     }
   ];
 
@@ -47,7 +47,7 @@ export default function WhyUs() {
       
       <SectionTitle subtitle="Надежное партнерство">
         Почему 80% клиентов <br className="hidden md:block" />
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 drop-shadow-md">возвращаются снова?</span>
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 drop-shadow-md">возвращаются к нам?</span>
       </SectionTitle>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 relative z-10">

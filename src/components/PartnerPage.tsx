@@ -32,10 +32,10 @@ export default function PartnerPage() {
         <div className="max-w-3xl mx-auto text-center mb-16">
           <Handshake className="w-16 h-16 text-blue-500 mx-auto mb-6" />
           <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-white mb-6">
-            Партнерская программа ONYX
+            Создавайте пассивный доход, рекомендуя ONYX
           </h1>
           <p className="text-xl text-neutral-400 font-sans leading-relaxed">
-            Рекомендуйте нас своим клиентам, друзьям или партнерам по бизнесу и зарабатывайте на каждой успешной сделке.
+            Мы не просто продаем сайты, мы строим системы, которые генерируют лиды. Рекомендуйте продукт, за который не стыдно, и получайте стабильный процент с каждой успешной сделки.
           </p>
         </div>
 
@@ -62,7 +62,7 @@ export default function PartnerPage() {
           <p className="text-center text-neutral-400 font-sans mb-8">
             Заполните форму, и мы свяжемся с вами для обсуждения индивидуальных условий сотрудничества.
           </p>
-          <ContactForm isPartner={true} />
+          <ContactForm isPartner={true} buttonText="Стать партнером" />
         </div>
       </Container>
     </div>

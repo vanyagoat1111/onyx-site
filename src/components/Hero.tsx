@@ -33,8 +33,8 @@ export default function Hero() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]">продают за вас 24/7</span>
             </h1>
             <div className="text-lg md:text-xl text-neutral-300 font-sans max-w-2xl mb-8 leading-relaxed font-light text-left space-y-6">
-              <p>Превратите посетителей в клиентов с помощью системы, которая работает без выходных.</p>
-              <p>Мы создаем не просто красивую картинку, а инструмент для регулярного потока заявок и увеличения вашей прибыли. И всё это — за 0 рублей на старте.</p>
+              <p>Превратите посетителей в пациентов с помощью системы, которая работает без выходных. Готовое решение для стоматологий и медицинских центров, генерирующее стабильный поток заявок.</p>
+              <p className="text-blue-400 font-bold tracking-wide uppercase text-sm border-l-2 border-blue-500 pl-4">Мы всегда на связи и отвечаем в течение 10 минут даже в выходные дни.</p>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 items-stretch pb-4 w-full max-w-2xl">
@@ -42,14 +42,14 @@ export default function Hero() {
                 className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px] text-[12px] sm:text-[13px] md:text-[14px]" 
                 onClick={() => document.getElementById('lead-magnets')?.scrollIntoView({ behavior: 'smooth'})}
               >
-                Получить бесплатный аудит
+                Получить аудит сайта
               </Button>
               <Button 
                 className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px] text-[12px] sm:text-[13px] md:text-[14px]" 
                 variant="outline" 
                 onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth'})}
               >
-                Посмотреть демо-версии
+                Смотреть структуру
               </Button>
             </div>
           </motion.div>

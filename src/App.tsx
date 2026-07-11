@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import TheNeed from './components/TheNeed';
 import WhyUs from './components/WhyUs';
 import HowToStart from './components/HowToStart';
 import TasksWeSolve from './components/TasksWeSolve';
@@ -72,12 +73,13 @@ export default function App() {
     <main className="bg-onyx-950 text-white font-sans selection:bg-blue-600 selection:text-onyx-950 w-full overflow-clip relative pb-24 md:pb-0">
       <Navbar />
       <Hero />
-      <TasksWeSolve />
+      <TheNeed />
       <WhyUs />
       <HowToStart />
+      <TasksWeSolve />
+      <Templates />
       <LeadMagnets />
       <Services />
-      <Templates />
       <FAQ />
       <Footer />
       <LegalModal />
@@ -91,7 +93,7 @@ export default function App() {
           }}
           className="w-full max-w-sm bg-blue-600 text-white font-bold py-4 rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.5)] hover:bg-blue-500 transition-colors uppercase tracking-widest text-sm"
         >
-          Получить аудит
+          Получить разбор сайта
         </button>
       </div>
     </main>
