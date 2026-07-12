@@ -1,45 +1,65 @@
 import React from 'react';
-import { Container, SectionTitle, Button } from './ui';
-import { motion } from 'motion/react';
+import { Container, SectionTitle, Button, Reveal } from './ui';
+import { FileText } from 'lucide-react';
+
+const steps = [
+  { num: '01', title: 'Оставляете заявку', desc: 'Пара минут: рассказываете о бизнесе и задаче сайта.' },
+  { num: '02', title: 'Разбираем ваш бизнес', desc: 'Смотрим текущую упаковку и находим слабые места.' },
+  { num: '03', title: 'Показываем план и превью', desc: 'Какие блоки нужны, как усилить доверие и принимать заявки.' },
+  { num: '04', title: 'Запускаем сайт', desc: 'На вашем домене, без оплаты разработки — платите только за запуск и работу.' },
+];
 
 export default function ActionBlock() {
   return (
-    <Container className="bg-onyx-950 border-y border-onyx-800 relative overflow-hidden py-20 md:py-32">
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/5 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-600/5 blur-[120px] rounded-full pointer-events-none" />
-      
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <div>
-            <SectionTitle subtitle="План действий" className="!mb-6">
-              Оставьте заявку — мы покажем, какой сайт нужен вашему бизнесу
-            </SectionTitle>
-            <div className="w-24 h-2 bg-blue-600 mb-8 shadow-[0_0_15px_rgba(59,130,246,0.6)]"></div>
-          </div>
-          
-          <div className="text-lg text-neutral-300 font-sans leading-relaxed font-light space-y-6">
+    <Container className="relative border-t border-white/[0.06]">
+      <div className="grid lg:grid-cols-2 gap-14 lg:gap-24 items-start">
+        <div className="lg:sticky lg:top-28">
+          <SectionTitle index="02" subtitle="План действий" className="!mb-8">
+            Покажем, какой сайт нужен вашему бизнесу
+          </SectionTitle>
+
+          <Reveal className="space-y-5 text-[15px] md:text-base font-body text-fog leading-relaxed mb-10">
             <p>
-              Вам не нужно разбираться в дизайне, доменах, хостинге, структуре сайта и технических настройках.
+              Вам не нужно разбираться в дизайне, доменах, хостинге, структуре сайта и технических настройках — это наша работа.
             </p>
-            <p>
-              Вы оставляете заявку, а мы изучаем ваш бизнес, смотрим текущую упаковку, находим слабые места и предлагаем понятный план сайта: какие блоки нужны, какие услуги показать, как усилить доверие и как принимать заявки.
+            <p className="text-bone/90">
+              После разбора вы понимаете, каким должен быть ваш сайт, за что вы платите и как ONYX может запустить его без оплаты разработки.
             </p>
-            <p className="font-medium text-white">
-              После этого вы понимаете, каким должен быть ваш сайт, за что вы платите и как ONYX может запустить его без оплаты разработки.
-            </p>
-            <p className="pt-4 border-t border-onyx-800">
-              А также мы подготовили для вас бесплатный чек-лист-инструкцию по созданию сайта для вашего бизнеса.
-            </p>
-            
-            <div className="pt-4 flex flex-col gap-2 max-w-sm">
-              <Button className="w-full min-h-[64px] text-base" onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth'})}>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <div className="rounded-[24px] border border-white/[0.08] bg-ink-2/70 p-6 md:p-7">
+              <div className="flex items-start gap-4 mb-5">
+                <div className="w-11 h-11 rounded-2xl bg-cobalt/15 border border-cobalt/30 flex items-center justify-center shrink-0">
+                  <FileText className="w-5 h-5 text-cobalt-soft" />
+                </div>
+                <p className="text-sm font-body text-bone/85 leading-relaxed">
+                  Мы подготовили бесплатный чек-лист-инструкцию по созданию сайта: все подводные камни разработки и поиска подрядчика.
+                </p>
+              </div>
+              <Button className="w-full min-h-[54px]" onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}>
                 Получить чек-лист
               </Button>
-              <span className="text-xs text-neutral-500 text-center font-mono uppercase tracking-wider">
-                Узнайте о всех подводных камнях в разработке сайта и поиске разработчика.
-              </span>
             </div>
-          </div>
+          </Reveal>
+        </div>
+
+        {/* ── Process timeline ── */}
+        <div className="relative pl-2">
+          <div className="absolute left-[27px] top-6 bottom-6 w-px bg-gradient-to-b from-cobalt/60 via-white/15 to-transparent" />
+          {steps.map((s, i) => (
+            <Reveal key={i} delay={i * 0.1}>
+              <div className="relative flex gap-6 md:gap-8 pb-12 last:pb-0 group">
+                <div className={`relative z-10 w-[52px] h-[52px] rounded-full border flex items-center justify-center font-mono text-sm shrink-0 transition-all duration-500 ${i === 0 ? 'bg-cobalt border-cobalt text-white shadow-[0_0_30px_rgba(78,124,255,0.35)]' : 'bg-ink border-white/15 text-cobalt-soft group-hover:border-cobalt/50'}`}>
+                  {s.num}
+                </div>
+                <div className="pt-1.5">
+                  <h3 className="font-display font-medium text-lg md:text-xl text-bone mb-2">{s.title}</h3>
+                  <p className="text-sm md:text-[15px] font-body text-fog leading-relaxed max-w-md">{s.desc}</p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </Container>

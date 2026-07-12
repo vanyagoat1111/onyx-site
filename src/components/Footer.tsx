@@ -1,48 +1,73 @@
 import React from 'react';
-import { Container } from './ui';
+import { Mail, Phone, Send } from 'lucide-react';
+
+const openLegal = (doc: string) => document.dispatchEvent(new CustomEvent('open-legal', { detail: doc }));
 
 export default function Footer() {
   return (
-    <footer id="contacts" className="bg-onyx-950 border-t border-onyx-800 relative z-10">
-      <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-600/5 via-transparent to-transparent pointer-events-none" />
-
-      {/* Contacts & Footer Meta */}
-      <div className="px-6 py-12 relative z-10 before:absolute before:top-0 before:left-0 before:w-full before:h-[1px] before:bg-gradient-to-r before:from-onyx-800 before:via-blue-600/30 before:to-onyx-800">
-        <Container>
-          <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-8">
-
-            {/* Contacts Info */}
-            <div className="flex flex-col gap-4 text-sm md:text-base font-black uppercase tracking-[0.2em] text-blue-500">
-              <span className="text-neutral-500 font-mono text-xs uppercase tracking-widest mb-2">Наши контакты</span>
-              <a href="mailto:onyxwebcooperation@gmail.com" className="hover:text-white hover:drop-shadow-[0_0_10px_#fff] transition-all flex items-start sm:items-center gap-4 group">
-                <span className="w-8 h-[2px] bg-onyx-700 group-hover:bg-blue-600 transition-colors shrink-0 mt-2 sm:mt-0"></span> <span>onyxwebcooperation<br className="sm:hidden" />@gmail.com</span>
-              </a>
-              <a href="tel:+79082420204" className="hover:text-white hover:drop-shadow-[0_0_10px_#fff] transition-all flex items-center gap-4 group">
-                <span className="w-8 h-[2px] bg-onyx-700 group-hover:bg-blue-600 transition-colors"></span> +7 (908) 242-02-04
-              </a>
-              <a href="https://t.me/onyxcoop" target="_blank" rel="noreferrer" className="hover:text-blue-300 hover:drop-shadow-[0_0_10px_rgba(147,197,253,0.3)] transition-all flex items-center gap-4 group">
-                <span className="w-8 h-[2px] bg-onyx-700 group-hover:bg-blue-400 transition-colors"></span> Telegram: @onyxcoop
-              </a>
-            </div>
-
-            {/* Legal */}
-            <div className="space-y-4 font-mono text-xs tracking-widest text-neutral-600 uppercase">
-              <div className="text-blue-500 drop-shadow-[0_0_5px_rgba(59,130,246,0.4)]">© 2026 ONYX STUDIO. ВСЕ ПРАВА ЗАЩИЩЕНЫ.</div>
-              <div className="text-[10px] md:text-xs text-neutral-500 space-y-1">
-                <div className="block">Самозанятый: Новиков Иван Максимович</div>
-                <div className="block">ИНН: 590586577935</div>
-                <div className="block">Email: <a href="mailto:onyxwebcooperation@gmail.com" className="hover:text-blue-500 hover:drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] transition-all flex-wrap">onyxwebcooperation<br className="sm:hidden" />@gmail.com</a></div>
-                <div className="block">Телефон: <a href="tel:+79082420204" className="hover:text-blue-500 hover:drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] transition-all">+7 (908) 242-02-04</a></div>
-              </div>
-              <div className="flex flex-wrap gap-4 md:gap-6 mt-6">
-                <a href="#" onClick={(e) => { e.preventDefault(); document.dispatchEvent(new CustomEvent('open-legal', { detail: 'privacy' })); }} className="hover:text-blue-300 hover:drop-shadow-[0_0_5px_rgba(147,197,253,0.3)] transition-all">Политика обработки персональных данных</a>
-                <a href="#" onClick={(e) => { e.preventDefault(); document.dispatchEvent(new CustomEvent('open-legal', { detail: 'terms' })); }} className="hover:text-blue-300 hover:drop-shadow-[0_0_5px_rgba(147,197,253,0.3)] transition-all">Публичная оферта</a>
-                <a href="#" onClick={(e) => { e.preventDefault(); document.dispatchEvent(new CustomEvent('open-legal', { detail: 'payment' })); }} className="hover:text-blue-300 hover:drop-shadow-[0_0_5px_rgba(147,197,253,0.3)] transition-all">Условия оплаты, доставки и возврата</a>
-              </div>
-            </div>
-
+    <footer id="contacts" className="relative border-t border-white/[0.08] overflow-hidden">
+      <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-12 pt-16 pb-10 relative z-10">
+        <div className="grid md:grid-cols-3 gap-12 md:gap-8 mb-16">
+          {/* Brand */}
+          <div>
+            <a href="#" className="flex items-center gap-3 mb-5" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+              <img src="/favicon.svg" alt="ONYX Logo" className="w-8 h-8" />
+              <span className="font-display font-bold text-lg text-bone">ONYX</span>
+            </a>
+            <p className="text-[13px] font-body text-fog leading-relaxed max-w-xs">
+              Веб-студия для бизнеса. Создаём сайты без оплаты разработки — вы платите только за запуск, работу и развитие.
+            </p>
           </div>
-        </Container>
+
+          {/* Contacts */}
+          <div>
+            <h4 className="font-mono text-[10px] tracking-[0.25em] uppercase text-fog mb-6">Контакты</h4>
+            <div className="flex flex-col gap-4">
+              <a href="mailto:onyxwebcooperation@gmail.com" className="flex items-center gap-3 text-sm font-body text-bone/85 hover:text-cobalt-soft transition-colors break-all">
+                <Mail className="w-4 h-4 text-cobalt-soft shrink-0" /> onyxwebcooperation@gmail.com
+              </a>
+              <a href="tel:+79082420204" className="flex items-center gap-3 text-sm font-body text-bone/85 hover:text-cobalt-soft transition-colors">
+                <Phone className="w-4 h-4 text-cobalt-soft shrink-0" /> +7 (908) 242-02-04
+              </a>
+              <a href="https://t.me/onyxcoop" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-sm font-body text-bone/85 hover:text-cobalt-soft transition-colors">
+                <Send className="w-4 h-4 text-cobalt-soft shrink-0" /> Telegram: @onyxcoop
+              </a>
+            </div>
+          </div>
+
+          {/* Documents */}
+          <div>
+            <h4 className="font-mono text-[10px] tracking-[0.25em] uppercase text-fog mb-6">Документы</h4>
+            <div className="flex flex-col gap-3">
+              {[
+                { label: 'Политика обработки персональных данных', doc: 'privacy' },
+                { label: 'Публичная оферта', doc: 'terms' },
+                { label: 'Условия оплаты, доставки и возврата', doc: 'payment' },
+              ].map((d) => (
+                <a
+                  key={d.doc}
+                  href="#"
+                  onClick={(e) => { e.preventDefault(); openLegal(d.doc); }}
+                  className="text-[13px] font-body text-fog hover:text-bone transition-colors"
+                >
+                  {d.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-white/[0.08] pt-8 flex flex-col md:flex-row justify-between gap-4 font-mono text-[11px] text-fog/70 tracking-wide">
+          <span>© 2026 ONYX STUDIO. Все права защищены.</span>
+          <span>Самозанятый: Новиков Иван Максимович · ИНН: 590586577935</span>
+        </div>
+      </div>
+
+      {/* Watermark */}
+      <div aria-hidden="true" className="relative select-none pointer-events-none flex justify-center overflow-hidden">
+        <span className="font-display font-black text-[26vw] md:text-[20vw] leading-[0.75] text-outline-bone -mb-[6vw] tracking-tight">
+          ONYX
+        </span>
       </div>
     </footer>
   );

@@ -1,122 +1,186 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Button, Container } from './ui';
-import AnimatedBackground from './AnimatedBackground';
-import MassiveFigure from './MassiveFigure';
+import { Button } from './ui';
+import { ArrowDownRight } from 'lucide-react';
+
+const ease = [0.22, 1, 0.36, 1] as const;
+
+function CostBar({ label, value, width, accent = false, delay = 0 }: { label: string, value: string, width: string, accent?: boolean, delay?: number }) {
+  return (
+    <div>
+      <div className="flex justify-between items-baseline mb-2 gap-4">
+        <span className="text-[13px] font-body text-fog">{label}</span>
+        <span className={`font-mono text-[13px] font-medium whitespace-nowrap ${accent ? 'text-cobalt-soft' : 'text-bone'}`}>{value}</span>
+      </div>
+      <div className="h-2 rounded-full bg-white/[0.06] overflow-hidden">
+        <motion.div
+          initial={{ width: 0 }}
+          whileInView={{ width }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, delay, ease }}
+          className={`h-full rounded-full ${accent ? 'bg-gradient-to-r from-cobalt to-cobalt-soft' : 'bg-white/25'}`}
+        />
+      </div>
+    </div>
+  );
+}
 
 export default function Hero() {
   return (
-    <section id="home" className="relative min-h-[90svh] flex items-center pt-28 pb-16 overflow-hidden bg-[#020617] group">
-      {/* Massive Floor Grid */}
-      <div className="absolute inset-0 z-0 [mask-image:linear-gradient(to_bottom,transparent_20%,black_100%)] opacity-30 pointer-events-none">
-        <div className="absolute inset-[-100%] bg-[linear-gradient(rgba(59,130,246,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.3)_1px,transparent_1px)] bg-[size:100px_100px] animate-[grid-massive_10s_linear_infinite]" />
-      </div>
+    <section id="home" className="relative min-h-svh flex flex-col justify-center pt-32 pb-0 overflow-hidden">
+      {/* Atmosphere: restrained, single light source */}
+      <div className="absolute inset-0 dot-grid [mask-image:radial-gradient(ellipse_70%_60%_at_30%_20%,black,transparent)] pointer-events-none" />
+      <div className="absolute -top-[30%] -left-[15%] w-[65vw] h-[65vw] rounded-full bg-cobalt/[0.09] blur-[140px] pointer-events-none" />
+      <div className="absolute top-[10%] right-[-20%] w-[45vw] h-[45vw] rounded-full bg-cobalt/[0.05] blur-[120px] pointer-events-none" />
 
-      {/* Aurora Orbs - Massive Scale */}
-      <div className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] bg-blue-600/20 rounded-full blur-[150px] pointer-events-none mix-blend-screen animate-[pulse_10s_ease-in-out_infinite]" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] bg-purple-600/20 rounded-full blur-[150px] pointer-events-none mix-blend-screen animate-[pulse_14s_ease-in-out_infinite_alternate]" />
-      <div className="absolute top-[20%] right-[10%] w-[50vw] h-[50vw] bg-indigo-500/15 rounded-full blur-[120px] pointer-events-none mix-blend-screen animate-[pulse_12s_ease-in-out_infinite]" />
-      
-      <AnimatedBackground />
-      <MassiveFigure />
+      <div className="relative z-10 max-w-[1440px] w-full mx-auto px-5 sm:px-6 md:px-12 flex-grow flex items-center">
+        <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-14 lg:gap-20 items-center w-full py-10">
+          {/* ── Left: statement ── */}
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease }}
+              className="flex items-center gap-3 mb-8"
+            >
+              <span className="w-2 h-2 rounded-full bg-cobalt animate-pulse-dot" />
+              <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-fog">Веб-студия ONYX · сайты для бизнеса</span>
+            </motion.div>
 
-      <Container className="relative z-10 pt-[23px] border-0 rounded-none">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <h1 className="font-display font-bold text-[2.1rem] sm:text-5xl lg:text-[3.6rem] xl:text-[4.2rem] leading-[1.06] tracking-tight text-bone mb-8">
+              {['Сайт для', 'бизнеса за'].map((line, i) => (
+                <span key={i} className="block overflow-hidden">
+                  <motion.span
+                    className="block"
+                    initial={{ y: '110%' }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 0.9, delay: 0.1 + i * 0.12, ease }}
+                  >
+                    {line}
+                  </motion.span>
+                </span>
+              ))}
+              <span className="block overflow-hidden">
+                <motion.span
+                  className="block text-cobalt"
+                  initial={{ y: '110%' }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 0.9, delay: 0.34, ease }}
+                >
+                  0 рублей<span className="text-bone">.</span>
+                </motion.span>
+              </span>
+            </h1>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5, ease }}
+              className="max-w-xl space-y-4 mb-10"
+            >
+              <p className="text-base md:text-lg font-body text-bone/90 leading-relaxed">
+                Создадим сайт, который вызывает доверие, показывает ваши услуги и помогает получать заявки — без оплаты разработки.
+              </p>
+              <p className="text-[15px] font-body text-fog leading-relaxed">
+                Вы оплачиваете только запуск, размещение, техническое сопровождение и дополнительные функции, если они нужны вашему бизнесу. Сначала показываем предварительную версию — если направление подходит, запускаем сайт на домене.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.62, ease }}
+              className="flex flex-col sm:flex-row gap-4 sm:items-start"
+            >
+              <div className="flex flex-col gap-2">
+                <Button className="min-h-[56px] px-9" onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}>
+                  Начать разработку
+                </Button>
+                <span className="text-[11px] text-fog/70 text-center font-mono tracking-wide">Без скрытой оплаты за разработку</span>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Button variant="outline" className="min-h-[56px] px-9" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>
+                  Бесплатный аудит сайта
+                </Button>
+                <span className="text-[11px] text-fog/70 text-center font-mono tracking-wide max-w-[260px] mx-auto">Укажем слабые места и что усилить</span>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* ── Right: launch economics infographic ── */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="max-w-3xl"
+            transition={{ duration: 0.9, delay: 0.4, ease }}
+            className="relative"
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] text-left font-heading font-black uppercase tracking-tight mb-6 text-white drop-shadow-md">
-              Сайт для бизнеса за <br className="hidden lg:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]">0 ₽</span>
-            </h1>
-            <div className="text-lg md:text-xl text-neutral-300 font-sans max-w-2xl mb-8 leading-relaxed font-light text-left space-y-6">
-              <p className="font-medium text-white">Создадим сайт, который вызывает доверие, показывает ваши услуги и помогает получать заявки — без оплаты разработки.</p>
-              <p>Вы оплачиваете только запуск, размещение, техническое сопровождение и дополнительные функции, если они нужны вашему бизнесу.</p>
-              <p className="text-neutral-400 text-sm md:text-base">Сначала показываем предварительную версию сайта. Если направление подходит — запускаем сайт на домене и подключаем всё для работы.</p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 items-stretch pb-4 w-full max-w-2xl">
-              <div className="flex-1 flex flex-col gap-2">
-                <Button className="w-full min-h-[64px] text-base" onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth'})}>Начать разработку</Button>
-                <span className="text-xs text-neutral-500 text-center uppercase tracking-widest font-mono">Без скрытой оплаты за разработку</span>
+            <div className="absolute -inset-px rounded-[28px] bg-gradient-to-b from-white/15 via-white/[0.06] to-transparent pointer-events-none" />
+            <div className="relative rounded-[28px] bg-ink-2/90 backdrop-blur-xl p-7 md:p-9">
+              <div className="flex items-center justify-between mb-8">
+                <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-fog">Экономика запуска</span>
+                <span className="flex items-center gap-2 font-mono text-[10px] text-cobalt-soft">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cobalt animate-pulse-dot" /> сравнение
+                </span>
               </div>
-              <div className="flex-1 flex flex-col gap-2">
-                <Button className="w-full min-h-[64px] text-[14px]" variant="outline" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>Бесплатный аудит вашего сайта</Button>
-                <span className="text-xs text-neutral-500 text-center font-mono">Если у вас уже есть сайт, укажем на слабые места и расскажем, что усилить.</span>
+
+              <div className="space-y-6">
+                <CostBar label="Обычная студия — разработка" value="60 000–150 000 ₽" width="100%" delay={0.6} />
+                <CostBar label="ONYX — разработка" value="0 ₽" width="2.5%" accent delay={0.8} />
+                <CostBar label="ONYX — запуск под ключ" value="от 5 990 ₽" width="9%" accent delay={0.95} />
+              </div>
+
+              <div className="my-8 h-px bg-white/[0.08]" />
+
+              <div className="grid grid-cols-3 gap-4">
+                {[
+                  { v: '0 ₽', l: 'за разработку' },
+                  { v: '2–3', l: 'дня до запуска' },
+                  { v: '+40%', l: 'конверсии в кейсе' },
+                ].map((s, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 1 + i * 0.12, ease }}
+                  >
+                    <div className="font-display font-semibold text-xl md:text-2xl text-bone mb-1">{s.v}</div>
+                    <div className="text-[11px] font-body text-fog leading-snug">{s.l}</div>
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="mt-8 flex items-center gap-3 rounded-2xl bg-cobalt/[0.08] border border-cobalt/20 px-4 py-3">
+                <ArrowDownRight className="w-4 h-4 text-cobalt-soft shrink-0" />
+                <p className="text-[12px] font-body text-bone/85 leading-snug">
+                  Стартовый барьер убран: платите только за то, что нужно для работы сайта.
+                </p>
               </div>
             </div>
           </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1, y: [0, -10, 0] }}
-            transition={{ 
-              opacity: { duration: 1, delay: 0.2, ease: "easeOut" },
-              scale: { duration: 1, delay: 0.2, ease: "easeOut" },
-              y: { duration: 6, repeat: Infinity, ease: "easeInOut" }
-            }}
-            className="hidden lg:block relative"
-          >
-             <div className="relative w-full aspect-square md:aspect-[4/3] rounded-sm overflow-hidden border border-blue-500/50 shadow-[0_0_80px_rgba(59,130,246,0.2)] group clip-diagonal hover:border-blue-400 transition-colors duration-500">
-                <div className="absolute inset-0 bg-gradient-to-tr from-onyx-950 via-onyx-900/60 to-transparent z-10"></div>
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay z-10"></div>
-                
-                {/* Moving grid background */}
-                <div className="absolute inset-0 z-0 overflow-hidden">
-                  <div className="absolute -inset-[100%] bg-[linear-gradient(rgba(59,130,246,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.15)_1px,transparent_1px)] bg-[size:40px_40px] animate-[grid_5s_linear_infinite]" />
-                </div>
-                
-                <div className="absolute bottom-8 left-8 right-8 z-20">
-                   <div className="bg-onyx-900/90 backdrop-blur-xl border border-blue-500/50 p-6 clip-diagonal shadow-[0_0_40px_rgba(59,130,246,0.3)]">
-                      <div className="flex justify-between items-center mb-6">
-                        <div className="flex gap-2.5">
-                          <div className="w-2.5 h-2.5 rounded-none bg-blue-400 shadow-[0_0_15px_rgba(147,197,253,0.6)]"></div>
-                          <div className="w-2.5 h-2.5 rounded-none bg-blue-600 shadow-[0_0_15px_rgba(59,130,246,0.8)] animate-pulse"></div>
-                          <div className="w-2.5 h-2.5 rounded-none bg-neutral-600"></div>
-                        </div>
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-blue-400 drop-shadow-[0_0_5px_rgba(96,165,250,0.6)]">System Active...</span>
-                      </div>
-                      <div className="h-1.5 w-full bg-onyx-800 rounded-none overflow-hidden relative">
-                        <div className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-600 to-blue-400 w-2/3 animate-[pulse_2s_ease-in-out_infinite] shadow-[0_0_20px_rgba(59,130,246,0.8)]"></div>
-                      </div>
-                      
-                      <div className="mt-6 flex flex-col gap-3 font-mono text-[11px] text-blue-400/70">
-                        <div className="flex justify-between">
-                          <span>&gt; INITIALIZING MODULES</span>
-                          <span className="text-blue-400">100%</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>&gt; ESTABLISHING CONNECTION</span>
-                          <span className="text-blue-400">OK</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>&gt; DEPLOYING UI COMPONENTS</span>
-                          <span className="text-blue-400 animate-pulse">IN PROGRESS...</span>
-                        </div>
-                      </div>
-                   </div>
-                </div>
-             </div>
-             {/* Decorative Elements */}
-             <div className="absolute -bottom-8 -left-8 w-32 h-32 border-b border-l border-blue-500/50 shadow-[-10px_10px_30px_rgba(59,130,246,0.15)] -z-10 animate-[pulse_4s_ease-in-out_infinite]"></div>
-             <div className="absolute -top-8 -right-8 w-32 h-32 border-t border-r border-blue-400/50 shadow-[10px_-10px_30px_rgba(147,197,253,0.15)] -z-10 animate-[pulse_5s_ease-in-out_infinite]"></div>
-          </motion.div>
-        </div>
-      </Container>
-
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden border-t border-b border-blue-500/20 bg-onyx-950/80 backdrop-blur-xl py-4 z-20 flex whitespace-nowrap shadow-[0_0_40px_rgba(0,0,0,0.5)]">
-        <div className="animate-marquee flex gap-12 items-center font-mono font-black uppercase tracking-widest text-3xl select-none">
-          {Array(8).fill("").map((_, i) => (
-             <React.Fragment key={i}>
-                <span style={{ WebkitTextStroke: "1px rgba(96,165,250,0.4)" }} className="text-transparent">ПРОФЕССИОНАЛЬНЫЙ САЙТ</span>
-                <span className="text-blue-500 drop-shadow-[0_0_10px_rgba(59,130,246,0.4)]">ЗА 0 РУБЛЕЙ</span>
-                <span className="text-blue-400/30">/</span>
-             </React.Fragment>
-          ))}
         </div>
       </div>
+
+      {/* ── Fact strip ── */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.1 }}
+        className="relative z-10 border-t border-white/[0.08] mt-6"
+      >
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-12 grid grid-cols-2 lg:grid-cols-4">
+          {[
+            { k: 'Разработка', v: '0 ₽' },
+            { k: 'Запуск', v: 'от 5 990 ₽' },
+            { k: 'Сопровождение', v: 'от 1 990 ₽/мес' },
+            { k: 'Старт', v: 'за 2–3 дня' },
+          ].map((f, i) => (
+            <div key={i} className={`py-5 md:py-6 flex flex-col gap-1 ${i !== 0 ? 'lg:border-l lg:border-white/[0.08] lg:pl-8' : ''} ${i % 2 !== 0 ? 'border-l border-white/[0.08] pl-6 lg:pl-8' : ''}`}>
+              <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-fog">{f.k}</span>
+              <span className="font-display font-medium text-base md:text-lg text-bone">{f.v}</span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </section>
   );
 }

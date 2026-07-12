@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Container, SectionTitle } from './ui';
-import { ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Container, SectionTitle, Button, Reveal } from './ui';
+import { Plus } from 'lucide-react';
 
 const faqs = [
   { q: "Разработка сайта действительно за 0 ₽?", a: "Да. Разработка сайта стоит 0 ₽. Вы не оплачиваете саму разработку: базовую структуру, сборку сайта, первый экран, блоки, форму заявки и адаптацию под телефон. Отдельно оплачиваются вещи, которые нужны для запуска и работы сайта: домен, хостинг, подключение, публикация, техническое сопровождение и дополнительные функции, если они понадобятся вашему бизнесу." },
@@ -27,29 +28,52 @@ const faqs = [
 export default function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <Container id="faq" className="border-t border-onyx-800 bg-onyx-950 py-24 relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-[800px] h-[800px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-indigo-500/5 blur-[120px] rounded-full pointer-events-none" />
-      
-      <div className="grid lg:grid-cols-2 gap-16 relative z-10">
-        <div>
-          <SectionTitle subtitle="Вопросы" className="!mb-12">FAQ</SectionTitle>
+    <Container id="faq" className="relative border-t border-white/[0.06] scroll-mt-20">
+      <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-20 items-start">
+        <div className="lg:sticky lg:top-28">
+          <SectionTitle index="07" subtitle="Вопросы и ответы" className="!mb-8">
+            Отвечаем честно — даже на вопрос «где подвох?»
+          </SectionTitle>
+          <Reveal>
+            <p className="text-[15px] font-body text-fog leading-relaxed mb-8 max-w-md">
+              Собрали всё, что обычно спрашивают владельцы бизнеса перед стартом. Не нашли свой вопрос — просто напишите нам.
+            </p>
+            <Button variant="outline" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>
+              Задать вопрос в Telegram
+            </Button>
+          </Reveal>
         </div>
-        <div className="space-y-4">
+
+        <div>
           {faqs.map((faq, i) => (
-            <div key={i} className={`border clip-diagonal ${open === i ? "border-blue-500/80 bg-onyx-900/80 shadow-[0_10px_30px_rgba(59,130,246,0.15)]" : "border-onyx-800/80 bg-onyx-900/30 hover:border-blue-500/40 hover:bg-onyx-900/60"} overflow-hidden transition-all duration-500 backdrop-blur-sm group`}>
+            <div key={i} className={`border-b transition-colors duration-400 ${open === i ? 'border-cobalt/40' : 'border-white/[0.08]'}`}>
               <button
                 onClick={() => setOpen(open === i ? null : i)}
-                className={`w-full flex items-center justify-between p-6 text-left font-bold uppercase tracking-wide transition-colors duration-300 ${open === i ? "text-white drop-shadow-sm" : "text-neutral-300 group-hover:text-blue-50"}`}
+                className="w-full flex items-center justify-between gap-6 py-6 text-left group"
               >
-                {faq.q}
-                <ChevronDown size={24} className={`transform transition-transform duration-500 ${open === i ? "rotate-180 text-blue-500 drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]" : "text-onyx-600 group-hover:text-blue-400"}`} />
+                <span className="flex items-baseline gap-4">
+                  <span className="font-mono text-[11px] text-fog/60 shrink-0 w-6">{String(i + 1).padStart(2, '0')}</span>
+                  <span className={`font-body font-semibold text-[15px] md:text-base transition-colors duration-300 ${open === i ? 'text-bone' : 'text-bone/75 group-hover:text-bone'}`}>{faq.q}</span>
+                </span>
+                <span className={`w-8 h-8 rounded-full border flex items-center justify-center shrink-0 transition-all duration-400 ${open === i ? 'bg-cobalt border-cobalt text-white rotate-45' : 'border-white/15 text-fog group-hover:border-cobalt/50 group-hover:text-cobalt-soft'}`}>
+                  <Plus className="w-4 h-4" />
+                </span>
               </button>
-              {open === i && (
-                <div className="p-6 pt-0 text-neutral-300 font-sans text-base md:text-lg leading-relaxed border-t border-onyx-800 mt-2 mx-6 pb-6 relative before:absolute before:left-0 before:top-0 before:h-full before:w-[2px] before:bg-gradient-to-b before:from-blue-500 before:to-transparent pl-5 shadow-[inset_10px_0_20px_rgba(59,130,246,0.02)]">
-                  {faq.a}
-                </div>
-              )}
+              <AnimatePresence initial={false}>
+                {open === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <p className="pb-7 pl-10 pr-4 text-sm md:text-[15px] font-body text-fog leading-relaxed">
+                      {faq.a}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ))}
         </div>

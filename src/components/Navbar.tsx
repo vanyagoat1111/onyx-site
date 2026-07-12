@@ -1,93 +1,109 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from './ui';
-import { Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
+
+const links = [
+  { name: 'Главная', href: '#home', num: '01' },
+  { name: 'Тарифы', href: '#prices', num: '02' },
+  { name: 'Доп. опции', href: '#addons', num: '03' },
+  { name: 'FAQ', href: '#faq', num: '04' },
+  { name: 'Контакты', href: '#contact-form', num: '05' },
+];
+
+const scrollTo = (href: string) => {
+  document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+};
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const links = [
-    { name: 'Главная', href: '#home' },
-    { name: 'Тарифы', href: '#prices' },
-    { name: 'Доп. опции', href: '#addons' },
-    { name: 'FAQ', href: '#faq' },
-    { name: 'Контакты', action: () => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' }) },
-  ];
-
   return (
     <>
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-onyx-900/90 backdrop-blur-md py-4 border-b border-blue-500/30 shadow-[0_4px_30px_rgba(59,130,246,0.1)]' : 'bg-transparent py-6'}`}>
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(59,130,246,0.05)_50%,transparent_100%)] pointer-events-none" />
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center relative z-10">
-          <a href="#" className="flex items-center gap-3 group">
-            <img src="/favicon.svg" alt="ONYX Logo" className="w-10 h-10 group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(59,130,246,0.4)]"  />
-            <span className="text-3xl font-black tracking-tight uppercase text-blue-500 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)] group-hover:drop-shadow-[0_0_20px_rgba(59,130,246,0.5)] group-hover:text-white transition-all">
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-ink/85 backdrop-blur-xl py-3 border-b border-white/10' : 'bg-transparent py-5'}`}>
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-12 flex justify-between items-center">
+          <a href="#" className="flex items-center gap-3 group" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+            <img src="/favicon.svg" alt="ONYX Logo" className="w-8 h-8 group-hover:rotate-90 transition-transform duration-500" />
+            <span className="font-display font-bold text-lg tracking-wide text-bone group-hover:text-cobalt-soft transition-colors">
               ONYX
             </span>
           </a>
 
-          <div className="hidden lg:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center gap-9">
             {links.map(link => (
               <a
                 key={link.name}
-                href={link.href || '#'}
-                className="text-sm font-mono text-neutral-400 hover:text-blue-500 hover:drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] uppercase tracking-widest transition-all relative group cursor-pointer"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (link.action) {
-                    link.action();
-                  } else if (link.href && link.href.startsWith('#')) {
-                    document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
+                href={link.href}
+                className="text-[13px] font-body font-medium text-fog hover:text-bone transition-colors relative group cursor-pointer"
+                onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
               >
+                <sup className="font-mono text-[9px] text-cobalt-soft mr-1">{link.num}</sup>
                 {link.name}
-                <span className="absolute -bottom-2 left-1/2 w-0 h-[2px] bg-blue-600 transition-all group-hover:w-full group-hover:left-0 shadow-[0_0_5px_rgba(59,130,246,0.5)]" />
+                <span className="absolute -bottom-1.5 left-0 w-0 h-px bg-cobalt transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
-            <Button variant="outline" onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}>Начать разработку</Button>
+            <button
+              onClick={() => scrollTo('#contact-form')}
+              className="inline-flex items-center gap-1.5 rounded-full bg-bone text-ink text-[13px] font-body font-semibold px-5 py-2.5 hover:bg-cobalt hover:text-white transition-colors duration-300"
+            >
+              Начать разработку <ArrowUpRight className="w-3.5 h-3.5" />
+            </button>
           </div>
 
-          <button className="lg:hidden text-blue-500 hover:text-blue-300 hover:drop-shadow-[0_0_10px_rgba(147,197,253,0.3)] relative z-50 transition-all" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            {mobileMenuOpen ? <X size={32} /> : <Menu size={32} />}
+          <button className="lg:hidden text-bone relative z-50 p-1" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Меню">
+            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </nav>
 
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-onyx-950 pt-32 px-6 flex flex-col space-y-8 h-screen w-full overflow-y-auto ">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent pointer-events-none" />
-          <div className="relative z-10">
-            {links.map(link => (
-              <a
-                key={link.name}
-                href={link.href || '#'}
-                className="block text-2xl font-black uppercase tracking-widest border-b border-onyx-700 pb-4 mb-4 text-white hover:text-blue-500 hover:border-blue-500 transition-colors drop-shadow-[0_0_5px_rgba(255,255,255,0.2)] hover:drop-shadow-[0_0_10px_rgba(59,130,246,0.5)] cursor-pointer"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setMobileMenuOpen(false);
-                  if (link.action) {
-                    setTimeout(() => link.action!(), 50);
-                  } else if (link.href && link.href.startsWith('#')) {
-                    setTimeout(() => {
-                      document.querySelector(link.href!)?.scrollIntoView({ behavior: 'smooth' });
-                    }, 50);
-                  }
-                }}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 bg-ink/97 backdrop-blur-xl pt-28 px-6 flex flex-col h-screen w-full overflow-y-auto"
+          >
+            <div className="dot-grid absolute inset-0 pointer-events-none opacity-40" />
+            <div className="relative z-10 flex flex-col">
+              {links.map((link, i) => (
+                <motion.a
+                  key={link.name}
+                  href={link.href}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.08 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  className="flex items-baseline gap-4 font-display font-medium text-3xl text-bone border-b border-white/10 py-5 hover:text-cobalt-soft transition-colors cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMobileMenuOpen(false);
+                    setTimeout(() => scrollTo(link.href), 60);
+                  }}
+                >
+                  <span className="font-mono text-xs text-cobalt-soft">{link.num}</span>
+                  {link.name}
+                </motion.a>
+              ))}
+              <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.44, duration: 0.5 }}
+                onClick={() => { setMobileMenuOpen(false); setTimeout(() => scrollTo('#contact-form'), 60); }}
+                className="mt-10 w-full rounded-full bg-cobalt text-white font-body font-semibold py-5 hover:bg-bone hover:text-ink transition-colors"
               >
-                {link.name}
-              </a>
-            ))}
-            <Button onClick={() => { setMobileMenuOpen(false); document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' }); }} className="w-full mt-8">Начать разработку</Button>
-          </div>
-        </div>
-      )}
+                Начать разработку
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

@@ -20,6 +20,7 @@ import Logistics from './cases/Logistics';
 import LawFirm from './cases/LawFirm';
 import RealEstate from './cases/RealEstate';
 import RepairCompany from './cases/RepairCompany';
+import ArtelInteriors from './cases/ArtelInteriors';
 
 export default function App() {
   const [currentRoute, setCurrentRoute] = useState('');
@@ -56,9 +57,11 @@ export default function App() {
   if (currentRoute === '#case/lawfirm') return <CaseEditorWrapper><LawFirm /></CaseEditorWrapper>;
   if (currentRoute === '#case/realestate') return <CaseEditorWrapper><RealEstate /></CaseEditorWrapper>;
   if (currentRoute === '#case/repair') return <CaseEditorWrapper><RepairCompany /></CaseEditorWrapper>;
+  if (currentRoute === '#case/artel') return <CaseEditorWrapper><ArtelInteriors /></CaseEditorWrapper>;
 
   return (
-    <main className="bg-onyx-950 text-white font-sans selection:bg-blue-600 selection:text-onyx-950 w-full overflow-clip">
+    <main className="bg-ink text-bone font-body selection:bg-cobalt selection:text-white w-full overflow-clip">
+      <div className="noise-overlay" aria-hidden="true" />
       <Navbar />
       <Hero />
       <Problem />
