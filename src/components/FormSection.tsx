@@ -1,30 +1,46 @@
 import React from 'react';
 import { Container, SectionTitle } from './ui';
-import ContactForm from './ContactForm';
+import { Check } from 'lucide-react';
 
 export default function FormSection() {
   return (
-    <Container id="contact-form" className="bg-onyx-900 border-y border-onyx-700 py-16 overflow-hidden relative">
+    <Container id="contact-form" className="bg-onyx-950 border-y border-onyx-800 py-20 overflow-hidden relative">
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/5 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-blue-400/5 blur-[150px] rounded-full pointer-events-none" />
-      <div className="max-w-7xl mx-auto relative z-10 w-full relative">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            <div className="mb-12 lg:mb-0">
-               <h2 className="text-4xl md:text-5xl lg:text-7xl font-heading font-black uppercase tracking-tight text-white mb-8 leading-tight drop-shadow-md">Готовы<br/>начать проект?</h2>
-               <div className="w-24 h-2 bg-blue-600 mb-8 shadow-[0_0_15px_rgba(59,130,246,0.6)]"></div>
-               <p className="text-xl md:text-2xl text-neutral-300 font-sans leading-relaxed mb-10 font-light">
-                 Заполните небольшую анкету, и мы свяжемся с вами в течение часа для обсуждения деталей. Никаких обязательств, только польза.
-               </p>
-               <ul className="space-y-6">
-                  <li className="flex gap-5 text-neutral-200 text-lg items-center bg-onyx-800/30 p-4 border border-onyx-700 clip-diagonal"><div className="w-3 h-3 bg-blue-400 shrink-0 shadow-[0_0_10px_rgba(147,197,253,0.5)]" /> Бесплатная консультация с экспертом</li>
-                  <li className="flex gap-5 text-neutral-200 text-lg items-center bg-onyx-800/30 p-4 border border-onyx-700 clip-diagonal"><div className="w-3 h-3 bg-blue-400 shrink-0 shadow-[0_0_10px_rgba(147,197,253,0.5)]" /> Точная оценка сроков и бюджета</li>
-                  <li className="flex gap-5 text-neutral-200 text-lg items-center bg-onyx-800/30 p-4 border border-onyx-700 clip-diagonal"><div className="w-3 h-3 bg-blue-400 shrink-0 shadow-[0_0_10px_rgba(147,197,253,0.5)]" /> Подбор подходящей инфраструктуры</li>
-               </ul>
-            </div>
-            <div className="bg-onyx-950/90 p-8 md:p-12 clip-diagonal border-2 border-onyx-700 shadow-[0_0_50px_rgba(59,130,246,0.15)] backdrop-blur-xl hover:border-blue-500/50 transition-colors relative group">
-               <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-               <ContactForm />
-            </div>
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-600/5 blur-[120px] rounded-full pointer-events-none" />
+      
+      <div className="max-w-4xl mx-auto relative z-10 text-center">
+        <SectionTitle className="!mb-6">Расскажите, каким должен быть ваш сайт</SectionTitle>
+        <p className="text-lg text-neutral-300 font-sans leading-relaxed font-light mb-12">
+          Напишите нам в Telegram. Мы зададим несколько вопросов о вашем бизнесе и предложим понятный план: какая структура нужна, какие функции помогут получать заявки и сколько будет стоить запуск.
+        </p>
+        
+        <div className="bg-onyx-900/60 backdrop-blur-sm border border-onyx-800 p-8 md:p-12 clip-diagonal max-w-2xl mx-auto mb-10 text-left hover:border-blue-500/30 transition-colors duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+          <h4 className="font-bold text-white mb-6 text-xl text-center">Что мы обсудим:</h4>
+          <ul className="space-y-4 mb-8">
+             <li className="flex gap-4 text-neutral-300 items-start">
+               <Check className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" /> 
+               Чем занимается компания и кто ваши клиенты.
+             </li>
+             <li className="flex gap-4 text-neutral-300 items-start">
+               <Check className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" /> 
+               Какую главную задачу должен решать сайт.
+             </li>
+             <li className="flex gap-4 text-neutral-300 items-start">
+               <Check className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" /> 
+               Что у вас уже есть: логотип, фото, тексты или соцсети.
+             </li>
+          </ul>
+          
+          <button 
+            onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}
+            className="w-full py-5 bg-blue-600 text-white font-black uppercase tracking-[0.2em] text-sm clip-diagonal hover:bg-white hover:text-blue-600 transition-all duration-500 shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_40px_rgba(59,130,246,0.6)]"
+          >
+            Обсудить сайт
+          </button>
+        </div>
+        
+        <div className="text-sm text-neutral-500 max-w-xl mx-auto">
+          Вы оставляете заявку — а мы думаем, как сделать так, чтобы сайт начал работать на ваш бизнес, а не просто висел в интернете.
         </div>
       </div>
     </Container>

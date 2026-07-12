@@ -1,198 +1,225 @@
 import React from 'react';
 import { Container, SectionTitle } from './ui';
 import { TechNodesEffect } from './BackgroundEffects';
+import { Check, Star } from 'lucide-react';
+
+const plans = [
+  {
+    name: 'Старт онлайн',
+    subtitle: 'Для бизнеса, которому нужен быстрый и понятный сайт без затрат на разработку',
+    prices: { dev: '0 ₽', launch: '5 990 ₽', support: '1 990 ₽/мес' },
+    features: [
+      'одностраничный сайт для бизнеса',
+      'адаптация под телефон, планшет и компьютер',
+      'главный экран с оффером',
+      'блок услуг или товаров',
+      'блок «О компании»',
+      'блок преимуществ',
+      'контакты и кнопки связи',
+      'простая форма заявки',
+      'базовая структура для продвижения',
+      'подключение домена',
+      'размещение сайта на хостинге',
+      'SSL-сертификат',
+      'публикация сайта',
+      'базовая техническая настройка',
+      'резервное копирование',
+      'контроль работы сайта',
+      'мелкие технические правки',
+      'поддержка после запуска'
+    ],
+    forWho: [
+      'экспертам', 'мастерам', 'салонам красоты', 'небольшим локальным компаниям', 'начинающим проектам', 'бизнесу, которому нужен быстрый выход в интернет'
+    ],
+    problem: 'У бизнеса появляется сайт, который можно отправлять клиентам, размещать в соцсетях, добавлять в карты, указывать в рекламе и использовать как официальную точку доверия.',
+    benefit: 'Бизнес получает сайт без оплаты разработки и без необходимости разбираться в доменах, хостинге и техническом запуске.'
+  },
+  {
+    name: 'Сайт + заявки',
+    badge: 'Оптимальный выбор',
+    subtitle: 'Для бизнеса, которому нужен не просто сайт, а обращения от клиентов',
+    prices: { dev: '0 ₽', launch: '8 900 ₽', support: '2 590 ₽/мес' },
+    features: [
+      'всё из тарифа «Старт онлайн»',
+      'усиленная структура сайта под заявки',
+      'доработка первого экрана и оффера',
+      'блок доверия: отзывы, гарантии, кейсы или преимущества',
+      'блок FAQ для закрытия возражений',
+      'Telegram-уведомления о новых заявках',
+      'подключение Яндекс Метрики',
+      'базовая настройка целей',
+      'подключение карты или геосервиса',
+      'проверка работы формы заявки',
+      '3 правки в месяц',
+      'ежемесячная проверка сайта',
+      'рекомендации по улучшению сайта'
+    ],
+    forWho: [
+      'клиникам и стоматологиям', 'фитнес-клубам', 'салонам красоты', 'ремонтным и строительным компаниям', 'юридическим услугам', 'B2B-компаниям', 'локальному бизнесу, которому важны заявки'
+    ],
+    problem: 'Сайт не просто существует в интернете, а помогает клиентам быстро понять предложение, довериться компании и оставить заявку.',
+    benefit: 'Бизнес получает сайт, заявки с которого приходят туда, где удобно их быстро обработать: на почту или в Telegram.'
+  },
+  {
+    name: 'Сайт как система продаж',
+    subtitle: 'Для бизнеса, которому нужен сайт, заявки, аналитика и контроль обработки клиентов',
+    prices: { dev: '0 ₽', launch: 'от 19 900 ₽', support: 'от 3 590 ₽/мес' },
+    features: [
+      'всё из тарифа «Сайт + заявки»',
+      'расширенная структура сайта',
+      'дополнительные продающие блоки',
+      'CRM-интеграция или таблица заявок',
+      'онлайн-запись или калькулятор стоимости на выбор',
+      'расширенная аналитика',
+      'настройка целей и событий',
+      'улучшенная логика заявок',
+      'до 3 небольших правок в месяц',
+      'приоритетная поддержка',
+      'ежемесячные рекомендации по развитию сайта',
+      'подготовка сайта к рекламе и продвижению'
+    ],
+    forWho: [
+      'бизнесу с высоким средним чеком', 'компаниям, которые запускают рекламу', 'клиникам, студиям, салонам и фитнес-клубам', 'ремонтным, строительным и сервисным компаниям', 'бизнесу, где важно не терять заявки', 'компаниям, которым нужна связка сайт + CRM + аналитика'
+    ],
+    problem: 'Сайт становится не просто страницей в интернете, а частью системы продаж: принимает заявки, передаёт их в удобный канал, помогает отслеживать обращения и улучшать результат.',
+    benefit: 'Бизнес получает не только сайт, а управляемый канал привлечения и обработки клиентов.'
+  }
+];
 
 const addons = [
-  {
-    title: 'Каталог товаров и услуг',
-    price: '7 990 ₽',
-    desc: 'Добавление каталога с вашими товарами или услугами на сайт.',
-    action: 'Оплатить'
-  },
-  {
-    title: 'Интеграция с системами CRM',
-    price: '5 900 ₽',
-    desc: 'Связь сайта с вашей CRM для автоматического получения заявок.',
-    action: 'Оплатить'
-  },
-  {
-    title: 'Корзина',
-    price: 'от 10 790 ₽',
-    desc: 'Функционал корзины для оформления заказов на сайте.',
-    action: 'Оплатить'
-  },
-  {
-    title: 'Подключение карт и геосервисов',
-    price: 'от 3 900 ₽',
-    desc: 'Интеграция интерактивных Яндекс или Google карт.',
-    action: 'Оплатить'
-  },
-  {
-    title: 'Калькулятор стоимости',
-    price: 'от 7 990 ₽',
-    desc: 'Интерактивный калькулятор для расчёта стоимости ваших услуг.',
-    action: 'Оплатить'
-  },
-  {
-    title: 'Политика конфиденциальности и документы',
-    price: 'от 2 900 ₽',
-    desc: 'Составление и размещение обязательных правовых документов.',
-    action: 'Оплатить'
-  },
-  {
-    title: 'Индивидуальный Дизайн',
-    price: 'от 15 000 ₽',
-    desc: 'Разработка уникального дизайна по вашему промпту.',
-    action: 'Оплатить'
-  },
-  {
-    title: 'SMM ONYX',
-    price: 'от 50 000 ₽ / мес',
-    desc: 'Ведение вашего бизнеса под ключ в ONYX SMM.',
-    action: 'Оплатить'
-  },
-  {
-    title: 'Настройка Аналитики',
-    price: '3 990 ₽',
-    desc: 'Яндекс Метрика, Google Analytics.',
-    action: 'Оплатить'
-  },
-  {
-    title: 'Онлайн Запись',
-    price: '6 990 ₽',
-    desc: 'Для стоматологий, фитнес-клубов, салонов, мед.центров. Подключаются сторонние сервисы записи.',
-    action: 'Оплатить'
-  },
-  {
-    title: 'Telegram Уведомления',
-    price: '3 990 ₽',
-    desc: 'Новые заявки сразу приходят в Telegram владельца.',
-    action: 'Оплатить'
-  }
+  { title: 'Дополнительные страницы', price: 'от 2 500 ₽ за страницу', desc: 'Отдельная страница под услугу, направление, акцию, портфолио, отзывы, команду или контакты.', benefit: 'помогает подробнее раскрыть предложения компании и вести клиентов на конкретную страницу под их запрос.' },
+  { title: 'Каталог товаров и услуг', price: 'от 7 900 ₽', desc: 'Раздел с товарами или услугами: категории, карточки, описания, цены и кнопки заявки.', benefit: 'помогает показать ассортимент или перечень услуг понятно и структурно.' },
+  { title: 'CRM-интеграция', price: 'от 7 900 ₽', desc: 'Передача заявок с сайта в CRM или таблицу заявок. Входит в тариф «Сайт как система продаж».', benefit: 'заявки не теряются, а попадают в систему, где их можно контролировать.' },
+  { title: 'Корзина', price: 'от 9 900 ₽', desc: 'Выбор товаров или услуг и оформление заказа на сайте.', benefit: 'клиент может не просто оставить заявку, а собрать заказ и отправить его бизнесу.' },
+  { title: 'Подключение карт и геосервисов', price: 'от 2 900 ₽', desc: 'Интерактивная карта, маршрут, геолокация и удобный блок контактов. Входит в тарифы с заявками.', benefit: 'клиент быстрее понимает, где находится компания и как до неё добраться.' },
+  { title: 'Калькулятор стоимости', price: 'от 6 990 ₽', desc: 'Интерактивный расчёт стоимости услуги прямо на сайте.', benefit: 'клиент получает ориентир по цене, а бизнес получает более тёплую заявку.' },
+  { title: 'Политика и документы', price: 'от 2 900 ₽', desc: 'Политика обработки данных, согласие для форм и базовые документы.', benefit: 'сайт становится более прозрачным и подготовленным к сбору заявок.' },
+  { title: 'Индивидуальный дизайн', price: 'от 15 000 ₽', desc: 'Уникальная визуальная концепция сайта под бренд, нишу и желаемое впечатление.', benefit: 'сайт перестаёт выглядеть как стандартный шаблон и лучше передаёт уровень компании.' },
+  { title: 'SMM ONYX', price: 'от 50 000 ₽/мес', desc: 'Ведение соцсетей и контента для бизнеса под ключ.', benefit: 'помогает бизнесу получать больше касаний с аудиторией и вести клиентов на сайт.' },
+  { title: 'Настройка аналитики', price: 'от 3 990 ₽', desc: 'Подключение Яндекс Метрики или Google Analytics. Входит в старшие тарифы.', benefit: 'владелец видит посещения, источники и действия клиентов.' },
+  { title: 'Онлайн-запись', price: 'от 6 990 ₽', desc: 'Запись через форму или сторонний сервис.', benefit: 'клиент может записаться без лишней переписки, а бизнес быстрее получает готовое обращение.' },
+  { title: 'Telegram-уведомления', price: 'от 3 990 ₽', desc: 'Новые заявки с сайта сразу приходят в Telegram. Входит в старшие тарифы.', benefit: 'заявки не лежат незамеченными в почте — владелец сразу видит новое обращение.' },
 ];
 
 export default function Services() {
   return (
-    <Container id="prices" className="relative overflow-hidden">
+    <Container id="prices" className="relative overflow-hidden pt-20">
       <TechNodesEffect />
-      <SectionTitle subtitle="Наши тарифы"><span className="whitespace-nowrap text-3xl sm:text-4xl md:text-5xl lg:text-7xl drop-shadow-md">Разработка за 0 ₽</span></SectionTitle>
+      <SectionTitle subtitle="Тарифы ONYX WEB">Выберите, какую задачу должен решить сайт</SectionTitle>
 
-      <div className="grid lg:grid-cols-3 gap-8 relative z-10 p-4 -m-4 mb-16">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent pointer-events-none -z-10 blur-[100px]" />
+      <div className="max-w-4xl mx-auto mb-16 text-neutral-300 space-y-6">
+        <p className="text-lg font-medium text-white text-center">
+          Разработка сайта в ONYX стоит 0 ₽. Вы оплачиваете только запуск, сопровождение и функции, которые нужны вашему бизнесу.
+        </p>
         
-        {/* Card 1: Стартовый сайт */}
-        <div className="flex flex-col bg-onyx-900/80 backdrop-blur-md border border-onyx-800/80 hover:border-blue-500/50 transition-all duration-700 p-8 md:p-10 clip-diagonal group shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_50px_rgba(59,130,246,0.15)] relative overflow-hidden lg:col-span-2 hover:-translate-y-1">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-          <div className="absolute top-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 shadow-[0_0_20px_rgba(59,130,246,0.6)]"></div>
-          
-          <h3 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight mb-4 group-hover:text-white text-neutral-200 transition-colors uppercase">
-            СТАРТОВЫЙ САЙТ — <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">0 ₽</span>
-          </h3>
-          <p className="text-neutral-400 text-base mb-8 pb-8 border-b border-onyx-800 group-hover:border-blue-500/30 transition-colors font-mono leading-relaxed">Быстрый сайт для бизнеса, который поможет рассказать о компании, показать услуги и принимать заявки от клиентов.</p>
-          
-          <div className="grid md:grid-cols-2 gap-8 mb-8">
-            <div>
-              <h4 className="text-lg font-bold text-blue-400 mb-4 uppercase tracking-widest text-sm font-mono drop-shadow-[0_0_5px_rgba(96,165,250,0.3)]">Что входит:</h4>
-              <ul className="space-y-4">
-                {['современный одностраничный сайт', 'адаптация под телефон, планшет и компьютер', 'главный экран с оффером', 'блок с услугами или товарами', 'блок «О компании»', 'преимущества бизнеса', 'форма заявки', 'кнопки связи: телефон, WhatsApp, Telegram', 'базовая структура для продвижения', 'публикация сайта после подключения домена и хостинга'].map((f, j) => (
-                  <li key={j} className="flex gap-4 text-sm md:text-base font-medium text-neutral-300 group-hover:text-neutral-100 transition-colors items-start">
-                    <div className="w-2 h-2 rounded-none bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)] shrink-0 mt-1.5" /> {f}
-                  </li>
-                ))}
-              </ul>
-            </div>
+        <div className="bg-onyx-900/50 border border-onyx-800 p-8 clip-diagonal">
+          <h4 className="font-bold text-white mb-4 text-xl">Что входит в ежемесячное сопровождение:</h4>
+          <ul className="grid sm:grid-cols-2 gap-3 mb-6">
+            {[
+              'размещение сайта на хостинге',
+              'контроль стабильной работы сайта',
+              'поддержка формы заявки',
+              'подключение и проверка мессенджеров',
+              'мелкие правки по сайту в рамках тарифа',
+              'помощь с техническими вопросами',
+              'базовый контроль доступности сайта',
+              'поддержка после запуска'
+            ].map((item, i) => (
+              <li key={i} className="flex gap-3 items-start">
+                <Check className="w-5 h-5 text-blue-500 shrink-0" />
+                <span className="text-sm">{item}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="text-blue-200 text-sm font-medium border-t border-onyx-800 pt-4">
+            Смысл сопровождения простой: вы не остаётесь один на один с сайтом после запуска. ONYX отвечает за то, чтобы сайт работал, был доступен клиентам и помогал бизнесу принимать заявки.
+          </p>
+        </div>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-8 relative z-10 mb-32 items-start">
+        {plans.map((plan, i) => (
+          <div key={i} className={`flex flex-col bg-onyx-900/80 backdrop-blur-md border ${plan.badge ? 'border-blue-500 shadow-[0_0_30px_rgba(59,130,246,0.15)] transform lg:-translate-y-4' : 'border-onyx-800'} hover:border-blue-500/50 transition-all duration-500 p-8 clip-diagonal relative group h-full`}>
+            {plan.badge && (
+              <div className="absolute top-0 right-0 bg-blue-600 text-white text-xs font-bold uppercase tracking-widest px-4 py-1 flex items-center gap-1">
+                <Star className="w-3 h-3 fill-white" /> {plan.badge}
+              </div>
+            )}
             
-            <div className="space-y-8">
+            <h3 className="text-2xl font-black tracking-tight mb-2 text-white uppercase">{plan.name}</h3>
+            <p className="text-neutral-400 text-sm mb-6 h-10">{plan.subtitle}</p>
+            
+            <div className="space-y-2 mb-8 pb-8 border-b border-onyx-800">
+              <div className="flex justify-between items-end">
+                <span className="text-sm text-neutral-400">Разработка</span>
+                <span className="text-xl font-black text-white">{plan.prices.dev}</span>
+              </div>
+              <div className="flex justify-between items-end">
+                <span className="text-sm text-neutral-400">Запуск</span>
+                <span className="text-xl font-black text-blue-400">{plan.prices.launch}</span>
+              </div>
+              <div className="flex justify-between items-end">
+                <span className="text-sm text-neutral-400">Сопровождение</span>
+                <span className="text-lg font-bold text-blue-200">{plan.prices.support}</span>
+              </div>
+            </div>
+
+            <div className="flex-grow space-y-6">
               <div>
-                <h4 className="text-lg font-bold text-blue-400 mb-4 uppercase tracking-widest text-sm font-mono drop-shadow-[0_0_5px_rgba(96,165,250,0.3)]">Кому подходит:</h4>
-                <ul className="grid grid-cols-1 gap-3">
-                  {['экспертам', 'салонам красоты', 'стоматологиям и клиникам', 'фитнес-клубам', 'локальному бизнесу', 'студиям и агентствам', 'мастерам и специалистам', 'компаниям, которым нужен быстрый запуск в интернете'].map((f, j) => (
-                    <li key={j} className="flex gap-4 text-sm font-medium text-neutral-400 group-hover:text-neutral-300 transition-colors items-center">
-                      <div className="w-1.5 h-1.5 rounded-none bg-onyx-600 group-hover:bg-blue-400 transition-colors shrink-0" /> {f}
+                <h4 className="text-xs font-bold text-blue-500 mb-3 uppercase tracking-widest">Что входит:</h4>
+                <ul className="space-y-2">
+                  {plan.features.map((f, j) => (
+                    <li key={j} className="flex gap-2 text-xs text-neutral-300">
+                      <div className="w-1 h-1 rounded-full bg-blue-500 shrink-0 mt-1.5" /> {f}
                     </li>
                   ))}
                 </ul>
               </div>
-              
-              <div className="bg-onyx-950/50 p-6 border border-onyx-800 clip-diagonal relative overflow-hidden group/alert hover:border-blue-500/30 transition-colors">
-                <div className="absolute inset-0 bg-red-500/5 opacity-0 group-hover/alert:opacity-100 transition-opacity" />
-                <h4 className="text-lg font-bold text-red-400 mb-3 uppercase tracking-widest text-sm font-mono">Важно:</h4>
-                <p className="text-sm text-neutral-400 group-hover/alert:text-neutral-300 transition-colors mb-2">Разработка сайта — бесплатно.</p>
-                <p className="text-sm text-neutral-400 group-hover/alert:text-neutral-300 transition-colors mb-2">Домен, хостинг, подключение сайта и дополнительные функции оплачиваются отдельно.</p>
-                <p className="text-sm font-bold text-white mt-4 drop-shadow-sm">Идеально, если вам нужен сайт без больших затрат на запуск.</p>
+
+              <div>
+                <h4 className="text-xs font-bold text-neutral-500 mb-3 uppercase tracking-widest">Кому подойдёт:</h4>
+                <div className="flex flex-wrap gap-1">
+                  {plan.forWho.map((w, j) => (
+                    <span key={j} className="text-[10px] bg-onyx-800 px-2 py-1 text-neutral-400 rounded-sm uppercase tracking-wider">{w}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-xs font-bold text-neutral-500 mb-2 uppercase tracking-widest">Какую проблему решает:</h4>
+                <p className="text-xs text-neutral-400">{plan.problem}</p>
+              </div>
+
+              <div>
+                <h4 className="text-xs font-bold text-blue-400 mb-2 uppercase tracking-widest">Главная выгода:</h4>
+                <p className="text-xs text-blue-100/80 font-medium">{plan.benefit}</p>
               </div>
             </div>
-          </div>
-          
-          <div className="mt-auto pt-8 border-t border-onyx-800/80">
-            <button className="w-full md:w-auto relative px-10 py-5 bg-blue-600 text-white font-black uppercase tracking-[0.2em] text-xs sm:text-sm clip-diagonal hover:bg-white hover:text-blue-600 transition-all duration-500 shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] group/btn z-10 overflow-hidden" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>
-              Получить сайт бесплатно
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500"></div>
-            </button>
-          </div>
-        </div>
 
-        {/* Column 2 for smaller cards */}
-        <div className="flex flex-col gap-8 lg:col-span-1">
-          {/* Card 2: Запуск сайта */}
-          <div className="flex flex-col bg-[#111e42] border border-blue-500/20 hover:border-blue-400/80 transition-all duration-700 p-8 md:p-10 clip-diagonal group shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_50px_rgba(59,130,246,0.2)] relative overflow-hidden flex-grow hover:-translate-y-1">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-            <h3 className="text-xl md:text-2xl font-black tracking-tight mb-4 text-white uppercase drop-shadow-md">ЗАПУСК САЙТА</h3>
-            <p className="text-blue-200/80 text-sm mb-6 pb-6 border-b border-blue-500/20 font-mono leading-relaxed">Запуск, размещение и техническое сопровождение сайта</p>
-            
-            <div className="mb-8">
-               <div className="text-xs font-mono text-blue-400 uppercase tracking-widest mb-2">ЗАПУСК РАЗОВО</div>
-               <div className="text-4xl md:text-5xl font-black text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] mb-6">3 990 ₽</div>
-               <div className="text-xs font-mono text-blue-400 uppercase tracking-widest mb-2">ОБСЛУЖИВАНИЕ</div>
-               <div className="text-2xl md:text-3xl font-black text-blue-100">1 990 ₽ <span className="text-sm font-medium text-blue-300">/ МЕС</span></div>
+            <div className="mt-8 pt-6 border-t border-onyx-800">
+              <button className={`w-full py-4 text-xs font-black uppercase tracking-[0.2em] clip-diagonal transition-colors ${plan.badge ? 'bg-blue-600 text-white hover:bg-white hover:text-blue-600' : 'bg-onyx-800 text-white border border-onyx-700 hover:border-blue-500 hover:bg-blue-900/50'}`} onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth'})}>
+                Выбрать тариф
+              </button>
             </div>
-
-            <div className="bg-blue-900/40 backdrop-blur-sm p-4 border border-blue-500/30 mb-8 text-sm text-blue-50 font-bold font-mono text-center shadow-inner">
-              Оплата после согласования сайта!
-            </div>
-            
-            <h4 className="text-sm font-bold text-blue-400 mb-5 uppercase tracking-widest font-mono">Внутри этого пакета:</h4>
-            <ul className="space-y-4 mb-10 flex-grow">
-              {['домен', 'хостинг', 'SSL-сертификат', 'публикация сайта', 'подключение форм заявок', 'техподдержка', 'резервное копирование', 'защита от поломок', 'мелкие правки', 'контроль оплаты и продления'].map((f, j) => (
-                <li key={j} className="flex gap-3 text-sm font-medium text-blue-100/90 items-center">
-                  <div className="w-1.5 h-1.5 rounded-none bg-blue-500 shrink-0 shadow-[0_0_8px_rgba(59,130,246,0.6)]" /> {f}
-                </li>
-              ))}
-            </ul>
-            
-            <button className="w-full border border-blue-400/50 bg-blue-600 text-white text-[11px] uppercase tracking-[0.2em] py-4 px-4 clip-diagonal hover:bg-white hover:text-blue-600 hover:border-white transition-all duration-500 font-black shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] mt-auto" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>
-              Оплатить
-            </button>
           </div>
-        </div>
+        ))}
       </div>
 
-      <div className="mb-10 lg:mb-12 scroll-mt-24" id="services">
-        <h3 className="text-3xl md:text-4xl font-black uppercase text-white tracking-tight drop-shadow-md">Дополнительные опции</h3>
+      <div id="addons" className="scroll-mt-24 mb-16">
+        <SectionTitle subtitle="Дополнительные опции">
+          Усильте сайт только теми функциями, которые действительно нужны вашему бизнесу.
+        </SectionTitle>
       </div>
-      
-      <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 relative z-10">
-        <div className="bg-onyx-900/60 backdrop-blur-sm border border-onyx-800 p-8 flex flex-col hover:border-blue-500/40 transition-all duration-500 group clip-diagonal relative overflow-hidden hover:-translate-y-1 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_rgba(59,130,246,0.1)]">
-          <h4 className="font-black uppercase tracking-tight text-xl mb-4 min-h-[56px] text-neutral-200 group-hover:text-white transition-colors">Дополнительные страницы</h4>
-          <div className="text-2xl font-black tracking-tight mb-4 text-blue-500 group-hover:text-blue-400 transition-colors drop-shadow-[0_0_10px_rgba(59,130,246,0.3)] group-hover:drop-shadow-[0_0_15px_rgba(96,165,250,0.5)]">от 1 500 ₽</div>
-          <p className="text-sm text-neutral-400 mb-8 flex-grow leading-relaxed group-hover:text-neutral-300 transition-colors">Разработка и добавление дополнительных страниц к вашему сайту (цена за одну страницу).</p>
-          <button className="w-full border border-onyx-700 bg-onyx-800 text-white text-[11px] uppercase tracking-[0.2em] py-4 px-4 clip-diagonal hover:border-blue-500 hover:bg-blue-500/20 transition-all duration-500 font-black group-hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>
-            Оплатить
-          </button>
-        </div>
-        
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative z-10 pb-20">
         {addons.map((a, i) => (
-          <div key={i} className="bg-onyx-900/60 backdrop-blur-sm border border-onyx-800 p-8 flex flex-col hover:border-blue-500/40 transition-all duration-500 group clip-diagonal relative overflow-hidden hover:-translate-y-1 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_rgba(59,130,246,0.1)]">
-            <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500/5 blur-[50px] pointer-events-none group-hover:bg-blue-400/10 transition-colors duration-500" />
-            <h4 className="font-black uppercase tracking-tight text-xl mb-4 min-h-[56px] text-neutral-200 group-hover:text-white transition-colors">{a.title}</h4>
-            <div className="text-2xl font-black tracking-tight mb-4 text-blue-500 group-hover:text-blue-400 transition-colors drop-shadow-[0_0_10px_rgba(59,130,246,0.3)] group-hover:drop-shadow-[0_0_15px_rgba(96,165,250,0.5)]">{a.price}</div>
-            <p className="text-sm text-neutral-400 mb-8 flex-grow leading-relaxed group-hover:text-neutral-300 transition-colors">{a.desc}</p>
-            <button 
-              className="w-full border border-onyx-700 bg-onyx-800 text-white text-[11px] uppercase tracking-[0.2em] py-4 px-4 clip-diagonal hover:border-blue-500 hover:bg-blue-500/20 transition-all duration-500 font-black group-hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]"
-              onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}
-            >
-              {a.action}
-            </button>
+          <div key={i} className="bg-onyx-900/60 backdrop-blur-sm border border-onyx-800 p-6 flex flex-col hover:border-blue-500/40 transition-all duration-300 group clip-diagonal">
+            <h4 className="font-bold text-white mb-2 text-base leading-tight min-h-[40px]">{a.title}</h4>
+            <div className="text-lg font-black text-blue-400 mb-4">{a.price}</div>
+            <div className="text-xs text-neutral-400 mb-4 space-y-2 flex-grow">
+              <p><span className="text-neutral-300 font-semibold">Что это:</span> {a.desc}</p>
+              <p><span className="text-neutral-300 font-semibold">Польза:</span> {a.benefit}</p>
+            </div>
           </div>
         ))}
       </div>

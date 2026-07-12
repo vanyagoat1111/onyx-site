@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui';
 import { Menu, X } from 'lucide-react';
-import ContactForm from './ContactForm';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [formOpen, setFormOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -16,14 +14,10 @@ export default function Navbar() {
 
   const links = [
     { name: 'Главная', href: '#home' },
-    { name: 'Шаблоны сайтов', href: '#templates' },
     { name: 'Тарифы', href: '#prices' },
-    { name: 'Услуги', href: '#services' },
-    { name: 'Заявка', action: () => setFormOpen(true) },
-    { name: 'Отзывы', href: '#reviews' },
+    { name: 'Доп. опции', href: '#addons' },
     { name: 'FAQ', href: '#faq' },
-    { name: 'Контакты', href: '#contacts' },
-    { name: 'Партнерам', href: '#partner' },
+    { name: 'Контакты', action: () => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' }) },
   ];
 
   return (
@@ -57,7 +51,7 @@ export default function Navbar() {
                 <span className="absolute -bottom-2 left-1/2 w-0 h-[2px] bg-blue-600 transition-all group-hover:w-full group-hover:left-0 shadow-[0_0_5px_rgba(59,130,246,0.5)]" />
               </a>
             ))}
-            <Button variant="outline" onClick={() => setFormOpen(true)}>Начать проект</Button>
+            <Button variant="outline" onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}>Начать разработку</Button>
           </div>
 
           <button className="lg:hidden text-blue-500 hover:text-blue-300 hover:drop-shadow-[0_0_10px_rgba(147,197,253,0.3)] relative z-50 transition-all" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -90,12 +84,10 @@ export default function Navbar() {
                 {link.name}
               </a>
             ))}
-            <Button onClick={() => { setFormOpen(true); setMobileMenuOpen(false); }} className="w-full mt-8">Начать проект</Button>
+            <Button onClick={() => { setMobileMenuOpen(false); document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' }); }} className="w-full mt-8">Начать разработку</Button>
           </div>
         </div>
       )}
-
-      {formOpen && <ContactForm isModal onClose={() => setFormOpen(false)} />}
     </>
   );
 }

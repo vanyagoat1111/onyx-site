@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
 import { Button, Container } from './ui';
-import ContactForm from './ContactForm';
 import AnimatedBackground from './AnimatedBackground';
 import MassiveFigure from './MassiveFigure';
 
 export default function Hero() {
-  const [formOpen, setFormOpen] = useState(false);
-
   return (
     <section id="home" className="relative min-h-[90svh] flex items-center pt-28 pb-16 overflow-hidden bg-[#020617] group">
       {/* Massive Floor Grid */}
@@ -36,12 +33,19 @@ export default function Hero() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]">0 ₽</span>
             </h1>
             <div className="text-lg md:text-xl text-neutral-300 font-sans max-w-2xl mb-8 leading-relaxed font-light text-left space-y-6">
-              <p>Создадим профессиональный сайт без оплаты разработки — вы платите только за домен и хостинг.</p>
-              <p>ONYX WEB берёт всё на себя, а ваш бизнес получает сайт для заявок, доверия и независимости от соцсетей.</p>
+              <p className="font-medium text-white">Создадим сайт, который вызывает доверие, показывает ваши услуги и помогает получать заявки — без оплаты разработки.</p>
+              <p>Вы оплачиваете только запуск, размещение, техническое сопровождение и дополнительные функции, если они нужны вашему бизнесу.</p>
+              <p className="text-neutral-400 text-sm md:text-base">Сначала показываем предварительную версию сайта. Если направление подходит — запускаем сайт на домене и подключаем всё для работы.</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 items-stretch pb-4 w-full max-w-2xl">
-              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px] text-[13px]" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>Получить сайт за 0 ₽</Button>
-              <Button className="flex-1 text-center justify-center h-full p-4 w-full min-h-[64px] text-[14px]" variant="outline" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth'})}>Шаблоны сайтов</Button>
+              <div className="flex-1 flex flex-col gap-2">
+                <Button className="w-full min-h-[64px] text-base" onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth'})}>Начать разработку</Button>
+                <span className="text-xs text-neutral-500 text-center uppercase tracking-widest font-mono">Без скрытой оплаты за разработку</span>
+              </div>
+              <div className="flex-1 flex flex-col gap-2">
+                <Button className="w-full min-h-[64px] text-[14px]" variant="outline" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>Бесплатный аудит вашего сайта</Button>
+                <span className="text-xs text-neutral-500 text-center font-mono">Если у вас уже есть сайт, укажем на слабые места и расскажем, что усилить.</span>
+              </div>
             </div>
           </motion.div>
 
@@ -113,8 +117,6 @@ export default function Hero() {
           ))}
         </div>
       </div>
-
-      {formOpen && <ContactForm isModal onClose={() => setFormOpen(false)} />}
     </section>
   );
 }

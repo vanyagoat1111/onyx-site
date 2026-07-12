@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import Stats from './components/Stats';
-import WhyWeb from './components/WhyWeb';
 import Problem from './components/Problem';
-import Romi from './components/Romi';
-import Templates from './components/Templates';
+import ActionBlock from './components/ActionBlock';
 import Benefits from './components/Benefits';
-import Stages from './components/Stages';
+import Templates from './components/Templates';
 import Services from './components/Services';
-import Reviews from './components/Reviews';
 import FAQ from './components/FAQ';
 import FormSection from './components/FormSection';
-import Partner from './components/Partner';
 import Footer from './components/Footer';
 import CaseEditorWrapper from './components/CaseEditorWrapper';
 import LegalModal from './components/LegalModal';
@@ -64,18 +59,13 @@ export default function App() {
     <main className="bg-onyx-950 text-white font-sans selection:bg-blue-600 selection:text-onyx-950 w-full overflow-clip">
       <Navbar />
       <Hero />
-      <Stats />
+      <Problem />
+      <ActionBlock />
       <Benefits />
       <Templates />
       <Services />
-      <WhyWeb />
-      <Problem />
-      <Romi />
-      <Stages />
-      <Reviews />
       <FAQ />
       <FormSection />
-      <Partner />
       <Footer />
       <LegalModal />
       <CookieConsent />
