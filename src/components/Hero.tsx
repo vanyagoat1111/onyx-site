@@ -99,10 +99,11 @@ export default function Hero() {
                 <span className="text-[11px] text-fog/70 text-center font-mono tracking-wide">Без скрытой оплаты за разработку</span>
               </div>
               <div className="flex flex-col gap-2">
+                {/* Ведёт в Telegram-бота ONYX. Если появится отдельная ссылка на аудит — заменить URL здесь. */}
                 <Button variant="outline" className="min-h-[56px] px-9" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>
-                  Бесплатный аудит сайта
+                  Бесплатный аудит вашего сайта
                 </Button>
-                <span className="text-[11px] text-fog/70 text-center font-mono tracking-wide max-w-[260px] mx-auto">Укажем слабые места и что усилить</span>
+                <span className="text-[11px] text-fog/70 text-center font-mono tracking-wide max-w-[280px] mx-auto">Если у вас уже есть сайт, укажем на слабые места и расскажем, что усилить.</span>
               </div>
             </motion.div>
           </div>

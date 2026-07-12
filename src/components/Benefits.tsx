@@ -4,9 +4,9 @@ import { Wallet, Settings, Clock, Blocks, X, Check } from 'lucide-react';
 
 const modelSteps = [
   { icon: Wallet, title: 'Разработка сайта', value: '0 ₽', note: 'структура, дизайн, сборка, форма заявки', free: true },
-  { icon: Settings, title: 'Запуск и настройка', value: 'от 5 990 ₽', note: 'домен, хостинг, SSL, публикация' },
-  { icon: Clock, title: 'Сопровождение', value: 'от 1 990 ₽/мес', note: 'работа сайта, правки, поддержка' },
-  { icon: Blocks, title: 'Доп. функции', value: 'по необходимости', note: 'CRM, каталог, калькулятор и другое' },
+  { icon: Settings, title: 'Запуск и настройка', value: 'Оплачиваются', note: 'домен, хостинг, SSL, публикация' },
+  { icon: Clock, title: 'Сопровождение сайта', value: 'Оплачивается ежемесячно', note: 'работа сайта, правки, поддержка' },
+  { icon: Blocks, title: 'Дополнительные функции', value: 'По необходимости', note: 'CRM, каталог, калькулятор и другое' },
 ];
 
 const compare = [
@@ -21,16 +21,19 @@ export default function Benefits() {
     <Container className="relative border-t border-white/[0.06]">
       <div className="absolute top-0 right-0 w-[40vw] h-[40vw] rounded-full bg-cobalt/[0.05] blur-[120px] pointer-events-none" />
 
-      <SectionTitle index="03" subtitle="Бизнес-модель" className="max-w-4xl relative z-10">
+      <SectionTitle index="02" subtitle="Бизнес-модель" className="max-w-4xl relative z-10">
         ONYX запускает сайт <span className="text-cobalt">без оплаты разработки</span>
       </SectionTitle>
 
       <Reveal className="max-w-3xl space-y-5 text-[15px] md:text-base font-body text-fog leading-relaxed mb-16 relative z-10">
         <p>
-          Обычная разработка сайта может стоить десятки и сотни тысяч рублей ещё до того, как бизнес получил с него первую заявку. Мы работаем по другой модели: создаём сайт без оплаты разработки, чтобы бизнес мог быстрее выйти в интернет, проверить спрос и начать получать обращения.
+          Обычная разработка сайта может стоить десятки и сотни тысяч рублей ещё до того, как бизнес получил с него первую заявку.
+        </p>
+        <p>
+          Мы работаем по другой модели: создаём сайт без оплаты разработки, чтобы бизнес мог быстрее выйти в интернет, проверить спрос и начать получать обращения.
         </p>
         <p className="text-bone/90 font-medium">
-          Вы не тратите большой бюджет на старт — оплачиваете только то, что нужно для работы и развития сайта.
+          Вы не тратите большой бюджет на старт. Вместо этого оплачиваете только то, что нужно для работы и развития сайта: запуск, домен, сопровождение и дополнительные опции, если они понадобятся.
         </p>
       </Reveal>
 

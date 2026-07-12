@@ -63,8 +63,8 @@ export default function App() {
       <Navbar />
       <Hero />
       <Problem />
-      <ActionBlock />
       <Benefits />
+      <ActionBlock />
       <Templates />
       <Services />
       <FAQ />

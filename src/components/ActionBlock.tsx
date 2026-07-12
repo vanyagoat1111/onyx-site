@@ -14,16 +14,19 @@ export default function ActionBlock() {
     <Container className="relative border-t border-white/[0.06]">
       <div className="grid lg:grid-cols-2 gap-14 lg:gap-24 items-start">
         <div className="lg:sticky lg:top-28">
-          <SectionTitle index="02" subtitle="План действий" className="!mb-8">
-            Покажем, какой сайт нужен вашему бизнесу
+          <SectionTitle index="03" subtitle="План действий" className="!mb-8">
+            Оставьте заявку — мы покажем, какой сайт нужен вашему бизнесу
           </SectionTitle>
 
           <Reveal className="space-y-5 text-[15px] md:text-base font-body text-fog leading-relaxed mb-10">
             <p>
-              Вам не нужно разбираться в дизайне, доменах, хостинге, структуре сайта и технических настройках — это наша работа.
+              Вам не нужно разбираться в дизайне, доменах, хостинге, структуре сайта и технических настройках.
+            </p>
+            <p>
+              Вы оставляете заявку, а мы изучаем ваш бизнес, смотрим текущую упаковку, находим слабые места и предлагаем понятный план сайта: какие блоки нужны, какие услуги показать, как усилить доверие и как принимать заявки.
             </p>
             <p className="text-bone/90">
-              После разбора вы понимаете, каким должен быть ваш сайт, за что вы платите и как ONYX может запустить его без оплаты разработки.
+              После этого вы понимаете, каким должен быть ваш сайт, за что вы платите и как ONYX может запустить его без оплаты разработки.
             </p>
           </Reveal>
 
@@ -34,12 +37,15 @@ export default function ActionBlock() {
                   <FileText className="w-5 h-5 text-cobalt-soft" />
                 </div>
                 <p className="text-sm font-body text-bone/85 leading-relaxed">
-                  Мы подготовили бесплатный чек-лист-инструкцию по созданию сайта: все подводные камни разработки и поиска подрядчика.
+                  А также мы подготовили для вас бесплатный чек-лист-инструкцию по созданию сайта для вашего бизнеса.
                 </p>
               </div>
               <Button className="w-full min-h-[54px]" onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}>
                 Получить чек-лист
               </Button>
+              <span className="mt-3 block text-[11px] text-fog/70 text-center font-mono tracking-wide">
+                Узнайте о всех подводных камнях в разработке сайта и поиске разработчика.
+              </span>
             </div>
           </Reveal>
         </div>
