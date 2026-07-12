@@ -60,7 +60,7 @@ export default function ActionBlock() {
                   {s.num}
                 </div>
                 <div className="pt-1.5">
-                  <h3 className="font-display font-medium text-lg md:text-xl text-bone mb-2">{s.title}</h3>
+                  <h3 className="font-display font-medium text-lg md:text-xl text-white mb-2">{s.title}</h3>
                   <p className="text-sm md:text-[15px] font-body text-fog leading-relaxed max-w-md">{s.desc}</p>
                 </div>
               </div>

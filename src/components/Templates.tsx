@@ -4,6 +4,14 @@ import { ArrowUpRight, TrendingUp } from 'lucide-react';
 
 const cases = [
   {
+    name: 'Artel — Ремонт под ключ',
+    category: 'Премиум-интерьеры',
+    url: '#case/artel',
+    problem: 'Нет площадки, отражающей премиальный уровень услуг.',
+    result: 'Имидж-сайт с портфолио, процессом и заявками.',
+    previewImg: '/case6.1.png',
+  },
+  {
     name: 'Стоматология Премиум',
     category: 'Медицина',
     url: '#case/dental',
@@ -43,15 +51,6 @@ const cases = [
     result: 'Интуитивный поиск, больше целевых обращений.',
     previewImg: '/case5.1.png',
   },
-  {
-    name: 'Artel — Ремонт под ключ',
-    category: 'Премиум-интерьеры',
-    url: '#case/artel',
-    problem: 'Нет площадки, отражающей премиальный уровень услуг.',
-    result: 'Имидж-сайт с портфолио, процессом и заявками.',
-    previewImg: '/case6.1.png',
-  },
-
 ];
 
 export default function Templates() {
@@ -85,7 +84,7 @@ export default function Templates() {
               </div>
 
               <div className="p-6 md:p-7">
-                <h3 className="font-display font-medium text-lg md:text-xl text-bone mb-4 group-hover:text-cobalt-soft transition-colors duration-300">
+                <h3 className="font-display font-medium text-lg md:text-xl text-white mb-4 group-hover:text-cobalt-soft transition-colors duration-300">
                   {tpl.name}
                 </h3>
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-8 text-[13px] font-body">

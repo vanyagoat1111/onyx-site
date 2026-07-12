@@ -5,12 +5,14 @@ import { ArrowDownRight } from 'lucide-react';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-function CostBar({ label, value, width, accent = false, delay = 0 }: { label: string, value: string, width: string, accent?: boolean, delay?: number }) {
+function CostBar({ label, value, width, accent = false, danger = false, delay = 0 }: { label: string, value: string, width: string, accent?: boolean, danger?: boolean, delay?: number }) {
+  const valueColor = danger ? 'text-danger-soft' : accent ? 'text-cobalt-soft' : 'text-bone';
+  const barColor = danger ? 'bg-gradient-to-r from-danger to-danger-soft' : accent ? 'bg-gradient-to-r from-cobalt to-cobalt-soft' : 'bg-white/25';
   return (
     <div>
       <div className="flex justify-between items-baseline mb-2 gap-4">
         <span className="text-[13px] font-body text-fog">{label}</span>
-        <span className={`font-mono text-[13px] font-medium whitespace-nowrap ${accent ? 'text-cobalt-soft' : 'text-bone'}`}>{value}</span>
+        <span className={`font-mono text-[13px] font-semibold whitespace-nowrap ${valueColor}`}>{value}</span>
       </div>
       <div className="h-2 rounded-full bg-white/[0.06] overflow-hidden">
         <motion.div
@@ -18,7 +20,7 @@ function CostBar({ label, value, width, accent = false, delay = 0 }: { label: st
           whileInView={{ width }}
           viewport={{ once: true }}
           transition={{ duration: 1.2, delay, ease }}
-          className={`h-full rounded-full ${accent ? 'bg-gradient-to-r from-cobalt to-cobalt-soft' : 'bg-white/25'}`}
+          className={`h-full rounded-full ${barColor}`}
         />
       </div>
     </div>
@@ -27,21 +29,21 @@ function CostBar({ label, value, width, accent = false, delay = 0 }: { label: st
 
 export default function Hero() {
   return (
-    <section id="home" className="relative min-h-svh flex flex-col justify-center pt-32 pb-0 overflow-hidden">
+    <section id="home" className="relative min-h-svh flex flex-col justify-center pt-24 md:pt-28 pb-0 overflow-hidden">
       {/* Atmosphere: restrained, single light source */}
       <div className="absolute inset-0 dot-grid [mask-image:radial-gradient(ellipse_70%_60%_at_30%_20%,black,transparent)] pointer-events-none" />
       <div className="absolute -top-[30%] -left-[15%] w-[65vw] h-[65vw] rounded-full bg-cobalt/[0.09] blur-[140px] pointer-events-none" />
       <div className="absolute top-[10%] right-[-20%] w-[45vw] h-[45vw] rounded-full bg-cobalt/[0.05] blur-[120px] pointer-events-none" />
 
-      <div className="relative z-10 max-w-[1440px] w-full mx-auto px-5 sm:px-6 md:px-12 flex-grow flex items-center">
-        <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-14 lg:gap-20 items-center w-full py-10">
+      <div className="relative z-10 max-w-[1440px] w-full mx-auto px-5 sm:px-6 md:px-12 flex-grow flex items-start lg:items-center">
+        <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-12 lg:gap-20 items-center w-full py-6 lg:py-10">
           {/* ── Left: statement ── */}
           <div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease }}
-              className="flex items-center gap-3 mb-8"
+              className="flex items-center gap-3 mb-5 md:mb-8"
             >
               <span className="w-2 h-2 rounded-full bg-cobalt animate-pulse-dot" />
               <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-fog">Веб-студия ONYX · сайты для бизнеса</span>
@@ -125,7 +127,7 @@ export default function Hero() {
               </div>
 
               <div className="space-y-6">
-                <CostBar label="Обычная студия — разработка" value="60 000–150 000 ₽" width="100%" delay={0.6} />
+                <CostBar label="Обычная студия — разработка" value="60 000–150 000 ₽" width="100%" delay={0.6} danger />
                 <CostBar label="ONYX — разработка" value="0 ₽" width="2.5%" accent delay={0.8} />
                 <CostBar label="ONYX — запуск под ключ" value="от 5 990 ₽" width="9%" accent delay={0.95} />
               </div>

@@ -45,7 +45,7 @@ export default function Problem() {
                   <p.icon className="w-5 h-5 text-cobalt-soft" />
                 </div>
                 <div>
-                  <h3 className="font-display font-medium text-lg text-bone mb-1">{p.title}</h3>
+                  <h3 className="font-display font-medium text-lg text-white mb-1">{p.title}</h3>
                   <p className="text-sm font-body text-fog leading-relaxed">{p.desc}</p>
                 </div>
               </div>

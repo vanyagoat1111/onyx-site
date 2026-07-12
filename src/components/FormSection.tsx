@@ -55,7 +55,7 @@ export default function FormSection() {
                 <span className="h-px w-10 bg-white/20" />
                 <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-fog">Уже есть сайт?</span>
               </div>
-              <h2 className="font-display font-semibold text-2xl md:text-[2rem] leading-[1.15] tracking-tight text-bone mb-5 [text-wrap:balance]">
+              <h2 className="heading-glow font-display font-semibold text-2xl md:text-[2rem] leading-[1.15] tracking-tight mb-5 [text-wrap:balance]">
                 Расскажем, как должен выглядеть ваш сайт
               </h2>
               <p className="text-[15px] font-body text-fog leading-relaxed max-w-md">
@@ -91,7 +91,7 @@ export default function FormSection() {
                   transition={{ duration: 0.4 }}
                   className="relative"
                 >
-                  <h3 className="font-display font-semibold text-2xl md:text-[1.75rem] leading-tight tracking-tight text-bone mb-3">
+                  <h3 className="heading-glow font-display font-semibold text-2xl md:text-[1.75rem] leading-tight tracking-tight mb-3">
                     Получить план вашего будущего сайта
                   </h3>
                   <p className="text-[14px] font-body text-fog leading-relaxed mb-8 max-w-md">
@@ -155,7 +155,7 @@ export default function FormSection() {
                     <span className="absolute w-20 h-20 rounded-full bg-cobalt/20 animate-ping" />
                     <Check className="w-9 h-9 text-cobalt-soft relative" strokeWidth={2.5} />
                   </motion.div>
-                  <h3 className="font-display font-semibold text-2xl text-bone mb-3">Заявка отправлена</h3>
+                  <h3 className="font-display font-semibold text-2xl text-white mb-3">Заявка отправлена</h3>
                   <p className="text-[15px] font-body text-fog leading-relaxed max-w-sm">
                     Мы свяжемся с вами в WhatsApp в течение 40 минут.
                   </p>

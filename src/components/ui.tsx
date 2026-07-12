@@ -20,16 +20,16 @@ export const Button = ({ children, onClick, variant = 'primary', className = '',
 
 export const Eyebrow = ({ index, children, className = '' }: { index?: string, children: React.ReactNode, className?: string }) => (
   <div className={`flex items-center gap-4 mb-6 ${className}`}>
-    {index && <span className="font-mono text-xs text-cobalt-soft tracking-widest">{index}</span>}
-    <span className="h-px w-10 bg-white/20 shrink-0" />
-    <p className="font-mono text-[11px] tracking-[0.3em] uppercase text-fog">{children}</p>
+    {index && <span className="font-mono text-xs text-cobalt tracking-widest font-bold">{index}</span>}
+    <span className="h-px w-10 bg-gradient-to-r from-cobalt to-cobalt/20 shrink-0" />
+    <p className="font-mono text-[11px] tracking-[0.3em] uppercase text-cobalt-soft">{children}</p>
   </div>
 );
 
 export const SectionTitle = ({ children, subtitle, index, className = '' }: { children: React.ReactNode, subtitle?: string, index?: string, className?: string }) => (
   <div className={`mb-12 md:mb-16 relative ${className}`}>
     {subtitle && <Eyebrow index={index}>{subtitle}</Eyebrow>}
-    <h2 className="font-display font-semibold text-[1.7rem] sm:text-4xl lg:text-5xl leading-[1.12] tracking-tight text-bone [text-wrap:balance]">
+    <h2 className="heading-glow font-display font-semibold text-[1.7rem] sm:text-4xl lg:text-5xl leading-[1.12] tracking-tight [text-wrap:balance]">
       {children}
     </h2>
   </div>

@@ -67,14 +67,14 @@ export default function Benefits() {
         <div className="relative z-10 rounded-[28px] border border-white/[0.08] overflow-hidden">
           <div className="grid md:grid-cols-[1.2fr_1fr_1fr] text-sm font-body">
             <div className="hidden md:block px-7 py-5 border-b border-white/[0.08] font-mono text-[10px] tracking-[0.25em] uppercase text-fog">Сравнение</div>
-            <div className="hidden md:block px-7 py-5 border-b border-l border-white/[0.08] font-mono text-[10px] tracking-[0.25em] uppercase text-fog">Обычная студия</div>
+            <div className="hidden md:block px-7 py-5 border-b border-l border-danger/20 font-mono text-[10px] tracking-[0.25em] uppercase text-danger-soft bg-danger/[0.05]">Обычная студия</div>
             <div className="hidden md:block px-7 py-5 border-b border-l border-cobalt/25 font-mono text-[10px] tracking-[0.25em] uppercase text-cobalt-soft bg-cobalt/[0.06]">ONYX</div>
 
             {compare.map((row, i) => (
               <React.Fragment key={i}>
                 <div className={`px-7 pt-5 pb-2 md:py-5 text-bone font-medium ${i !== compare.length - 1 ? 'md:border-b md:border-white/[0.06]' : ''}`}>{row.k}</div>
-                <div className={`px-7 py-2 md:py-5 md:border-l border-white/[0.06] flex items-center gap-2.5 text-fog ${i !== compare.length - 1 ? 'md:border-b' : ''}`}>
-                  <X className="w-4 h-4 text-fog/50 shrink-0" /> {row.usual}
+                <div className={`px-7 py-2 md:py-5 md:border-l border-danger/15 bg-danger/[0.04] flex items-center gap-2.5 text-danger-soft ${i !== compare.length - 1 ? 'md:border-b md:border-b-white/[0.06]' : ''}`}>
+                  <X className="w-4 h-4 text-danger shrink-0" /> {row.usual}
                 </div>
                 <div className={`px-7 pb-5 pt-2 md:py-5 md:border-l border-cobalt/20 bg-cobalt/[0.05] flex items-center gap-2.5 text-bone ${i !== compare.length - 1 ? 'md:border-b md:border-b-white/[0.06] border-b border-b-white/[0.06]' : ''}`}>
                   <Check className="w-4 h-4 text-cobalt-soft shrink-0" /> {row.onyx}

@@ -17,6 +17,10 @@
   --color-fog: #9b9ba6;          /* secondary text         */
   --color-cobalt: #4e7cff;       /* the single accent      */
   --color-cobalt-soft: #8aa6ff;  /* accent for small text  */
+  --color-danger: #ff5d5d;       /* negatives / wrong opts */
+  --color-danger-soft: #ff8a8a;
+  --color-success: #34d39a;      /* positives / benefits   */
+  --color-success-soft: #6ee7bd;
 
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-heading: 'Outfit', system-ui, sans-serif;
@@ -62,6 +66,12 @@ html, body {
 }
 
 .hairline { border-color: rgba(242, 240, 233, 0.09); }
+
+/* Brighter ONYX headings: crisp white with a soft cobalt halo */
+.heading-glow {
+  color: #ffffff;
+  text-shadow: 0 0 28px rgba(78, 124, 255, 0.28), 0 1px 2px rgba(0, 0, 0, 0.4);
+}
 
 .text-outline-bone {
   -webkit-text-stroke: 1px rgba(242, 240, 233, 0.16);

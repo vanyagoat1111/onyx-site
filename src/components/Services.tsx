@@ -131,7 +131,7 @@ export default function Services() {
                 </span>
               )}
 
-              <h3 className="font-display font-semibold text-xl md:text-2xl text-bone mb-2">{plan.name}</h3>
+              <h3 className="font-display font-semibold text-xl md:text-2xl text-white mb-2">{plan.name}</h3>
               <p className="text-[13px] font-body text-fog mb-7 leading-snug">{plan.subtitle}</p>
 
               <div className="rounded-2xl bg-ink/60 border border-white/[0.07] divide-y divide-white/[0.07] mb-7">
@@ -169,13 +169,13 @@ export default function Services() {
                 </div>
 
                 <div>
-                  <h4 className="font-mono text-[10px] tracking-[0.25em] uppercase text-fog mb-2">Какую проблему решает</h4>
-                  <p className="text-[13px] font-body text-fog leading-relaxed">{plan.problem}</p>
+                  <h4 className="font-mono text-[10px] tracking-[0.25em] uppercase text-danger-soft mb-2">Какую проблему решает</h4>
+                  <p className="text-[13px] font-body text-fog leading-relaxed border-l-2 border-danger/50 pl-4">{plan.problem}</p>
                 </div>
 
                 <div>
-                  <h4 className="font-mono text-[10px] tracking-[0.25em] uppercase text-cobalt-soft mb-2">Главная выгода</h4>
-                  <p className="text-[13px] font-body text-bone/85 leading-relaxed border-l-2 border-cobalt/60 pl-4">
+                  <h4 className="font-mono text-[10px] tracking-[0.25em] uppercase text-success-soft mb-2">Главная выгода</h4>
+                  <p className="text-[13px] font-body text-bone/85 leading-relaxed border-l-2 border-success/60 pl-4">
                     {plan.benefit}
                   </p>
                 </div>
@@ -227,12 +227,12 @@ export default function Services() {
             <Reveal key={i} delay={(i % 4) * 0.06}>
               <div className="group h-full rounded-[22px] border border-white/[0.08] bg-ink-2/50 p-6 flex flex-col hover:border-cobalt/40 hover:bg-ink-2/90 transition-all duration-400 hover:-translate-y-1">
                 <div className="flex items-start justify-between gap-3 mb-4">
-                  <h4 className="font-body font-semibold text-[15px] text-bone leading-tight">{a.title}</h4>
+                  <h4 className="font-body font-semibold text-[15px] text-white leading-tight">{a.title}</h4>
                   <span className="font-mono text-[10px] text-fog pt-0.5">{String(i + 1).padStart(2, '0')}</span>
                 </div>
                 <p className="text-[13px] font-body text-fog leading-relaxed mb-3">{a.desc}</p>
                 <p className="text-[12px] font-body text-bone/70 leading-relaxed mb-4">
-                  <span className="text-cobalt-soft font-medium">Польза:</span> {a.benefit}
+                  <span className="text-success-soft font-medium">Польза:</span> {a.benefit}
                 </p>
                 {a.included && (
                   <span className="inline-block self-start text-[10px] font-body text-cobalt-soft bg-cobalt/10 border border-cobalt/25 rounded-full px-2.5 py-1 mb-4">
