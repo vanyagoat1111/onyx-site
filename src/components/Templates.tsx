@@ -8,6 +8,7 @@ const main2 = "/case2.1.png";
 const main3 = "/case3.1.png";
 const main4 = "/case4.1.png";
 const main5 = "/case5.1.png";
+const main6 = "/case6.1.png";
 
 const cases = [
   {
@@ -69,6 +70,18 @@ const cases = [
     result: 'Интуитивный поиск, увеличение целевых обращений.',
     previewImg: main5,
     icon: <Hexagon className="w-5 h-5 text-indigo-400" />
+  },
+  {
+    name: 'Ремонтная Компания',
+    category: 'Ремонт / Строительство',
+    url: '#case/repair',
+    problem: 'Сложно донести экспертность и цены.',
+    solution: 'Сайт с портфолио и расчетом.',
+    solutionList: ['услуги', 'портфолио', 'калькулятор'],
+    done: 'Продающая структура, примеры работ, удобная форма вызова замерщика.',
+    result: 'Рост заявок и повышение доверия.',
+    previewImg: main6,
+    icon: <Boxes className="w-5 h-5 text-indigo-400" />
   }
 ];
 
