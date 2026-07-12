@@ -19,7 +19,6 @@ import FitnessClub from './cases/FitnessClub';
 import Logistics from './cases/Logistics';
 import LawFirm from './cases/LawFirm';
 import RealEstate from './cases/RealEstate';
-import RepairCompany from './cases/RepairCompany';
 import ArtelInteriors from './cases/ArtelInteriors';
 
 export default function App() {
@@ -56,7 +55,6 @@ export default function App() {
   if (currentRoute === '#case/logistics') return <CaseEditorWrapper><Logistics /></CaseEditorWrapper>;
   if (currentRoute === '#case/lawfirm') return <CaseEditorWrapper><LawFirm /></CaseEditorWrapper>;
   if (currentRoute === '#case/realestate') return <CaseEditorWrapper><RealEstate /></CaseEditorWrapper>;
-  if (currentRoute === '#case/repair') return <CaseEditorWrapper><RepairCompany /></CaseEditorWrapper>;
   if (currentRoute === '#case/artel') return <CaseEditorWrapper><ArtelInteriors /></CaseEditorWrapper>;
 
   return (

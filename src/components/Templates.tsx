@@ -44,20 +44,12 @@ const cases = [
     previewImg: '/case5.1.png',
   },
   {
-    name: 'Ремонтная Компания',
-    category: 'Ремонт / Строительство',
-    url: '#case/repair',
-    problem: 'Сложно донести экспертность и цены.',
-    result: 'Рост заявок и повышение доверия.',
-    previewImg: '/case6.1.png',
-  },
-  {
     name: 'Artel — Ремонт под ключ',
     category: 'Премиум-интерьеры',
     url: '#case/artel',
     problem: 'Нет площадки, отражающей премиальный уровень услуг.',
     result: 'Имидж-сайт с портфолио, процессом и заявками.',
-    previewImg: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80',
+    previewImg: '/case6.1.png',
   },
 
 ];
