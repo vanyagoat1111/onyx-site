@@ -5,6 +5,7 @@ import Problem from './components/Problem';
 import ActionBlock from './components/ActionBlock';
 import Benefits from './components/Benefits';
 import Templates from './components/Templates';
+import LaunchEconomics from './components/LaunchEconomics';
 import Services from './components/Services';
 import FAQ from './components/FAQ';
 import FormSection from './components/FormSection';
@@ -66,6 +67,7 @@ export default function App() {
       <Benefits />
       <ActionBlock />
       <Templates />
+      <LaunchEconomics />
       <Services />
       <FAQ />
       <FormSection />
