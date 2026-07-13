@@ -1,12 +1,13 @@
 import React from 'react';
 import { Container, SectionTitle, Button, Reveal } from './ui';
-import { FileText } from 'lucide-react';
+import { FileText, ArrowUpRight } from 'lucide-react';
+import { BOT_LINK } from '../lib/leads';
 
 const steps = [
-  { num: '01', title: 'Оставляете заявку', desc: 'Пара минут: рассказываете о бизнесе и задаче сайта.' },
-  { num: '02', title: 'Разбираем ваш бизнес', desc: 'Смотрим текущую упаковку и находим слабые места.' },
-  { num: '03', title: 'Показываем план и превью', desc: 'Какие блоки нужны, как усилить доверие и принимать заявки.' },
-  { num: '04', title: 'Запускаем сайт', desc: 'На вашем домене, без оплаты разработки — платите только за запуск и работу.' },
+  { title: 'Оставляете заявку', desc: 'Пара минут: рассказываете о бизнесе и задаче сайта.' },
+  { title: 'Разбираем ваш бизнес', desc: 'Смотрим текущую упаковку и находим слабые места.' },
+  { title: 'Показываем план и превью', desc: 'Какие блоки нужны, как усилить доверие и принимать заявки.' },
+  { title: 'Запускаем сайт', desc: 'На вашем домене, без оплаты разработки — платите только за запуск и работу.' },
 ];
 
 export default function ActionBlock() {
@@ -40,11 +41,14 @@ export default function ActionBlock() {
                   А также мы подготовили для вас бесплатный чек-лист-инструкцию по созданию сайта для вашего бизнеса.
                 </p>
               </div>
-              <Button className="w-full min-h-[54px]" onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}>
+              <Button className="w-full min-h-[54px] mb-3" onClick={() => window.open(BOT_LINK, '_blank')}>
+                Начать разработку <ArrowUpRight className="w-4 h-4" />
+              </Button>
+              <Button variant="outline" className="w-full min-h-[54px]" onClick={() => window.open(BOT_LINK, '_blank')}>
                 Получить чек-лист
               </Button>
               <span className="mt-3 block text-[11px] text-fog/70 text-center font-mono tracking-wide">
-                Узнайте о всех подводных камнях в разработке сайта и поиске разработчика.
+                Заполните анкету и личный кабинет в боте — узнаете о всех подводных камнях в разработке сайта и поиске разработчика.
               </span>
             </div>
           </Reveal>
@@ -56,8 +60,8 @@ export default function ActionBlock() {
           {steps.map((s, i) => (
             <Reveal key={i} delay={i * 0.1}>
               <div className="relative flex gap-6 md:gap-8 pb-12 last:pb-0 group">
-                <div className={`relative z-10 w-[52px] h-[52px] rounded-full border flex items-center justify-center font-mono text-sm shrink-0 transition-all duration-500 ${i === 0 ? 'bg-cobalt border-cobalt text-white shadow-[0_0_30px_rgba(78,124,255,0.35)]' : 'bg-ink border-white/15 text-cobalt-soft group-hover:border-cobalt/50'}`}>
-                  {s.num}
+                <div className={`relative z-10 w-[52px] h-[52px] rounded-full border flex items-center justify-center shrink-0 transition-all duration-500 ${i === 0 ? 'bg-cobalt border-cobalt text-white shadow-[0_0_30px_rgba(78,124,255,0.35)]' : 'bg-ink border-white/15 text-cobalt-soft group-hover:border-cobalt/50'}`}>
+                  <span className={`w-2.5 h-2.5 rounded-full ${i === 0 ? 'bg-white' : 'bg-cobalt-soft'}`} />
                 </div>
                 <div className="pt-1.5">
                   <h3 className="font-display font-medium text-lg md:text-xl text-white mb-2">{s.title}</h3>

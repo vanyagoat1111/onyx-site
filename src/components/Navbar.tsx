@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { BOT_LINK } from '../lib/leads';
 
 const links = [
   { name: 'Главная', href: '#home', num: '01' },
@@ -13,9 +14,6 @@ const links = [
 const scrollTo = (href: string) => {
   document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
 };
-
-// Верхняя кнопка «Начать разработку» ведёт в Telegram-бота ONYX.
-const TELEGRAM_BOT = 'https://t.me/onyxwebsites_bot';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -52,7 +50,7 @@ export default function Navbar() {
               </a>
             ))}
             <button
-              onClick={() => window.open(TELEGRAM_BOT, '_blank')}
+              onClick={() => window.open(BOT_LINK, '_blank')}
               className="inline-flex items-center gap-1.5 rounded-full bg-cobalt text-white text-[13px] font-body font-semibold px-5 py-2.5 hover:bg-bone hover:text-ink transition-colors duration-300 shadow-[0_6px_24px_rgba(78,124,255,0.35)]"
             >
               Начать разработку <ArrowUpRight className="w-3.5 h-3.5" />
@@ -62,7 +60,7 @@ export default function Navbar() {
           {/* Mobile: закреплённая CTA + бургер */}
           <div className="flex items-center gap-2.5 lg:hidden">
             <button
-              onClick={() => window.open(TELEGRAM_BOT, '_blank')}
+              onClick={() => window.open(BOT_LINK, '_blank')}
               className="inline-flex items-center gap-1 rounded-full bg-cobalt text-white text-[11px] font-body font-semibold px-3.5 py-2 hover:bg-bone hover:text-ink transition-colors duration-300 shadow-[0_4px_18px_rgba(78,124,255,0.4)] whitespace-nowrap"
             >
               Начать разработку
@@ -107,7 +105,7 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.44, duration: 0.5 }}
-                onClick={() => { setMobileMenuOpen(false); window.open(TELEGRAM_BOT, '_blank'); }}
+                onClick={() => { setMobileMenuOpen(false); window.open(BOT_LINK, '_blank'); }}
                 className="mt-10 w-full rounded-full bg-cobalt text-white font-body font-semibold py-5 hover:bg-bone hover:text-ink transition-colors"
               >
                 Начать разработку

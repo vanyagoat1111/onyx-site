@@ -56,27 +56,6 @@ export default function LaunchEconomics() {
                 <CostBar label="ONYX — запуск под ключ" value="от 5 990 ₽" width="9%" accent delay={0.45} />
               </div>
 
-              <div className="my-8 h-px bg-white/[0.08]" />
-
-              <div className="grid grid-cols-3 gap-4">
-                {[
-                  { v: '0 ₽', l: 'за разработку' },
-                  { v: '2–3', l: 'дня до запуска' },
-                  { v: '+40%', l: 'конверсии в кейсе' },
-                ].map((s, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 14 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.4 + i * 0.12, ease }}
-                  >
-                    <div className="font-display font-semibold text-xl md:text-2xl text-white mb-1">{s.v}</div>
-                    <div className="text-[11px] font-body text-fog leading-snug">{s.l}</div>
-                  </motion.div>
-                ))}
-              </div>
-
               <div className="mt-8 flex items-center gap-3 rounded-2xl bg-cobalt/[0.08] border border-cobalt/20 px-4 py-3">
                 <ArrowDownRight className="w-4 h-4 text-cobalt-soft shrink-0" />
                 <p className="text-[12px] font-body text-bone/85 leading-snug">

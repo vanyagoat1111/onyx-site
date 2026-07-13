@@ -248,7 +248,7 @@ export default function FitnessClub() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-12 mb-16">
           <div className="max-w-xs">
             <div className="text-2xl font-black text-white tracking-widest uppercase mb-4">IRON<span className="text-red-600">CORE</span></div>
-            <p className="text-sm font-medium leading-relaxed mb-6">Бескомпромиссный подход к тренировкам. Премиальное оборудование, лучшие тренеры и атмосфера результата.</p>
+            <p className="text-sm font-medium leading-relaxed mb-6">Бескомпромиссный подход к тренировкам в клубе IRONCORE. Премиальное оборудование, лучшие тренеры и атмосфера результата.</p>
             <div className="flex gap-4 border-l border-red-600 pl-4">
                {/* Social Icons Placeholder */}
                <div className="hover:text-red-500 font-bold uppercase tracking-wider cursor-pointer text-sm transition-colors text-white">ВК</div>
@@ -276,13 +276,13 @@ export default function FitnessClub() {
              <h4 className="text-white font-black uppercase tracking-wider mb-4 border-b border-neutral-800 pb-2">Контакты</h4>
              <ul className="space-y-3 text-sm font-medium">
                <li className="text-white text-lg font-mono">+7 (495) 999-00-00</li>
-               <li>info@forgegym.ru</li>
+               <li>info@ironcore-club.ru</li>
                <li className="pt-2 text-neutral-500">г. Москва, Брутальный пр-т, 1<br/>Круглосуточно 24/7</li>
              </ul>
           </div>
         </div>
         <div className="max-w-7xl mx-auto border-t border-neutral-900 pt-8 flex flex-col md:flex-row justify-between text-xs font-mono text-neutral-600">
-          <p>© 2024 FORGE GYM. Все права защищены.</p>
+          <p>© 2024 IRONCORE. Все права защищены.</p>
           <div className="flex gap-6 mt-4 md:mt-0">
              <a href="#" onClick={(e) => e.preventDefault()} className="hover:text-red-500 transition-colors">Политика конфиденциальности</a>
              <a href="#" onClick={(e) => e.preventDefault()} className="hover:text-red-500 transition-colors">Оферта</a>

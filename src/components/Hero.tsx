@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Button } from './ui';
+import { BOT_LINK } from '../lib/leads';
+import LeadFormModal from './LeadFormModal';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Hero() {
+  const [formOpen, setFormOpen] = useState(false);
+
   return (
     <section id="home" className="relative flex flex-col justify-center pt-32 md:pt-40 pb-20 md:pb-28 overflow-hidden">
       {/* Atmosphere: restrained, single light source */}
@@ -70,14 +74,14 @@ export default function Hero() {
             className="flex flex-col sm:flex-row gap-4 sm:items-start"
           >
             <div className="flex flex-col gap-2">
-              <Button className="min-h-[56px] px-9" onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}>
+              <Button className="min-h-[56px] px-9" onClick={() => setFormOpen(true)}>
                 Начать разработку
               </Button>
               <span className="text-[11px] text-fog/70 text-center font-mono tracking-wide">Без скрытой оплаты за разработку</span>
             </div>
             <div className="flex flex-col gap-2">
               {/* Ведёт в Telegram-бота ONYX. */}
-              <Button variant="outline" className="min-h-[56px] px-9" onClick={() => window.open('https://t.me/onyxwebsites_bot', '_blank')}>
+              <Button variant="outline" className="min-h-[56px] px-9" onClick={() => window.open(BOT_LINK, '_blank')}>
                 Бесплатный аудит вашего сайта
               </Button>
               <span className="text-[11px] text-fog/70 text-center font-mono tracking-wide max-w-[280px] mx-auto">Если у вас уже есть сайт, укажем на слабые места и расскажем, что усилить.</span>
@@ -85,6 +89,8 @@ export default function Hero() {
           </motion.div>
         </div>
       </div>
+
+      <LeadFormModal open={formOpen} onClose={() => setFormOpen(false)} />
     </section>
   );
 }

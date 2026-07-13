@@ -1,13 +1,16 @@
 import React from 'react';
 import { Container, SectionTitle, Reveal } from './ui';
-import { Check, Star, ShieldCheck } from 'lucide-react';
+import { Check, Star, ShieldCheck, Zap, Rocket, Crown, ArrowUpRight, PlugZap } from 'lucide-react';
 import LaunchEconomics from './LaunchEconomics';
+import { BOT_LINK } from '../lib/leads';
+
+const planIcons = [Zap, Rocket, Crown];
 
 const plans = [
   {
     name: 'Старт онлайн',
     subtitle: 'Для бизнеса, которому нужен быстрый и понятный сайт без затрат на разработку',
-    prices: { dev: '0 ₽', launch: '5 990 ₽', support: '1 990 ₽/мес' },
+    prices: { dev: '0 ₽', launch: '5 990 ₽', support: '1 990 ₽/мес', marketDev: '60 000 ₽' },
     features: [
       'одностраничный сайт для бизнеса',
       'адаптация под телефон, планшет и компьютер',
@@ -36,7 +39,7 @@ const plans = [
     name: 'Сайт + заявки',
     badge: 'Оптимальный выбор',
     subtitle: 'Для бизнеса, которому нужен не просто сайт, а обращения от клиентов',
-    prices: { dev: '0 ₽', launch: '8 900 ₽', support: '2 590 ₽/мес' },
+    prices: { dev: '0 ₽', launch: '8 900 ₽', support: '2 590 ₽/мес', marketDev: '90 000 ₽' },
     features: [
       'всё из тарифа «Старт онлайн»',
       'усиленная структура сайта под заявки',
@@ -59,7 +62,7 @@ const plans = [
   {
     name: 'Сайт как система продаж',
     subtitle: 'Для бизнеса, которому нужен сайт, заявки, аналитика и контроль обработки клиентов',
-    prices: { dev: '0 ₽', launch: 'от 19 900 ₽', support: 'от 3 590 ₽/мес' },
+    prices: { dev: '0 ₽', launch: 'от 19 900 ₽', support: 'от 3 590 ₽/мес', marketDev: '150 000 ₽' },
     features: [
       'всё из тарифа «Сайт + заявки»',
       'расширенная структура сайта',
@@ -123,27 +126,38 @@ export default function Services() {
 
       {/* ── Plans ── */}
       <div className="grid lg:grid-cols-3 gap-6 lg:gap-7 items-stretch relative z-10 mb-16">
-        {plans.map((plan, i) => (
-          <Reveal key={i} delay={i * 0.1} className="h-full">
-            <div className={`relative flex flex-col h-full rounded-[28px] border p-7 md:p-8 transition-all duration-500 ${plan.badge ? 'border-cobalt/60 bg-gradient-to-b from-cobalt/[0.1] to-ink-2/80 shadow-[0_0_70px_rgba(78,124,255,0.12)]' : 'border-white/[0.08] bg-ink-2/60 hover:border-white/20'}`}>
+        {plans.map((plan, i) => {
+          const Icon = planIcons[i] ?? Zap;
+          return (
+          <Reveal key={i} delay={i * 0.1} className={`h-full ${plan.badge ? 'lg:z-10' : ''}`}>
+            <div className={`relative flex flex-col h-full rounded-[28px] border p-7 md:p-8 transition-all duration-500 overflow-hidden ${plan.badge ? 'border-cobalt/60 bg-gradient-to-b from-cobalt/[0.14] to-ink-2/80 shadow-[0_0_80px_rgba(78,124,255,0.18)] lg:scale-[1.035]' : 'border-white/[0.08] bg-ink-2/60 hover:border-cobalt/30 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.35)]'}`}>
+              <div className={`absolute inset-x-0 top-0 h-[3px] ${plan.badge ? 'bg-gradient-to-r from-cobalt via-cobalt-soft to-cobalt' : 'bg-gradient-to-r from-white/5 via-white/20 to-white/5'}`} />
+
               {plan.badge && (
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 rounded-full bg-cobalt text-white text-[10px] font-mono tracking-[0.2em] uppercase px-4 py-1.5 whitespace-nowrap">
+                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 rounded-full bg-cobalt text-white text-[10px] font-mono tracking-[0.2em] uppercase px-4 py-1.5 whitespace-nowrap shadow-[0_6px_20px_rgba(78,124,255,0.5)]">
                   <Star className="w-3 h-3 fill-white" /> {plan.badge}
                 </span>
               )}
 
+              <div className={`w-13 h-13 rounded-2xl border flex items-center justify-center mb-5 shrink-0 ${plan.badge ? 'bg-cobalt/20 border-cobalt/40' : 'bg-white/[0.06] border-white/10'}`}>
+                <Icon className="w-6 h-6 text-cobalt-soft" />
+              </div>
+
               <h3 className="font-display font-semibold text-xl md:text-2xl text-white mb-2">{plan.name}</h3>
               <p className="text-[13px] font-body text-fog mb-7 leading-snug">{plan.subtitle}</p>
 
-              <div className="rounded-2xl bg-ink/60 border border-white/[0.07] divide-y divide-white/[0.07] mb-7">
+              <div className={`rounded-2xl border divide-y mb-7 ${plan.badge ? 'bg-cobalt/[0.06] border-cobalt/20 divide-cobalt/15' : 'bg-ink/60 border-white/[0.07] divide-white/[0.07]'}`}>
                 {[
-                  { k: 'Разработка', v: plan.prices.dev, hl: true },
+                  { k: 'Разработка', v: plan.prices.dev, hl: true, strike: plan.prices.marketDev },
                   { k: 'Запуск', v: plan.prices.launch },
                   { k: 'Сопровождение', v: plan.prices.support },
                 ].map((r, j) => (
                   <div key={j} className="flex justify-between items-center px-5 py-3.5">
                     <span className="text-[13px] font-body text-fog">{r.k}</span>
-                    <span className={`font-display font-semibold ${r.hl ? 'text-cobalt-soft text-xl' : 'text-bone text-base'}`}>{r.v}</span>
+                    <span className="flex items-baseline gap-2">
+                      {r.strike && <span className="text-[11px] font-mono text-fog/50 line-through">{r.strike}</span>}
+                      <span className={`font-display font-semibold ${r.hl ? 'text-cobalt-soft text-xl' : 'text-bone text-base'}`}>{r.v}</span>
+                    </span>
                   </div>
                 ))}
               </div>
@@ -183,37 +197,44 @@ export default function Services() {
               </div>
 
               <button
-                className={`mt-8 w-full rounded-full py-4 text-sm font-body font-semibold transition-all duration-300 ${plan.badge ? 'bg-cobalt text-white hover:bg-bone hover:text-ink' : 'bg-white/[0.06] text-bone border border-white/12 hover:border-cobalt hover:bg-cobalt/10'}`}
-                onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
+                className={`group mt-8 w-full inline-flex items-center justify-center gap-2 rounded-full py-4 text-sm font-body font-semibold transition-all duration-300 ${plan.badge ? 'bg-cobalt text-white hover:bg-bone hover:text-ink shadow-[0_10px_35px_rgba(78,124,255,0.35)]' : 'bg-white/[0.06] text-bone border border-white/12 hover:border-cobalt hover:bg-cobalt/10'}`}
+                onClick={() => window.open(BOT_LINK, '_blank')}
               >
                 Выбрать тариф
+                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:rotate-45" />
               </button>
             </div>
           </Reveal>
-        ))}
+          );
+        })}
       </div>
 
       {/* ── Экономика запуска: 2 инфографики прямо под тарифами ── */}
       <LaunchEconomics />
 
-      {/* ── Monthly support panel ── */}
+      {/* ── Monthly support panel: выделенный блок ── */}
       <Reveal>
-        <div className="relative z-10 rounded-[28px] border border-white/[0.08] bg-ink-2/60 p-7 md:p-10 mb-24 grid lg:grid-cols-[auto_1fr] gap-8 items-start">
-          <div className="flex lg:flex-col items-center lg:items-start gap-4 lg:max-w-[220px]">
-            <div className="w-12 h-12 rounded-2xl bg-cobalt/15 border border-cobalt/30 flex items-center justify-center shrink-0">
-              <ShieldCheck className="w-6 h-6 text-cobalt-soft" />
+        <div className="relative z-10 rounded-[28px] border-2 border-cobalt/40 bg-gradient-to-br from-cobalt/[0.12] via-ink-2/80 to-ink-2/60 p-7 md:p-10 mb-24 grid lg:grid-cols-[auto_1fr] gap-8 items-start overflow-hidden shadow-[0_0_90px_rgba(78,124,255,0.14)]">
+          <div className="absolute -top-1/2 -right-1/4 w-2/3 aspect-square rounded-full bg-cobalt/[0.15] blur-[120px] pointer-events-none" />
+          <span className="absolute top-6 right-6 font-mono text-[10px] tracking-[0.25em] uppercase text-cobalt-soft bg-cobalt/10 border border-cobalt/30 rounded-full px-3 py-1.5">
+            Входит во все тарифы
+          </span>
+
+          <div className="relative flex lg:flex-col items-center lg:items-start gap-4 lg:max-w-[220px]">
+            <div className="w-14 h-14 rounded-2xl bg-cobalt/25 border border-cobalt/50 flex items-center justify-center shrink-0 shadow-[0_0_30px_rgba(78,124,255,0.3)]">
+              <ShieldCheck className="w-7 h-7 text-cobalt-soft" />
             </div>
-            <h4 className="font-display font-medium text-lg text-bone leading-snug">Что входит в ежемесячное сопровождение</h4>
+            <h4 className="font-display font-semibold text-xl text-white leading-snug">Что входит в ежемесячное сопровождение</h4>
           </div>
-          <div>
+          <div className="relative">
             <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3 mb-6">
               {support.map((item, i) => (
-                <li key={i} className="flex gap-3 items-start text-sm font-body text-bone/85">
+                <li key={i} className="flex gap-3 items-start text-sm font-body text-bone/90">
                   <Check className="w-4 h-4 text-cobalt-soft shrink-0 mt-0.5" /> {item}
                 </li>
               ))}
             </ul>
-            <p className="text-[13px] font-body text-fog leading-relaxed border-t border-white/[0.08] pt-5">
+            <p className="text-[13px] font-body text-fog leading-relaxed border-t border-cobalt/20 pt-5">
               Смысл сопровождения простой: вы не остаётесь один на один с сайтом после запуска. ONYX отвечает за то, чтобы сайт работал, был доступен клиентам и помогал бизнесу принимать заявки.
             </p>
           </div>
@@ -244,8 +265,17 @@ export default function Services() {
                   </span>
                 )}
                 <div className="pt-4 border-t border-white/[0.07] mt-auto">
-                  <span className="font-display font-semibold text-base text-cobalt-soft">{a.price}</span>
-                  {a.unit && <span className="text-[11px] font-body text-fog ml-1.5">{a.unit}</span>}
+                  <div className="flex items-baseline gap-1.5 mb-4">
+                    <span className="font-display font-semibold text-base text-cobalt-soft">{a.price}</span>
+                    {a.unit && <span className="text-[11px] font-body text-fog">{a.unit}</span>}
+                  </div>
+                  <button
+                    onClick={() => window.open(BOT_LINK, '_blank')}
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-white/[0.06] border border-white/12 text-bone text-[13px] font-body font-semibold py-3 hover:border-cobalt hover:bg-cobalt/10 hover:text-white transition-all duration-300"
+                  >
+                    <PlugZap className="w-3.5 h-3.5 text-cobalt-soft" />
+                    Подключить к тарифу
+                  </button>
                 </div>
               </div>
             </Reveal>

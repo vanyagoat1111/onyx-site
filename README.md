@@ -46,7 +46,10 @@ git push origin main
 ```
 VITE_TELEGRAM_BOT_TOKEN=токен_бота
 VITE_TELEGRAM_CHAT_ID=id_чата_или_канала
+VITE_LEADS_GOOGLE_SCRIPT_URL=url_google_apps_script_веб-приложения
 ```
+
+`VITE_LEADS_GOOGLE_SCRIPT_URL` — Google Apps Script Web App, который дописывает заявку (имя, телефон, дата, источник) новой строкой в Google-таблицу лидов. Деплоится из Google Sheets: Расширения → Apps Script → `doPost(e)` читает `e.parameter`, добавляет строку через `SpreadsheetApp`, деплой как Web App с доступом «Все, у кого есть ссылка».
 
 Без этих переменных форма всё равно показывает пользователю успешную отправку, но заявка никуда не уходит — это сделано намеренно (не блокировать UX), но **нужно проверить, что переменные заданы в Vercel** (Project → Settings → Environment Variables), иначе заявки теряются молча.
 

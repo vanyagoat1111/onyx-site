@@ -4,7 +4,7 @@ import { ArrowUpRight, TrendingUp } from 'lucide-react';
 
 const cases = [
   {
-    name: 'Artel — Ремонт под ключ',
+    name: 'Artel Interiors',
     category: 'Премиум-интерьеры',
     url: '#case/artel',
     problem: 'Нет площадки, отражающей премиальный уровень услуг.',
@@ -12,7 +12,7 @@ const cases = [
     previewImg: '/case6.1.png',
   },
   {
-    name: 'Стоматология Премиум',
+    name: 'DentalArt',
     category: 'Медицина',
     url: '#case/dental',
     problem: 'Устаревший сайт, нет доверия, мало заявок.',
@@ -20,7 +20,7 @@ const cases = [
     previewImg: '/case1.1.png',
   },
   {
-    name: 'Фитнес-Клуб',
+    name: 'Iron Core',
     category: 'Спорт',
     url: '#case/fitness',
     problem: 'Сайт не продаёт абонементы.',
@@ -28,7 +28,7 @@ const cases = [
     previewImg: '/case2.1.png',
   },
   {
-    name: 'Логистика / Грузоперевозки',
+    name: 'Prime Logistics',
     category: 'B2B',
     url: '#case/logistics',
     problem: 'Нет заявок с сайта.',
@@ -36,7 +36,7 @@ const cases = [
     previewImg: '/case3.1.png',
   },
   {
-    name: 'Юридическая Компания',
+    name: 'Egorov & Partners',
     category: 'Право',
     url: '#case/lawfirm',
     problem: 'Низкое доверие клиентов.',
@@ -44,7 +44,7 @@ const cases = [
     previewImg: '/case4.1.png',
   },
   {
-    name: 'Недвижимость Премиум',
+    name: 'Vanguard Estates',
     category: 'Элитная недвижимость',
     url: '#case/realestate',
     problem: 'Сложно продавать объекты через сайт.',
