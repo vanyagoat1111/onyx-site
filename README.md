@@ -1,21 +1,154 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# ONYX WEB — сайт студии
 
-# Run and deploy your AI Studio app
+Лендинг веб-студии ONYX: React + Vite + Tailwind v4, тёмная премиальная тема с кобальтовым акцентом. Продакшен: **https://onyx-web.ru**
 
-This contains everything you need to run your app locally.
+---
 
-View your app in AI Studio: https://ai.studio/apps/292b6c71-53a5-4f55-8c31-6d0c2d81cb7e
+## Быстрый старт
 
-## Run Locally
+```bash
+npm install
+npm run dev        # http://localhost:3000
+```
 
-**Prerequisites:**  Node.js
+Другие команды:
 
+```bash
+npm run build       # vite build + пререндер (dist/)
+npm run preview     # локальный просмотр собранного dist/
+npm run lint         # tsc --noEmit (проверка типов)
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+**Требуется Node.js** (актуальная LTS). Если на новом устройстве Node не установлен — поставить с [nodejs.org](https://nodejs.org) или через `nvm`.
 
+---
+
+## Деплой
+
+Стенд — **Vercel**, подключён к GitHub-репозиторию `vanyagoat1111/onyx-site`. Любой push в ветку `main` автоматически собирает и выкатывает прод на onyx-web.ru (обычно 1–2 минуты).
+
+```bash
+git add -A
+git commit -m "описание изменений"
+git push origin main
+```
+
+Если `git push` просит логин/пароль — GitHub больше не принимает обычный пароль аккаунта. Нужен **Personal Access Token** (Settings → Developer settings → Personal access tokens → classic → scope `repo`) вместо пароля, либо `gh auth login` через браузер.
+
+Проверить, что сборка прошла: зайти в Vercel Dashboard → проект `onyx-site` → Deployments, либо просто открыть onyx-web.ru через 1–2 минуты после пуша (жёсткое обновление `Cmd+Shift+R`, чтобы сбросить кэш).
+
+---
+
+## Переменные окружения
+
+Форма заявки (`FormSection.tsx`) может отправлять лиды в Telegram. Создать `.env.local` (не коммитится, см. `.env.example`):
+
+```
+VITE_TELEGRAM_BOT_TOKEN=токен_бота
+VITE_TELEGRAM_CHAT_ID=id_чата_или_канала
+```
+
+Без этих переменных форма всё равно показывает пользователю успешную отправку, но заявка никуда не уходит — это сделано намеренно (не блокировать UX), но **нужно проверить, что переменные заданы в Vercel** (Project → Settings → Environment Variables), иначе заявки теряются молча.
+
+`VITE_PARTNER_GOOGLE_SCRIPT_URL` — используется где-то в партнёрском потоке, если он ещё актуален (см. `patch_legal.py`, `update_contact.cjs` в корне — разовые миграционные скрипты, не часть рантайма).
+
+---
+
+## Структура проекта
+
+```
+src/
+  App.tsx                 — роутинг по window.location.hash (нет react-router), сборка секций главной
+  index.css               — ВСЯ дизайн-система: цвета, шрифты, кастомные анимации/утилиты (см. ниже)
+  components/              — секции главной страницы + переиспользуемые примитивы (ui.tsx)
+  cases/                    — полноэкранные демо-кейсы («живые шаблоны»), каждый — самостоятельный мини-сайт
+scripts/prerender.js       — постпроцессинг после vite build (SSR-пререндер в dist/index.html)
+public/                    — статика: превью кейсов (case*.png), favicon, robots/sitemap
+```
+
+### Главная страница — порядок секций (`App.tsx`)
+
+```
+Navbar
+Hero              — оффер "Сайт для бизнеса за 0 рублей", 2 CTA
+Problem           — "01 Зачем бизнесу сайт" + карточки + инфографика пути клиента
+Benefits          — "02 Бизнес-модель" + степпер оплаты + таблица сравнения
+ActionBlock       — "03 План действий" + чек-лист + таймлайн шагов
+Templates         — "04 Шаблоны" — 6 живых демо (Artel первым)
+Services          — "05 Тарифы" (3 карточки) → LaunchEconomics (2 инфографики
+                     ПРЯМО ПОД тарифами) → сопровождение → "06 Доп. опции" (12 карточек)
+FAQ               — "07 FAQ" — аккордеон, 19 вопросов
+FormSection       — блок аудита + форма лида (Имя, Телефон) + success-состояние
+Footer
+LegalModal, CookieConsent — модалки поверх всего
+```
+
+Нумерация `index="0N"` в `SectionTitle` — сквозная по секциям, при добавлении/удалении блока её нужно поправить вручную (не считается автоматически).
+
+### Живые демо-кейсы (`src/cases/`)
+
+Каждый роутится через `#case/имя` в `App.tsx` и рендерится в `CaseEditorWrapper` (интерактивный редактор превью — тема/фильтры/desktop-mobile режим, отдельная фича, не трогать без необходимости):
+
+| Роут | Файл | Тема |
+|---|---|---|
+| `#case/dental` | `DentalClinic.tsx` | стоматология |
+| `#case/fitness` | `FitnessClub.tsx` | фитнес |
+| `#case/logistics` | `Logistics.tsx` | логистика/B2B |
+| `#case/lawfirm` | `LawFirm.tsx` | юрфирма |
+| `#case/realestate` | `RealEstate.tsx` | элитная недвижимость |
+| `#case/artel` | `ArtelInteriors.tsx` (+ папка `cases/artel/`) | премиум-ремонт, палитра gold/dark/ivory |
+
+Каждый кейс — **изолированная мини-система**: свои цвета/шрифты внутри компонента (через inline-классы или локальные CSS-переменные), не наследует основную дизайн-систему сайта. Если добавляете новый кейс — папка `src/cases/<Имя>/` с подкомпонентами + один файл-сборщик `src/cases/<Имя>.tsx`, плюс:
+1. Импорт и `if (currentRoute === '#case/...')` в `App.tsx`.
+2. Карточка в массиве `cases` в `components/Templates.tsx` (превью-картинка в `public/`).
+
+---
+
+## Дизайн-система (`src/index.css`)
+
+Всё определено через Tailwind v4 `@theme` — **никаких отдельных config-файлов**, только CSS-переменные.
+
+**Цвета:**
+```css
+--color-ink: #0a0a0d        /* фон страницы */
+--color-ink-2: #101015      /* панели/карточки */
+--color-ink-3: #17171e      /* приподнятые панели */
+--color-bone: #f2f0e9       /* основной текст */
+--color-fog: #9b9ba6        /* второстепенный текст */
+--color-cobalt: #4e7cff     /* единственный акцент бренда */
+--color-cobalt-soft: #8aa6ff
+--color-danger: #ff5d5d     /* сравнения "плохой вариант", предупреждения */
+--color-danger-soft: #ff8a8a
+--color-success: #34d39a    /* "хороший вариант", выгода, польза */
+--color-success-soft: #6ee7bd
+```
+Правило по смыслу цвета (введено намеренно, поддерживать при новых блоках): **красный** — для "было плохо / чужой вариант / проблема", **зелёный** — для "выгода / польза / решение", **кобальт** — нейтральный фирменный акцент везде остальном.
+
+**Шрифты:** `--font-display: Unbounded` (заголовки), `--font-body: Golos Text` (текст), `--font-mono: JetBrains Mono` (лейблы/eyebrow/цифры). Плюс легаси-шрифты подключены для кейсов (`Playfair Display`, `Cormorant Garamond`, `Manrope`, `Space Grotesk`) — не убирать, используются внутри `src/cases/`.
+
+**Утилиты:** `.noise-overlay` (зерно на весь экран), `.dot-grid` (точечный фон секций), `.heading-glow` (яркий белый текст с кобальтовым свечением — используется в `SectionTitle` и ключевых заголовках), `.animate-pulse-dot`, `.animate-dash-flow` (пунктирные линии в инфографике).
+
+**Переиспользуемые примитивы** — `src/components/ui.tsx`:
+- `Button` (`primary` / `outline` / `ghost` / `link`)
+- `Container` — обёртка секции с общими отступами/max-width
+- `SectionTitle` + `Eyebrow` — заголовок секции с номером и подписью
+- `Reveal` — обёртка scroll-in анимации (motion, `whileInView`)
+
+Новый блок на главной почти всегда: `<Container><SectionTitle index="0N" subtitle="...">...</SectionTitle>...</Container>`, карточки внутри — `<Reveal delay={i*0.1}>`.
+
+---
+
+## Рабочие договорённости (важно для продолжения)
+
+- **Не переписывать дизайн-систему целиком.** Все правки — точечные: меняем текст/структуру существующего компонента, а не пересобираем секцию заново.
+- **Стиль ONYX** — тёмный фон, единственный синий (кобальт) акцент + семантические красный/зелёный, шрифты Unbounded/Golos Text, скруглённые карточки, аккуратный адаптив. Не смешивать с другой палитрой на главной странице (кейсы — исключение, у них своя тема).
+- **Бизнес-модель, которую весь текст сайта должен подтверждать без противоречий:** разработка сайта — **0 ₽**; отдельно оплачиваются запуск, размещение (хостинг/домен), техническое сопровождение (ежемесячно) и доп. функции по необходимости.
+- Node.js в среде разработки может отсутствовать — тогда собрать/протестировать локально нельзя, полагаться на CI/Vercel сборку.
+- Vercel preview-деплои (хэшированные `*.vercel.app` адреса) закрыты логином команды — для проверки готового результата всегда открывать сам домен **onyx-web.ru**, не preview-ссылки.
+
+---
+
+## Полезные файлы в корне
+
+- `patch_legal.py`, `replace.js`, `replace_terms.cjs`, `update_contact.cjs` — разовые скрипты для точечных текстовых миграций (легал/контакты), не часть сборки, можно игнорировать или удалить при уборке репозитория.
+- `scripts/prerender.js` — обязателен, часть `npm run build` (генерирует статический HTML в `dist/index.html` поверх SPA для SEO).
