@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, SectionTitle, Reveal } from './ui';
 import { Check, Star, ShieldCheck } from 'lucide-react';
+import LaunchEconomics from './LaunchEconomics';
 
 const plans = [
   {
@@ -191,6 +192,9 @@ export default function Services() {
           </Reveal>
         ))}
       </div>
+
+      {/* ── Экономика запуска: 2 инфографики прямо под тарифами ── */}
+      <LaunchEconomics />
 
       {/* ── Monthly support panel ── */}
       <Reveal>

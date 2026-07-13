@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Container, Reveal } from './ui';
+import { Reveal } from './ui';
 import { ArrowDownRight } from 'lucide-react';
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -36,7 +36,7 @@ const facts = [
 
 export default function LaunchEconomics() {
   return (
-    <Container id="economics" className="relative border-t border-white/[0.06]">
+    <div id="economics" className="relative z-10 mb-16 md:mb-20 scroll-mt-24">
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-stretch">
         {/* ── Инфографика 1: сравнение стоимости ── */}
         <Reveal className="flex">
@@ -117,6 +117,6 @@ export default function LaunchEconomics() {
           </div>
         </Reveal>
       </div>
-    </Container>
+    </div>
   );
 }
