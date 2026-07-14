@@ -54,16 +54,16 @@ export default function RealEstate() {
               backgroundSize: '32px 32px',
             }}
           />
-          <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[70vw] h-[70vw] max-w-[900px] max-h-[900px] rounded-full bg-[#c9a263]/[0.06] blur-[160px]" />
+          <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[70vw] h-[70vw] max-w-[900px] max-h-[900px] rounded-full bg-[#b8935a]/[0.06] blur-[160px]" />
           {/* Faint skyline silhouette */}
           <svg className="absolute bottom-0 left-0 w-full h-[30vh] opacity-[0.15]" viewBox="0 0 1440 300" preserveAspectRatio="none" fill="none">
-            <path d="M0 300V210L60 210V150H120V210H180V90H260V210H320V170H400V210H460V60H540V210H620V130H700V210H780V180H860V210H940V70H1020V210H1100V150H1180V210H1260V100H1340V210H1440V300H0Z" fill="#c9a263" />
+            <path d="M0 300V210L60 210V150H120V210H180V90H260V210H320V170H400V210H460V60H540V210H620V130H700V210H780V180H860V210H940V70H1020V210H1100V150H1180V210H1260V100H1340V210H1440V300H0Z" fill="#b8935a" />
           </svg>
           <div className="absolute inset-0 bg-gradient-to-b from-[#080808] via-transparent to-[#080808]" />
         </div>
 
         <div className="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center mt-12">
-          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-[10px] text-[#c9a263] uppercase tracking-[0.4em] mb-10 font-bold">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-[10px] text-[#b8935a] uppercase tracking-[0.4em] mb-10 font-bold">
             Бутик элитной недвижимости
           </motion.div>
           <motion.h1
@@ -380,6 +380,46 @@ export default function RealEstate() {
                   <div className="text-[10px] uppercase tracking-[0.2em] text-white/40">{s.l}</div>
                </div>
              ))}
+          </motion.div>
+
+          {/* Price growth sparkline */}
+          <motion.div {...fadeUp} transition={{ duration: 0.7, delay: 0.25, ease }} className="mt-16 grid md:grid-cols-[1fr_auto] gap-8 items-end bg-[#111] border border-white/5 p-10">
+            <div>
+              <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Динамика цен на элитную недвижимость</div>
+              <svg viewBox="0 0 400 120" className="w-full h-32" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="priceGrowthFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#b8935a" stopOpacity="0.35" />
+                    <stop offset="100%" stopColor="#b8935a" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                <motion.path
+                  d="M0,100 L57,90 L114,92 L171,68 L228,60 L285,42 L342,30 L400,10 L400,120 L0,120 Z"
+                  fill="url(#priceGrowthFill)"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1, ease }}
+                />
+                <motion.path
+                  d="M0,100 L57,90 L114,92 L171,68 L228,60 L285,42 L342,30 L400,10"
+                  fill="none"
+                  stroke="#b8935a"
+                  strokeWidth="2.5"
+                  initial={{ pathLength: 0 }}
+                  whileInView={{ pathLength: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.4, ease }}
+                />
+              </svg>
+              <div className="flex justify-between text-[10px] uppercase tracking-widest text-white/30 mt-2">
+                <span>2019</span><span>2020</span><span>2021</span><span>2022</span><span>2023</span><span>2024</span><span>2025</span><span>2026</span>
+              </div>
+            </div>
+            <div className="text-center md:text-right">
+              <div className="text-5xl font-cormorant text-white">+68<span className="text-white/40">%</span></div>
+              <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 mt-2">рост за 7 лет</div>
+            </div>
           </motion.div>
         </div>
       </section>

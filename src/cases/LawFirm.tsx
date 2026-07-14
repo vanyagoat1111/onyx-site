@@ -209,6 +209,60 @@ export default function LawFirm() {
         </div>
       </section>
 
+      {/* Results infographic */}
+      <section className="py-24 px-6 md:px-12 bg-[#0d152e] border-t border-[#2a365c]">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="flex flex-col items-center bg-[#131d3b] border border-[#2a365c] p-10">
+            <div className="relative w-40 h-40">
+              <svg viewBox="0 0 160 160" className="w-full h-full -rotate-90">
+                <circle cx="80" cy="80" r="70" fill="none" stroke="#2a365c" strokeWidth="12" />
+                <motion.circle
+                  cx="80" cy="80" r="70" fill="none" stroke="#c9a263" strokeWidth="12" strokeLinecap="round"
+                  strokeDasharray={2 * Math.PI * 70}
+                  initial={{ strokeDashoffset: 2 * Math.PI * 70 }}
+                  whileInView={{ strokeDashoffset: 2 * Math.PI * 70 * (1 - 0.94) }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.4, ease }}
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-4xl font-medium text-white">94%</span>
+              </div>
+            </div>
+            <p className="mt-6 text-slate-400 font-sans text-sm text-center max-w-[220px]">судебных дел завершены в пользу доверителя за последние 5 лет</p>
+          </motion.div>
+
+          <motion.div {...fadeUp} transition={{ duration: 0.7, delay: 0.1, ease }} className="bg-[#131d3b] border border-[#2a365c] p-10">
+            <h3 className="text-white font-medium text-lg mb-8">Дела по направлениям практики</h3>
+            <div className="space-y-5">
+              {[
+                { l: 'Корпоративные споры и M&A', v: 38, color: '#c9a263' },
+                { l: 'Банкротство', v: 27, color: '#9b6b3f' },
+                { l: 'Арбитраж и налоговые споры', v: 21, color: '#7c2d12' },
+                { l: 'Прочее', v: 14, color: '#2a365c' },
+              ].map((row, i) => (
+                <div key={i}>
+                  <div className="flex justify-between text-xs font-sans text-slate-400 mb-2">
+                    <span>{row.l}</span>
+                    <span className="text-white font-medium">{row.v}%</span>
+                  </div>
+                  <div className="h-2 bg-[#0a1023] overflow-hidden">
+                    <motion.div
+                      className="h-full"
+                      style={{ backgroundColor: row.color }}
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${row.v}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: i * 0.1, ease }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Principles */}
       <section id="principles" className="py-24 px-6 md:px-12 bg-[#0a1023] border-t border-[#2a365c]">
         <div className="max-w-7xl mx-auto">

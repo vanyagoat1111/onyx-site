@@ -53,7 +53,7 @@ export default function Logistics() {
               <span className="text-xs text-neutral-400 font-medium">Бесплатный звонок по РФ</span>
               <a href="tel:88000000000" className="text-white font-bold hover:text-blue-400 transition-colors">8 (800) 500-00-00</a>
             </div>
-            <button className="bg-blue-600 hover:bg-blue-500 text-white px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-sm font-bold uppercase tracking-wider transition-all clip-diagonal cursor-pointer">
+            <button className="bg-amber-500 hover:bg-amber-400 text-onyx-950 px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-sm font-bold uppercase tracking-wider transition-all clip-diagonal cursor-pointer">
               Расчет стоимости
             </button>
           </div>
@@ -110,7 +110,7 @@ export default function Logistics() {
                 transition={{ duration: 0.7, delay: 0.3, ease }}
                 className="flex flex-col sm:flex-row gap-4 mt-4"
               >
-                <button className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 font-bold uppercase tracking-wider transition-all text-center clip-diagonal shadow-[0_0_30px_rgba(59,130,246,0.3)] border border-blue-400/50 hover:border-transparent cursor-pointer">
+                <button className="bg-amber-500 hover:bg-amber-400 text-onyx-950 px-8 py-4 font-bold uppercase tracking-wider transition-all text-center clip-diagonal shadow-[0_0_30px_rgba(245,158,11,0.3)] border border-amber-300/50 hover:border-transparent cursor-pointer">
                   Рассчитать ставку
                 </button>
                 <button className="bg-onyx-900 border border-onyx-700 hover:border-blue-500/50 hover:bg-onyx-800 text-white px-8 py-4 font-bold uppercase tracking-wider transition-all text-center clip-diagonal cursor-pointer">
@@ -151,7 +151,7 @@ export default function Logistics() {
                   </div>
                 </div>
 
-                <button className="w-full bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 font-bold uppercase tracking-wider transition-all text-center mt-4 clip-diagonal border border-blue-400/50 hover:border-transparent cursor-pointer">
+                <button className="w-full bg-amber-500 hover:bg-amber-400 text-onyx-950 px-8 py-4 font-bold uppercase tracking-wider transition-all text-center mt-4 clip-diagonal border border-amber-300/50 hover:border-transparent cursor-pointer">
                   Узнать стоимость
                 </button>
               </div>
@@ -303,6 +303,34 @@ export default function Logistics() {
                   </motion.div>
                 ))}
               </div>
+
+              {/* Fleet composition chart */}
+              <motion.div {...fadeUp} transition={{ duration: 0.7, delay: 0.2, ease }} className="mt-8 bg-onyx-950/50 border border-onyx-800 p-6">
+                <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-400 mb-4">Состав автопарка, 230 ед.</h4>
+                <div className="h-8 w-full flex overflow-hidden">
+                  {[
+                    { pct: 58.7, color: '#3b82f6' },
+                    { pct: 19.6, color: '#22d3ee' },
+                    { pct: 6.5, color: '#f59e0b' },
+                    { pct: 15.2, color: '#64748b' },
+                  ].map((seg, i) => (
+                    <motion.div
+                      key={i}
+                      style={{ backgroundColor: seg.color }}
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${seg.pct}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: i * 0.1, ease }}
+                    />
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-x-6 gap-y-2 mt-4 text-xs text-neutral-400">
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5" style={{ backgroundColor: '#3b82f6' }} /> Еврофуры (135)</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5" style={{ backgroundColor: '#22d3ee' }} /> Рефрижераторы (45)</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5" style={{ backgroundColor: '#f59e0b' }} /> Тралы (15)</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5" style={{ backgroundColor: '#64748b' }} /> Малотоннажники (35)</span>
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -373,7 +401,7 @@ export default function Logistics() {
               <div className="bg-onyx-950 border border-onyx-700 px-6 py-3 font-bold text-white clip-diagonal hover:border-blue-500 transition-colors cursor-pointer">Новосибирск</div>
               <div className="bg-onyx-950 border border-onyx-700 px-6 py-3 font-bold text-white clip-diagonal hover:border-blue-500 transition-colors cursor-pointer">Казань</div>
               <div className="bg-onyx-950 border border-onyx-700 px-6 py-3 font-bold text-white clip-diagonal hover:border-blue-500 transition-colors cursor-pointer">Владивосток</div>
-              <div className="bg-blue-600 border border-blue-500 text-white px-6 py-3 font-bold clip-diagonal hover:bg-blue-500 transition-colors cursor-pointer">+ 12 терминалов</div>
+              <div className="bg-amber-500 border border-amber-400 text-onyx-950 px-6 py-3 font-bold clip-diagonal hover:bg-amber-400 transition-colors cursor-pointer">+ 12 терминалов</div>
             </div>
           </motion.div>
 
@@ -490,14 +518,14 @@ export default function Logistics() {
       </section>
 
       {/* CTA SECTION */}
-      <section className="py-24 lg:py-32 bg-blue-600 relative overflow-hidden clip-diagonal-inverted max-w-[1920px] mx-auto hidden sm:block">
+      <section className="py-24 lg:py-32 bg-amber-500 relative overflow-hidden clip-diagonal-inverted max-w-[1920px] mx-auto hidden sm:block">
         <div className="absolute inset-0 bg-onyx-950 mix-blend-color-burn opacity-50" />
         <div className="absolute inset-0 industrial-grid opacity-30 mix-blend-overlay" />
         <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10 text-center flex flex-col items-center">
           <h2 className="text-4xl lg:text-6xl font-black font-heading uppercase text-white mb-8 tracking-tight drop-shadow-xl">
             Требуется надежный логистический партнер?
           </h2>
-          <p className="text-xl lg:text-2xl text-blue-100 max-w-3xl mx-auto mb-12 font-medium leading-relaxed">
+          <p className="text-xl lg:text-2xl text-amber-50 max-w-3xl mx-auto mb-12 font-medium leading-relaxed">
             Оставьте заявку на бесплатный експертный аудит транспортных расходов вашей компании. Мы проведем анализ и предложим решение с гарантией сокращения костов до 15%.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 w-full max-w-2xl mx-auto relative z-20">
@@ -506,7 +534,7 @@ export default function Logistics() {
                 Заказать аудит
              </button>
           </div>
-          <div className="text-blue-200 text-sm mt-6 font-medium">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности.</div>
+          <div className="text-amber-950/70 text-sm mt-6 font-medium">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности.</div>
         </motion.div>
       </section>
 
