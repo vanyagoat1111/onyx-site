@@ -4,6 +4,7 @@ import { Hero, Philosophy } from './artel/HomeHero';
 import { WhyUs, Services, Process } from './artel/HomeServices';
 import { Portfolio, Reviews } from './artel/HomePortfolio';
 import { Packages, FAQ, Contact } from './artel/HomePricing';
+import { MaterialsPartners, BeforeAfter } from './artel/HomeTrust';
 
 export default function ArtelInteriors() {
   return (
@@ -16,6 +17,8 @@ export default function ArtelInteriors() {
         <Services />
         <Process />
         <Portfolio />
+        <MaterialsPartners />
+        <BeforeAfter />
         <Reviews />
         <Packages />
         <FAQ />

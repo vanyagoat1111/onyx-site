@@ -109,6 +109,16 @@ export function Philosophy() {
               Каждый проект для нас уникален. Мы осуществляем строгий авторский надзор, гарантируя, что финальный результат будет в точности соответствовать утвержденному дизайн-проекту, превосходя ваши ожидания.
             </p>
           </div>
+
+          <div className="mt-10 pt-8 border-t border-gold/15 flex items-center gap-5">
+            <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 border border-gold/30">
+              <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Главный архитектор ARTEL" className="w-full h-full object-cover grayscale" />
+            </div>
+            <div>
+              <div className="font-serif text-lg italic text-ivory">Дарья Ковалёва</div>
+              <div className="font-manrope font-light text-[10px] uppercase tracking-[0.25em] text-gold/70 mt-1">Главный архитектор ARTEL</div>
+            </div>
+          </div>
         </div>
         <div className="relative">
           {/* Decorative offset frame */}
