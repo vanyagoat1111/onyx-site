@@ -95,7 +95,7 @@ export default function RealEstate() {
           <div className="grid md:grid-cols-2 gap-16">
             {/* Property 1 */}
             <div className="group cursor-pointer">
-              <div className="relative aspect-[4/3] overflow-hidden mb-8">
+              <div className="relative aspect-[4/3] overflow-hidden mb-8 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6)] group-hover:shadow-[0_40px_80px_-16px_rgba(0,0,0,0.7)] transition-shadow duration-500">
                 <div className="absolute top-6 left-6 z-10 bg-black/60 backdrop-blur-md px-4 py-2 text-white text-[10px] uppercase tracking-widest border border-white/10">
                   Новое предложение
                 </div>
@@ -115,7 +115,7 @@ export default function RealEstate() {
 
             {/* Property 2 */}
             <div className="group cursor-pointer md:mt-24">
-              <div className="relative aspect-[4/3] overflow-hidden mb-8">
+              <div className="relative aspect-[4/3] overflow-hidden mb-8 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6)] group-hover:shadow-[0_40px_80px_-16px_rgba(0,0,0,0.7)] transition-shadow duration-500">
                 <img src={building2} alt="Здание 2" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100" />
               </div>
               <div>
@@ -147,7 +147,7 @@ export default function RealEstate() {
               { title: 'Особняки', count: 11, max: 32 },
               { title: 'Апартаменты', count: 32, max: 32 },
             ].map((c, i) => (
-              <div key={i} className="group cursor-pointer bg-[#0a0a0a] hover:bg-[#111] transition-colors p-8 flex flex-col justify-between min-h-[220px]">
+              <div key={i} className="group cursor-pointer bg-[#0a0a0a] hover:bg-[#111] hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(255,255,255,0.08)] transition-all duration-500 p-8 flex flex-col justify-between min-h-[220px]">
                 <h3 className="text-2xl font-cormorant text-white mb-1">{c.title}</h3>
                 <div>
                   <div className="text-5xl font-cormorant text-white mb-3">{c.count}</div>
@@ -202,7 +202,7 @@ export default function RealEstate() {
               { initials: 'КВ', name: 'Кирилл Веретенников', role: 'Инвестиционный брокер' },
               { initials: 'ОС', name: 'Ольга Стрельцова', role: 'Директор по работе с клиентами' },
             ].map((e, i) => (
-              <div key={i} className="text-center group border-t border-white/10 pt-8 hover:border-white/30 transition-colors">
+              <div key={i} className="text-center group border-t border-white/10 pt-8 hover:border-white/30 hover:-translate-y-1 transition-all duration-500">
                 <div className="w-20 h-20 rounded-full border border-white/15 mx-auto mb-6 flex items-center justify-center">
                   <span className="font-cormorant text-2xl text-white">{e.initials}</span>
                 </div>
@@ -230,7 +230,7 @@ export default function RealEstate() {
                { num: '05', title: 'Relocation & Lifestyle', desc: 'Организация переездов, подбор персонала и консьерж-сопровождение для вас и вашей семьи.' },
                { num: '06', title: 'Архитектура и дизайн', desc: 'Рекомендации лучших архитектурных бюро и дизайнеров интерьера для создания дома вашей мечты.' },
              ].map((svc, i) => (
-                <div key={i} className="group border-t border-white/10 pt-8 hover:border-white/30 transition-colors">
+                <div key={i} className="group border-t border-white/10 pt-8 hover:border-white/30 hover:-translate-y-1 transition-all duration-500">
                   <div className="text-white/20 font-cormorant text-4xl mb-6">{svc.num}</div>
                   <h3 className="text-xl text-white mb-4 tracking-wide">{svc.title}</h3>
                   <p className="text-white/50 text-sm font-light leading-relaxed">{svc.desc}</p>
