@@ -7,8 +7,8 @@ export function Packages() {
   const packages = [
     {
       name: 'Classic',
+      num: '01',
       desc: 'Оптимальное решение для современных интерьеров. Качественная чистовая отделка по готовому проекту.',
-      img: 'https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=800&q=80',
       features: [
         'Возведение перегородок',
         'Монтаж базовых инженерных систем',
@@ -20,8 +20,8 @@ export function Packages() {
     },
     {
       name: 'Prestige',
+      num: '02',
       desc: 'Капитальный ремонт бизнес-класса с применением крупноформатного керамогранита и сложной электрики.',
-      img: 'https://images.unsplash.com/photo-1600566753086-00f18efc2291?auto=format&fit=crop&w=800&q=80',
       features: [
         'Всё из тарифа Classic',
         'Сложные многоуровневые потолки',
@@ -34,8 +34,8 @@ export function Packages() {
     },
     {
       name: 'Bespoke',
+      num: '03',
       desc: 'Премиальный авторский ремонт. Воплощение сложнейших архитектурных решений и эксклюзивных материалов.',
-      img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
       features: [
         'Всё из тарифа Prestige',
         'Интеграция систем "Умный дом"',
@@ -60,8 +60,9 @@ export function Packages() {
       <div className="grid lg:grid-cols-3 gap-8">
         {packages.map((pkg, i) => (
           <div key={i} className={`flex flex-col border p-10 transition-all duration-500 hover:-translate-y-1 ${pkg.highlight ? 'border-gold/60 bg-gold/5 hover:border-gold shadow-[0_24px_60px_-20px_rgba(201,168,104,0.25)]' : 'border-gold/20 hover:border-gold/50 hover:shadow-[0_24px_48px_-16px_rgba(201,168,104,0.15)]'}`}>
-            <div className="w-full h-48 mb-8 overflow-hidden">
-               <img src={pkg.img} alt={pkg.name} className="w-full h-full object-cover grayscale opacity-80 transition-transform duration-700 hover:scale-105" />
+            <div className="flex items-baseline justify-between mb-8">
+              <span className={`font-serif text-6xl italic ${pkg.highlight ? 'text-gold' : 'text-gold/30'}`}>{pkg.num}</span>
+              <div className="h-px flex-1 mx-4 bg-gold/15" />
             </div>
             <h3 className="font-serif text-3xl mb-4 italic">{pkg.name}</h3>
             <p className="font-manrope font-light text-[13px] tracking-wide text-ivory/60 mb-10 h-16 leading-relaxed">{pkg.desc}</p>
@@ -177,13 +178,15 @@ export function Contact() {
         </div>
 
         <div className="relative h-[500px] md:h-auto min-h-[500px]">
-          <div className="absolute inset-0 bg-dark border border-gold/20 flex flex-col items-center justify-center p-8 text-center">
-            {/* Visual placeholder for map/showroom image */}
-            <img 
-              src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80" 
-              alt="Showroom"
-              className="absolute inset-0 w-full h-full object-cover opacity-20 grayscale"
+          <div className="absolute inset-0 bg-dark border border-gold/20 flex flex-col items-center justify-center p-8 text-center overflow-hidden">
+            <div
+              className="absolute inset-0 opacity-[0.06]"
+              style={{
+                backgroundImage: 'linear-gradient(#C9A868 1px, transparent 1px), linear-gradient(90deg, #C9A868 1px, transparent 1px)',
+                backgroundSize: '40px 40px',
+              }}
             />
+            <div className="absolute -bottom-1/3 -right-1/4 w-2/3 aspect-square rounded-full bg-gold/10 blur-[100px] pointer-events-none" />
             <div className="relative z-10 p-12 backdrop-blur-md bg-dark/70 border border-gold/20">
               <h3 className="font-serif text-2xl mb-4 italic">Наш шоурум</h3>
               <p className="font-manrope font-light text-[13px] tracking-wide text-ivory/80 mb-2">г. Москва, Пресненская наб., 12</p>

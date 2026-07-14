@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 
 export const Button = ({ children, onClick, variant = 'primary', className = '', type = 'button', disabled = false }: any) => {
-  const base = "inline-flex items-center justify-center gap-2 font-body font-semibold tracking-wide rounded-full transition-all duration-300 relative overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed text-sm";
+  const base = "inline-flex items-center justify-center gap-2 font-body font-semibold tracking-wide rounded-full transition-all duration-300 relative overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed text-sm cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink";
 
   const variants = {
     primary: "bg-cobalt text-white hover:bg-bone hover:text-ink px-8 py-4 shadow-[0_8px_30px_rgba(78,124,255,0.25)] hover:shadow-[0_8px_30px_rgba(242,240,233,0.15)]",

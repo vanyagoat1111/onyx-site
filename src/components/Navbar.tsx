@@ -51,7 +51,7 @@ export default function Navbar() {
             ))}
             <button
               onClick={() => window.open(BOT_LINK, '_blank')}
-              className="inline-flex items-center gap-1.5 rounded-full bg-cobalt text-white text-[13px] font-body font-semibold px-5 py-2.5 hover:bg-bone hover:text-ink transition-colors duration-300 shadow-[0_6px_24px_rgba(78,124,255,0.35)]"
+              className="inline-flex items-center gap-1.5 rounded-full bg-cobalt text-white text-[13px] font-body font-semibold px-5 py-2.5 hover:bg-bone hover:text-ink transition-colors duration-300 shadow-[0_6px_24px_rgba(78,124,255,0.35)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
               Начать разработку <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
@@ -61,11 +61,11 @@ export default function Navbar() {
           <div className="flex items-center gap-2.5 lg:hidden">
             <button
               onClick={() => window.open(BOT_LINK, '_blank')}
-              className="inline-flex items-center gap-1 rounded-full bg-cobalt text-white text-[11px] font-body font-semibold px-3.5 py-2 hover:bg-bone hover:text-ink transition-colors duration-300 shadow-[0_4px_18px_rgba(78,124,255,0.4)] whitespace-nowrap"
+              className="inline-flex items-center gap-1 rounded-full bg-cobalt text-white text-[11px] font-body font-semibold px-3.5 py-2 hover:bg-bone hover:text-ink transition-colors duration-300 shadow-[0_4px_18px_rgba(78,124,255,0.4)] whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
               Начать разработку
             </button>
-            <button className="text-bone relative z-50 p-1" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Меню">
+            <button className="text-bone relative z-50 p-2 -m-1 min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt rounded-full" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Меню">
               {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
           </div>
@@ -106,7 +106,7 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.44, duration: 0.5 }}
                 onClick={() => { setMobileMenuOpen(false); window.open(BOT_LINK, '_blank'); }}
-                className="mt-10 w-full rounded-full bg-cobalt text-white font-body font-semibold py-5 hover:bg-bone hover:text-ink transition-colors"
+                className="mt-10 w-full rounded-full bg-cobalt text-white font-body font-semibold py-5 hover:bg-bone hover:text-ink transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
               >
                 Начать разработку
               </motion.button>

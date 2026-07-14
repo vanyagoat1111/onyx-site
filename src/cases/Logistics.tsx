@@ -1,5 +1,14 @@
 import React from 'react';
 const case3_1 = "/demo-main-3.jpg";
+const MapPinIcon = () => (
+  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+);
+const PhoneIcon = () => (
+  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+);
+const MailIcon = () => (
+  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+);
 
 export default function Logistics() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -41,9 +50,11 @@ export default function Logistics() {
       {/* HERO SECTION */}
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-6 lg:px-12 overflow-hidden min-h-[90vh] flex items-center border-b border-onyx-800">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-onyx-950 via-onyx-950/90 to-transparent z-10" />
+          <div className="absolute inset-0 industrial-grid opacity-40" />
+          <div className="absolute top-0 right-0 w-2/3 h-full bg-blue-600/10 blur-[140px]" />
+          <div className="absolute bottom-0 left-0 w-1/2 h-2/3 bg-cyan-500/5 blur-[140px]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-onyx-950 via-onyx-950/90 to-onyx-950/70 z-10" />
           <div className="absolute inset-0 bg-gradient-to-t from-onyx-950 via-transparent to-transparent z-10" />
-          <img src={case3_1} alt="Логистическая компания фон" className="w-full h-full object-cover object-center opacity-40 grayscale-[20%]" />
         </div>
 
         <div className="max-w-[1400px] mx-auto w-full relative z-20">
@@ -190,7 +201,7 @@ export default function Logistics() {
              <div className="relative order-2 lg:order-1 pt-12 lg:pt-0">
                <div className="absolute inset-x-0 -bottom-12 top-1/4 bg-blue-600/10 blur-[80px] -z-10 rounded-full" />
                <div className="relative border-2 border-onyx-700 p-3 bg-onyx-800 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-                 <img src={case3_1} alt="Логистическая компания иллюстрация" className="w-full h-auto object-cover grayscale-[10%]" />
+                 <img src={case3_1} alt="Логистическая компания иллюстрация" className="w-full h-auto object-cover" />
                </div>
 
                {/* Overlay Card */}
@@ -455,15 +466,15 @@ export default function Logistics() {
               <h4 className="text-white font-bold uppercase tracking-wider mb-8 text-lg">Штаб-квартира</h4>
               <ul className="space-y-6 font-medium">
                 <li className="flex items-start gap-4">
-                  <div className="w-8 h-8 rounded bg-onyx-900 border border-onyx-800 flex items-center justify-center shrink-0 text-blue-500">📍</div>
+                  <div className="w-8 h-8 rounded bg-onyx-900 border border-onyx-800 flex items-center justify-center shrink-0 text-blue-500"><MapPinIcon /></div>
                   <span className="text-neutral-400 leading-snug">123000, г. Москва<br/>ул. Инноваций 10, Башня "Империя"</span>
                 </li>
                 <li className="flex items-center gap-4">
-                  <div className="w-8 h-8 rounded bg-onyx-900 border border-onyx-800 flex items-center justify-center shrink-0 text-blue-500">📞</div>
+                  <div className="w-8 h-8 rounded bg-onyx-900 border border-onyx-800 flex items-center justify-center shrink-0 text-blue-500"><PhoneIcon /></div>
                   <a href="tel:88000000000" className="text-white text-lg font-bold hover:text-blue-400 transition-colors">8 (800) 500-00-00</a>
                 </li>
                 <li className="flex items-center gap-4">
-                  <div className="w-8 h-8 rounded bg-onyx-900 border border-onyx-800 flex items-center justify-center shrink-0 text-blue-500">✉️</div>
+                  <div className="w-8 h-8 rounded bg-onyx-900 border border-onyx-800 flex items-center justify-center shrink-0 text-blue-500"><MailIcon /></div>
                   <a href="mailto:info@primelogistics.ru" className="text-neutral-400 hover:text-white transition-colors">info@primelogistics.ru</a>
                 </li>
               </ul>

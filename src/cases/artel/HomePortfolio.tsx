@@ -110,9 +110,9 @@ export function Portfolio() {
 
 export function Reviews() {
   const reviews = [
-    { name: "Михаил Воронцов", role: "Владелец квартиры, ЖК Символ", text: "Процесс ремонта всегда казался мне чем-то стихийным, но команда ARTEL показала, что это может быть системно, прозрачно и четко. Идеальное совпадение с дизайн-проектом и ни одного просроченного дня.", img: "https://images.unsplash.com/photo-1600210491369-e753d80a41f3?auto=format&fit=crop&w=800&q=80" },
-    { name: "Анна Смирнова", role: "Резиденция Жуковка", text: "Высочайший уровень сервиса. Менеджер был на связи 24/7, ежедневные фотоотчеты внушали абсолютное спокойствие. Качество отделочных работ превзошло все ожидания.", img: "https://images.unsplash.com/photo-1600607687644-b7171b6ba115?auto=format&fit=crop&w=800&q=80" },
-    { name: "Евгений Лебедев", role: "ЖК Садовые Кварталы", text: "Профессионализм на всех этапах — от первых чертежей до финального клининга. Отдельная благодарность за работу со сложной инженерией умного дома.", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" }
+    { name: "Михаил Воронцов", role: "Владелец квартиры, ЖК Символ", text: "Процесс ремонта всегда казался мне чем-то стихийным, но команда ARTEL показала, что это может быть системно, прозрачно и четко. Идеальное совпадение с дизайн-проектом и ни одного просроченного дня.", initials: "МВ" },
+    { name: "Анна Смирнова", role: "Резиденция Жуковка", text: "Высочайший уровень сервиса. Менеджер был на связи 24/7, ежедневные фотоотчеты внушали абсолютное спокойствие. Качество отделочных работ превзошло все ожидания.", initials: "АС" },
+    { name: "Евгений Лебедев", role: "ЖК Садовые Кварталы", text: "Профессионализм на всех этапах — от первых чертежей до финального клининга. Отдельная благодарность за работу со сложной инженерией умного дома.", initials: "ЕЛ" }
   ];
 
   const [active, setActive] = useState(0);
@@ -151,8 +151,18 @@ export function Reviews() {
               transition={{ duration: 0.5 }}
               className="absolute inset-0 flex flex-col md:flex-row gap-12 items-center"
             >
-              <div className="w-full md:w-5/12 h-64 md:h-[400px] relative overflow-hidden">
-                 <img src={reviews[active].img} alt={reviews[active].name} className="w-full h-full object-cover grayscale opacity-80" />
+              <div className="w-full md:w-5/12 h-64 md:h-[400px] relative overflow-hidden bg-dark flex items-center justify-center">
+                 <div
+                   className="absolute inset-0 opacity-[0.06]"
+                   style={{
+                     backgroundImage: 'linear-gradient(#C9A868 1px, transparent 1px), linear-gradient(90deg, #C9A868 1px, transparent 1px)',
+                     backgroundSize: '32px 32px',
+                   }}
+                 />
+                 <div className="absolute -top-1/4 -right-1/4 w-2/3 aspect-square rounded-full bg-gold/10 blur-[80px] pointer-events-none" />
+                 <div className="relative z-10 w-28 h-28 md:w-32 md:h-32 rounded-full border border-gold/40 bg-gold/10 flex items-center justify-center">
+                   <span className="font-serif italic text-4xl md:text-5xl text-gold">{reviews[active].initials}</span>
+                 </div>
                  <div className="absolute inset-0 border border-gold/20 m-4 pointer-events-none" />
               </div>
               <div className="w-full md:w-7/12">

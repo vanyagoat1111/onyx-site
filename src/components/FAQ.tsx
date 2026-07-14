@@ -46,7 +46,8 @@ export default function FAQ() {
             <div key={i} className={`border-b transition-colors duration-400 ${open === i ? 'border-cobalt/40' : 'border-white/[0.08]'}`}>
               <button
                 onClick={() => setOpen(open === i ? null : i)}
-                className="w-full flex items-center justify-between gap-6 py-6 text-left group"
+                aria-expanded={open === i}
+                className="w-full flex items-center justify-between gap-6 py-6 text-left group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt rounded-lg"
               >
                 <span className="flex items-baseline gap-4">
                   <span className="font-mono text-[11px] text-fog/60 shrink-0 w-6">{String(i + 1).padStart(2, '0')}</span>
