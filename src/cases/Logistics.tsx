@@ -325,6 +325,75 @@ export default function Logistics() {
         </div>
       </section>
 
+      {/* INDUSTRIES */}
+      <section className="py-24 lg:py-32 bg-[#0b1536] relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-blue-500/5 blur-[120px] pointer-events-none" />
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
+          <div className="flex flex-col lg:flex-row justify-between items-end gap-8 mb-16">
+            <div className="max-w-2xl">
+              <div className="text-blue-500 font-bold uppercase tracking-wider mb-4 flex items-center gap-3">
+                <div className="w-8 h-1 bg-blue-500" />
+                Клиенты
+              </div>
+              <h2 className="text-4xl lg:text-6xl font-black font-heading uppercase text-white mb-6">Отрасли, с которыми мы работаем</h2>
+            </div>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-onyx-800">
+            {['Производство и FMCG', 'Retail и e-commerce', 'Фармацевтика', 'Строительство', 'Автомобильная отрасль', 'Агропромышленный сектор', 'Электроника', 'Химическая промышленность'].map((ind, i) => (
+              <div key={i} className="bg-onyx-900 p-8 flex items-center min-h-[110px] hover:bg-onyx-800 transition-colors">
+                <span className="text-white font-bold uppercase tracking-wide text-sm">{ind}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* DOCUMENTS & INSURANCE + CASE STUDY */}
+      <section className="py-24 lg:py-32 bg-onyx-900 border-y border-onyx-800 relative overflow-hidden">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10 grid lg:grid-cols-2 gap-16">
+          <div>
+            <div className="text-blue-500 font-bold uppercase tracking-wider mb-4 flex items-center gap-3">
+              <div className="w-8 h-1 bg-blue-500" /> Гарантии
+            </div>
+            <h2 className="text-3xl lg:text-5xl font-black font-heading uppercase text-white mb-8">Документы и страхование</h2>
+            <ul className="space-y-6">
+              {[
+                { title: 'Полное страхование груза', desc: 'Каждая перевозка застрахована на полную стоимость груза по договору с ведущими страховыми компаниями.' },
+                { title: 'Прозрачный документооборот', desc: 'ТТН, счета-фактуры и акты передаются в электронном виде через личный кабинет клиента.' },
+                { title: 'Материальная ответственность', desc: '100% ответственность перевозчика за сохранность груза на всех этапах маршрута.' },
+              ].map((d, i) => (
+                <li key={i} className="flex gap-5 items-start border-b border-onyx-800 pb-6">
+                  <div className="w-10 h-10 border-2 border-blue-500 flex items-center justify-center shrink-0 clip-diagonal bg-blue-500/10 text-blue-500 font-bold font-mono">{i + 1}</div>
+                  <div>
+                    <h4 className="text-lg font-bold text-white uppercase font-heading mb-1">{d.title}</h4>
+                    <p className="text-neutral-400 text-sm leading-relaxed">{d.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="bg-onyx-950 border border-onyx-700 p-10 lg:p-12 flex flex-col justify-between clip-diagonal-inverted">
+            <div>
+              <div className="text-blue-500 font-bold uppercase tracking-wider mb-6 text-sm">Кейс клиента</div>
+              <p className="text-2xl lg:text-3xl text-white font-heading font-bold leading-snug mb-8">
+                Сократили логистические издержки федеральной розничной сети на 18% за счёт консолидации грузов на кросс-докинге.
+              </p>
+              <p className="text-neutral-400 leading-relaxed">
+                Перевели 40 региональных маршрутов на единую сборную схему LTL с еженедельной отгрузкой, сохранив срок доставки до магазинов в пределах 48 часов.
+              </p>
+            </div>
+            <div className="mt-10 pt-8 border-t border-onyx-800 flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-500 font-bold">ЛС</div>
+              <div>
+                <div className="text-white font-bold">Логистический директор</div>
+                <div className="text-neutral-500 text-sm">Федеральная розничная сеть</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA SECTION */}
       <section className="py-24 lg:py-32 bg-blue-600 relative overflow-hidden clip-diagonal-inverted max-w-[1920px] mx-auto hidden sm:block">
         <div className="absolute inset-0 bg-onyx-950 mix-blend-color-burn opacity-50" />
