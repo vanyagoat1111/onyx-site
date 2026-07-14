@@ -129,8 +129,8 @@ export default function Services() {
         {plans.map((plan, i) => {
           const Icon = planIcons[i] ?? Zap;
           return (
-          <Reveal key={i} delay={i * 0.1} className={`h-full ${plan.badge ? 'lg:z-10' : ''}`}>
-            <div className={`relative flex flex-col h-full rounded-[28px] border p-7 md:p-8 transition-all duration-500 overflow-hidden ${plan.badge ? 'border-cobalt/60 bg-gradient-to-b from-cobalt/[0.14] to-ink-2/80 shadow-[0_0_80px_rgba(78,124,255,0.18)] lg:scale-[1.035]' : 'border-white/[0.08] bg-ink-2/60 hover:border-cobalt/30 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.35)]'}`}>
+          <Reveal key={i} delay={i * 0.1} className="h-full">
+            <div className={`relative flex flex-col h-full rounded-[28px] border p-7 md:p-8 transition-all duration-500 overflow-hidden ${plan.badge ? 'border-cobalt/60 bg-gradient-to-b from-cobalt/[0.14] to-ink-2/80 shadow-[0_0_80px_rgba(78,124,255,0.18)]' : 'border-white/[0.08] bg-ink-2/60 hover:border-cobalt/30 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.35)]'}`}>
               <div className={`absolute inset-x-0 top-0 h-[3px] ${plan.badge ? 'bg-gradient-to-r from-cobalt via-cobalt-soft to-cobalt' : 'bg-gradient-to-r from-white/5 via-white/20 to-white/5'}`} />
 
               {plan.badge && (
@@ -216,7 +216,7 @@ export default function Services() {
       <Reveal>
         <div className="relative z-10 rounded-[28px] border-2 border-cobalt/40 bg-gradient-to-br from-cobalt/[0.12] via-ink-2/80 to-ink-2/60 p-7 md:p-10 mb-24 grid lg:grid-cols-[auto_1fr] gap-8 items-start overflow-hidden shadow-[0_0_90px_rgba(78,124,255,0.14)]">
           <div className="absolute -top-1/2 -right-1/4 w-2/3 aspect-square rounded-full bg-cobalt/[0.15] blur-[120px] pointer-events-none" />
-          <span className="absolute top-6 right-6 font-mono text-[10px] tracking-[0.25em] uppercase text-cobalt-soft bg-cobalt/10 border border-cobalt/30 rounded-full px-3 py-1.5">
+          <span className="relative sm:absolute sm:top-6 sm:right-6 inline-block w-fit mb-4 sm:mb-0 font-mono text-[10px] tracking-[0.25em] uppercase text-cobalt-soft bg-cobalt/10 border border-cobalt/30 rounded-full px-3 py-1.5">
             Входит во все тарифы
           </span>
 
