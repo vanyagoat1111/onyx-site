@@ -21,7 +21,7 @@ export function WhyUs() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {reasons.map((r, i) => (
-          <div key={i} className="group border border-gold/10 p-10 hover:border-gold/30 transition-colors duration-500 bg-dark/50">
+          <div key={i} className="group border border-gold/10 p-10 hover:border-gold/30 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(201,168,104,0.15)] transition-all duration-500 bg-dark/50">
             <r.icon className="text-gold mb-8 transition-transform duration-500 group-hover:scale-110" strokeWidth={1} size={40} />
             <h3 className="font-serif text-2xl mb-4 italic">{r.title}</h3>
             <p className="font-manrope font-light text-[13px] text-ivory/60 leading-relaxed tracking-wide">

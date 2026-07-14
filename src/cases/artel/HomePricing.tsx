@@ -59,7 +59,7 @@ export function Packages() {
 
       <div className="grid lg:grid-cols-3 gap-8">
         {packages.map((pkg, i) => (
-          <div key={i} className={`flex flex-col border p-10 transition-colors duration-500 ${pkg.highlight ? 'border-gold/60 bg-gold/5 hover:border-gold' : 'border-gold/20 hover:border-gold/50'}`}>
+          <div key={i} className={`flex flex-col border p-10 transition-all duration-500 hover:-translate-y-1 ${pkg.highlight ? 'border-gold/60 bg-gold/5 hover:border-gold shadow-[0_24px_60px_-20px_rgba(201,168,104,0.25)]' : 'border-gold/20 hover:border-gold/50 hover:shadow-[0_24px_48px_-16px_rgba(201,168,104,0.15)]'}`}>
             <div className="w-full h-48 mb-8 overflow-hidden">
                <img src={pkg.img} alt={pkg.name} className="w-full h-full object-cover grayscale opacity-80 transition-transform duration-700 hover:scale-105" />
             </div>
