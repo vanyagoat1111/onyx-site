@@ -79,7 +79,7 @@ export function LeadForm({
             <button
               type="submit"
               disabled={submitting}
-              className="w-full flex items-center justify-center gap-3 rounded-full bg-cobalt text-white font-body font-semibold text-base py-5 mt-2 hover:bg-bone hover:text-ink transition-all duration-300 shadow-[0_10px_40px_rgba(78,124,255,0.28)] disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-3 rounded-full bg-cobalt text-white font-body font-semibold text-base py-5 mt-2 hover:bg-bone hover:text-ink transition-all duration-300 shadow-[0_10px_40px_rgba(78,124,255,0.28)] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
               {submitting ? 'Отправляем…' : submitLabel}
             </button>

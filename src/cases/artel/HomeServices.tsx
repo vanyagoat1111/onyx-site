@@ -59,7 +59,7 @@ export function Services() {
         {services.map((s, i) => (
           <div key={i} className="group cursor-pointer">
             <div className="w-full h-64 overflow-hidden mb-6">
-              <img src={s.img} alt={s.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 grayscale hover:grayscale-0 opacity-80" />
+              <img src={s.img} alt={s.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
             </div>
             <div className="border-b border-gold/20 pb-6 mb-6 group-hover:border-gold transition-colors duration-500">
               <h3 className="font-serif text-2xl mb-4 group-hover:text-gold transition-colors duration-500 italic">{s.title}</h3>
@@ -97,9 +97,20 @@ export function Process() {
 
       <div className="grid md:grid-cols-2 gap-16 relative">
         <div className="hidden md:block">
-          <div className="sticky top-32 h-[70vh] overflow-hidden">
-             <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1000&q=80" alt="Process" className="w-full h-full object-cover grayscale opacity-60" />
-             <div className="absolute inset-0 border border-gold/20 m-4 pointer-events-none" />
+          <div className="sticky top-32 h-[70vh] border border-gold/20 bg-dark relative overflow-hidden flex flex-col justify-between p-10">
+            <div
+              className="absolute inset-0 opacity-[0.05]"
+              style={{
+                backgroundImage: 'linear-gradient(#C9A868 1px, transparent 1px), linear-gradient(90deg, #C9A868 1px, transparent 1px)',
+                backgroundSize: '40px 40px',
+              }}
+            />
+            <div className="absolute -top-1/4 -left-1/4 w-2/3 aspect-square rounded-full bg-gold/10 blur-[100px] pointer-events-none" />
+            <span className="relative uppercase tracking-[0.4em] text-[11px] text-gold/70">От заявки до ключей</span>
+            <div className="relative flex items-end gap-6">
+              <span className="font-serif text-[9rem] leading-none italic text-gold">{steps.length}</span>
+              <span className="font-manrope font-light text-sm uppercase tracking-[0.2em] text-ivory/50 mb-6">этапов<br/>полного<br/>цикла</span>
+            </div>
           </div>
         </div>
 

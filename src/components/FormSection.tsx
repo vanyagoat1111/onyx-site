@@ -30,7 +30,7 @@ export default function FormSection() {
             <div className="relative mt-10">
               <button
                 onClick={() => window.open(BOT_LINK, '_blank')}
-                className="group inline-flex items-center gap-3 rounded-full border border-cobalt/40 bg-cobalt/10 text-bone font-body font-semibold text-sm px-7 py-4 hover:bg-cobalt hover:text-white transition-all duration-300"
+                className="group inline-flex items-center gap-3 rounded-full border border-cobalt/40 bg-cobalt/10 text-bone font-body font-semibold text-sm px-7 py-4 hover:bg-cobalt hover:text-white transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
               >
                 <Search className="w-4 h-4 text-cobalt-soft group-hover:text-white transition-colors" />
                 Получить бесплатный аудит

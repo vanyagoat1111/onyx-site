@@ -1,5 +1,4 @@
 import React from 'react';
-const case2_1 = "/demo-main-2.jpg";
 
 export default function FitnessClub() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -31,11 +30,23 @@ export default function FitnessClub() {
 
       {/* Hero */}
       <section className="relative min-h-[90vh] flex items-center py-24 md:py-32 px-6 md:px-12 overflow-hidden">
-        {/* Background Image & Overlay */}
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-10"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent z-10"></div>
-          <img src={case2_1} alt="Фитнес клуб обложка" className="w-full h-full object-cover object-center grayscale contrast-125" />
+        {/* Graphic Background */}
+        <div className="absolute inset-0 z-0 bg-[#0a0a0a]">
+          <div
+            className="absolute inset-0 opacity-[0.07]"
+            style={{
+              backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
+              backgroundSize: '48px 48px',
+            }}
+          />
+          <div className="absolute -top-1/4 right-0 w-2/3 h-full bg-red-600/20 blur-[140px] rounded-full" />
+          <div className="absolute -bottom-1/3 -left-1/4 w-1/2 h-full bg-orange-500/10 blur-[140px] rounded-full" />
+          <div className="absolute inset-0 flex items-center justify-end overflow-hidden pointer-events-none select-none">
+            <span className="text-[28vw] font-black italic uppercase leading-none text-white/[0.03] tracking-tighter translate-x-1/4">
+              CORE
+            </span>
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]/60" />
         </div>
 
         {/* Content */}
