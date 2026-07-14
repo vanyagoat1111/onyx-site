@@ -64,19 +64,19 @@ export default function FitnessClub() {
 
           {/* Video Placeholder/Stat block */}
           <div className="grid grid-cols-2 gap-4 mt-12 lg:mt-auto mb-12">
-            <div className="bg-neutral-900 border-b-2 border-red-600 p-6 flex flex-col gap-2">
+            <div className="bg-neutral-900 border-b-2 border-red-600 p-6 flex flex-col gap-2 hover:bg-neutral-800 hover:shadow-[0_20px_40px_-16px_rgba(220,38,38,0.35)] transition-all duration-500">
               <div className="text-4xl font-bold text-white">24/7</div>
               <div className="text-xs text-neutral-500 uppercase tracking-widest">Режим работы</div>
             </div>
-            <div className="bg-neutral-900 border-b-2 border-orange-500 p-6 flex flex-col gap-2">
+            <div className="bg-neutral-900 border-b-2 border-orange-500 p-6 flex flex-col gap-2 hover:bg-neutral-800 hover:shadow-[0_20px_40px_-16px_rgba(249,115,22,0.3)] transition-all duration-500">
               <div className="text-4xl font-bold text-white">2000м²</div>
               <div className="text-xs text-neutral-500 uppercase tracking-widest">Площадь клуба</div>
             </div>
-            <div className="bg-neutral-900 border-b-2 border-neutral-700 p-6 flex flex-col gap-2">
+            <div className="bg-neutral-900 border-b-2 border-neutral-700 p-6 flex flex-col gap-2 hover:bg-neutral-800 hover:border-red-500/50 transition-all duration-500">
               <div className="text-4xl font-bold text-white">12</div>
               <div className="text-xs text-neutral-500 uppercase tracking-widest">Зон тренинга</div>
             </div>
-            <div className="bg-neutral-900 border-b-2 border-neutral-700 p-6 flex flex-col gap-2">
+            <div className="bg-neutral-900 border-b-2 border-neutral-700 p-6 flex flex-col gap-2 hover:bg-neutral-800 hover:border-red-500/50 transition-all duration-500">
               <div className="text-4xl font-bold text-white">SPA</div>
               <div className="text-xs text-neutral-500 uppercase tracking-widest">Комплекс</div>
             </div>
@@ -107,7 +107,7 @@ export default function FitnessClub() {
               { title: "Раздевалки", desc: "Просторные шкафчики, электронные замки и премиальная косметика.", num: "07" },
               { title: "Паркинг", desc: "Бесплатная охраняемая парковка на 100 автомобилей.", num: "08" }
             ].map((item, i) => (
-              <div key={i} className="p-8 bg-[#0a0a0a] border border-neutral-800 hover:border-red-500/30 transition-all flex flex-col items-start gap-4 group">
+              <div key={i} className="p-8 bg-gradient-to-b from-neutral-900/60 to-[#0a0a0a] border border-neutral-800 hover:border-red-500/40 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(220,38,38,0.25)] transition-all duration-500 flex flex-col items-start gap-4 group">
                 <div className="text-4xl font-black text-neutral-800 font-mono group-hover:text-red-900/50 transition-colors">{item.num}</div>
                 <h4 className="text-lg font-bold uppercase tracking-wider text-white group-hover:text-red-500 transition-colors">{item.title}</h4>
                 <p className="text-sm text-neutral-500 font-medium">{item.desc}</p>
@@ -136,7 +136,7 @@ export default function FitnessClub() {
               { initials: 'ДК', name: 'Дмитрий Котов', role: 'Бокс, единоборства', rating: 4.8 },
               { initials: 'МВ', name: 'Марина Волкова', role: 'Персональный тренинг', rating: 4.9 },
             ].map((t, i) => (
-              <div key={i} className="bg-neutral-900 border border-neutral-800 hover:border-red-500/40 transition-colors p-6 flex flex-col">
+              <div key={i} className="bg-neutral-900 border border-neutral-800 hover:border-red-500/40 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(220,38,38,0.3)] transition-all duration-500 p-6 flex flex-col">
                 <div className="w-14 h-14 bg-red-600/15 border border-red-500/30 text-red-500 flex items-center justify-center font-black text-lg mb-6 skew-x-[-10deg]">
                   <span className="skew-x-[10deg]">{t.initials}</span>
                 </div>
@@ -185,7 +185,7 @@ export default function FitnessClub() {
               { name: 'Безлимит', price: '75 000', period: 'год', features: ['Круглосуточный доступ 24/7', 'Тренажерный зал', 'Бассейн и SPA без ограничений', 'Групповые программы', 'Гостевые визиты: 5 шт', 'Заморозка: 45 дней'], popular: true },
               { name: 'VIP', price: '120 000', period: 'год', features: ['Доступ 24/7 + VIP раздевалка', 'Индивидуальный шкафчик', 'Ежедневная стирка формы', '12 персональных тренировок', 'Массаж: 5 сеансов', 'Заморозка: 90 дней'] }
             ].map((plan, i) => (
-              <div key={i} className={`relative p-8 border ${plan.popular ? 'border-red-500 bg-red-950/10' : 'border-neutral-800 bg-neutral-900/50'} flex flex-col group hover:border-red-500 transition-colors`}>
+              <div key={i} className={`relative p-8 border ${plan.popular ? 'border-red-500 bg-gradient-to-b from-red-950/20 to-neutral-900/50 shadow-[0_30px_60px_-20px_rgba(220,38,38,0.35)] lg:-translate-y-2' : 'border-neutral-800 bg-neutral-900/50 hover:-translate-y-1'} flex flex-col group hover:border-red-500 hover:shadow-[0_24px_48px_-16px_rgba(220,38,38,0.25)] transition-all duration-500`}>
                 {plan.popular && (
                   <div className="absolute top-0 right-8 -translate-y-1/2 bg-red-600 text-white font-bold text-[10px] uppercase tracking-widest px-3 py-1">
                     Хит продаж
@@ -227,7 +227,7 @@ export default function FitnessClub() {
 
           <div className="space-y-2">
             {[1, 2, 3, 4, 5].map((_, i) => (
-              <div key={i} className="flex flex-col md:flex-row items-center justify-between p-6 bg-neutral-900/50 border border-neutral-800 hover:border-red-500/50 hover:bg-neutral-900 transition-colors group">
+              <div key={i} className="flex flex-col md:flex-row items-center justify-between p-6 bg-neutral-900/50 border border-neutral-800 hover:border-red-500/50 hover:bg-neutral-900 hover:shadow-[0_16px_32px_-16px_rgba(220,38,38,0.2)] transition-all duration-500 group">
                 <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12 w-full md:w-auto text-center md:text-left mb-4 md:mb-0">
                   <div className="text-3xl font-black text-red-500 w-32">{['08:00', '10:30', '14:00', '18:30', '20:00'][i]}</div>
                   <div>
