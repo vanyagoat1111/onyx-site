@@ -166,7 +166,7 @@ export default function Logistics() {
               { title: 'Мультимодальные решения', desc: 'Оптимизация сроков и стоимости за счет комбинирования авто, ж/д и морского транспорта в едином логистическом окне.' },
               { title: 'Таможенное оформление', desc: 'Услуги таможенного брокера по всей территории РФ. Подготовка спецификаций, прохождение очистки за 24 часа без задержек.' },
             ].map((s, i) => (
-              <div key={i} className="group cursor-pointer bg-onyx-900 border border-onyx-800 hover:border-blue-500/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] transition-all clip-diagonal-inverted flex flex-col h-full overflow-hidden p-8">
+              <div key={i} className="group cursor-pointer bg-onyx-900 border border-onyx-800 hover:border-blue-500/50 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(59,130,246,0.25)] transition-all duration-500 clip-diagonal-inverted flex flex-col h-full overflow-hidden p-8">
                 <div className="flex flex-col flex-grow">
                   <h3 className="text-2xl font-bold font-heading uppercase text-white mb-4 group-hover:text-blue-400 transition-colors">{s.title}</h3>
                   <p className="text-neutral-400 leading-relaxed font-light mb-6 flex-grow">{s.desc}</p>
@@ -224,7 +224,7 @@ export default function Logistics() {
                   { title: 'Низкорамные тралы (Негабарит)', count: '15 ед.', spec: 'Грузоподъемность: до 120 тонн / Раздвижные платформы.' },
                   { title: 'Малотоннажный транспорт', count: '35 ед.', spec: 'Объем: 15-40 м³ / Быстрая городская доставка.' },
                 ].map((item, i) => (
-                  <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between border border-onyx-800 bg-onyx-950/50 p-6 group hover:border-blue-500/50 hover:bg-onyx-950 transition-colors">
+                  <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between border border-onyx-800 bg-onyx-950/50 p-6 group hover:border-blue-500/50 hover:bg-onyx-950 hover:shadow-[0_16px_32px_-16px_rgba(59,130,246,0.2)] transition-all duration-500">
                     <div>
                       <h4 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors uppercase font-heading mb-2">{item.title}</h4>
                       <div className="text-sm text-neutral-400 font-medium">{item.spec}</div>
@@ -258,7 +258,7 @@ export default function Logistics() {
               { step: '03', title: 'Транзитный мониторинг', desc: 'Круглосуточный диспетчерский контроль движения 24/7. Водитель всегда на связи, а система автоматически рассылает клиенту ежедневные статусы местоположения.' },
               { step: '04', title: 'Точная сдача груза адресату', desc: 'Своевременная бесшовная доставка в точку назначения, приемка по актам, передача оригинального полного комплекта закрывающих документов.' }
             ].map((p, i) => (
-              <div key={i} className="relative group p-8 lg:p-10 border border-onyx-800 bg-onyx-900 hover:bg-onyx-800 transition-colors clip-diagonal">
+              <div key={i} className="relative group p-8 lg:p-10 border border-onyx-800 bg-onyx-900 hover:bg-onyx-800 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(59,130,246,0.25)] transition-all duration-500 clip-diagonal">
                 <div className="text-7xl font-black font-heading text-onyx-950 group-hover:text-onyx-950/80 transition-colors absolute top-6 right-6 pointer-events-none select-none drop-shadow-[0_2px_2px_rgba(255,255,255,0.05)]">{p.step}</div>
 
                 <div className="w-16 h-16 bg-blue-600 flex items-center justify-center font-bold text-2xl text-white mb-8 relative z-10 clip-diagonal shadow-lg shadow-blue-600/30">
@@ -341,7 +341,7 @@ export default function Logistics() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-onyx-800">
             {['Производство и FMCG', 'Retail и e-commerce', 'Фармацевтика', 'Строительство', 'Автомобильная отрасль', 'Агропромышленный сектор', 'Электроника', 'Химическая промышленность'].map((ind, i) => (
-              <div key={i} className="bg-onyx-900 p-8 flex items-center min-h-[110px] hover:bg-onyx-800 transition-colors">
+              <div key={i} className="bg-onyx-900 p-8 flex items-center min-h-[110px] hover:bg-onyx-800 hover:shadow-[0_16px_32px_-16px_rgba(59,130,246,0.2)] transition-all duration-500">
                 <span className="text-white font-bold uppercase tracking-wide text-sm">{ind}</span>
               </div>
             ))}
