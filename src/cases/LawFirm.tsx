@@ -100,7 +100,7 @@ export default function LawFirm() {
               'Уголовно-правовая защита бизнеса',
               'Недвижимость и строительство'
             ].map((practice, i) => (
-              <div key={i} className="bg-[#131d3b] p-8 md:p-10 border border-[#2a365c] hover:border-[#c9a263] group transition-colors cursor-pointer flex flex-col justify-between h-full min-h-[250px]">
+              <div key={i} className="bg-[#131d3b] p-8 md:p-10 border border-[#2a365c] hover:border-[#c9a263] hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(201,162,99,0.2)] group transition-all duration-500 cursor-pointer flex flex-col justify-between h-full min-h-[250px]">
                 <h3 className="text-xl text-white font-medium mb-6 group-hover:text-[#c9a263] transition-colors">{practice}</h3>
                 <div className="w-10 h-10 border border-[#2a365c] rounded-full flex items-center justify-center text-[#c9a263] group-hover:bg-[#c9a263] group-hover:text-[#0a1023] transition-all">
                   →
@@ -124,7 +124,7 @@ export default function LawFirm() {
               { initials: 'СА', name: 'Соловьёва Анна Игоревна', role: 'Партнёр', spec: 'Банкротство, субсидиарная ответственность', years: 12 },
               { initials: 'МВ', name: 'Марков Виктор Павлович', role: 'Партнёр', spec: 'Арбитраж, налоговые споры', years: 15 },
             ].map((p, i) => (
-              <div key={i} className="bg-[#131d3b] border border-[#2a365c] hover:border-[#c9a263] transition-colors p-8">
+              <div key={i} className="bg-[#131d3b] border border-[#2a365c] hover:border-[#c9a263] hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(201,162,99,0.2)] transition-all duration-500 p-8">
                 <div className="w-16 h-16 rounded-full bg-[#c9a263]/10 border border-[#c9a263]/40 text-[#c9a263] flex items-center justify-center font-medium text-xl mb-6">
                   {p.initials}
                 </div>
@@ -178,7 +178,7 @@ export default function LawFirm() {
               { title: 'Ориентация на результат', desc: 'Мы не просто консультируем о рисках, а предлагаем конкретные правовые решения для достижения экономической цели бизнеса.' },
               { title: 'Прозрачность', desc: 'Честная оценка судебных перспектив до подписания договора. Фиксированная стоимость услуг, исключающая скрытые платежи.' }
             ].map((p, i) => (
-              <div key={i} className="bg-[#131d3b] p-8 border border-[#2a365c] hover:border-[#c9a263] transition-colors flex flex-col min-h-[280px]">
+              <div key={i} className="bg-[#131d3b] p-8 border border-[#2a365c] hover:border-[#c9a263] hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(201,162,99,0.18)] transition-all duration-500 flex flex-col min-h-[280px]">
                 <div className="text-[#c9a263] font-sans font-medium text-lg mb-6 tracking-widest">{`0${i + 1}`}</div>
                 <h3 className="text-xl text-white font-medium mb-4">{p.title}</h3>
                 <p className="font-sans font-light text-sm text-slate-400 flex-grow leading-relaxed">{p.desc}</p>
