@@ -1,4 +1,16 @@
 import React from 'react';
+import { motion } from 'motion/react';
+import { Dumbbell, Flame, Waves, Coffee, Users, Bike, Lock, Car, Plus, Minus, Star } from 'lucide-react';
+
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const fadeUp = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-80px' },
+};
+
+const infraIcons = [Dumbbell, Flame, Waves, Coffee, Users, Bike, Lock, Car];
 
 export default function FitnessClub() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -13,7 +25,7 @@ export default function FitnessClub() {
     <div className="relative min-h-screen bg-[#0a0a0a] text-white font-sport selection:bg-red-500 selection:text-white overflow-hidden">
 
       {/* Header */}
-      <header className="sticky top-0 w-full z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-red-900/30 py-4 px-6 md:px-12 flex justify-between items-center transition-all">
+      <header className="sticky top-0 w-full z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-red-900/30 py-4 pl-20 pr-6 md:pl-24 md:pr-12 flex justify-between items-center transition-all">
         <div className="text-2xl md:text-3xl font-black italic tracking-tight uppercase text-white">
           IRON<span className="text-red-600">CORE</span>
         </div>
@@ -23,7 +35,7 @@ export default function FitnessClub() {
           <a href="#schedule" onClick={(e) => scrollTo(e, 'schedule')} className="hover:text-red-500 transition-colors">Расписание</a>
           <a href="#contacts" onClick={(e) => scrollTo(e, 'contacts')} className="hover:text-red-500 transition-colors">Контакты</a>
         </nav>
-        <button className="bg-red-600 hover:bg-red-700 text-white px-4 md:px-6 py-2 md:py-2.5 font-bold uppercase tracking-wider text-[10px] md:text-xs transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] skew-x-[-10deg]">
+        <button className="bg-red-600 hover:bg-red-700 text-white px-4 md:px-6 py-2 md:py-2.5 font-bold uppercase tracking-wider text-[10px] md:text-xs transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] skew-x-[-10deg] cursor-pointer">
           <div className="skew-x-[10deg]">Стать резидентом</div>
         </button>
       </header>
@@ -52,29 +64,54 @@ export default function FitnessClub() {
         {/* Content */}
         <div className="relative z-20 max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
           <div className="flex flex-col gap-8">
-            <div className="inline-flex items-center gap-2 bg-red-600/10 border border-red-500/30 text-red-500 px-4 py-2 uppercase tracking-widest text-xs font-bold w-fit">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease }}
+              className="inline-flex items-center gap-2 bg-red-600/10 border border-red-500/30 text-red-500 px-4 py-2 uppercase tracking-widest text-xs font-bold w-fit"
+            >
               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
               Новый уровень
-            </div>
-            <h1 className="text-5xl md:text-7xl font-bold text-white uppercase leading-none tracking-tight">
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1, ease }}
+              className="text-5xl md:text-7xl font-bold text-white uppercase leading-none tracking-tight"
+            >
               Не предел,
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-500">а старт</span>
-            </h1>
-            <p className="text-neutral-400 text-lg max-w-md">
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2, ease }}
+              className="text-neutral-400 text-lg max-w-md"
+            >
               Премиальное фитнес-пространство для тех, кто не ищет оправданий. 2000 м² инновационного оборудования и атмосфера, заряженная на результат.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 mt-4">
-              <button className="bg-red-600 hover:bg-white hover:text-onyx-950 text-white px-8 py-4 font-bold uppercase tracking-widest text-sm transition-colors border border-red-600 hover:border-white shadow-[0_0_20px_rgba(220,38,38,0.4)]">
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3, ease }}
+              className="flex flex-col sm:flex-row gap-4 mt-4"
+            >
+              <button className="bg-red-600 hover:bg-white hover:text-onyx-950 text-white px-8 py-4 font-bold uppercase tracking-widest text-sm transition-colors border border-red-600 hover:border-white shadow-[0_0_20px_rgba(220,38,38,0.4)] cursor-pointer">
                 Стать резидентом
               </button>
-              <button className="bg-transparent border border-neutral-700 hover:border-white text-white px-8 py-4 font-bold uppercase tracking-widest text-sm transition-colors">
+              <button className="bg-transparent border border-neutral-700 hover:border-white text-white px-8 py-4 font-bold uppercase tracking-widest text-sm transition-colors cursor-pointer">
                 Расписание
               </button>
-            </div>
+            </motion.div>
           </div>
 
-          {/* Video Placeholder/Stat block */}
-          <div className="grid grid-cols-2 gap-4 mt-12 lg:mt-auto mb-12">
+          {/* Stat block */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease }}
+            className="grid grid-cols-2 gap-4 mt-12 lg:mt-auto mb-12"
+          >
             <div className="bg-neutral-900 border-b-2 border-red-600 p-6 flex flex-col gap-2 hover:bg-neutral-800 hover:shadow-[0_20px_40px_-16px_rgba(220,38,38,0.35)] transition-all duration-500">
               <div className="text-4xl font-bold text-white">24/7</div>
               <div className="text-xs text-neutral-500 uppercase tracking-widest">Режим работы</div>
@@ -91,7 +128,7 @@ export default function FitnessClub() {
               <div className="text-4xl font-bold text-white">SPA</div>
               <div className="text-xs text-neutral-500 uppercase tracking-widest">Комплекс</div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -99,13 +136,13 @@ export default function FitnessClub() {
       <section className="py-32 px-6 md:px-12 bg-neutral-900 border-t border-red-900/30 overflow-hidden relative">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-red-900/10 blur-[100px] pointer-events-none"></div>
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
             <div>
               <h2 className="text-[13px] font-mono text-red-500 uppercase tracking-widest mb-2">Технологии и комфорт</h2>
               <h3 className="text-3xl sm:text-4xl lg:text-[40px] font-black text-white uppercase tracking-tight">Инфраструктура</h3>
             </div>
             <p className="text-neutral-400 max-w-md text-sm md:text-base md:text-right">Все необходимое для продуктивных тренировок и качественного восстановления.</p>
-          </div>
+          </motion.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -117,13 +154,26 @@ export default function FitnessClub() {
               { title: "Сайкл-студия", desc: "Иммерсивные тренировки на байках последнего поколения.", num: "06" },
               { title: "Раздевалки", desc: "Просторные шкафчики, электронные замки и премиальная косметика.", num: "07" },
               { title: "Паркинг", desc: "Бесплатная охраняемая парковка на 100 автомобилей.", num: "08" }
-            ].map((item, i) => (
-              <div key={i} className="p-8 bg-gradient-to-b from-neutral-900/60 to-[#0a0a0a] border border-neutral-800 hover:border-red-500/40 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(220,38,38,0.25)] transition-all duration-500 flex flex-col items-start gap-4 group">
-                <div className="text-4xl font-black text-neutral-800 font-mono group-hover:text-red-900/50 transition-colors">{item.num}</div>
-                <h4 className="text-lg font-bold uppercase tracking-wider text-white group-hover:text-red-500 transition-colors">{item.title}</h4>
-                <p className="text-sm text-neutral-500 font-medium">{item.desc}</p>
-              </div>
-            ))}
+            ].map((item, i) => {
+              const Icon = infraIcons[i];
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.6, delay: (i % 4) * 0.08, ease }}
+                  className="p-8 bg-gradient-to-b from-neutral-900/60 to-[#0a0a0a] border border-neutral-800 hover:border-red-500/40 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(220,38,38,0.25)] transition-all duration-500 flex flex-col items-start gap-4 group"
+                >
+                  <div className="flex items-center justify-between w-full">
+                    <Icon className="w-7 h-7 text-red-600/70 group-hover:text-red-500 transition-colors" strokeWidth={1.5} />
+                    <div className="text-2xl font-black text-neutral-800 font-mono group-hover:text-red-900/50 transition-colors">{item.num}</div>
+                  </div>
+                  <h4 className="text-lg font-bold uppercase tracking-wider text-white group-hover:text-red-500 transition-colors">{item.title}</h4>
+                  <p className="text-sm text-neutral-500 font-medium">{item.desc}</p>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -132,13 +182,13 @@ export default function FitnessClub() {
       <section id="trainers" className="py-32 px-6 md:px-12 bg-[#0a0a0a] relative overflow-hidden">
         <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-red-900/10 blur-[100px] pointer-events-none"></div>
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
             <div>
               <h2 className="text-[13px] font-mono text-red-500 uppercase tracking-widest mb-2">Команда</h2>
               <h3 className="text-3xl sm:text-4xl lg:text-[40px] font-black text-white uppercase tracking-tight">Тренеры</h3>
             </div>
             <p className="text-neutral-400 max-w-md text-sm md:text-base">Сертифицированные специалисты по силовому тренингу, кроссфиту и групповым программам.</p>
-          </div>
+          </motion.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -147,22 +197,30 @@ export default function FitnessClub() {
               { initials: 'ДК', name: 'Дмитрий Котов', role: 'Бокс, единоборства', rating: 4.8 },
               { initials: 'МВ', name: 'Марина Волкова', role: 'Персональный тренинг', rating: 4.9 },
             ].map((t, i) => (
-              <div key={i} className="bg-neutral-900 border border-neutral-800 hover:border-red-500/40 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(220,38,38,0.3)] transition-all duration-500 p-6 flex flex-col">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease }}
+                className="bg-neutral-900 border border-neutral-800 hover:border-red-500/40 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(220,38,38,0.3)] transition-all duration-500 p-6 flex flex-col"
+              >
                 <div className="w-14 h-14 bg-red-600/15 border border-red-500/30 text-red-500 flex items-center justify-center font-black text-lg mb-6 skew-x-[-10deg]">
                   <span className="skew-x-[10deg]">{t.initials}</span>
                 </div>
                 <h4 className="text-lg font-bold uppercase tracking-wider text-white">{t.name}</h4>
                 <p className="text-red-500 text-xs uppercase tracking-widest mt-1 mb-5">{t.role}</p>
                 <div className="mt-auto flex items-center gap-2">
+                  <Star className="w-4 h-4 text-red-500 fill-red-500" />
                   <span className="text-2xl font-black text-white">{t.rating}</span>
                   <span className="text-[10px] uppercase tracking-widest text-neutral-500">Рейтинг тренировок</span>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
           {/* Results infographic */}
-          <div className="mt-20 grid sm:grid-cols-3 gap-px bg-neutral-800 border border-neutral-800">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, delay: 0.2, ease }} className="mt-20 grid sm:grid-cols-3 gap-px bg-neutral-800 border border-neutral-800">
             {[
               { v: '2 400+', l: 'резидентов клуба' },
               { v: '87%', l: 'продлевают карту повторно' },
@@ -173,22 +231,22 @@ export default function FitnessClub() {
                 <div className="text-xs uppercase tracking-widest text-neutral-500">{s.l}</div>
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Pricing */}
       <section id="rates" className="py-32 bg-[#0a0a0a]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
             <div>
               <h2 className="text-sm font-mono text-neutral-500 uppercase tracking-widest mb-2">Клубные карты</h2>
               <h3 className="text-[32px] font-bold text-white uppercase">Тарифы</h3>
             </div>
-            <button className="text-sm font-bold text-white border-b border-red-500 pb-1 hover:text-red-500 transition-colors uppercase tracking-widest self-start md:self-auto">
+            <button className="text-sm font-bold text-white border-b border-red-500 pb-1 hover:text-red-500 transition-colors uppercase tracking-widest self-start md:self-auto cursor-pointer">
               Сравнить опции
             </button>
-          </div>
+          </motion.div>
 
           <div className="grid lg:grid-cols-3 gap-8">
             {[
@@ -196,7 +254,14 @@ export default function FitnessClub() {
               { name: 'Безлимит', price: '75 000', period: 'год', features: ['Круглосуточный доступ 24/7', 'Тренажерный зал', 'Бассейн и SPA без ограничений', 'Групповые программы', 'Гостевые визиты: 5 шт', 'Заморозка: 45 дней'], popular: true },
               { name: 'VIP', price: '120 000', period: 'год', features: ['Доступ 24/7 + VIP раздевалка', 'Индивидуальный шкафчик', 'Ежедневная стирка формы', '12 персональных тренировок', 'Массаж: 5 сеансов', 'Заморозка: 90 дней'] }
             ].map((plan, i) => (
-              <div key={i} className={`relative p-8 border ${plan.popular ? 'border-red-500 bg-gradient-to-b from-red-950/20 to-neutral-900/50 shadow-[0_30px_60px_-20px_rgba(220,38,38,0.35)] lg:-translate-y-2' : 'border-neutral-800 bg-neutral-900/50 hover:-translate-y-1'} flex flex-col group hover:border-red-500 hover:shadow-[0_24px_48px_-16px_rgba(220,38,38,0.25)] transition-all duration-500`}>
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.7, delay: i * 0.12, ease }}
+                className={`relative p-8 border ${plan.popular ? 'border-red-500 bg-gradient-to-b from-red-950/20 to-neutral-900/50 shadow-[0_30px_60px_-20px_rgba(220,38,38,0.35)] lg:-translate-y-2' : 'border-neutral-800 bg-neutral-900/50 hover:-translate-y-1'} flex flex-col group hover:border-red-500 hover:shadow-[0_24px_48px_-16px_rgba(220,38,38,0.25)] transition-all duration-500`}
+              >
                 {plan.popular && (
                   <div className="absolute top-0 right-8 -translate-y-1/2 bg-red-600 text-white font-bold text-[10px] uppercase tracking-widest px-3 py-1">
                     Хит продаж
@@ -215,10 +280,10 @@ export default function FitnessClub() {
                     </li>
                   ))}
                 </ul>
-                <button className={`w-full py-4 font-bold uppercase tracking-wider text-sm transition-all skew-x-[-10deg] ${plan.popular ? 'bg-red-600 hover:bg-red-500 shadow-[0_0_20px_rgba(220,38,38,0.3)]' : 'bg-neutral-800 hover:bg-neutral-700'}`}>
+                <button className={`w-full py-4 font-bold uppercase tracking-wider text-sm transition-all skew-x-[-10deg] cursor-pointer ${plan.popular ? 'bg-red-600 hover:bg-red-500 shadow-[0_0_20px_rgba(220,38,38,0.3)]' : 'bg-neutral-800 hover:bg-neutral-700'}`}>
                    <div className="skew-x-[10deg]">Оформить карту</div>
                 </button>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -227,18 +292,25 @@ export default function FitnessClub() {
       {/* Schedule */}
       <section id="schedule" className="py-32 px-6 md:px-12 bg-[#0a0a0a]">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-8">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-8">
             <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight">Расписание</h2>
             <div className="flex flex-wrap gap-2 p-1 bg-neutral-900 border border-neutral-800 rounded-sm self-start md:self-auto">
-              <button className="px-6 py-2 bg-red-600 text-white font-bold uppercase tracking-widest text-xs">Сегодня</button>
-              <button className="px-6 py-2 bg-transparent hover:bg-neutral-800 text-neutral-400 font-bold uppercase tracking-widest text-xs transition-colors">Завтра</button>
-              <button className="px-6 py-2 bg-transparent hover:bg-neutral-800 text-neutral-400 font-bold uppercase tracking-widest text-xs transition-colors">Неделя</button>
+              <button className="px-6 py-2 bg-red-600 text-white font-bold uppercase tracking-widest text-xs cursor-pointer">Сегодня</button>
+              <button className="px-6 py-2 bg-transparent hover:bg-neutral-800 text-neutral-400 font-bold uppercase tracking-widest text-xs transition-colors cursor-pointer">Завтра</button>
+              <button className="px-6 py-2 bg-transparent hover:bg-neutral-800 text-neutral-400 font-bold uppercase tracking-widest text-xs transition-colors cursor-pointer">Неделя</button>
             </div>
-          </div>
+          </motion.div>
 
           <div className="space-y-2">
             {[1, 2, 3, 4, 5].map((_, i) => (
-              <div key={i} className="flex flex-col md:flex-row items-center justify-between p-6 bg-neutral-900/50 border border-neutral-800 hover:border-red-500/50 hover:bg-neutral-900 hover:shadow-[0_16px_32px_-16px_rgba(220,38,38,0.2)] transition-all duration-500 group">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.5, delay: i * 0.06, ease }}
+                className="flex flex-col md:flex-row items-center justify-between p-6 bg-neutral-900/50 border border-neutral-800 hover:border-red-500/50 hover:bg-neutral-900 hover:shadow-[0_16px_32px_-16px_rgba(220,38,38,0.2)] transition-all duration-500 group"
+              >
                 <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12 w-full md:w-auto text-center md:text-left mb-4 md:mb-0">
                   <div className="text-3xl font-black text-red-500 w-32">{['08:00', '10:30', '14:00', '18:30', '20:00'][i]}</div>
                   <div>
@@ -251,11 +323,11 @@ export default function FitnessClub() {
                     <div className="text-sm font-bold uppercase tracking-widest text-neutral-300">{['Алексей С.', 'Елена Р.', 'Дмитрий К.', 'Марина В.', 'Елена Р.'][i]}</div>
                     <div className="text-xs text-neutral-500 mt-1">Тренер</div>
                   </div>
-                  <button className="w-full md:w-auto px-8 py-3 border border-red-600 text-red-500 hover:bg-red-600 hover:text-white font-bold uppercase tracking-widest text-xs transition-colors skew-x-[-10deg]">
+                  <button className="w-full md:w-auto px-8 py-3 border border-red-600 text-red-500 hover:bg-red-600 hover:text-white font-bold uppercase tracking-widest text-xs transition-colors skew-x-[-10deg] cursor-pointer">
                     <div className="skew-x-[10deg]">Записаться</div>
                   </button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -264,10 +336,10 @@ export default function FitnessClub() {
       {/* FAQ */}
       <section className="py-32 px-6 md:px-12 bg-[#0a0a0a] border-t border-red-900/30">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-center mb-16">
             <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-4">FAQ</h2>
             <p className="text-neutral-400">Популярные вопросы о работе клуба и абонементах.</p>
-          </div>
+          </motion.div>
           <div className="space-y-4">
             {[
               { q: "Как проходит первая тренировка?", a: "Первая тренировка вводная. Под руководством дежурного тренера вы пройдете фитнес-тестирование, поставите технику работы на тренажерах и получите персональные рекомендации." },
@@ -276,15 +348,25 @@ export default function FitnessClub() {
               { q: "Сколько длится групповое занятие?", a: "От 45 до 60 минут. Точное время и уровень подготовки указаны в расписании клуба." },
               { q: "Можно ли оплатить карту в рассрочку?", a: "У нас есть беспроцентная рассрочка от клуба на 3, 6 и 12 месяцев. Оформление занимает 5 минут по одному документу." }
             ].map((item, i) => (
-              <details key={i} className="group bg-neutral-900 border border-neutral-800 p-6 md:p-8 open:border-red-500/50 transition-colors cursor-pointer">
+              <motion.details
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: i * 0.06, ease }}
+                className="group bg-neutral-900 border border-neutral-800 p-6 md:p-8 open:border-red-500/50 transition-colors cursor-pointer"
+              >
                 <summary className="font-bold text-lg uppercase tracking-wider marker:content-none flex justify-between items-center outline-none hover:text-red-500 transition-colors">
                   {item.q}
-                  <span className="text-red-600 group-open:rotate-45 transition-transform text-3xl font-light leading-none">+</span>
+                  <span className="text-red-600 shrink-0 ml-4">
+                    <Plus className="w-6 h-6 group-open:hidden" />
+                    <Minus className="w-6 h-6 hidden group-open:block" />
+                  </span>
                 </summary>
                 <div className="mt-6 text-neutral-400 text-sm leading-relaxed border-t border-neutral-800 pt-6">
                   {item.a}
                 </div>
-              </details>
+              </motion.details>
             ))}
           </div>
         </div>
@@ -292,15 +374,15 @@ export default function FitnessClub() {
 
       {/* Footer / CTA form */}
       <section id="contacts" className="py-24 px-6 md:px-12 bg-neutral-900 border-b border-neutral-800 relative">
-        <div className="max-w-4xl mx-auto text-center">
+        <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight mb-8">Запишись на первую тренировку</h2>
           <form className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto">
              <input type="tel" placeholder="+7 (___) ___-__-__" className="flex-1 bg-[#0a0a0a] border border-neutral-800 px-6 py-4 text-white focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600 transition-all font-mono" />
-             <button type="button" className="bg-red-600 hover:bg-red-500 text-white px-8 py-4 font-black uppercase tracking-wider text-sm transition-all skew-x-[-10deg]">
+             <button type="button" className="bg-red-600 hover:bg-red-500 text-white px-8 py-4 font-black uppercase tracking-wider text-sm transition-all skew-x-[-10deg] cursor-pointer">
                 <div className="skew-x-[10deg]">Жду звонка</div>
              </button>
           </form>
-        </div>
+        </motion.div>
       </section>
 
       {/* Footer */}
@@ -310,7 +392,6 @@ export default function FitnessClub() {
             <div className="text-2xl font-black text-white tracking-widest uppercase mb-4">IRON<span className="text-red-600">CORE</span></div>
             <p className="text-sm font-medium leading-relaxed mb-6">Бескомпромиссный подход к тренировкам в клубе IRONCORE. Премиальное оборудование, лучшие тренеры и атмосфера результата.</p>
             <div className="flex gap-4 border-l border-red-600 pl-4">
-               {/* Social Icons Placeholder */}
                <div className="hover:text-red-500 font-bold uppercase tracking-wider cursor-pointer text-sm transition-colors text-white">ВК</div>
                <div className="hover:text-red-500 font-bold uppercase tracking-wider cursor-pointer text-sm transition-colors text-white">ТГ</div>
                <div className="hover:text-red-500 font-bold uppercase tracking-wider cursor-pointer text-sm transition-colors text-white">IG</div>

@@ -1,5 +1,18 @@
 import React from 'react';
+import { motion } from 'motion/react';
+import { Truck, Package, Boxes, Snowflake, Ship, FileCheck, ArrowRight, ShieldCheck } from 'lucide-react';
+
 const case3_1 = "/demo-main-3.jpg";
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const fadeUp = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-80px' },
+};
+
+const serviceIcons = [Truck, Package, Boxes, Snowflake, Ship, FileCheck];
+
 const MapPinIcon = () => (
   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
 );
@@ -24,7 +37,7 @@ export default function Logistics() {
 
       {/* HEADER */}
       <header className="sticky top-0 z-50 bg-onyx-950/80 backdrop-blur-md border-b border-white/5">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
+        <div className="max-w-[1400px] mx-auto pl-20 pr-6 md:pl-24 lg:pr-12 h-20 flex items-center justify-between">
           <div className="text-2xl font-black font-heading tracking-tight flex items-center gap-2">
             <span className="text-white">PRIME</span><span className="text-blue-500">LOGISTICS</span>
           </div>
@@ -40,7 +53,7 @@ export default function Logistics() {
               <span className="text-xs text-neutral-400 font-medium">Бесплатный звонок по РФ</span>
               <a href="tel:88000000000" className="text-white font-bold hover:text-blue-400 transition-colors">8 (800) 500-00-00</a>
             </div>
-            <button className="bg-blue-600 hover:bg-blue-500 text-white px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-sm font-bold uppercase tracking-wider transition-all clip-diagonal">
+            <button className="bg-blue-600 hover:bg-blue-500 text-white px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-sm font-bold uppercase tracking-wider transition-all clip-diagonal cursor-pointer">
               Расчет стоимости
             </button>
           </div>
@@ -60,34 +73,59 @@ export default function Logistics() {
         <div className="max-w-[1400px] mx-auto w-full relative z-20">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="flex flex-col gap-8">
-              <div className="inline-flex items-center gap-3 bg-blue-500/10 border border-blue-500/30 px-4 py-2 w-fit backdrop-blur-sm">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease }}
+                className="inline-flex items-center gap-3 bg-blue-500/10 border border-blue-500/30 px-4 py-2 w-fit backdrop-blur-sm"
+              >
                 <div className="w-2 h-2 rounded-none bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
                 <span className="text-sm font-bold uppercase tracking-wider text-blue-400">Международная логистика 3PL</span>
-              </div>
+              </motion.div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black font-heading uppercase tracking-tight text-white leading-[1.1]">
+              <motion.h1
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.1, ease }}
+                className="text-4xl sm:text-5xl lg:text-7xl font-black font-heading uppercase tracking-tight text-white leading-[1.1]"
+              >
                 Доставка грузов<br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400 drop-shadow-[0_0_20px_rgba(59,130,246,0.3)]">
                   без задержек<br/>и скрытых платежей
                 </span>
-              </h1>
+              </motion.h1>
 
-              <p className="text-lg lg:text-xl text-neutral-300 max-w-xl font-light leading-relaxed">
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.2, ease }}
+                className="text-lg lg:text-xl text-neutral-300 max-w-xl font-light leading-relaxed"
+              >
                 Собственный автопарк из 230 единиц техники, современные кросс-доки полного цикла и 100% материальная ответственность по договору. Обеспечиваем бесперебойные поставки для среднего и крупного бизнеса.
-              </p>
+              </motion.p>
 
-              <div className="flex flex-col sm:flex-row gap-4 mt-4">
-                <button className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 font-bold uppercase tracking-wider transition-all text-center clip-diagonal shadow-[0_0_30px_rgba(59,130,246,0.3)] border border-blue-400/50 hover:border-transparent">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.3, ease }}
+                className="flex flex-col sm:flex-row gap-4 mt-4"
+              >
+                <button className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 font-bold uppercase tracking-wider transition-all text-center clip-diagonal shadow-[0_0_30px_rgba(59,130,246,0.3)] border border-blue-400/50 hover:border-transparent cursor-pointer">
                   Рассчитать ставку
                 </button>
-                <button className="bg-onyx-900 border border-onyx-700 hover:border-blue-500/50 hover:bg-onyx-800 text-white px-8 py-4 font-bold uppercase tracking-wider transition-all text-center clip-diagonal">
+                <button className="bg-onyx-900 border border-onyx-700 hover:border-blue-500/50 hover:bg-onyx-800 text-white px-8 py-4 font-bold uppercase tracking-wider transition-all text-center clip-diagonal cursor-pointer">
                   Скачать презентацию
                 </button>
-              </div>
+              </motion.div>
             </div>
 
             {/* QUICK CALCULATOR WIDGET */}
-            <div className="bg-onyx-900/80 backdrop-blur-xl border border-onyx-700 p-8 clip-diagonal-inverted shadow-2xl relative lg:ml-auto w-full max-w-md">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.25, ease }}
+              className="bg-onyx-900/80 backdrop-blur-xl border border-onyx-700 p-8 clip-diagonal-inverted shadow-2xl relative lg:ml-auto w-full max-w-md"
+            >
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-[50px] pointer-events-none" />
               <h3 className="text-2xl font-bold font-heading uppercase text-white mb-6">Экспресс-расчет</h3>
 
@@ -113,11 +151,11 @@ export default function Logistics() {
                   </div>
                 </div>
 
-                <button className="w-full bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 font-bold uppercase tracking-wider transition-all text-center mt-4 clip-diagonal border border-blue-400/50 hover:border-transparent">
+                <button className="w-full bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 font-bold uppercase tracking-wider transition-all text-center mt-4 clip-diagonal border border-blue-400/50 hover:border-transparent cursor-pointer">
                   Узнать стоимость
                 </button>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -125,24 +163,19 @@ export default function Logistics() {
       {/* STRATEGIC NUMBERS */}
       <section className="bg-[linear-gradient(to_bottom,#0b1536_0%,#11204d_100%)] border-b border-onyx-800 py-20 relative z-30">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 divide-x divide-onyx-800/0 lg:divide-onyx-800">
-            <div className="flex flex-col gap-2 relative">
-              <div className="text-4xl lg:text-5xl xl:text-6xl font-black font-heading text-white tracking-tighter drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">230+</div>
-              <div className="text-sm lg:text-base text-neutral-400 font-medium leading-tight mt-2">Единиц собственного автопарка класса Евро-6</div>
-            </div>
-            <div className="flex flex-col gap-2 lg:pl-12 relative">
-              <div className="text-4xl lg:text-5xl xl:text-6xl font-black font-heading text-white tracking-tighter drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">14</div>
-              <div className="text-sm lg:text-base text-neutral-400 font-medium leading-tight mt-2">Собственных складских 3PL-комплексов A-класса</div>
-            </div>
-            <div className="flex flex-col gap-2 lg:pl-12 relative">
-              <div className="text-4xl lg:text-5xl xl:text-6xl font-black font-heading text-white tracking-tighter drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">12 000+</div>
-              <div className="text-sm lg:text-base text-neutral-400 font-medium leading-tight mt-2">Выполненных рейсов ежегодно по РФ и миру</div>
-            </div>
-            <div className="flex flex-col gap-2 lg:pl-12 relative">
-              <div className="text-4xl lg:text-5xl xl:text-6xl font-black font-heading text-white tracking-tighter drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">99.8%</div>
-              <div className="text-sm lg:text-base text-neutral-400 font-medium leading-tight mt-2">Показатель сохранности груза (SLA)</div>
-            </div>
-          </div>
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 divide-x divide-onyx-800/0 lg:divide-onyx-800">
+            {[
+              { v: '230+', l: 'Единиц собственного автопарка класса Евро-6' },
+              { v: '14', l: 'Собственных складских 3PL-комплексов A-класса' },
+              { v: '12 000+', l: 'Выполненных рейсов ежегодно по РФ и миру' },
+              { v: '99.8%', l: 'Показатель сохранности груза (SLA)' },
+            ].map((s, i) => (
+              <div key={i} className={`flex flex-col gap-2 relative ${i > 0 ? 'lg:pl-12' : ''}`}>
+                <div className="text-4xl lg:text-5xl xl:text-6xl font-black font-heading text-white tracking-tighter drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">{s.v}</div>
+                <div className="text-sm lg:text-base text-neutral-400 font-medium leading-tight mt-2">{s.l}</div>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
@@ -152,7 +185,7 @@ export default function Logistics() {
         <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-blue-500/5 blur-[120px] pointer-events-none" />
 
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
-          <div className="flex flex-col lg:flex-row justify-between items-end gap-8 mb-16">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="flex flex-col lg:flex-row justify-between items-end gap-8 mb-16">
             <div className="max-w-2xl">
               <div className="text-blue-500 font-bold uppercase tracking-wider mb-4 flex items-center gap-3">
                 <div className="w-8 h-1 bg-blue-500" />
@@ -163,10 +196,10 @@ export default function Logistics() {
                 Предоставляем комплексные услуги по перевозке стандартных, температурных и проектных грузов. Берем на себя всю цепочку поставок от двери до двери.
               </p>
             </div>
-            <button className="bg-transparent border border-onyx-700 hover:border-blue-500/50 hover:bg-onyx-800 text-white px-8 py-4 font-bold uppercase tracking-wider transition-all text-center clip-diagonal shrink-0">
+            <button className="bg-transparent border border-onyx-700 hover:border-blue-500/50 hover:bg-onyx-800 text-white px-8 py-4 font-bold uppercase tracking-wider transition-all text-center clip-diagonal shrink-0 cursor-pointer">
               Смотреть все услуги
             </button>
-          </div>
+          </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
@@ -176,18 +209,29 @@ export default function Logistics() {
               { title: 'Рефрижераторные перевозки', desc: 'Строгое поддержание температурного режима от -25°C до +25°C. Оснащено термописцами и системами онлайн контроля.' },
               { title: 'Мультимодальные решения', desc: 'Оптимизация сроков и стоимости за счет комбинирования авто, ж/д и морского транспорта в едином логистическом окне.' },
               { title: 'Таможенное оформление', desc: 'Услуги таможенного брокера по всей территории РФ. Подготовка спецификаций, прохождение очистки за 24 часа без задержек.' },
-            ].map((s, i) => (
-              <div key={i} className="group cursor-pointer bg-onyx-900 border border-onyx-800 hover:border-blue-500/50 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(59,130,246,0.25)] transition-all duration-500 clip-diagonal-inverted flex flex-col h-full overflow-hidden p-8">
-                <div className="flex flex-col flex-grow">
-                  <h3 className="text-2xl font-bold font-heading uppercase text-white mb-4 group-hover:text-blue-400 transition-colors">{s.title}</h3>
-                  <p className="text-neutral-400 leading-relaxed font-light mb-6 flex-grow">{s.desc}</p>
-                  <div className="flex justify-between items-center text-sm font-bold uppercase tracking-wider text-blue-500 mt-auto">
-                    <span>Подробнее</span>
-                    <span className="group-hover:translate-x-2 transition-transform">→</span>
+            ].map((s, i) => {
+              const Icon = serviceIcons[i];
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.6, delay: (i % 3) * 0.1, ease }}
+                  className="group cursor-pointer bg-onyx-900 border border-onyx-800 hover:border-blue-500/50 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(59,130,246,0.25)] transition-all duration-500 clip-diagonal-inverted flex flex-col h-full overflow-hidden p-8"
+                >
+                  <div className="flex flex-col flex-grow">
+                    <Icon className="w-8 h-8 text-blue-500 mb-5" strokeWidth={1.5} />
+                    <h3 className="text-2xl font-bold font-heading uppercase text-white mb-4 group-hover:text-blue-400 transition-colors">{s.title}</h3>
+                    <p className="text-neutral-400 leading-relaxed font-light mb-6 flex-grow">{s.desc}</p>
+                    <div className="flex justify-between items-center text-sm font-bold uppercase tracking-wider text-blue-500 mt-auto">
+                      <span>Подробнее</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -198,7 +242,13 @@ export default function Logistics() {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10 w-full">
 
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-             <div className="relative order-2 lg:order-1 pt-12 lg:pt-0">
+             <motion.div
+               initial={{ opacity: 0, x: -24 }}
+               whileInView={{ opacity: 1, x: 0 }}
+               viewport={{ once: true, margin: '-100px' }}
+               transition={{ duration: 0.8, ease }}
+               className="relative order-2 lg:order-1 pt-12 lg:pt-0"
+             >
                <div className="absolute inset-x-0 -bottom-12 top-1/4 bg-blue-600/10 blur-[80px] -z-10 rounded-full" />
                <div className="relative border-2 border-onyx-700 p-3 bg-onyx-800 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
                  <img src={case3_1} alt="Логистическая компания иллюстрация" className="w-full h-auto object-cover" />
@@ -208,25 +258,25 @@ export default function Logistics() {
                <div className="absolute -top-8 -right-8 lg:-right-12 bg-onyx-950 border border-onyx-700 p-6 shadow-2xl max-w-[280px] hidden sm:block">
                  <div className="flex items-center gap-4 mb-3">
                     <div className="w-12 h-12 bg-blue-600/20 border border-blue-500/50 flex items-center justify-center text-blue-500">
-                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <ShieldCheck className="w-6 h-6" strokeWidth={2} />
                     </div>
                     <div className="text-white font-black text-2xl font-heading leading-none uppercase">ГЛОНАСС<br/><span className="text-blue-500 text-sm">Онлайн-трекинг</span></div>
                  </div>
                  <p className="text-neutral-400 text-xs font-medium leading-relaxed">Личный кабинет клиента интегрирован с системами мониторинга в реальном времени. Знайте, где ваш груз 24/7.</p>
                </div>
-            </div>
+            </motion.div>
 
             <div className="order-1 lg:order-2">
-              <div className="text-blue-500 font-bold uppercase tracking-wider mb-4 flex items-center gap-3">
+              <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-blue-500 font-bold uppercase tracking-wider mb-4 flex items-center gap-3">
                 <div className="w-8 h-1 bg-blue-500" /> Собственный ресурс
-              </div>
-              <h2 className="text-4xl lg:text-6xl font-black font-heading uppercase text-white mb-8">
+              </motion.div>
+              <motion.h2 {...fadeUp} transition={{ duration: 0.7, delay: 0.05, ease }} className="text-4xl lg:text-6xl font-black font-heading uppercase text-white mb-8">
                 Премиальный<br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400">Автопарк</span>
-              </h2>
-              <p className="text-neutral-300 text-lg mb-12 font-light leading-relaxed">
+              </motion.h2>
+              <motion.p {...fadeUp} transition={{ duration: 0.7, delay: 0.1, ease }} className="text-neutral-300 text-lg mb-12 font-light leading-relaxed">
                 Мы не зависим от посредников и арендной техники. В нашем распоряжении 230 современных тягачей Mercedes-Benz Actros, VOLVO FH и Scania R-серии не старше 3х лет. Вся техника проходит регулярное обслуживание на собственных авторизованных СТО.
-              </p>
+              </motion.p>
 
               <div className="space-y-4">
                 {[
@@ -235,7 +285,14 @@ export default function Logistics() {
                   { title: 'Низкорамные тралы (Негабарит)', count: '15 ед.', spec: 'Грузоподъемность: до 120 тонн / Раздвижные платформы.' },
                   { title: 'Малотоннажный транспорт', count: '35 ед.', spec: 'Объем: 15-40 м³ / Быстрая городская доставка.' },
                 ].map((item, i) => (
-                  <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between border border-onyx-800 bg-onyx-950/50 p-6 group hover:border-blue-500/50 hover:bg-onyx-950 hover:shadow-[0_16px_32px_-16px_rgba(59,130,246,0.2)] transition-all duration-500">
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-60px' }}
+                    transition={{ duration: 0.5, delay: i * 0.08, ease }}
+                    className="flex flex-col sm:flex-row sm:items-center justify-between border border-onyx-800 bg-onyx-950/50 p-6 group hover:border-blue-500/50 hover:bg-onyx-950 hover:shadow-[0_16px_32px_-16px_rgba(59,130,246,0.2)] transition-all duration-500"
+                  >
                     <div>
                       <h4 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors uppercase font-heading mb-2">{item.title}</h4>
                       <div className="text-sm text-neutral-400 font-medium">{item.spec}</div>
@@ -243,7 +300,7 @@ export default function Logistics() {
                     <div className="text-blue-500 font-black font-heading tracking-tighter text-3xl mt-4 sm:mt-0 px-4 py-2 bg-onyx-900 border border-onyx-800 text-center min-w-[120px]">
                       {item.count}
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -254,13 +311,13 @@ export default function Logistics() {
       {/* PROCESS */}
       <section className="py-24 lg:py-32 bg-onyx-950 relative">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
-          <div className="text-center mb-20 max-w-3xl mx-auto flex flex-col items-center">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-center mb-20 max-w-3xl mx-auto flex flex-col items-center">
             <div className="text-blue-500 font-bold uppercase tracking-wider mb-4 flex items-center gap-3">
               <div className="w-8 h-1 bg-blue-500" /> Этапы работы <div className="w-8 h-1 bg-blue-500" />
             </div>
             <h2 className="text-4xl lg:text-6xl font-black font-heading uppercase text-white mb-6">Отлаженный механизм</h2>
             <p className="text-neutral-400 text-lg">Прозрачный логистический процесс стандарта 3PL, исключающий сбои и простои на каждом этапе жизненного цикла заявки.</p>
-          </div>
+          </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -269,7 +326,14 @@ export default function Logistics() {
               { step: '03', title: 'Транзитный мониторинг', desc: 'Круглосуточный диспетчерский контроль движения 24/7. Водитель всегда на связи, а система автоматически рассылает клиенту ежедневные статусы местоположения.' },
               { step: '04', title: 'Точная сдача груза адресату', desc: 'Своевременная бесшовная доставка в точку назначения, приемка по актам, передача оригинального полного комплекта закрывающих документов.' }
             ].map((p, i) => (
-              <div key={i} className="relative group p-8 lg:p-10 border border-onyx-800 bg-onyx-900 hover:bg-onyx-800 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(59,130,246,0.25)] transition-all duration-500 clip-diagonal">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease }}
+                className="relative group p-8 lg:p-10 border border-onyx-800 bg-onyx-900 hover:bg-onyx-800 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(59,130,246,0.25)] transition-all duration-500 clip-diagonal"
+              >
                 <div className="text-7xl font-black font-heading text-onyx-950 group-hover:text-onyx-950/80 transition-colors absolute top-6 right-6 pointer-events-none select-none drop-shadow-[0_2px_2px_rgba(255,255,255,0.05)]">{p.step}</div>
 
                 <div className="w-16 h-16 bg-blue-600 flex items-center justify-center font-bold text-2xl text-white mb-8 relative z-10 clip-diagonal shadow-lg shadow-blue-600/30">
@@ -279,7 +343,7 @@ export default function Logistics() {
                 <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-tight relative z-10 font-heading leading-tight">{p.title}</h3>
                 <div className="w-10 h-0.5 bg-blue-500 mb-6" />
                 <p className="text-neutral-400 leading-relaxed relative z-10 text-sm font-medium">{p.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -289,7 +353,7 @@ export default function Logistics() {
       <section id="geography" className="py-24 lg:py-32 bg-onyx-900 relative border-t border-onyx-800">
 
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10 grid lg:grid-cols-12 gap-16 lg:gap-24 items-center">
-          <div className="lg:col-span-6">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="lg:col-span-6">
             <div className="text-blue-500 font-bold uppercase tracking-wider mb-4 flex items-center gap-3">
               <div className="w-8 h-1 bg-blue-500" /> Масштаб
             </div>
@@ -311,9 +375,15 @@ export default function Logistics() {
               <div className="bg-onyx-950 border border-onyx-700 px-6 py-3 font-bold text-white clip-diagonal hover:border-blue-500 transition-colors cursor-pointer">Владивосток</div>
               <div className="bg-blue-600 border border-blue-500 text-white px-6 py-3 font-bold clip-diagonal hover:bg-blue-500 transition-colors cursor-pointer">+ 12 терминалов</div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="lg:col-span-6 bg-onyx-950 p-8 lg:p-14 border border-onyx-700 shadow-[0_0_50px_rgba(0,0,0,0.5)] relative clip-diagonal">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.8, delay: 0.15, ease }}
+            className="lg:col-span-6 bg-onyx-950 p-8 lg:p-14 border border-onyx-700 shadow-[0_0_50px_rgba(0,0,0,0.5)] relative clip-diagonal"
+          >
             <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 blur-[100px] pointer-events-none" />
             <h3 className="text-3xl font-black font-heading uppercase text-white mb-8 border-b border-onyx-800 pb-6">Комплексная 3PL Логистика</h3>
             <ul className="space-y-8">
@@ -333,7 +403,7 @@ export default function Logistics() {
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -341,7 +411,7 @@ export default function Logistics() {
       <section id="industries" className="py-24 lg:py-32 bg-[#0b1536] relative overflow-hidden">
         <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-blue-500/5 blur-[120px] pointer-events-none" />
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
-          <div className="flex flex-col lg:flex-row justify-between items-end gap-8 mb-16">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="flex flex-col lg:flex-row justify-between items-end gap-8 mb-16">
             <div className="max-w-2xl">
               <div className="text-blue-500 font-bold uppercase tracking-wider mb-4 flex items-center gap-3">
                 <div className="w-8 h-1 bg-blue-500" />
@@ -349,12 +419,19 @@ export default function Logistics() {
               </div>
               <h2 className="text-4xl lg:text-6xl font-black font-heading uppercase text-white mb-6">Отрасли, с которыми мы работаем</h2>
             </div>
-          </div>
+          </motion.div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-onyx-800">
             {['Производство и FMCG', 'Retail и e-commerce', 'Фармацевтика', 'Строительство', 'Автомобильная отрасль', 'Агропромышленный сектор', 'Электроника', 'Химическая промышленность'].map((ind, i) => (
-              <div key={i} className="bg-onyx-900 p-8 flex items-center min-h-[110px] hover:bg-onyx-800 hover:shadow-[0_16px_32px_-16px_rgba(59,130,246,0.2)] transition-all duration-500">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.5, delay: (i % 4) * 0.08, ease }}
+                className="bg-onyx-900 p-8 flex items-center min-h-[110px] hover:bg-onyx-800 hover:shadow-[0_16px_32px_-16px_rgba(59,130,246,0.2)] transition-all duration-500"
+              >
                 <span className="text-white font-bold uppercase tracking-wide text-sm">{ind}</span>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -363,7 +440,7 @@ export default function Logistics() {
       {/* DOCUMENTS & INSURANCE + CASE STUDY */}
       <section id="advantages" className="py-24 lg:py-32 bg-onyx-900 border-y border-onyx-800 relative overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10 grid lg:grid-cols-2 gap-16">
-          <div>
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }}>
             <div className="text-blue-500 font-bold uppercase tracking-wider mb-4 flex items-center gap-3">
               <div className="w-8 h-1 bg-blue-500" /> Гарантии
             </div>
@@ -383,9 +460,15 @@ export default function Logistics() {
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
-          <div className="bg-onyx-950 border border-onyx-700 p-10 lg:p-12 flex flex-col justify-between clip-diagonal-inverted">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.7, delay: 0.15, ease }}
+            className="bg-onyx-950 border border-onyx-700 p-10 lg:p-12 flex flex-col justify-between clip-diagonal-inverted"
+          >
             <div>
               <div className="text-blue-500 font-bold uppercase tracking-wider mb-6 text-sm">Кейс клиента</div>
               <p className="text-2xl lg:text-3xl text-white font-heading font-bold leading-snug mb-8">
@@ -402,7 +485,7 @@ export default function Logistics() {
                 <div className="text-neutral-500 text-sm">Федеральная розничная сеть</div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -410,7 +493,7 @@ export default function Logistics() {
       <section className="py-24 lg:py-32 bg-blue-600 relative overflow-hidden clip-diagonal-inverted max-w-[1920px] mx-auto hidden sm:block">
         <div className="absolute inset-0 bg-onyx-950 mix-blend-color-burn opacity-50" />
         <div className="absolute inset-0 industrial-grid opacity-30 mix-blend-overlay" />
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10 text-center flex flex-col items-center">
+        <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10 text-center flex flex-col items-center">
           <h2 className="text-4xl lg:text-6xl font-black font-heading uppercase text-white mb-8 tracking-tight drop-shadow-xl">
             Требуется надежный логистический партнер?
           </h2>
@@ -419,12 +502,12 @@ export default function Logistics() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 w-full max-w-2xl mx-auto relative z-20">
              <input type="text" placeholder="Введите ваш номер телефона" className="flex-1 bg-white px-8 py-5 text-onyx-950 font-bold focus:outline-none focus:ring-4 focus:ring-white/30 clip-diagonal placeholder:text-neutral-500 placeholder:font-normal text-lg" />
-             <button className="bg-onyx-950 hover:bg-onyx-900 border border-onyx-950 hover:border-white/20 text-white px-10 py-5 font-bold text-lg uppercase tracking-wider transition-all clip-diagonal shadow-2xl">
+             <button className="bg-onyx-950 hover:bg-onyx-900 border border-onyx-950 hover:border-white/20 text-white px-10 py-5 font-bold text-lg uppercase tracking-wider transition-all clip-diagonal shadow-2xl cursor-pointer">
                 Заказать аудит
              </button>
           </div>
           <div className="text-blue-200 text-sm mt-6 font-medium">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности.</div>
-        </div>
+        </motion.div>
       </section>
 
       {/* FOOTER */}

@@ -1,5 +1,18 @@
 import React from 'react';
+import { motion } from 'motion/react';
+import { Syringe, Sparkles, ShieldCheck, Smile, Stethoscope, HeartPulse, Moon, Cpu, FileCheck2, Users, Wallet, ArrowRight, Plus, Minus } from 'lucide-react';
+
 const case1_1 = "/demo-main-1.jpg";
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const fadeUp = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-80px' },
+};
+
+const serviceIcons = [Syringe, Sparkles, ShieldCheck, Smile, Stethoscope, HeartPulse];
+const advantageIcons = [ShieldCheck, Moon, Cpu, FileCheck2, Users, Wallet];
 
 export default function DentalClinic() {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -14,7 +27,7 @@ export default function DentalClinic() {
     <div className="relative min-h-screen bg-white text-slate-800 font-outfit overflow-hidden">
 
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-sky-100 py-4 px-6 md:px-12 flex justify-between items-center">
+      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-sky-100 py-4 pl-20 pr-6 md:pl-24 md:pr-12 flex justify-between items-center">
         <div className="text-2xl font-serif font-bold text-sky-900 tracking-tight">Dental<span className="text-sky-500">Art</span></div>
         <nav className="hidden md:flex gap-8 text-sm font-medium text-slate-600">
           <a href="#services" onClick={(e) => scrollTo(e, 'services')} className="hover:text-sky-600 transition-colors">Услуги</a>
@@ -29,7 +42,7 @@ export default function DentalClinic() {
             <div className="text-sm font-bold text-slate-800">+7 (495) 123-45-67</div>
             <div className="text-xs text-slate-500">Ежедневно 09:00 - 21:00</div>
           </div>
-          <button className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-sky-600/30">
+          <button className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-sky-600/30 cursor-pointer">
             Записаться
           </button>
         </div>
@@ -39,53 +52,88 @@ export default function DentalClinic() {
       <section className="relative pt-12 pb-16 md:pt-20 md:pb-32 px-6 md:px-12 bg-gradient-to-b from-sky-50 to-white overflow-hidden">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="relative z-10">
-            <div className="inline-block px-4 py-1.5 bg-sky-100 text-sky-700 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease }}
+              className="inline-block px-4 py-1.5 bg-sky-100 text-sky-700 rounded-full text-xs font-bold uppercase tracking-wider mb-6"
+            >
               Премиальная стоматология в Москве
-            </div>
-            <h1 className="text-4xl md:text-6xl lg:text-[4rem] font-serif font-bold text-slate-900 leading-[1.05] tracking-tight mb-6">
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1, ease }}
+              className="text-4xl md:text-6xl lg:text-[4rem] font-serif font-bold text-slate-900 leading-[1.05] tracking-tight mb-6"
+            >
               Здоровая улыбка <br/>с гарантией <span className="bg-gradient-to-r from-sky-600 to-cyan-500 bg-clip-text text-transparent">экспертов</span>
-            </h1>
-            <p className="text-lg text-slate-600 mb-8 max-w-lg leading-relaxed">
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2, ease }}
+              className="text-lg text-slate-600 mb-8 max-w-lg leading-relaxed"
+            >
               Безболезненное лечение, прецизионная имплантация и цифровая эстетика. Вернем уверенность в вашей улыбке за один визит.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <button className="bg-sky-600 hover:bg-sky-700 text-white px-8 py-4 rounded-full text-base font-bold transition-all shadow-lg shadow-sky-600/30">
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3, ease }}
+              className="flex flex-wrap gap-4"
+            >
+              <button className="bg-sky-600 hover:bg-sky-700 text-white px-8 py-4 rounded-full text-base font-bold transition-all shadow-lg shadow-sky-600/30 cursor-pointer">
                 Записаться на прием
               </button>
-              <button className="bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 px-8 py-4 rounded-full text-base font-bold transition-all">
+              <button className="bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 px-8 py-4 rounded-full text-base font-bold transition-all cursor-pointer">
                 Прайс-лист
               </button>
-            </div>
+            </motion.div>
           </div>
-          <div className="relative z-10 mt-8 md:mt-0">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.15, ease }}
+            className="relative z-10 mt-8 md:mt-0"
+          >
             <div className="aspect-square rounded-full bg-gradient-to-br from-sky-200 to-cyan-100 absolute -top-12 -right-12 w-full h-full -z-10 blur-3xl opacity-60"></div>
             <div className="relative h-[280px] sm:h-[350px] md:h-[500px] w-full bg-slate-200 rounded-2xl md:rounded-[2rem] overflow-hidden shadow-[0_30px_80px_-20px_rgba(2,132,199,0.35)] ring-1 ring-black/5">
               <img src={case1_1} alt="Демонстрация работы" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-sky-900/20 via-transparent to-transparent" />
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      <section className="py-24 bg-white">
+      <section id="services" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl font-serif font-bold text-slate-800 mb-6">Услуги и цены</h2>
             <p className="text-slate-600">Мы предлагаем полный спектр стоматологических услуг.</p>
-          </div>
+          </motion.div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {['Имплантация зубов', 'Эстетическая стоматология', 'Протезирование', 'Ортодонтия', 'Лечение зубов', 'Профессиональная гигиена'].map((service, i) => (
-              <div key={i} className="p-8 rounded-3xl bg-white border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-12px_rgba(2,132,199,0.18)] hover:-translate-y-1 hover:border-sky-200 transition-all duration-500 group">
-                <div className="w-12 h-12 bg-gradient-to-br from-sky-500 to-cyan-400 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-sky-500/25">
-                   <div className="w-3 h-3 bg-white rounded-full group-hover:scale-125 transition-transform"></div>
-                </div>
-                <h3 className="text-xl font-bold text-slate-800 mb-3 tracking-tight">{service}</h3>
-                <p className="text-slate-500 mb-6 text-sm leading-relaxed">Комплексный подход и использование передовых материалов для достижения идеального результата.</p>
-                <a href="#" onClick={(e) => e.preventDefault()} className="text-sky-600 font-semibold text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
-                  Подробнее <span>→</span>
-                </a>
-              </div>
-            ))}
+            {['Имплантация зубов', 'Эстетическая стоматология', 'Протезирование', 'Ортодонтия', 'Лечение зубов', 'Профессиональная гигиена'].map((service, i) => {
+              const Icon = serviceIcons[i];
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.6, delay: (i % 3) * 0.08, ease }}
+                  className="p-8 rounded-3xl bg-white border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-12px_rgba(2,132,199,0.18)] hover:-translate-y-1 hover:border-sky-200 transition-all duration-500 group"
+                >
+                  <div className="w-12 h-12 bg-gradient-to-br from-sky-500 to-cyan-400 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-sky-500/25">
+                     <Icon className="w-6 h-6" strokeWidth={1.75} />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-800 mb-3 tracking-tight">{service}</h3>
+                  <p className="text-slate-500 mb-6 text-sm leading-relaxed">Комплексный подход и использование передовых материалов для достижения идеального результата.</p>
+                  <a href="#" onClick={(e) => e.preventDefault()} className="text-sky-600 font-semibold text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
+                    Подробнее <ArrowRight className="w-4 h-4" />
+                  </a>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -93,10 +141,10 @@ export default function DentalClinic() {
       {/* Doctors */}
       <section id="doctors" className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl font-serif font-bold text-slate-800 mb-6">Врачи клиники</h2>
             <p className="text-slate-600">Команда сертифицированных специалистов с опытом от 8 лет в своей области.</p>
-          </div>
+          </motion.div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { initials: 'ЕК', name: 'Елена Валерьевна Крылова', role: 'Ортопед, эстетическая стоматология', years: 14 },
@@ -104,7 +152,14 @@ export default function DentalClinic() {
               { initials: 'МГ', name: 'Марина Олеговна Гаврилова', role: 'Терапевт, лечение каналов', years: 9 },
               { initials: 'АН', name: 'Артём Дмитриевич Носов', role: 'Ортодонт', years: 8 },
             ].map((doc, i) => (
-              <div key={i} className="bg-white rounded-3xl border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.2)] hover:-translate-y-1 transition-all duration-500 p-7 flex flex-col">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease }}
+                className="bg-white rounded-3xl border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.2)] hover:-translate-y-1 transition-all duration-500 p-7 flex flex-col"
+              >
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-100 to-cyan-100 text-sky-700 flex items-center justify-center font-bold text-xl mb-6 ring-1 ring-sky-200/60">
                   {doc.initials}
                 </div>
@@ -116,10 +171,16 @@ export default function DentalClinic() {
                     <span className="text-sm font-bold text-slate-700">{doc.years} лет</span>
                   </div>
                   <div className="h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                    <div className="h-full rounded-full bg-gradient-to-r from-sky-500 to-cyan-400" style={{ width: `${Math.min(100, (doc.years / 15) * 100)}%` }} />
+                    <motion.div
+                      className="h-full rounded-full bg-gradient-to-r from-sky-500 to-cyan-400"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${Math.min(100, (doc.years / 15) * 100)}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.2 + i * 0.08, ease }}
+                    />
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -128,10 +189,10 @@ export default function DentalClinic() {
       {/* Technology / Equipment infographic */}
       <section id="technology" className="py-24 px-6 md:px-12 bg-white">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl font-serif font-bold text-slate-800 mb-6">Оборудование и технологии</h2>
             <p className="text-slate-600">Диагностика и лечение на оборудовании экспертного класса.</p>
-          </div>
+          </motion.div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { stat: '3D', label: 'Компьютерная томография', desc: 'Точная диагностика перед имплантацией и лечением каналов.' },
@@ -139,11 +200,18 @@ export default function DentalClinic() {
               { stat: '0%', label: 'Использование ртутных пломб', desc: 'Только современные светоотверждаемые композитные материалы.' },
               { stat: 'ISO', label: 'Стерилизация инструментов', desc: 'Автоклавирование и контроль по международным протоколам.' },
             ].map((t, i) => (
-              <div key={i} className="p-8 rounded-3xl border border-slate-100 bg-gradient-to-b from-slate-50 to-white text-center hover:shadow-[0_20px_40px_-16px_rgba(2,132,199,0.15)] hover:-translate-y-1 transition-all duration-500">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease }}
+                className="p-8 rounded-3xl border border-slate-100 bg-gradient-to-b from-slate-50 to-white text-center hover:shadow-[0_20px_40px_-16px_rgba(2,132,199,0.15)] hover:-translate-y-1 transition-all duration-500"
+              >
                 <div className="text-4xl font-serif font-bold bg-gradient-to-br from-sky-600 to-cyan-500 bg-clip-text text-transparent mb-4">{t.stat}</div>
                 <h3 className="font-bold text-slate-800 mb-2 tracking-tight">{t.label}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">{t.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -152,41 +220,37 @@ export default function DentalClinic() {
       {/* Advantages */}
       <section id="advantages" className="py-24 px-6 md:px-12 bg-sky-50">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-center mb-16">
              <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-4">Почему выбирают DentalArt?</h2>
              <p className="text-slate-500 max-w-2xl mx-auto">Стандарты качества, безопасность и бескомпромиссный подход к лечению.</p>
-          </div>
+          </motion.div>
           <div className="grid md:grid-cols-3 gap-8">
-             <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.18)] hover:-translate-y-1 transition-all duration-500">
-                <div className="text-transparent text-4xl mb-6 font-serif italic font-bold bg-gradient-to-br from-sky-500 to-cyan-400 bg-clip-text">01</div>
-                <h3 className="font-bold text-xl text-slate-800 mb-3">Пожизненная гарантия</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">Мы уверены в качестве нашей работы и материалах. На все виды имплантации предоставляется официальная пожизненная гарантия по договору.</p>
-             </div>
-             <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.18)] hover:-translate-y-1 transition-all duration-500">
-                <div className="text-transparent text-4xl mb-6 font-serif italic font-bold bg-gradient-to-br from-sky-500 to-cyan-400 bg-clip-text">02</div>
-                <h3 className="font-bold text-xl text-slate-800 mb-3">Лечение во сне</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">Используем безопасный наркоз и седацию (закись азота, пропофол). Просыпаетесь — а красивая улыбка уже готова. Абсолютно без боли и стресса.</p>
-             </div>
-             <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.18)] hover:-translate-y-1 transition-all duration-500">
-                <div className="text-transparent text-4xl mb-6 font-serif italic font-bold bg-gradient-to-br from-sky-500 to-cyan-400 bg-clip-text">03</div>
-                <h3 className="font-bold text-xl text-slate-800 mb-3">Искусственный интеллект</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">Компьютерная 3D-томография анализируется нейросетью. Это исключает врачебные ошибки на этапе диагностики и позволяет спланировать точный результат.</p>
-             </div>
-             <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.18)] hover:-translate-y-1 transition-all duration-500">
-                <div className="text-transparent text-4xl mb-6 font-serif italic font-bold bg-gradient-to-br from-sky-500 to-cyan-400 bg-clip-text">04</div>
-                <h3 className="font-bold text-xl text-slate-800 mb-3">Современные протоколы</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">Лечение строго по международным стандартам. Использование микроскопа при лечении каналов увеличивает срок службы зуба в несколько раз.</p>
-             </div>
-             <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.18)] hover:-translate-y-1 transition-all duration-500">
-                <div className="text-transparent text-4xl mb-6 font-serif italic font-bold bg-gradient-to-br from-sky-500 to-cyan-400 bg-clip-text">05</div>
-                <h3 className="font-bold text-xl text-slate-800 mb-3">Все специалисты в одном месте</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">Вам не нужно искать разных врачей. Ортодонт, хирург, терапевт и ортопед совместно работают над вашим клиническим случаем в рамках одной клиники.</p>
-             </div>
-             <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.18)] hover:-translate-y-1 transition-all duration-500">
-                <div className="text-transparent text-4xl mb-6 font-serif italic font-bold bg-gradient-to-br from-sky-500 to-cyan-400 bg-clip-text">06</div>
-                <h3 className="font-bold text-xl text-slate-800 mb-3">Прозрачные цены</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">Фиксируем стоимость лечения в плане до начала работ. Никаких скрытых платежей или внезапных доплат. Возможна рассрочка 0%.</p>
-             </div>
+            {[
+              { title: 'Пожизненная гарантия', desc: 'Мы уверены в качестве нашей работы и материалах. На все виды имплантации предоставляется официальная пожизненная гарантия по договору.' },
+              { title: 'Лечение во сне', desc: 'Используем безопасный наркоз и седацию (закись азота, пропофол). Просыпаетесь — а красивая улыбка уже готова. Абсолютно без боли и стресса.' },
+              { title: 'Искусственный интеллект', desc: 'Компьютерная 3D-томография анализируется нейросетью. Это исключает врачебные ошибки на этапе диагностики и позволяет спланировать точный результат.' },
+              { title: 'Современные протоколы', desc: 'Лечение строго по международным стандартам. Использование микроскопа при лечении каналов увеличивает срок службы зуба в несколько раз.' },
+              { title: 'Все специалисты в одном месте', desc: 'Вам не нужно искать разных врачей. Ортодонт, хирург, терапевт и ортопед совместно работают над вашим клиническим случаем в рамках одной клиники.' },
+              { title: 'Прозрачные цены', desc: 'Фиксируем стоимость лечения в плане до начала работ. Никаких скрытых платежей или внезапных доплат. Возможна рассрочка 0%.' },
+            ].map((a, i) => {
+              const Icon = advantageIcons[i];
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.6, delay: (i % 3) * 0.1, ease }}
+                  className="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.18)] hover:-translate-y-1 transition-all duration-500"
+                >
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-sky-500 to-cyan-400 text-white flex items-center justify-center mb-6 shadow-lg shadow-sky-500/25">
+                    <Icon className="w-6 h-6" strokeWidth={1.75} />
+                  </div>
+                  <h3 className="font-bold text-xl text-slate-800 mb-3">{a.title}</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">{a.desc}</p>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -194,10 +258,10 @@ export default function DentalClinic() {
       {/* FAQ */}
       <section id="faq" className="py-24 px-6 md:px-12 bg-white">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
+          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-center mb-16">
              <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-4">Часто задаваемые вопросы</h2>
              <p className="text-slate-500 max-w-xl mx-auto">Мы собрали самые популярные вопросы от наших пациентов, чтобы развеять ваши сомнения.</p>
-          </div>
+          </motion.div>
           <div className="space-y-4">
             {[
               { q: 'Больно ли устанавливать имплантат?', a: 'Современная анестезия делает процедуру полностью безболезненной. Большинство пациентов отмечают, что имплантация переносится легче, чем удаление зуба. Также доступно лечение "во сне" (седация).' },
@@ -206,15 +270,25 @@ export default function DentalClinic() {
               { q: 'Можно ли вылечить зуб за один визит?', a: 'Большинство терапевтических вмешательств, включая лечение кариеса и корневых каналов, мы проводим за одно посещение с использованием дентального микроскопа. Сложные случаи могут потребовать 2-3 визитов.' },
               { q: 'Принимаете ли вы полисы ДМС?', a: 'Да, наша клиника сотрудничает с ведущими страховыми компаниями СОГАЗ, Ингосстрах, РЕСО-Гарантия, АльфаСтрахование. Пожалуйста, уточните детали у администратора при записи.' }
             ].map((item, i) => (
-              <details key={i} className="group bg-slate-50 rounded-2xl p-6 open:bg-sky-50 transition-colors border border-slate-100 cursor-pointer">
+              <motion.details
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: i * 0.06, ease }}
+                className="group bg-slate-50 rounded-2xl p-6 open:bg-sky-50 transition-colors border border-slate-100 cursor-pointer"
+              >
                 <summary className="font-bold text-lg text-slate-800 marker:content-none flex justify-between items-center outline-none">
                   {item.q}
-                  <span className="text-sky-600 group-open:rotate-45 transition-transform text-2xl font-light">+</span>
+                  <span className="text-sky-600 shrink-0 ml-4">
+                    <Plus className="w-5 h-5 group-open:hidden" />
+                    <Minus className="w-5 h-5 hidden group-open:block" />
+                  </span>
                 </summary>
                 <div className="mt-4 text-slate-600 text-sm leading-relaxed pr-8">
                   {item.a}
                 </div>
-              </details>
+              </motion.details>
             ))}
           </div>
         </div>
@@ -223,10 +297,17 @@ export default function DentalClinic() {
       {/* Reviews */}
       <section id="reviews" className="py-24 px-6 md:px-12 bg-sky-50 border-y border-sky-100">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-12">Отзывы пациентов</h2>
+          <motion.h2 {...fadeUp} transition={{ duration: 0.7, ease }} className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-12">Отзывы пациентов</motion.h2>
           <div className="grid md:grid-cols-3 gap-8 text-left">
             {[1, 2, 3].map((_, i) => (
-              <div key={i} className="bg-white p-8 rounded-3xl shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.15)] transition-shadow duration-500 border border-slate-100/80">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease }}
+                className="bg-white p-8 rounded-3xl shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.15)] transition-shadow duration-500 border border-slate-100/80"
+              >
                 <div className="flex text-amber-400 mb-4 text-lg">★★★★★</div>
                 <p className="text-slate-600 text-sm leading-relaxed mb-6 font-medium">
                   "{['Долго искала клинику для имплантации. Здесь все прошло идеально. Врачи настоящие профессионалы своего дела, а сервис на высшем уровне.', 'Ставил виниры у Елены Валерьевны. Результат превзошел все ожидания! Улыбаюсь теперь постоянно и получаю комплименты.', 'Лучшая клиника в Москве! Лечу зубы только здесь. Никакой боли, всегда чисто, красиво и уютно. Рекомендую всем друзьям.'][i]}"
@@ -240,7 +321,7 @@ export default function DentalClinic() {
                     <div className="text-xs text-slate-500">2ГИС</div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -249,16 +330,16 @@ export default function DentalClinic() {
       {/* Booking Form CTA */}
       <section className="py-24 px-6 md:px-12 bg-sky-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
-        <div className="max-w-4xl mx-auto relative z-10 text-center">
+        <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="max-w-4xl mx-auto relative z-10 text-center">
           <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6">Получите план лечения сегодня</h2>
           <p className="text-sky-200 mb-10 text-lg">Оставьте заявку на бесплатную консультацию с главным врачом клиники и КТ-снимок в подарок.</p>
           <form className="max-w-2xl mx-auto flex flex-col md:flex-row gap-4">
             <input type="text" placeholder="Ваше имя" className="flex-1 px-6 py-4 rounded-full bg-white/10 border border-white/20 text-white placeholder:text-sky-200 focus:outline-none focus:border-white focus:bg-white/20 transition-all" />
             <input type="tel" placeholder="Номер телефона" className="flex-1 px-6 py-4 rounded-full bg-white/10 border border-white/20 text-white placeholder:text-sky-200 focus:outline-none focus:border-white focus:bg-white/20 transition-all" />
-            <button type="button" className="bg-white text-sky-900 px-8 py-4 rounded-full font-bold hover:bg-sky-50 transition-colors shadow-xl">Отправить</button>
+            <button type="button" className="bg-white text-sky-900 px-8 py-4 rounded-full font-bold hover:bg-sky-50 transition-colors shadow-xl cursor-pointer">Отправить</button>
           </form>
           <p className="text-sky-400/60 text-xs mt-4">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности.</p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Footer */}
