@@ -23,6 +23,7 @@ export default function Logistics() {
             <a href="#services" onClick={(e) => scrollTo(e, 'services')} className="hover:text-blue-400 transition-colors">Услуги</a>
             <a href="#fleet" onClick={(e) => scrollTo(e, 'fleet')} className="hover:text-blue-400 transition-colors">Автопарк</a>
             <a href="#geography" onClick={(e) => scrollTo(e, 'geography')} className="hover:text-blue-400 transition-colors">География</a>
+            <a href="#industries" onClick={(e) => scrollTo(e, 'industries')} className="hover:text-blue-400 transition-colors">Отрасли</a>
             <a href="#advantages" onClick={(e) => scrollTo(e, 'advantages')} className="hover:text-blue-400 transition-colors">Преимущества</a>
           </nav>
           <div className="flex items-center gap-4 md:gap-6">
@@ -326,7 +327,7 @@ export default function Logistics() {
       </section>
 
       {/* INDUSTRIES */}
-      <section className="py-24 lg:py-32 bg-[#0b1536] relative overflow-hidden">
+      <section id="industries" className="py-24 lg:py-32 bg-[#0b1536] relative overflow-hidden">
         <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-blue-500/5 blur-[120px] pointer-events-none" />
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
           <div className="flex flex-col lg:flex-row justify-between items-end gap-8 mb-16">
@@ -349,7 +350,7 @@ export default function Logistics() {
       </section>
 
       {/* DOCUMENTS & INSURANCE + CASE STUDY */}
-      <section className="py-24 lg:py-32 bg-onyx-900 border-y border-onyx-800 relative overflow-hidden">
+      <section id="advantages" className="py-24 lg:py-32 bg-onyx-900 border-y border-onyx-800 relative overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10 grid lg:grid-cols-2 gap-16">
           <div>
             <div className="text-blue-500 font-bold uppercase tracking-wider mb-4 flex items-center gap-3">
