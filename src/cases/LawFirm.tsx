@@ -20,6 +20,7 @@ export default function LawFirm() {
         </div>
         <nav className="hidden md:flex gap-8 text-sm font-sans tracking-wider text-slate-300 uppercase">
           <a href="#practice" onClick={(e) => scrollTo(e, 'practice')} className="hover:text-[#c9a263] transition-colors">Практики</a>
+          <a href="#partners" onClick={(e) => scrollTo(e, 'partners')} className="hover:text-[#c9a263] transition-colors">Партнёры</a>
           <a href="#principles" onClick={(e) => scrollTo(e, 'principles')} className="hover:text-[#c9a263] transition-colors">Принципы</a>
           <a href="#process" onClick={(e) => scrollTo(e, 'process')} className="hover:text-[#c9a263] transition-colors">Этапы</a>
           <a href="#cases" onClick={(e) => scrollTo(e, 'cases')} className="hover:text-[#c9a263] transition-colors">Дела</a>
@@ -109,6 +110,52 @@ export default function LawFirm() {
           </div>
         </div>
       </section>
+
+      {/* Partners */}
+      <section id="partners" className="py-24 px-6 md:px-12 bg-[#0d152e] border-t border-[#2a365c]">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl text-white font-medium mb-6">Партнёры бюро</h2>
+            <div className="w-16 h-0.5 bg-[#c9a263] mx-auto"></div>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { name: 'Егоров Дмитрий Александрович', role: 'Управляющий партнёр', spec: 'Корпоративные споры, M&A', img: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80' },
+              { name: 'Соловьёва Анна Игоревна', role: 'Партнёр', spec: 'Банкротство, субсидиарная ответственность', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80' },
+              { name: 'Марков Виктор Павлович', role: 'Партнёр', spec: 'Арбитраж, налоговые споры', img: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80' },
+            ].map((p, i) => (
+              <div key={i} className="bg-[#131d3b] border border-[#2a365c] hover:border-[#c9a263] transition-colors group">
+                <div className="aspect-[4/5] overflow-hidden">
+                  <img src={p.img} alt={p.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-white font-medium text-lg mb-1">{p.name}</h3>
+                  <p className="text-[#c9a263] text-xs uppercase tracking-widest mb-3">{p.role}</p>
+                  <p className="text-slate-400 text-sm font-sans font-light">{p.spec}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Client types */}
+      <section id="clients" className="py-24 px-6 md:px-12 bg-[#0a1023] border-t border-[#2a365c]">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8 text-white">
+            <h2 className="text-3xl md:text-5xl font-medium">С кем мы работаем</h2>
+            <div className="w-16 h-0.5 bg-[#c9a263]"></div>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#2a365c]">
+            {['Собственники и топ-менеджмент', 'Промышленные холдинги', 'IT и технологические компании', 'Инвестиционные фонды'].map((c, i) => (
+              <div key={i} className="bg-[#0d152e] p-8 min-h-[120px] flex items-center">
+                <span className="text-white font-sans text-sm leading-snug">{c}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Principles */}
       <section id="principles" className="py-24 px-6 md:px-12 bg-[#0a1023] border-t border-[#2a365c]">
         <div className="max-w-7xl mx-auto">
