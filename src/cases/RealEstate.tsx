@@ -23,6 +23,8 @@ export default function RealEstate() {
         <nav className="hidden lg:flex gap-10 text-[10px] uppercase tracking-[0.2em] font-medium text-white/70">
           <a href="#philosophy" onClick={(e) => scrollTo(e, 'philosophy')} className="hover:text-white transition-colors">Философия</a>
           <a href="#properties" onClick={(e) => scrollTo(e, 'properties')} className="hover:text-white transition-colors">Объекты</a>
+          <a href="#categories" onClick={(e) => scrollTo(e, 'categories')} className="hover:text-white transition-colors">Категории</a>
+          <a href="#process" onClick={(e) => scrollTo(e, 'process')} className="hover:text-white transition-colors">Процесс</a>
           <a href="#services" onClick={(e) => scrollTo(e, 'services')} className="hover:text-white transition-colors">Услуги</a>
           <a href="#analytics" onClick={(e) => scrollTo(e, 'analytics')} className="hover:text-white transition-colors">Аналитика</a>
           <a href="#trust" onClick={(e) => scrollTo(e, 'trust')} className="hover:text-white transition-colors">Доверие</a>
@@ -127,6 +129,85 @@ export default function RealEstate() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Categories */}
+      <section id="categories" className="py-24 px-6 md:px-12 bg-[#0a0a0a] border-t border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Каталог</div>
+            <h2 className="text-4xl md:text-5xl font-cormorant text-white tracking-wide">Категории недвижимости</h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: 'Пентхаусы', count: '18 объектов', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80' },
+              { title: 'Виллы', count: '24 объекта', img: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=600&q=80' },
+              { title: 'Особняки', count: '11 объектов', img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80' },
+              { title: 'Апартаменты', count: '32 объекта', img: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=600&q=80' },
+            ].map((c, i) => (
+              <div key={i} className="group cursor-pointer relative aspect-[3/4] overflow-hidden">
+                <img src={c.img} alt={c.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6">
+                  <h3 className="text-2xl font-cormorant text-white mb-1">{c.title}</h3>
+                  <p className="text-white/50 text-[11px] uppercase tracking-widest">{c.count}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Selection process */}
+      <section id="process" className="py-32 px-6 md:px-12 bg-[#080808] border-t border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8">
+            <div>
+              <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Как мы работаем</div>
+              <h2 className="text-4xl md:text-5xl font-cormorant text-white tracking-wide">Процесс подбора</h2>
+            </div>
+            <p className="text-white/50 max-w-sm font-light text-sm">От первого звонка до получения ключей — с персональным экспертом на каждом этапе.</p>
+          </div>
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              { num: '01', title: 'Брифинг', desc: 'Определяем критерии: локация, бюджет, назначение объекта.' },
+              { num: '02', title: 'Подбор', desc: 'Формируем закрытую подборку, включая off-market предложения.' },
+              { num: '03', title: 'Показы', desc: 'Организуем приватные просмотры в удобном для вас формате.' },
+              { num: '04', title: 'Сделка', desc: 'Due Diligence, безопасные расчёты и оформление с юристами.' },
+            ].map((s, i) => (
+              <div key={i} className="border-t border-white/10 pt-8">
+                <div className="text-white/20 font-cormorant text-4xl mb-6">{s.num}</div>
+                <h3 className="text-xl text-white mb-4 tracking-wide">{s.title}</h3>
+                <p className="text-white/50 text-sm font-light leading-relaxed">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Experts */}
+      <section id="experts" className="py-32 px-6 md:px-12 bg-[#0a0a0a] border-t border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Команда</div>
+            <h2 className="text-4xl md:text-5xl font-cormorant text-white tracking-wide">Эксперты компании</h2>
+          </div>
+          <div className="grid sm:grid-cols-3 gap-10">
+            {[
+              { name: 'Мария Аксёнова', role: 'Управляющий партнёр', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80' },
+              { name: 'Кирилл Веретенников', role: 'Инвестиционный брокер', img: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=500&q=80' },
+              { name: 'Ольга Стрельцова', role: 'Директор по работе с клиентами', img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=500&q=80' },
+            ].map((e, i) => (
+              <div key={i} className="text-center group">
+                <div className="aspect-square overflow-hidden mb-6">
+                  <img src={e.img} alt={e.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                </div>
+                <h3 className="text-xl font-cormorant text-white tracking-wide">{e.name}</h3>
+                <p className="text-white/40 text-[11px] uppercase tracking-widest mt-2">{e.role}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
