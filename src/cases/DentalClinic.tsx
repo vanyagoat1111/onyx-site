@@ -18,6 +18,7 @@ export default function DentalClinic() {
         <div className="text-2xl font-serif font-bold text-sky-900 tracking-tight">Dental<span className="text-sky-500">Art</span></div>
         <nav className="hidden md:flex gap-8 text-sm font-medium text-slate-600">
           <a href="#services" onClick={(e) => scrollTo(e, 'services')} className="hover:text-sky-600 transition-colors">Услуги</a>
+          <a href="#doctors" onClick={(e) => scrollTo(e, 'doctors')} className="hover:text-sky-600 transition-colors">Врачи</a>
           <a href="#advantages" onClick={(e) => scrollTo(e, 'advantages')} className="hover:text-sky-600 transition-colors">Преимущества</a>
           <a href="#faq" onClick={(e) => scrollTo(e, 'faq')} className="hover:text-sky-600 transition-colors">Частые вопросы</a>
           <a href="#reviews" onClick={(e) => scrollTo(e, 'reviews')} className="hover:text-sky-600 transition-colors">Отзывы</a>
@@ -82,6 +83,59 @@ export default function DentalClinic() {
                 <a href="#" onClick={(e) => e.preventDefault()} className="text-sky-600 font-medium text-sm flex items-center gap-2 hover:gap-3 transition-all">
                   Подробнее <span>→</span>
                 </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Doctors */}
+      <section id="doctors" className="py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl font-serif font-bold text-slate-800 mb-6">Врачи клиники</h2>
+            <p className="text-slate-600">Команда сертифицированных специалистов с опытом от 8 лет в своей области.</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { name: 'Елена Валерьевна Крылова', role: 'Ортопед, эстетическая стоматология', years: '14 лет практики', img: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=400&q=80' },
+              { name: 'Игорь Сергеевич Панов', role: 'Хирург-имплантолог', years: '11 лет практики', img: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80' },
+              { name: 'Марина Олеговна Гаврилова', role: 'Терапевт, лечение каналов', years: '9 лет практики', img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80' },
+              { name: 'Артём Дмитриевич Носов', role: 'Ортодонт', years: '8 лет практики', img: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80' },
+            ].map((doc, i) => (
+              <div key={i} className="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                <div className="aspect-[4/5] overflow-hidden bg-slate-100">
+                  <img src={doc.img} alt={doc.name} className="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 transition-all duration-500" />
+                </div>
+                <div className="p-5">
+                  <h3 className="font-bold text-slate-800 leading-snug mb-1">{doc.name}</h3>
+                  <p className="text-sky-600 text-sm mb-2">{doc.role}</p>
+                  <p className="text-slate-400 text-xs uppercase tracking-wide">{doc.years}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Technology / Equipment infographic */}
+      <section id="technology" className="py-24 px-6 md:px-12 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl font-serif font-bold text-slate-800 mb-6">Оборудование и технологии</h2>
+            <p className="text-slate-600">Диагностика и лечение на оборудовании экспертного класса.</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { stat: '3D', label: 'Компьютерная томография', desc: 'Точная диагностика перед имплантацией и лечением каналов.' },
+              { stat: '×24', label: 'Дентальный микроскоп', desc: 'Увеличение для микроскопического лечения корневых каналов.' },
+              { stat: '0%', label: 'Использование ртутных пломб', desc: 'Только современные светоотверждаемые композитные материалы.' },
+              { stat: 'ISO', label: 'Стерилизация инструментов', desc: 'Автоклавирование и контроль по международным протоколам.' },
+            ].map((t, i) => (
+              <div key={i} className="p-8 rounded-2xl border border-slate-100 bg-slate-50/60 text-center">
+                <div className="text-4xl font-serif font-bold text-sky-600 mb-3">{t.stat}</div>
+                <h3 className="font-bold text-slate-800 mb-2">{t.label}</h3>
+                <p className="text-slate-500 text-sm leading-relaxed">{t.desc}</p>
               </div>
             ))}
           </div>
