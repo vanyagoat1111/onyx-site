@@ -120,18 +120,20 @@ export default function LawFirm() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { name: 'Егоров Дмитрий Александрович', role: 'Управляющий партнёр', spec: 'Корпоративные споры, M&A', img: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80' },
-              { name: 'Соловьёва Анна Игоревна', role: 'Партнёр', spec: 'Банкротство, субсидиарная ответственность', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80' },
-              { name: 'Марков Виктор Павлович', role: 'Партнёр', spec: 'Арбитраж, налоговые споры', img: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80' },
+              { initials: 'ЕД', name: 'Егоров Дмитрий Александрович', role: 'Управляющий партнёр', spec: 'Корпоративные споры, M&A', years: 18 },
+              { initials: 'СА', name: 'Соловьёва Анна Игоревна', role: 'Партнёр', spec: 'Банкротство, субсидиарная ответственность', years: 12 },
+              { initials: 'МВ', name: 'Марков Виктор Павлович', role: 'Партнёр', spec: 'Арбитраж, налоговые споры', years: 15 },
             ].map((p, i) => (
-              <div key={i} className="bg-[#131d3b] border border-[#2a365c] hover:border-[#c9a263] transition-colors group">
-                <div className="aspect-[4/5] overflow-hidden">
-                  <img src={p.img} alt={p.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+              <div key={i} className="bg-[#131d3b] border border-[#2a365c] hover:border-[#c9a263] transition-colors p-8">
+                <div className="w-16 h-16 rounded-full bg-[#c9a263]/10 border border-[#c9a263]/40 text-[#c9a263] flex items-center justify-center font-medium text-xl mb-6">
+                  {p.initials}
                 </div>
-                <div className="p-6">
-                  <h3 className="text-white font-medium text-lg mb-1">{p.name}</h3>
-                  <p className="text-[#c9a263] text-xs uppercase tracking-widest mb-3">{p.role}</p>
-                  <p className="text-slate-400 text-sm font-sans font-light">{p.spec}</p>
+                <h3 className="text-white font-medium text-lg mb-1">{p.name}</h3>
+                <p className="text-[#c9a263] text-xs uppercase tracking-widest mb-3">{p.role}</p>
+                <p className="text-slate-400 text-sm font-sans font-light mb-6">{p.spec}</p>
+                <div className="pt-4 border-t border-[#2a365c] flex items-baseline gap-2">
+                  <span className="text-2xl font-serif text-white">{p.years}</span>
+                  <span className="text-[10px] uppercase tracking-widest text-slate-500 font-sans">лет практики</span>
                 </div>
               </div>
             ))}

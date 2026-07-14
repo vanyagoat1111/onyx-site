@@ -140,19 +140,21 @@ export default function RealEstate() {
             <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Каталог</div>
             <h2 className="text-4xl md:text-5xl font-cormorant text-white tracking-wide">Категории недвижимости</h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10">
             {[
-              { title: 'Пентхаусы', count: '18 объектов', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80' },
-              { title: 'Виллы', count: '24 объекта', img: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=600&q=80' },
-              { title: 'Особняки', count: '11 объектов', img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80' },
-              { title: 'Апартаменты', count: '32 объекта', img: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=600&q=80' },
+              { title: 'Пентхаусы', count: 18, max: 32 },
+              { title: 'Виллы', count: 24, max: 32 },
+              { title: 'Особняки', count: 11, max: 32 },
+              { title: 'Апартаменты', count: 32, max: 32 },
             ].map((c, i) => (
-              <div key={i} className="group cursor-pointer relative aspect-[3/4] overflow-hidden">
-                <img src={c.img} alt={c.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6">
-                  <h3 className="text-2xl font-cormorant text-white mb-1">{c.title}</h3>
-                  <p className="text-white/50 text-[11px] uppercase tracking-widest">{c.count}</p>
+              <div key={i} className="group cursor-pointer bg-[#0a0a0a] hover:bg-[#111] transition-colors p-8 flex flex-col justify-between min-h-[220px]">
+                <h3 className="text-2xl font-cormorant text-white mb-1">{c.title}</h3>
+                <div>
+                  <div className="text-5xl font-cormorant text-white mb-3">{c.count}</div>
+                  <div className="h-px w-full bg-white/10 mb-3">
+                    <div className="h-px bg-white/60" style={{ width: `${(c.count / c.max) * 100}%` }} />
+                  </div>
+                  <p className="text-white/40 text-[11px] uppercase tracking-widest">объектов в каталоге</p>
                 </div>
               </div>
             ))}
@@ -196,13 +198,13 @@ export default function RealEstate() {
           </div>
           <div className="grid sm:grid-cols-3 gap-10">
             {[
-              { name: 'Мария Аксёнова', role: 'Управляющий партнёр', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80' },
-              { name: 'Кирилл Веретенников', role: 'Инвестиционный брокер', img: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=500&q=80' },
-              { name: 'Ольга Стрельцова', role: 'Директор по работе с клиентами', img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=500&q=80' },
+              { initials: 'МА', name: 'Мария Аксёнова', role: 'Управляющий партнёр' },
+              { initials: 'КВ', name: 'Кирилл Веретенников', role: 'Инвестиционный брокер' },
+              { initials: 'ОС', name: 'Ольга Стрельцова', role: 'Директор по работе с клиентами' },
             ].map((e, i) => (
-              <div key={i} className="text-center group">
-                <div className="aspect-square overflow-hidden mb-6">
-                  <img src={e.img} alt={e.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+              <div key={i} className="text-center group border-t border-white/10 pt-8 hover:border-white/30 transition-colors">
+                <div className="w-20 h-20 rounded-full border border-white/15 mx-auto mb-6 flex items-center justify-center">
+                  <span className="font-cormorant text-2xl text-white">{e.initials}</span>
                 </div>
                 <h3 className="text-xl font-cormorant text-white tracking-wide">{e.name}</h3>
                 <p className="text-white/40 text-[11px] uppercase tracking-widest mt-2">{e.role}</p>

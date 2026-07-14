@@ -111,8 +111,8 @@ export function Philosophy() {
           </div>
 
           <div className="mt-10 pt-8 border-t border-gold/15 flex items-center gap-5">
-            <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 border border-gold/30">
-              <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Главный архитектор ARTEL" className="w-full h-full object-cover grayscale" />
+            <div className="w-14 h-14 rounded-full shrink-0 border border-gold/30 bg-gold/10 flex items-center justify-center">
+              <span className="font-serif italic text-xl text-gold">ДК</span>
             </div>
             <div>
               <div className="font-serif text-lg italic text-ivory">Дарья Ковалёва</div>

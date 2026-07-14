@@ -131,18 +131,20 @@ export default function FitnessClub() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { name: 'Алексей Соколов', role: 'Кроссфит, силовой тренинг', img: 'https://images.unsplash.com/photo-1567013127542-490d757e51fc?auto=format&fit=crop&w=500&q=80' },
-              { name: 'Елена Реброва', role: 'Йога, стретчинг', img: 'https://images.unsplash.com/photo-1548690312-e3b507d8c110?auto=format&fit=crop&w=500&q=80' },
-              { name: 'Дмитрий Котов', role: 'Бокс, единоборства', img: 'https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&w=500&q=80' },
-              { name: 'Марина Волкова', role: 'Персональный тренинг', img: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80' },
+              { initials: 'АС', name: 'Алексей Соколов', role: 'Кроссфит, силовой тренинг', rating: 4.9 },
+              { initials: 'ЕР', name: 'Елена Реброва', role: 'Йога, стретчинг', rating: 5.0 },
+              { initials: 'ДК', name: 'Дмитрий Котов', role: 'Бокс, единоборства', rating: 4.8 },
+              { initials: 'МВ', name: 'Марина Волкова', role: 'Персональный тренинг', rating: 4.9 },
             ].map((t, i) => (
-              <div key={i} className="group relative overflow-hidden bg-neutral-900 border border-neutral-800 hover:border-red-500/40 transition-colors">
-                <div className="aspect-[3/4] overflow-hidden">
-                  <img src={t.img} alt={t.name} className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 transition-all duration-500" />
+              <div key={i} className="bg-neutral-900 border border-neutral-800 hover:border-red-500/40 transition-colors p-6 flex flex-col">
+                <div className="w-14 h-14 bg-red-600/15 border border-red-500/30 text-red-500 flex items-center justify-center font-black text-lg mb-6 skew-x-[-10deg]">
+                  <span className="skew-x-[10deg]">{t.initials}</span>
                 </div>
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent p-5">
-                  <h4 className="text-lg font-bold uppercase tracking-wider text-white">{t.name}</h4>
-                  <p className="text-red-500 text-xs uppercase tracking-widest mt-1">{t.role}</p>
+                <h4 className="text-lg font-bold uppercase tracking-wider text-white">{t.name}</h4>
+                <p className="text-red-500 text-xs uppercase tracking-widest mt-1 mb-5">{t.role}</p>
+                <div className="mt-auto flex items-center gap-2">
+                  <span className="text-2xl font-black text-white">{t.rating}</span>
+                  <span className="text-[10px] uppercase tracking-widest text-neutral-500">Рейтинг тренировок</span>
                 </div>
               </div>
             ))}

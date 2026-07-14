@@ -96,21 +96,27 @@ export default function DentalClinic() {
             <h2 className="text-3xl font-serif font-bold text-slate-800 mb-6">Врачи клиники</h2>
             <p className="text-slate-600">Команда сертифицированных специалистов с опытом от 8 лет в своей области.</p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { name: 'Елена Валерьевна Крылова', role: 'Ортопед, эстетическая стоматология', years: '14 лет практики', img: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=400&q=80' },
-              { name: 'Игорь Сергеевич Панов', role: 'Хирург-имплантолог', years: '11 лет практики', img: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80' },
-              { name: 'Марина Олеговна Гаврилова', role: 'Терапевт, лечение каналов', years: '9 лет практики', img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80' },
-              { name: 'Артём Дмитриевич Носов', role: 'Ортодонт', years: '8 лет практики', img: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80' },
+              { initials: 'ЕК', name: 'Елена Валерьевна Крылова', role: 'Ортопед, эстетическая стоматология', years: 14 },
+              { initials: 'ИП', name: 'Игорь Сергеевич Панов', role: 'Хирург-имплантолог', years: 11 },
+              { initials: 'МГ', name: 'Марина Олеговна Гаврилова', role: 'Терапевт, лечение каналов', years: 9 },
+              { initials: 'АН', name: 'Артём Дмитриевич Носов', role: 'Ортодонт', years: 8 },
             ].map((doc, i) => (
-              <div key={i} className="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
-                <div className="aspect-[4/5] overflow-hidden bg-slate-100">
-                  <img src={doc.img} alt={doc.name} className="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 transition-all duration-500" />
+              <div key={i} className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col">
+                <div className="w-14 h-14 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-lg mb-5">
+                  {doc.initials}
                 </div>
-                <div className="p-5">
-                  <h3 className="font-bold text-slate-800 leading-snug mb-1">{doc.name}</h3>
-                  <p className="text-sky-600 text-sm mb-2">{doc.role}</p>
-                  <p className="text-slate-400 text-xs uppercase tracking-wide">{doc.years}</p>
+                <h3 className="font-bold text-slate-800 leading-snug mb-1">{doc.name}</h3>
+                <p className="text-sky-600 text-sm mb-5">{doc.role}</p>
+                <div className="mt-auto">
+                  <div className="flex justify-between items-baseline mb-1.5">
+                    <span className="text-[10px] uppercase tracking-wide text-slate-400">Опыт практики</span>
+                    <span className="text-sm font-bold text-slate-700">{doc.years} лет</span>
+                  </div>
+                  <div className="h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                    <div className="h-full rounded-full bg-sky-500" style={{ width: `${Math.min(100, (doc.years / 15) * 100)}%` }} />
+                  </div>
                 </div>
               </div>
             ))}
