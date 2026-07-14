@@ -117,6 +117,53 @@ export default function FitnessClub() {
         </div>
       </section>
 
+      {/* Trainers */}
+      <section id="trainers" className="py-32 px-6 md:px-12 bg-[#0a0a0a] relative overflow-hidden">
+        <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-red-900/10 blur-[100px] pointer-events-none"></div>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
+            <div>
+              <h2 className="text-[13px] font-mono text-red-500 uppercase tracking-widest mb-2">Команда</h2>
+              <h3 className="text-3xl sm:text-4xl lg:text-[40px] font-black text-white uppercase tracking-tight">Тренеры</h3>
+            </div>
+            <p className="text-neutral-400 max-w-md text-sm md:text-base">Сертифицированные специалисты по силовому тренингу, кроссфиту и групповым программам.</p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { name: 'Алексей Соколов', role: 'Кроссфит, силовой тренинг', img: 'https://images.unsplash.com/photo-1567013127542-490d757e51fc?auto=format&fit=crop&w=500&q=80' },
+              { name: 'Елена Реброва', role: 'Йога, стретчинг', img: 'https://images.unsplash.com/photo-1548690312-e3b507d8c110?auto=format&fit=crop&w=500&q=80' },
+              { name: 'Дмитрий Котов', role: 'Бокс, единоборства', img: 'https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&w=500&q=80' },
+              { name: 'Марина Волкова', role: 'Персональный тренинг', img: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80' },
+            ].map((t, i) => (
+              <div key={i} className="group relative overflow-hidden bg-neutral-900 border border-neutral-800 hover:border-red-500/40 transition-colors">
+                <div className="aspect-[3/4] overflow-hidden">
+                  <img src={t.img} alt={t.name} className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 transition-all duration-500" />
+                </div>
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent p-5">
+                  <h4 className="text-lg font-bold uppercase tracking-wider text-white">{t.name}</h4>
+                  <p className="text-red-500 text-xs uppercase tracking-widest mt-1">{t.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Results infographic */}
+          <div className="mt-20 grid sm:grid-cols-3 gap-px bg-neutral-800 border border-neutral-800">
+            {[
+              { v: '2 400+', l: 'резидентов клуба' },
+              { v: '87%', l: 'продлевают карту повторно' },
+              { v: '4.9', l: 'средняя оценка тренировок' },
+            ].map((s, i) => (
+              <div key={i} className="bg-[#0a0a0a] p-10 text-center">
+                <div className="text-4xl md:text-5xl font-black text-white mb-2">{s.v}</div>
+                <div className="text-xs uppercase tracking-widest text-neutral-500">{s.l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Pricing */}
       <section id="rates" className="py-32 bg-[#0a0a0a]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
