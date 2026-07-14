@@ -42,8 +42,8 @@ export default function DentalClinic() {
             <div className="inline-block px-4 py-1.5 bg-sky-100 text-sky-700 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
               Премиальная стоматология в Москве
             </div>
-            <h1 className="text-4xl md:text-6xl font-serif font-bold text-slate-900 leading-tight mb-6">
-              Здоровая улыбка <br/>с гарантией <span className="text-sky-600">экспертов</span>
+            <h1 className="text-4xl md:text-6xl lg:text-[4rem] font-serif font-bold text-slate-900 leading-[1.05] tracking-tight mb-6">
+              Здоровая улыбка <br/>с гарантией <span className="bg-gradient-to-r from-sky-600 to-cyan-500 bg-clip-text text-transparent">экспертов</span>
             </h1>
             <p className="text-lg text-slate-600 mb-8 max-w-lg leading-relaxed">
               Безболезненное лечение, прецизионная имплантация и цифровая эстетика. Вернем уверенность в вашей улыбке за один визит.
@@ -58,9 +58,10 @@ export default function DentalClinic() {
             </div>
           </div>
           <div className="relative z-10 mt-8 md:mt-0">
-            <div className="aspect-square rounded-full bg-sky-100 absolute -top-12 -right-12 w-full h-full -z-10 blur-3xl opacity-50"></div>
-            <div className="relative h-[280px] sm:h-[350px] md:h-[500px] w-full bg-slate-200 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl">
+            <div className="aspect-square rounded-full bg-gradient-to-br from-sky-200 to-cyan-100 absolute -top-12 -right-12 w-full h-full -z-10 blur-3xl opacity-60"></div>
+            <div className="relative h-[280px] sm:h-[350px] md:h-[500px] w-full bg-slate-200 rounded-2xl md:rounded-[2rem] overflow-hidden shadow-[0_30px_80px_-20px_rgba(2,132,199,0.35)] ring-1 ring-black/5">
               <img src={case1_1} alt="Демонстрация работы" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-sky-900/20 via-transparent to-transparent" />
             </div>
           </div>
         </div>
@@ -74,13 +75,13 @@ export default function DentalClinic() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {['Имплантация зубов', 'Эстетическая стоматология', 'Протезирование', 'Ортодонтия', 'Лечение зубов', 'Профессиональная гигиена'].map((service, i) => (
-              <div key={i} className="p-8 rounded-2xl bg-sky-50/50 border border-sky-100 hover:border-sky-300 hover:bg-sky-50 transition-all group">
-                <div className="w-12 h-12 bg-sky-100 text-sky-600 rounded-xl flex items-center justify-center mb-6 overflow-hidden">
-                   <div className="w-6 h-6 bg-sky-600 rounded-full group-hover:scale-110 transition-transform"></div>
+              <div key={i} className="p-8 rounded-3xl bg-white border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-12px_rgba(2,132,199,0.18)] hover:-translate-y-1 hover:border-sky-200 transition-all duration-500 group">
+                <div className="w-12 h-12 bg-gradient-to-br from-sky-500 to-cyan-400 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-sky-500/25">
+                   <div className="w-3 h-3 bg-white rounded-full group-hover:scale-125 transition-transform"></div>
                 </div>
-                <h3 className="text-xl font-bold text-slate-800 mb-3">{service}</h3>
-                <p className="text-slate-600 mb-6 text-sm">Комплексный подход и использование передовых материалов для достижения идеального результата.</p>
-                <a href="#" onClick={(e) => e.preventDefault()} className="text-sky-600 font-medium text-sm flex items-center gap-2 hover:gap-3 transition-all">
+                <h3 className="text-xl font-bold text-slate-800 mb-3 tracking-tight">{service}</h3>
+                <p className="text-slate-500 mb-6 text-sm leading-relaxed">Комплексный подход и использование передовых материалов для достижения идеального результата.</p>
+                <a href="#" onClick={(e) => e.preventDefault()} className="text-sky-600 font-semibold text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
                   Подробнее <span>→</span>
                 </a>
               </div>
@@ -103,19 +104,19 @@ export default function DentalClinic() {
               { initials: 'МГ', name: 'Марина Олеговна Гаврилова', role: 'Терапевт, лечение каналов', years: 9 },
               { initials: 'АН', name: 'Артём Дмитриевич Носов', role: 'Ортодонт', years: 8 },
             ].map((doc, i) => (
-              <div key={i} className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col">
-                <div className="w-14 h-14 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-lg mb-5">
+              <div key={i} className="bg-white rounded-3xl border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.2)] hover:-translate-y-1 transition-all duration-500 p-7 flex flex-col">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-100 to-cyan-100 text-sky-700 flex items-center justify-center font-bold text-xl mb-6 ring-1 ring-sky-200/60">
                   {doc.initials}
                 </div>
-                <h3 className="font-bold text-slate-800 leading-snug mb-1">{doc.name}</h3>
-                <p className="text-sky-600 text-sm mb-5">{doc.role}</p>
-                <div className="mt-auto">
-                  <div className="flex justify-between items-baseline mb-1.5">
-                    <span className="text-[10px] uppercase tracking-wide text-slate-400">Опыт практики</span>
+                <h3 className="font-bold text-slate-800 leading-snug mb-1 tracking-tight">{doc.name}</h3>
+                <p className="text-sky-600 text-sm mb-6 font-medium">{doc.role}</p>
+                <div className="mt-auto pt-5 border-t border-slate-100">
+                  <div className="flex justify-between items-baseline mb-2">
+                    <span className="text-[10px] uppercase tracking-widest text-slate-400">Опыт практики</span>
                     <span className="text-sm font-bold text-slate-700">{doc.years} лет</span>
                   </div>
                   <div className="h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                    <div className="h-full rounded-full bg-sky-500" style={{ width: `${Math.min(100, (doc.years / 15) * 100)}%` }} />
+                    <div className="h-full rounded-full bg-gradient-to-r from-sky-500 to-cyan-400" style={{ width: `${Math.min(100, (doc.years / 15) * 100)}%` }} />
                   </div>
                 </div>
               </div>
@@ -138,9 +139,9 @@ export default function DentalClinic() {
               { stat: '0%', label: 'Использование ртутных пломб', desc: 'Только современные светоотверждаемые композитные материалы.' },
               { stat: 'ISO', label: 'Стерилизация инструментов', desc: 'Автоклавирование и контроль по международным протоколам.' },
             ].map((t, i) => (
-              <div key={i} className="p-8 rounded-2xl border border-slate-100 bg-slate-50/60 text-center">
-                <div className="text-4xl font-serif font-bold text-sky-600 mb-3">{t.stat}</div>
-                <h3 className="font-bold text-slate-800 mb-2">{t.label}</h3>
+              <div key={i} className="p-8 rounded-3xl border border-slate-100 bg-gradient-to-b from-slate-50 to-white text-center hover:shadow-[0_20px_40px_-16px_rgba(2,132,199,0.15)] hover:-translate-y-1 transition-all duration-500">
+                <div className="text-4xl font-serif font-bold bg-gradient-to-br from-sky-600 to-cyan-500 bg-clip-text text-transparent mb-4">{t.stat}</div>
+                <h3 className="font-bold text-slate-800 mb-2 tracking-tight">{t.label}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">{t.desc}</p>
               </div>
             ))}
@@ -156,33 +157,33 @@ export default function DentalClinic() {
              <p className="text-slate-500 max-w-2xl mx-auto">Стандарты качества, безопасность и бескомпромиссный подход к лечению.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-             <div className="bg-white p-8 rounded-2xl shadow-sm border border-sky-100">
-                <div className="text-sky-600 text-4xl mb-6 font-bold">01</div>
+             <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.18)] hover:-translate-y-1 transition-all duration-500">
+                <div className="text-transparent text-4xl mb-6 font-serif italic font-bold bg-gradient-to-br from-sky-500 to-cyan-400 bg-clip-text">01</div>
                 <h3 className="font-bold text-xl text-slate-800 mb-3">Пожизненная гарантия</h3>
                 <p className="text-slate-600 text-sm leading-relaxed">Мы уверены в качестве нашей работы и материалах. На все виды имплантации предоставляется официальная пожизненная гарантия по договору.</p>
              </div>
-             <div className="bg-white p-8 rounded-2xl shadow-sm border border-sky-100">
-                <div className="text-sky-600 text-4xl mb-6 font-bold">02</div>
+             <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.18)] hover:-translate-y-1 transition-all duration-500">
+                <div className="text-transparent text-4xl mb-6 font-serif italic font-bold bg-gradient-to-br from-sky-500 to-cyan-400 bg-clip-text">02</div>
                 <h3 className="font-bold text-xl text-slate-800 mb-3">Лечение во сне</h3>
                 <p className="text-slate-600 text-sm leading-relaxed">Используем безопасный наркоз и седацию (закись азота, пропофол). Просыпаетесь — а красивая улыбка уже готова. Абсолютно без боли и стресса.</p>
              </div>
-             <div className="bg-white p-8 rounded-2xl shadow-sm border border-sky-100">
-                <div className="text-sky-600 text-4xl mb-6 font-bold">03</div>
+             <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.18)] hover:-translate-y-1 transition-all duration-500">
+                <div className="text-transparent text-4xl mb-6 font-serif italic font-bold bg-gradient-to-br from-sky-500 to-cyan-400 bg-clip-text">03</div>
                 <h3 className="font-bold text-xl text-slate-800 mb-3">Искусственный интеллект</h3>
                 <p className="text-slate-600 text-sm leading-relaxed">Компьютерная 3D-томография анализируется нейросетью. Это исключает врачебные ошибки на этапе диагностики и позволяет спланировать точный результат.</p>
              </div>
-             <div className="bg-white p-8 rounded-2xl shadow-sm border border-sky-100">
-                <div className="text-sky-600 text-4xl mb-6 font-bold">04</div>
+             <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.18)] hover:-translate-y-1 transition-all duration-500">
+                <div className="text-transparent text-4xl mb-6 font-serif italic font-bold bg-gradient-to-br from-sky-500 to-cyan-400 bg-clip-text">04</div>
                 <h3 className="font-bold text-xl text-slate-800 mb-3">Современные протоколы</h3>
                 <p className="text-slate-600 text-sm leading-relaxed">Лечение строго по международным стандартам. Использование микроскопа при лечении каналов увеличивает срок службы зуба в несколько раз.</p>
              </div>
-             <div className="bg-white p-8 rounded-2xl shadow-sm border border-sky-100">
-                <div className="text-sky-600 text-4xl mb-6 font-bold">05</div>
+             <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.18)] hover:-translate-y-1 transition-all duration-500">
+                <div className="text-transparent text-4xl mb-6 font-serif italic font-bold bg-gradient-to-br from-sky-500 to-cyan-400 bg-clip-text">05</div>
                 <h3 className="font-bold text-xl text-slate-800 mb-3">Все специалисты в одном месте</h3>
                 <p className="text-slate-600 text-sm leading-relaxed">Вам не нужно искать разных врачей. Ортодонт, хирург, терапевт и ортопед совместно работают над вашим клиническим случаем в рамках одной клиники.</p>
              </div>
-             <div className="bg-white p-8 rounded-2xl shadow-sm border border-sky-100">
-                <div className="text-sky-600 text-4xl mb-6 font-bold">06</div>
+             <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.18)] hover:-translate-y-1 transition-all duration-500">
+                <div className="text-transparent text-4xl mb-6 font-serif italic font-bold bg-gradient-to-br from-sky-500 to-cyan-400 bg-clip-text">06</div>
                 <h3 className="font-bold text-xl text-slate-800 mb-3">Прозрачные цены</h3>
                 <p className="text-slate-600 text-sm leading-relaxed">Фиксируем стоимость лечения в плане до начала работ. Никаких скрытых платежей или внезапных доплат. Возможна рассрочка 0%.</p>
              </div>
@@ -225,7 +226,7 @@ export default function DentalClinic() {
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-12">Отзывы пациентов</h2>
           <div className="grid md:grid-cols-3 gap-8 text-left">
             {[1, 2, 3].map((_, i) => (
-              <div key={i} className="bg-white p-8 rounded-2xl shadow-sm">
+              <div key={i} className="bg-white p-8 rounded-3xl shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_24px_48px_-16px_rgba(2,132,199,0.15)] transition-shadow duration-500 border border-slate-100/80">
                 <div className="flex text-amber-400 mb-4 text-lg">★★★★★</div>
                 <p className="text-slate-600 text-sm leading-relaxed mb-6 font-medium">
                   "{['Долго искала клинику для имплантации. Здесь все прошло идеально. Врачи настоящие профессионалы своего дела, а сервис на высшем уровне.', 'Ставил виниры у Елены Валерьевны. Результат превзошел все ожидания! Улыбаюсь теперь постоянно и получаю комплименты.', 'Лучшая клиника в Москве! Лечу зубы только здесь. Никакой боли, всегда чисто, красиво и уютно. Рекомендую всем друзьям.'][i]}"
