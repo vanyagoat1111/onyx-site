@@ -1,461 +1,418 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { Dumbbell, Flame, Waves, Coffee, Users, Bike, Lock, Car, Plus, Minus, Star } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 
-const ease = [0.22, 1, 0.36, 1] as const;
+const EASE = [0.22, 1, 0.36, 1] as const;
 
-const fadeUp = {
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-80px' },
-};
+function Reveal({ children, className = '', delay = 0, style }: { children: React.ReactNode; className?: string; delay?: number; style?: React.CSSProperties }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.8, delay, ease: EASE }}
+      className={className}
+      style={style}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
-const infraIcons = [Dumbbell, Flame, Waves, Coffee, Users, Bike, Lock, Car];
+const navLinks = [
+  { name: 'Абонементы', href: 'rates' },
+  { name: 'Тренеры', href: 'trainers' },
+  { name: 'Расписание', href: 'schedule' },
+  { name: 'Контакты', href: 'contacts' },
+];
+
+const heroStats = [
+  { value: '24/7', label: 'Режим работы', color: '#DC2626' },
+  { value: '2000м²', label: 'Площадь клуба', color: '#F97316' },
+  { value: '12', label: 'Зон тренинга', color: '#404040' },
+  { value: 'SPA', label: 'Комплекс', color: '#404040' },
+];
+
+const infra = [
+  { title: 'Тренажёрный зал', desc: 'Премиальное оборудование от Life Fitness и Hammer Strength.' },
+  { title: 'Зона Кроссфита', desc: 'Помосты, рамы, канаты и свободные веса для функционального тренинга.' },
+  { title: 'SPA-зона', desc: 'Финская сауна, хамам, ледяной душ и массажный кабинет.' },
+  { title: 'Фитнес-бар', desc: 'Спортивное питание, протеиновые коктейли и полезные снеки.' },
+  { title: 'Групповые залы', desc: 'Амортизирующий паркет и профессиональная акустика.' },
+  { title: 'Сайкл-студия', desc: 'Иммерсивные тренировки на байках последнего поколения.' },
+  { title: 'Раздевалки', desc: 'Просторные шкафчики, электронные замки и премиальная косметика.' },
+  { title: 'Паркинг', desc: 'Бесплатная охраняемая парковка на 100 автомобилей.' },
+].map((it, i) => ({ ...it, num: String(i + 1).padStart(2, '0') }));
+
+const trainers = [
+  { initials: 'АС', name: 'Алексей Соколов', role: 'Кроссфит, силовой тренинг', rating: '4.9' },
+  { initials: 'ЕР', name: 'Елена Реброва', role: 'Йога, стретчинг', rating: '5.0' },
+  { initials: 'ДК', name: 'Дмитрий Котов', role: 'Бокс, единоборства', rating: '4.8' },
+  { initials: 'МВ', name: 'Марина Волкова', role: 'Персональный тренинг', rating: '4.9' },
+];
+
+const resultsBand = [
+  { value: '2 400+', label: 'резидентов клуба' },
+  { value: '87%', label: 'продлевают карту повторно' },
+  { value: '4.9', label: 'средняя оценка тренировок' },
+];
+
+const weekLoad = [
+  { day: 'ПН', pct: 62, color: '#F97316' },
+  { day: 'ВТ', pct: 74, color: '#F97316' },
+  { day: 'СР', pct: 58, color: '#F97316' },
+  { day: 'ЧТ', pct: 81, color: '#F97316' },
+  { day: 'ПТ', pct: 95, color: '#EF4444' },
+  { day: 'СБ', pct: 100, color: '#EF4444' },
+  { day: 'ВС', pct: 68, color: '#F97316' },
+];
+
+const plans = [
+  { name: 'Утро', price: '45 000', period: 'год', features: ['Доступ: 07:00 – 16:00', 'Тренажёрный зал', 'Бассейн и SPA (утром)', '1 вводная тренировка'], popular: false, borderColor: '#262626', bg: 'rgba(23,23,23,0.5)', btnBg: '#262626' },
+  { name: 'Безлимит', price: '75 000', period: 'год', features: ['Круглосуточный доступ 24/7', 'Тренажёрный зал', 'Бассейн и SPA без ограничений', 'Групповые программы', 'Гостевые визиты: 5 шт', 'Заморозка: 45 дней'], popular: true, borderColor: '#EF4444', bg: 'linear-gradient(to bottom, rgba(127,29,29,0.2), rgba(23,23,23,0.5))', btnBg: '#DC2626' },
+  { name: 'VIP', price: '120 000', period: 'год', features: ['Доступ 24/7 + VIP раздевалка', 'Индивидуальный шкафчик', 'Ежедневная стирка формы', '12 персональных тренировок', 'Массаж: 5 сеансов', 'Заморозка: 90 дней'], popular: false, borderColor: '#262626', bg: 'rgba(23,23,23,0.5)', btnBg: '#262626' },
+];
+
+const schedule = [
+  { time: '08:00', name: 'CrossFit WOD', room: 'Зал Кроссфит', trainer: 'Алексей С.' },
+  { time: '10:30', name: 'Йога', room: 'Зал Групповых программ', trainer: 'Елена Р.' },
+  { time: '14:00', name: 'Boxing', room: 'Ринг', trainer: 'Дмитрий К.' },
+  { time: '18:30', name: 'TRX Pro', room: 'Зал Функционала', trainer: 'Марина В.' },
+  { time: '20:00', name: 'Stretching', room: 'Зал Групповых программ', trainer: 'Елена Р.' },
+];
+
+const faqsData = [
+  { q: 'Как проходит первая тренировка?', a: 'Первая тренировка вводная. Под руководством дежурного тренера вы пройдёте фитнес-тестирование, поставите технику работы на тренажёрах и получите персональные рекомендации.' },
+  { q: 'Есть ли заморозка абонемента?', a: 'Да, для годовых карт предусмотрена заморозка от 45 до 90 дней в зависимости от тарифа. Управлять ей можно в личном кабинете.' },
+  { q: 'Что брать с собой на занятие?', a: 'Спортивную форму, кроссовки и бутылку для воды. В раздевалках выдаются полотенца и есть вся необходимая косметика в душевых.' },
+  { q: 'Сколько длится групповое занятие?', a: 'От 45 до 60 минут. Точное время и уровень подготовки указаны в расписании клуба.' },
+  { q: 'Можно ли оплатить карту в рассрочку?', a: 'У нас есть беспроцентная рассрочка от клуба на 3, 6 и 12 месяцев. Оформление занимает 5 минут по одному документу.' },
+];
+
+function Skew({ children, className = '', style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) {
+  return (
+    <span className={`inline-block -skew-x-[10deg] ${className}`} style={style}>
+      <span className="inline-block skew-x-[10deg]">{children}</span>
+    </span>
+  );
+}
 
 export default function FitnessClub() {
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [submitted, setSubmitted] = useState(false);
+  const [scheduleTab, setScheduleTab] = useState('Сегодня');
+
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 5000);
   };
 
   return (
-    <div className="relative min-h-screen bg-[#0a0a0a] text-white font-sport selection:bg-orange-500 selection:text-white overflow-hidden">
-
-      {/* Header */}
-      <header className="sticky top-0 w-full z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-orange-900/30 py-4 pl-20 pr-6 md:pl-24 md:pr-12 flex justify-between items-center transition-all">
-        <div className="text-2xl md:text-3xl font-black italic tracking-tight uppercase text-white">
-          IRON<span className="text-orange-600">CORE</span>
+    <div className="relative min-h-screen bg-[#0A0A0A] text-white font-sport selection:bg-red-500/30 selection:text-white overflow-x-clip">
+      {/* HEADER */}
+      <header className="sticky top-0 z-50 bg-[#0A0A0A]/85 backdrop-blur-xl border-b border-red-900/30">
+        <div className="max-w-[1360px] mx-auto px-6 md:px-8 py-4 flex justify-between items-center pl-20 md:pl-24">
+          <div className="font-black italic uppercase text-2xl">IRON<span className="text-[#DC2626]">CORE</span></div>
+          <nav className="hidden md:flex gap-8">
+            {navLinks.map((l) => (
+              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="text-xs font-bold uppercase tracking-[0.12em] text-neutral-400 hover:text-white transition-colors">{l.name}</a>
+            ))}
+          </nav>
+          <button className="bg-[#DC2626] text-white px-4 md:px-5.5 py-3 text-[11px] font-bold uppercase tracking-[0.1em] shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_34px_rgba(220,38,38,0.6)] transition-shadow cursor-pointer">
+            <Skew>Стать резидентом</Skew>
+          </button>
         </div>
-        <nav className="hidden md:flex gap-8 text-sm font-bold uppercase tracking-widest text-neutral-400">
-          <a href="#rates" onClick={(e) => scrollTo(e, 'rates')} className="hover:text-orange-500 transition-colors">Абонементы</a>
-          <a href="#trainers" onClick={(e) => scrollTo(e, 'trainers')} className="hover:text-orange-500 transition-colors">Тренеры</a>
-          <a href="#schedule" onClick={(e) => scrollTo(e, 'schedule')} className="hover:text-orange-500 transition-colors">Расписание</a>
-          <a href="#contacts" onClick={(e) => scrollTo(e, 'contacts')} className="hover:text-orange-500 transition-colors">Контакты</a>
-        </nav>
-        <button className="bg-orange-600 hover:bg-orange-700 text-white px-4 md:px-6 py-2 md:py-2.5 font-bold uppercase tracking-wider text-[10px] md:text-xs transition-all shadow-[0_0_20px_rgba(234,88,12,0.4)] hover:shadow-[0_0_30px_rgba(234,88,12,0.6)] skew-x-[-10deg] cursor-pointer">
-          <div className="skew-x-[10deg]">Стать резидентом</div>
-        </button>
       </header>
 
-      {/* Hero */}
-      <section className="relative min-h-[90vh] flex items-center py-24 md:py-32 px-6 md:px-12 overflow-hidden">
-        {/* Graphic Background */}
-        <div className="absolute inset-0 z-0 bg-[#0a0a0a]">
-          <div
-            className="absolute inset-0 opacity-[0.07]"
-            style={{
-              backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
-              backgroundSize: '48px 48px',
-            }}
-          />
-          <div className="absolute -top-1/4 right-0 w-2/3 h-full bg-orange-600/20 blur-[140px] rounded-full" />
-          <div className="absolute -bottom-1/3 -left-1/4 w-1/2 h-full bg-amber-500/10 blur-[140px] rounded-full" />
-          <div className="absolute inset-0 flex items-center justify-end overflow-hidden pointer-events-none select-none">
-            <span className="text-[28vw] font-black italic uppercase leading-none text-white/[0.03] tracking-tighter translate-x-1/4">
-              CORE
-            </span>
+      {/* HERO */}
+      <section className="relative min-h-[88dvh] flex items-center py-16 px-6 md:px-8 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 opacity-[0.07]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.5) 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
+          <div className="absolute -top-[25%] right-0 w-2/3 h-full rounded-full" style={{ background: 'rgba(220,38,38,0.18)', filter: 'blur(140px)' }} />
+          <div className="absolute -bottom-[33%] -left-[25%] w-1/2 h-full rounded-full" style={{ background: 'rgba(249,115,22,0.1)', filter: 'blur(140px)' }} />
+          <div className="absolute inset-0 flex items-center justify-end overflow-hidden pointer-events-none">
+            <span className="font-black italic uppercase leading-none text-white/[0.03]" style={{ fontSize: '28vw', transform: 'translateX(25%)' }}>CORE</span>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]/60" />
         </div>
 
-        {/* Content */}
-        <div className="relative z-20 max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
-          <div className="flex flex-col gap-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease }}
-              className="inline-flex items-center gap-2 bg-orange-600/10 border border-orange-500/30 text-orange-500 px-4 py-2 uppercase tracking-widest text-xs font-bold w-fit"
-            >
-              <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+        <div className="max-w-[1360px] mx-auto relative z-[2] w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-14 items-center">
+          <div>
+            <div className="inline-flex items-center gap-2.5 bg-[#DC2626]/10 border border-[#EF4444]/30 text-[#EF4444] px-4.5 py-2.5 text-[11px] font-bold uppercase tracking-[0.15em] mb-7">
+              <motion.span animate={{ opacity: [1, 0.4, 1], scale: [1, 0.75, 1] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }} className="w-2 h-2 rounded-full bg-[#EF4444] inline-block" />
               Новый уровень
-            </motion.div>
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1, ease }}
-              className="text-5xl md:text-7xl font-bold text-white uppercase leading-none tracking-tight"
-            >
-              Не предел,
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">а старт</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2, ease }}
-              className="text-neutral-400 text-lg max-w-md"
-            >
-              Премиальное фитнес-пространство для тех, кто не ищет оправданий. 2000 м² инновационного оборудования и атмосфера, заряженная на результат.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3, ease }}
-              className="flex flex-col sm:flex-row gap-4 mt-4"
-            >
-              <button className="bg-orange-600 hover:bg-white hover:text-onyx-950 text-white px-8 py-4 font-bold uppercase tracking-widest text-sm transition-colors border border-orange-600 hover:border-white shadow-[0_0_20px_rgba(234,88,12,0.4)] cursor-pointer">
-                Стать резидентом
-              </button>
-              <button className="bg-transparent border border-neutral-700 hover:border-white text-white px-8 py-4 font-bold uppercase tracking-widest text-sm transition-colors cursor-pointer">
-                Расписание
-              </button>
-            </motion.div>
+            </div>
+            <h1 className="font-black uppercase leading-[0.95] text-[42px] sm:text-[56px] md:text-[76px] mb-7 tracking-tight">
+              Не предел,<br />
+              <span style={{ background: 'linear-gradient(90deg,#DC2626,#F97316)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>а старт</span>
+            </h1>
+            <p className="text-neutral-400 text-[17px] max-w-[440px] leading-[1.6] mb-9">Премиальное фитнес-пространство для тех, кто не ищет оправданий. 2000 м² инновационного оборудования и атмосфера, заряженная на результат.</p>
+            <div className="flex gap-4 flex-wrap">
+              <button className="bg-[#DC2626] border border-[#DC2626] text-white px-8 py-4.5 text-[13px] font-bold uppercase tracking-[0.1em] shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] transition-shadow cursor-pointer"><Skew>Стать резидентом</Skew></button>
+              <button onClick={(e: any) => scrollTo(e, 'schedule')} className="bg-transparent border border-neutral-700 text-white px-8 py-4.5 text-[13px] font-bold uppercase tracking-[0.1em] hover:border-neutral-500 transition-colors cursor-pointer"><Skew>Расписание</Skew></button>
+            </div>
           </div>
 
-          {/* Stat block */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease }}
-            className="grid grid-cols-2 gap-4 mt-12 lg:mt-auto mb-12"
-          >
-            <div className="bg-neutral-900 border-b-2 border-orange-600 p-6 flex flex-col gap-2 hover:bg-neutral-800 hover:shadow-[0_20px_40px_-16px_rgba(234,88,12,0.35)] transition-all duration-500">
-              <div className="text-4xl font-bold text-white">24/7</div>
-              <div className="text-xs text-neutral-500 uppercase tracking-widest">Режим работы</div>
-            </div>
-            <div className="bg-neutral-900 border-b-2 border-amber-500 p-6 flex flex-col gap-2 hover:bg-neutral-800 hover:shadow-[0_20px_40px_-16px_rgba(245,158,11,0.3)] transition-all duration-500">
-              <div className="text-4xl font-bold text-white">2000м²</div>
-              <div className="text-xs text-neutral-500 uppercase tracking-widest">Площадь клуба</div>
-            </div>
-            <div className="bg-neutral-900 border-b-2 border-neutral-700 p-6 flex flex-col gap-2 hover:bg-neutral-800 hover:border-orange-500/50 transition-all duration-500">
-              <div className="text-4xl font-bold text-white">12</div>
-              <div className="text-xs text-neutral-500 uppercase tracking-widest">Зон тренинга</div>
-            </div>
-            <div className="bg-neutral-900 border-b-2 border-neutral-700 p-6 flex flex-col gap-2 hover:bg-neutral-800 hover:border-orange-500/50 transition-all duration-500">
-              <div className="text-4xl font-bold text-white">SPA</div>
-              <div className="text-xs text-neutral-500 uppercase tracking-widest">Комплекс</div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Infrastructure */}
-      <section className="py-32 px-6 md:px-12 bg-neutral-900 border-t border-orange-900/30 overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-orange-900/10 blur-[100px] pointer-events-none"></div>
-        <div className="max-w-7xl mx-auto relative z-10">
-          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
-            <div>
-              <h2 className="text-[13px] font-mono text-orange-500 uppercase tracking-widest mb-2">Технологии и комфорт</h2>
-              <h3 className="text-3xl sm:text-4xl lg:text-[40px] font-black text-white uppercase tracking-tight">Инфраструктура</h3>
-            </div>
-            <p className="text-neutral-400 max-w-md text-sm md:text-base md:text-right">Все необходимое для продуктивных тренировок и качественного восстановления.</p>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { title: "Тренажерный зал", desc: "Премиальное оборудование от Life Fitness и Hammer Strength.", num: "01" },
-              { title: "Зона Кроссфита", desc: "Помосты, рамы, канаты и свободные веса для функционального тренинга.", num: "02" },
-              { title: "SPA-зона", desc: "Финская сауна, хамам, ледяной душ и массажный кабинет.", num: "03" },
-              { title: "Фитнес-бар", desc: "Спортивное питание, протеиновые коктейли и полезные снеки.", num: "04" },
-              { title: "Групповые залы", desc: "Амортизирующий паркет и профессиональная акустика.", num: "05" },
-              { title: "Сайкл-студия", desc: "Иммерсивные тренировки на байках последнего поколения.", num: "06" },
-              { title: "Раздевалки", desc: "Просторные шкафчики, электронные замки и премиальная косметика.", num: "07" },
-              { title: "Паркинг", desc: "Бесплатная охраняемая парковка на 100 автомобилей.", num: "08" }
-            ].map((item, i) => {
-              const Icon = infraIcons[i];
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-60px' }}
-                  transition={{ duration: 0.6, delay: (i % 4) * 0.08, ease }}
-                  className="p-8 bg-gradient-to-b from-neutral-900/60 to-[#0a0a0a] border border-neutral-800 hover:border-orange-500/40 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(234,88,12,0.25)] transition-all duration-500 flex flex-col items-start gap-4 group"
-                >
-                  <div className="flex items-center justify-between w-full">
-                    <Icon className="w-7 h-7 text-orange-600/70 group-hover:text-orange-500 transition-colors" strokeWidth={1.5} />
-                    <div className="text-2xl font-black text-neutral-800 font-mono group-hover:text-orange-900/50 transition-colors">{item.num}</div>
-                  </div>
-                  <h4 className="text-lg font-bold uppercase tracking-wider text-white group-hover:text-orange-500 transition-colors">{item.title}</h4>
-                  <p className="text-sm text-neutral-500 font-medium">{item.desc}</p>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Trainers */}
-      <section id="trainers" className="py-32 px-6 md:px-12 bg-[#0a0a0a] relative overflow-hidden">
-        <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-orange-900/10 blur-[100px] pointer-events-none"></div>
-        <div className="max-w-7xl mx-auto relative z-10">
-          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
-            <div>
-              <h2 className="text-[13px] font-mono text-orange-500 uppercase tracking-widest mb-2">Команда</h2>
-              <h3 className="text-3xl sm:text-4xl lg:text-[40px] font-black text-white uppercase tracking-tight">Тренеры</h3>
-            </div>
-            <p className="text-neutral-400 max-w-md text-sm md:text-base">Сертифицированные специалисты по силовому тренингу, кроссфиту и групповым программам.</p>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { initials: 'АС', name: 'Алексей Соколов', role: 'Кроссфит, силовой тренинг', rating: 4.9 },
-              { initials: 'ЕР', name: 'Елена Реброва', role: 'Йога, стретчинг', rating: 5.0 },
-              { initials: 'ДК', name: 'Дмитрий Котов', role: 'Бокс, единоборства', rating: 4.8 },
-              { initials: 'МВ', name: 'Марина Волкова', role: 'Персональный тренинг', rating: 4.9 },
-            ].map((t, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: i * 0.1, ease }}
-                className="bg-neutral-900 border border-neutral-800 hover:border-orange-500/40 hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(234,88,12,0.3)] transition-all duration-500 p-6 flex flex-col"
-              >
-                <div className="w-14 h-14 bg-orange-600/15 border border-orange-500/30 text-orange-500 flex items-center justify-center font-black text-lg mb-6 skew-x-[-10deg]">
-                  <span className="skew-x-[10deg]">{t.initials}</span>
-                </div>
-                <h4 className="text-lg font-bold uppercase tracking-wider text-white">{t.name}</h4>
-                <p className="text-orange-500 text-xs uppercase tracking-widest mt-1 mb-5">{t.role}</p>
-                <div className="mt-auto flex items-center gap-2">
-                  <Star className="w-4 h-4 text-orange-500 fill-orange-500" />
-                  <span className="text-2xl font-black text-white">{t.rating}</span>
-                  <span className="text-[10px] uppercase tracking-widest text-neutral-500">Рейтинг тренировок</span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Results infographic */}
-          <motion.div {...fadeUp} transition={{ duration: 0.7, delay: 0.2, ease }} className="mt-20 grid sm:grid-cols-3 gap-px bg-neutral-800 border border-neutral-800">
-            {[
-              { v: '2 400+', l: 'резидентов клуба' },
-              { v: '87%', l: 'продлевают карту повторно' },
-              { v: '4.9', l: 'средняя оценка тренировок' },
-            ].map((s, i) => (
-              <div key={i} className="bg-[#0a0a0a] p-10 text-center">
-                <div className="text-4xl md:text-5xl font-black text-white mb-2">{s.v}</div>
-                <div className="text-xs uppercase tracking-widest text-neutral-500">{s.l}</div>
+          <Reveal className="grid grid-cols-2 gap-3.5">
+            {heroStats.map((st) => (
+              <div key={st.label} className="bg-[#171717] border-b-[3px] p-6 transition-all duration-400 hover:-translate-y-1" style={{ borderColor: st.color }}>
+                <div className="font-black text-[28px] md:text-[34px] mb-2">{st.value}</div>
+                <div className="text-[11px] text-neutral-500 uppercase tracking-[0.12em]">{st.label}</div>
               </div>
             ))}
-          </motion.div>
-
-          {/* Progress bar chart */}
-          <motion.div {...fadeUp} transition={{ duration: 0.7, delay: 0.3, ease }} className="mt-6 bg-neutral-900 border border-neutral-800 p-8 lg:p-12">
-            <h4 className="text-sm font-mono text-orange-500 uppercase tracking-widest mb-8">Средний прогресс резидентов за 3 месяца</h4>
-            <div className="space-y-6">
-              {[
-                { l: 'Силовые показатели', v: 35 },
-                { l: 'Выносливость', v: 42 },
-                { l: 'Мышечная масса', v: 18 },
-                { l: 'Скорость восстановления', v: 50 },
-              ].map((row, i) => (
-                <div key={i}>
-                  <div className="flex justify-between text-sm text-neutral-300 mb-2">
-                    <span className="font-bold uppercase tracking-wide text-xs">{row.l}</span>
-                    <span className="font-black text-white">+{row.v}%</span>
-                  </div>
-                  <div className="h-3 bg-neutral-800 overflow-hidden">
-                    <motion.div
-                      className="h-full bg-gradient-to-r from-orange-600 to-amber-500"
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${row.v * 1.6}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1, delay: i * 0.1, ease }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
+          </Reveal>
         </div>
       </section>
 
-      {/* Pricing */}
-      <section id="rates" className="py-32 bg-[#0a0a0a]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
+      {/* INFRASTRUCTURE */}
+      <section className="py-20 md:py-28 px-6 md:px-8 bg-[#171717] border-t border-red-900/30">
+        <div className="max-w-[1360px] mx-auto">
+          <Reveal className="flex justify-between items-end gap-6 flex-wrap mb-14 md:mb-16">
             <div>
-              <h2 className="text-sm font-mono text-neutral-500 uppercase tracking-widest mb-2">Клубные карты</h2>
-              <h3 className="text-[32px] font-bold text-white uppercase">Тарифы</h3>
+              <div className="text-[13px] text-[#EF4444] uppercase tracking-[0.15em] font-mono mb-2.5">Технологии и комфорт</div>
+              <h2 className="font-black uppercase text-3xl md:text-[38px]">Инфраструктура</h2>
             </div>
-            <button className="text-sm font-bold text-white border-b border-orange-500 pb-1 hover:text-orange-500 transition-colors uppercase tracking-widest self-start md:self-auto cursor-pointer">
-              Сравнить опции
-            </button>
-          </motion.div>
+            <p className="text-neutral-400 max-w-[380px] text-sm">Всё необходимое для продуктивных тренировок и качественного восстановления.</p>
+          </Reveal>
 
-          <div className="grid lg:grid-cols-3 gap-8">
-            {[
-              { name: 'Утро', price: '45 000', period: 'год', features: ['Доступ: 07:00 - 16:00', 'Тренажерный зал', 'Бассейн и SPA (утром)', '1 вводная тренировка'] },
-              { name: 'Безлимит', price: '75 000', period: 'год', features: ['Круглосуточный доступ 24/7', 'Тренажерный зал', 'Бассейн и SPA без ограничений', 'Групповые программы', 'Гостевые визиты: 5 шт', 'Заморозка: 45 дней'], popular: true },
-              { name: 'VIP', price: '120 000', period: 'год', features: ['Доступ 24/7 + VIP раздевалка', 'Индивидуальный шкафчик', 'Ежедневная стирка формы', '12 персональных тренировок', 'Массаж: 5 сеансов', 'Заморозка: 90 дней'] }
-            ].map((plan, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.7, delay: i * 0.12, ease }}
-                className={`relative p-8 border ${plan.popular ? 'border-orange-500 bg-gradient-to-b from-orange-950/20 to-neutral-900/50 shadow-[0_30px_60px_-20px_rgba(234,88,12,0.35)] lg:-translate-y-2' : 'border-neutral-800 bg-neutral-900/50 hover:-translate-y-1'} flex flex-col group hover:border-orange-500 hover:shadow-[0_24px_48px_-16px_rgba(234,88,12,0.25)] transition-all duration-500`}
-              >
-                {plan.popular && (
-                  <div className="absolute top-0 right-8 -translate-y-1/2 bg-orange-600 text-white font-bold text-[10px] uppercase tracking-widest px-3 py-1">
-                    Хит продаж
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {infra.map((item, i) => (
+              <Reveal key={item.title} delay={(i % 4) * 0.06} className="p-7 border border-[#262626] transition-all duration-400 hover:-translate-y-1.5 hover:border-[#EF4444]/50 hover:shadow-[0_24px_50px_-18px_rgba(220,38,38,0.3)]" >
+                <div style={{ background: 'linear-gradient(to bottom, rgba(23,23,23,0.6), #0A0A0A)' }} className="contents">
+                  <div className="flex justify-between items-center mb-5">
+                    <span className="text-[#DC2626]/70 text-xl">●</span>
+                    <span className="font-black text-xl text-[#262626]">{item.num}</span>
                   </div>
-                )}
-                <h3 className="text-2xl font-black uppercase tracking-wider mb-2">{plan.name}</h3>
-                <div className="flex items-end gap-2 mb-8 pb-8 border-b border-neutral-800 group-hover:border-orange-900/50 transition-colors">
-                  <span className="text-4xl font-bold">{plan.price}₽</span>
-                  <span className="text-neutral-500 mb-1">/ {plan.period}</span>
+                  <h4 className="text-[15px] font-bold uppercase tracking-[0.06em] mb-2.5">{item.title}</h4>
+                  <p className="text-xs text-neutral-500 font-medium">{item.desc}</p>
                 </div>
-                <ul className="space-y-4 mb-12 flex-grow">
-                  {plan.features.map((feature, j) => (
-                    <li key={j} className="flex items-center gap-3 text-neutral-300 text-sm">
-                      <div className="w-1.5 h-1.5 bg-orange-500 rotate-45"></div>
-                      {feature}
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TRAINERS */}
+      <section id="trainers" className="py-20 md:py-28 px-6 md:px-8 scroll-mt-20">
+        <div className="max-w-[1360px] mx-auto">
+          <Reveal className="flex justify-between items-end gap-6 flex-wrap mb-14 md:mb-16">
+            <div>
+              <div className="text-[13px] text-[#EF4444] uppercase tracking-[0.15em] font-mono mb-2.5">Команда</div>
+              <h2 className="font-black uppercase text-3xl md:text-[38px]">Тренеры</h2>
+            </div>
+            <p className="text-neutral-400 max-w-[380px] text-sm">Сертифицированные специалисты по силовому тренингу, кроссфиту и групповым программам.</p>
+          </Reveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16 md:mb-18">
+            {trainers.map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.07} className="bg-[#171717] border border-[#262626] p-6.5 flex flex-col transition-all duration-400 hover:-translate-y-1.5 hover:border-[#EF4444]/50 hover:shadow-[0_24px_50px_-18px_rgba(220,38,38,0.3)]">
+                <Skew className="w-14 h-14 bg-[#DC2626]/15 border border-[#EF4444]/30 text-[#EF4444] mb-6 font-black text-lg" style={{}}>
+                  <span className="w-14 h-14 flex items-center justify-center">{t.initials}</span>
+                </Skew>
+                <h4 className="text-base font-bold uppercase tracking-[0.04em] mb-1.5">{t.name}</h4>
+                <p className="text-[#EF4444] text-[11px] uppercase tracking-[0.1em] mb-5">{t.role}</p>
+                <div className="mt-auto flex items-center gap-2">
+                  <span className="text-[#EF4444]">★</span>
+                  <span className="font-black text-xl">{t.rating}</span>
+                  <span className="text-[9px] uppercase tracking-[0.1em] text-neutral-500">Рейтинг</span>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-[#262626] border border-[#262626]">
+            {resultsBand.map((r) => (
+              <div key={r.label} className="bg-[#0A0A0A] p-9 md:p-11 text-center">
+                <div className="font-black text-[32px] md:text-[44px] mb-2.5">{r.value}</div>
+                <div className="text-[11px] uppercase tracking-[0.12em] text-neutral-500">{r.label}</div>
+              </div>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
+      {/* WEEKLY LOAD */}
+      <section className="py-20 md:py-28 px-6 md:px-8 bg-[#171717] border-t border-red-900/30">
+        <div className="max-w-[1360px] mx-auto">
+          <Reveal className="mb-14 md:mb-16">
+            <div className="text-[13px] text-[#EF4444] uppercase tracking-[0.15em] font-mono mb-2.5">Загрузка клуба</div>
+            <h2 className="font-black uppercase text-3xl md:text-[38px]">Пиковая посещаемость по дням</h2>
+          </Reveal>
+          <Reveal className="grid grid-cols-7 gap-2 sm:gap-3.5 items-end h-[220px] md:h-[280px]">
+            {weekLoad.map((d) => (
+              <div key={d.day} className="flex flex-col items-center justify-end h-full gap-2 sm:gap-3">
+                <span className="font-black text-xs sm:text-[15px]" style={{ color: d.color }}>{d.pct}%</span>
+                <div className="w-full h-[140px] sm:h-[200px] flex items-end bg-white/[0.03]">
+                  <motion.div
+                    initial={{ height: 0 }} whileInView={{ height: `${d.pct}%` }} viewport={{ once: true }} transition={{ duration: 1.1, ease: EASE }}
+                    className="w-full" style={{ background: `linear-gradient(to top, #DC2626, ${d.color})` }}
+                  />
+                </div>
+                <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.1em] text-neutral-500">{d.day}</span>
+              </div>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section id="rates" className="py-20 md:py-28 px-6 md:px-8 scroll-mt-20">
+        <div className="max-w-[1360px] mx-auto">
+          <Reveal className="flex justify-between items-end gap-6 flex-wrap mb-14 md:mb-16">
+            <div>
+              <div className="text-[13px] text-neutral-500 uppercase tracking-[0.15em] font-mono mb-2.5">Клубные карты</div>
+              <h2 className="font-black uppercase text-2xl md:text-[32px]">Тарифы</h2>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {plans.map((plan, i) => (
+              <Reveal key={plan.name} delay={i * 0.08} className="relative p-8 md:p-8.5 border flex flex-col transition-all duration-400 hover:-translate-y-1.5" style={{ borderColor: plan.borderColor, background: plan.bg }}>
+                {plan.popular && (
+                  <div className="absolute top-0 right-8 -translate-y-1/2 bg-[#DC2626] text-white font-bold text-[9px] uppercase tracking-[0.12em] px-3 py-1.5">Хит продаж</div>
+                )}
+                <h3 className="text-2xl font-extrabold uppercase tracking-[0.04em] mb-2">{plan.name}</h3>
+                <div className="flex items-end gap-2 mb-7 pb-7 border-b border-[#262626]">
+                  <span className="font-black text-[30px] md:text-[34px]">{plan.price}₽</span>
+                  <span className="text-neutral-500 text-[13px] mb-1.5">/ {plan.period}</span>
+                </div>
+                <ul className="list-none p-0 mb-11 flex flex-col gap-3.5 flex-1">
+                  {plan.features.map((feat) => (
+                    <li key={feat} className="flex items-center gap-3 text-neutral-300 text-[13px]">
+                      <span className="w-1.5 h-1.5 bg-[#EF4444] rotate-45 shrink-0" />{feat}
                     </li>
                   ))}
                 </ul>
-                <button className={`w-full py-4 font-bold uppercase tracking-wider text-sm transition-all skew-x-[-10deg] cursor-pointer ${plan.popular ? 'bg-orange-600 hover:bg-orange-500 shadow-[0_0_20px_rgba(234,88,12,0.3)]' : 'bg-neutral-800 hover:bg-neutral-700'}`}>
-                   <div className="skew-x-[10deg]">Оформить карту</div>
-                </button>
-              </motion.div>
+                <button className="w-full py-4 font-bold uppercase tracking-[0.1em] text-[13px] border-none cursor-pointer text-white" style={{ background: plan.btnBg }}><Skew>Оформить карту</Skew></button>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Schedule */}
-      <section id="schedule" className="py-32 px-6 md:px-12 bg-[#0a0a0a]">
-        <div className="max-w-7xl mx-auto">
-          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-8">
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight">Расписание</h2>
-            <div className="flex flex-wrap gap-2 p-1 bg-neutral-900 border border-neutral-800 rounded-sm self-start md:self-auto">
-              <button className="px-6 py-2 bg-orange-600 text-white font-bold uppercase tracking-widest text-xs cursor-pointer">Сегодня</button>
-              <button className="px-6 py-2 bg-transparent hover:bg-neutral-800 text-neutral-400 font-bold uppercase tracking-widest text-xs transition-colors cursor-pointer">Завтра</button>
-              <button className="px-6 py-2 bg-transparent hover:bg-neutral-800 text-neutral-400 font-bold uppercase tracking-widest text-xs transition-colors cursor-pointer">Неделя</button>
+      {/* SCHEDULE */}
+      <section id="schedule" className="py-20 md:py-28 px-6 md:px-8 scroll-mt-20">
+        <div className="max-w-[1360px] mx-auto">
+          <Reveal className="flex justify-between items-center gap-6 flex-wrap mb-12 md:mb-14">
+            <h2 className="font-black uppercase text-3xl md:text-[44px]">Расписание</h2>
+            <div className="flex gap-1 p-1 bg-[#171717] border border-[#262626]">
+              {['Сегодня', 'Завтра', 'Неделя'].map((t) => (
+                <button key={t} onClick={() => setScheduleTab(t)} className="px-5 py-2.5 font-bold text-[11px] uppercase tracking-[0.1em] border-none cursor-pointer transition-colors" style={{ background: scheduleTab === t ? '#DC2626' : 'none', color: scheduleTab === t ? '#fff' : '#A3A3A3' }}>{t}</button>
+              ))}
             </div>
-          </motion.div>
+          </Reveal>
 
-          <div className="space-y-2">
-            {[1, 2, 3, 4, 5].map((_, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -16 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.5, delay: i * 0.06, ease }}
-                className="flex flex-col md:flex-row items-center justify-between p-6 bg-neutral-900/50 border border-neutral-800 hover:border-orange-500/50 hover:bg-neutral-900 hover:shadow-[0_16px_32px_-16px_rgba(234,88,12,0.2)] transition-all duration-500 group"
-              >
-                <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12 w-full md:w-auto text-center md:text-left mb-4 md:mb-0">
-                  <div className="text-3xl font-black text-orange-500 w-32">{['08:00', '10:30', '14:00', '18:30', '20:00'][i]}</div>
+          <div className="flex flex-col gap-2">
+            {schedule.map((s, i) => (
+              <Reveal key={s.time} delay={i * 0.05} className="flex justify-between items-center p-5 md:p-6 bg-white/[0.02] border border-[#262626] flex-wrap gap-4 transition-colors duration-300 hover:bg-[#171717] hover:border-[#EF4444]/50">
+                <div className="flex items-center gap-8 md:gap-10 flex-wrap">
+                  <div className="font-black text-2xl md:text-[26px] text-[#EF4444] w-[90px] md:w-[110px]">{s.time}</div>
                   <div>
-                    <h4 className="text-xl font-bold uppercase tracking-wider">{['CrossFit WOD', 'Йога', 'Boxing', 'TRX Pro', 'Stretching'][i]}</h4>
-                    <p className="text-neutral-500 text-sm mt-1">{['Зал Кроссфит', 'Зал Групповых программ', 'Ринг', 'Зал Функционала', 'Зал Групповых программ'][i]}</p>
+                    <h4 className="text-base md:text-[17px] font-bold uppercase tracking-[0.04em] mb-1">{s.name}</h4>
+                    <p className="text-neutral-500 text-[13px]">{s.room}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-8 w-full md:w-auto justify-between md:justify-end">
-                  <div className="text-right hidden md:block">
-                    <div className="text-sm font-bold uppercase tracking-widest text-neutral-300">{['Алексей С.', 'Елена Р.', 'Дмитрий К.', 'Марина В.', 'Елена Р.'][i]}</div>
-                    <div className="text-xs text-neutral-500 mt-1">Тренер</div>
+                <div className="flex items-center gap-6 md:gap-7">
+                  <div className="text-right">
+                    <div className="text-[13px] font-bold uppercase tracking-[0.06em] text-neutral-300">{s.trainer}</div>
+                    <div className="text-[10px] text-neutral-500 mt-0.5">Тренер</div>
                   </div>
-                  <button className="w-full md:w-auto px-8 py-3 border border-orange-600 text-orange-500 hover:bg-orange-600 hover:text-white font-bold uppercase tracking-widest text-xs transition-colors skew-x-[-10deg] cursor-pointer">
-                    <div className="skew-x-[10deg]">Записаться</div>
-                  </button>
+                  <button className="px-5 md:px-6.5 py-3 border border-[#DC2626] bg-transparent text-[#EF4444] font-bold text-[11px] uppercase tracking-[0.1em] cursor-pointer hover:bg-[#DC2626] hover:text-white transition-colors"><Skew>Записаться</Skew></button>
                 </div>
-              </motion.div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="py-32 px-6 md:px-12 bg-[#0a0a0a] border-t border-orange-900/30">
-        <div className="max-w-4xl mx-auto">
-          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-center mb-16">
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-4">FAQ</h2>
-            <p className="text-neutral-400">Популярные вопросы о работе клуба и абонементах.</p>
-          </motion.div>
-          <div className="space-y-4">
-            {[
-              { q: "Как проходит первая тренировка?", a: "Первая тренировка вводная. Под руководством дежурного тренера вы пройдете фитнес-тестирование, поставите технику работы на тренажерах и получите персональные рекомендации." },
-              { q: "Есть ли заморозка абонемента?", a: "Да, для годовых карт предусмотрена заморозка от 45 до 90 дней в зависимости от тарифа. Управлять ей можно в личном кабинете." },
-              { q: "Что брать с собой на занятие?", a: "Спортивную форму, кроссовки и бутылку для воды. В раздевалках выдаются полотенца и есть вся необходимая косметика в душевых." },
-              { q: "Сколько длится групповое занятие?", a: "От 45 до 60 минут. Точное время и уровень подготовки указаны в расписании клуба." },
-              { q: "Можно ли оплатить карту в рассрочку?", a: "У нас есть беспроцентная рассрочка от клуба на 3, 6 и 12 месяцев. Оформление занимает 5 минут по одному документу." }
-            ].map((item, i) => (
-              <motion.details
-                key={i}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: i * 0.06, ease }}
-                className="group bg-neutral-900 border border-neutral-800 p-6 md:p-8 open:border-orange-500/50 transition-colors cursor-pointer"
-              >
-                <summary className="font-bold text-lg uppercase tracking-wider marker:content-none flex justify-between items-center outline-none hover:text-orange-500 transition-colors">
-                  {item.q}
-                  <span className="text-orange-600 shrink-0 ml-4">
-                    <Plus className="w-6 h-6 group-open:hidden" />
-                    <Minus className="w-6 h-6 hidden group-open:block" />
-                  </span>
-                </summary>
-                <div className="mt-6 text-neutral-400 text-sm leading-relaxed border-t border-neutral-800 pt-6">
-                  {item.a}
-                </div>
-              </motion.details>
-            ))}
+      <section className="py-20 md:py-28 px-6 md:px-8 border-t border-red-900/30">
+        <div className="max-w-[900px] mx-auto">
+          <Reveal className="text-center mb-14 md:mb-16">
+            <h2 className="font-black uppercase text-3xl md:text-[44px] mb-4">FAQ</h2>
+            <p className="text-neutral-400 text-[15px]">Популярные вопросы о работе клуба и абонементах.</p>
+          </Reveal>
+          <div className="flex flex-col gap-3.5">
+            {faqsData.map((faq, i) => {
+              const open = openFaq === i;
+              return (
+                <Reveal key={faq.q} delay={i * 0.04} className="bg-[#171717] border px-6 md:px-7.5" style={{ borderColor: open ? 'rgba(239,68,68,0.5)' : '#262626' }}>
+                  <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center py-5.5 bg-transparent border-none cursor-pointer text-left text-white">
+                    <span className="font-bold uppercase tracking-[0.03em] text-sm md:text-base">{faq.q}</span>
+                    <span className="text-[#DC2626] ml-4 shrink-0 text-2xl">{open ? '−' : '+'}</span>
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {open && (
+                      <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: EASE }} className="overflow-hidden">
+                        <p className="text-neutral-400 text-sm leading-[1.65] pb-6.5 pt-5 border-t border-[#262626]">{faq.a}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Footer / CTA form */}
-      <section id="contacts" className="py-24 px-6 md:px-12 bg-neutral-900 border-b border-neutral-800 relative">
-        <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight mb-8">Запишись на первую тренировку</h2>
-          <form className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto">
-             <input type="tel" placeholder="+7 (___) ___-__-__" className="flex-1 bg-[#0a0a0a] border border-neutral-800 px-6 py-4 text-white focus:border-orange-600 focus:outline-none focus:ring-1 focus:ring-orange-600 transition-all font-mono" />
-             <button type="button" className="bg-orange-600 hover:bg-orange-500 text-white px-8 py-4 font-black uppercase tracking-wider text-sm transition-all skew-x-[-10deg] cursor-pointer">
-                <div className="skew-x-[10deg]">Жду звонка</div>
-             </button>
+      {/* CTA */}
+      <section id="contacts" className="py-20 md:py-24 px-6 md:px-8 bg-[#171717] border-b border-[#262626] scroll-mt-20">
+        <Reveal className="max-w-[900px] mx-auto text-center">
+          <h2 className="font-black uppercase text-3xl md:text-[42px] mb-9">Запишись на первую тренировку</h2>
+          <form onSubmit={handleSubmit} className="flex gap-3.5 max-w-[600px] mx-auto flex-wrap">
+            <input required type="tel" placeholder="+7 (___) ___-__-__" className="flex-1 min-w-[200px] bg-[#0A0A0A] border border-[#262626] px-5.5 py-4 text-white font-mono text-sm outline-none placeholder:text-white/35" />
+            <button type="submit" className="bg-[#DC2626] text-white px-8 py-4 font-extrabold uppercase tracking-[0.1em] text-[13px] cursor-pointer shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] transition-shadow"><Skew>Жду звонка</Skew></button>
           </form>
-        </motion.div>
+          {submitted && <p className="text-red-400 text-[13px] mt-4">Заявка отправлена. Мы позвоним вам в ближайшее время.</p>}
+        </Reveal>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-[#050505] pt-20 pb-10 px-6 md:px-12 text-neutral-400">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-12 mb-16">
-          <div className="max-w-xs">
-            <div className="text-2xl font-black text-white tracking-widest uppercase mb-4">IRON<span className="text-orange-600">CORE</span></div>
-            <p className="text-sm font-medium leading-relaxed mb-6">Бескомпромиссный подход к тренировкам в клубе IRONCORE. Премиальное оборудование, лучшие тренеры и атмосфера результата.</p>
-            <div className="flex gap-4 border-l border-orange-600 pl-4">
-               <div className="hover:text-orange-500 font-bold uppercase tracking-wider cursor-pointer text-sm transition-colors text-white">ВК</div>
-               <div className="hover:text-orange-500 font-bold uppercase tracking-wider cursor-pointer text-sm transition-colors text-white">ТГ</div>
-               <div className="hover:text-orange-500 font-bold uppercase tracking-wider cursor-pointer text-sm transition-colors text-white">IG</div>
+      {/* FOOTER */}
+      <footer className="bg-[#050505] pt-16 md:pt-20 pb-10 px-6 md:px-8 text-neutral-400">
+        <div className="max-w-[1360px] mx-auto flex justify-between gap-12 flex-wrap mb-16">
+          <div className="max-w-[280px]">
+            <div className="font-black uppercase tracking-[0.06em] text-xl mb-4">IRON<span className="text-[#DC2626]">CORE</span></div>
+            <p className="text-[13px] leading-[1.6] mb-5.5">Бескомпромиссный подход к тренировкам в клубе IRONCORE. Премиальное оборудование, лучшие тренеры и атмосфера результата.</p>
+            <div className="flex gap-4 border-l-2 border-[#DC2626] pl-4">
+              <span className="text-white font-bold text-[13px] uppercase">ВК</span>
+              <span className="text-white font-bold text-[13px] uppercase">ТГ</span>
+              <span className="text-white font-bold text-[13px] uppercase">IG</span>
             </div>
           </div>
           <div>
-             <h4 className="text-white font-black uppercase tracking-wider mb-4 border-b border-neutral-800 pb-2">Клуб</h4>
-             <ul className="space-y-3 text-sm font-medium">
-              <li><a href="#about" onClick={(e) => scrollTo(e, 'about')} className="hover:text-orange-500 transition-colors">О нас</a></li>
-              <li><a href="#rates" onClick={(e) => scrollTo(e, 'rates')} className="hover:text-orange-500 transition-colors">Карты</a></li>
-              <li><a href="#schedule" onClick={(e) => scrollTo(e, 'schedule')} className="hover:text-orange-500 transition-colors">Расписание</a></li>
-            </ul>
+            <h4 className="text-white font-extrabold uppercase text-[13px] mb-4 border-b border-[#262626] pb-2.5">Клуб</h4>
+            <div className="flex flex-col gap-3 text-[13px]">
+              <a href="#" className="text-neutral-400 hover:text-white transition-colors">О нас</a>
+              <a href="#rates" onClick={(e) => scrollTo(e, 'rates')} className="text-neutral-400 hover:text-white transition-colors">Карты</a>
+              <a href="#schedule" onClick={(e) => scrollTo(e, 'schedule')} className="text-neutral-400 hover:text-white transition-colors">Расписание</a>
+            </div>
           </div>
           <div>
-             <h4 className="text-white font-black uppercase tracking-wider mb-4 border-b border-neutral-800 pb-2">Услуги</h4>
-             <ul className="space-y-3 text-sm font-medium">
-              <li><a href="#services" onClick={(e) => scrollTo(e, 'services')} className="hover:text-orange-500 transition-colors">Кроссфит</a></li>
-              <li><a href="#services" onClick={(e) => scrollTo(e, 'services')} className="hover:text-orange-500 transition-colors">Боевые искусства</a></li>
-              <li><a href="#services" onClick={(e) => scrollTo(e, 'services')} className="hover:text-orange-500 transition-colors">Групповые занятия</a></li>
-            </ul>
+            <h4 className="text-white font-extrabold uppercase text-[13px] mb-4 border-b border-[#262626] pb-2.5">Услуги</h4>
+            <div className="flex flex-col gap-3 text-[13px]">
+              <a href="#" className="text-neutral-400 hover:text-white transition-colors">Кроссфит</a>
+              <a href="#" className="text-neutral-400 hover:text-white transition-colors">Боевые искусства</a>
+              <a href="#" className="text-neutral-400 hover:text-white transition-colors">Групповые занятия</a>
+            </div>
           </div>
           <div>
-             <h4 className="text-white font-black uppercase tracking-wider mb-4 border-b border-neutral-800 pb-2">Контакты</h4>
-             <ul className="space-y-3 text-sm font-medium">
-               <li className="text-white text-lg font-mono">+7 (495) 999-00-00</li>
-               <li>info@ironcore-club.ru</li>
-               <li className="pt-2 text-neutral-500">г. Москва, Брутальный пр-т, 1<br/>Круглосуточно 24/7</li>
-             </ul>
+            <h4 className="text-white font-extrabold uppercase text-[13px] mb-4 border-b border-[#262626] pb-2.5">Контакты</h4>
+            <div className="flex flex-col gap-3 text-[13px]">
+              <span className="text-white text-[17px] font-mono">+7 (495) 999-00-00</span>
+              <span>info@ironcore.club</span>
+              <span className="text-neutral-500">г. Москва, Брутальный пр-т, 1<br />Круглосуточно 24/7</span>
+            </div>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto border-t border-neutral-900 pt-8 flex flex-col md:flex-row justify-between text-xs font-mono text-neutral-600">
-          <p>© 2024 IRONCORE. Все права защищены.</p>
-          <div className="flex gap-6 mt-4 md:mt-0">
-             <a href="#" onClick={(e) => e.preventDefault()} className="hover:text-orange-500 transition-colors">Политика конфиденциальности</a>
-             <a href="#" onClick={(e) => e.preventDefault()} className="hover:text-orange-500 transition-colors">Оферта</a>
+        <div className="max-w-[1360px] mx-auto border-t border-[#171717] pt-7 flex justify-between gap-4 flex-wrap text-[11px] font-mono text-neutral-600">
+          <span>© 2026 IRONCORE. Все права защищены.</span>
+          <div className="flex gap-5">
+            <a href="#" className="text-neutral-600">Политика конфиденциальности</a>
+            <a href="#" className="text-neutral-600">Оферта</a>
           </div>
         </div>
       </footer>
