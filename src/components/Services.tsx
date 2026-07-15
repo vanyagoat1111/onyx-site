@@ -129,15 +129,14 @@ export default function Services() {
         {plans.map((plan, i) => {
           const Icon = planIcons[i] ?? Zap;
           return (
-          <Reveal key={i} delay={i * 0.1} className="h-full">
+          <Reveal key={i} delay={i * 0.1} className="h-full relative">
+            {plan.badge && (
+              <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 rounded-full bg-cobalt text-white text-[10px] font-mono tracking-[0.2em] uppercase px-4 py-1.5 whitespace-nowrap shadow-[0_6px_20px_rgba(78,124,255,0.5)]">
+                <Star className="w-3 h-3 fill-white" /> {plan.badge}
+              </span>
+            )}
             <div className={`relative flex flex-col h-full rounded-[28px] border p-7 md:p-8 transition-all duration-500 overflow-hidden ${plan.badge ? 'border-cobalt/60 bg-gradient-to-b from-cobalt/[0.14] to-ink-2/80 shadow-[0_0_80px_rgba(78,124,255,0.18)]' : 'border-white/[0.08] bg-ink-2/60 hover:border-cobalt/30 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.35)]'}`}>
               <div className={`absolute inset-x-0 top-0 h-[3px] ${plan.badge ? 'bg-gradient-to-r from-cobalt via-cobalt-soft to-cobalt' : 'bg-gradient-to-r from-white/5 via-white/20 to-white/5'}`} />
-
-              {plan.badge && (
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 rounded-full bg-cobalt text-white text-[10px] font-mono tracking-[0.2em] uppercase px-4 py-1.5 whitespace-nowrap shadow-[0_6px_20px_rgba(78,124,255,0.5)]">
-                  <Star className="w-3 h-3 fill-white" /> {plan.badge}
-                </span>
-              )}
 
               <div className={`w-13 h-13 rounded-2xl border flex items-center justify-center mb-5 shrink-0 ${plan.badge ? 'bg-cobalt/20 border-cobalt/40' : 'bg-white/[0.06] border-white/10'}`}>
                 <Icon className="w-6 h-6 text-cobalt-soft" />
