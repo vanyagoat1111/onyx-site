@@ -1,411 +1,437 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { ArrowUpRight, Scale, Lock, Target, Eye, Plus, Minus } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 
-const ease = [0.22, 1, 0.36, 1] as const;
+const EASE = [0.22, 1, 0.36, 1] as const;
 
-const fadeUp = {
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-80px' },
-};
+function Reveal({ children, className = '', delay = 0, style }: { children: React.ReactNode; className?: string; delay?: number; style?: React.CSSProperties }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.8, delay, ease: EASE }}
+      className={className}
+      style={style}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function useInView<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { setInView(true); io.disconnect(); } }),
+      { threshold: 0.3 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return [ref, inView] as const;
+}
+
+const navLinks = [
+  { name: 'Практики', href: 'practice' },
+  { name: 'Партнёры', href: 'partners' },
+  { name: 'Принципы', href: 'principles' },
+  { name: 'Этапы', href: 'process' },
+  { name: 'Дела', href: 'cases' },
+  { name: 'Контакты', href: 'contacts' },
+];
+
+const heroStats = [
+  { value: '15+', label: 'Лет практики' },
+  { value: '₽5 млрд+', label: 'Защищённых активов' },
+  { value: '94%', label: 'Выигранных дел' },
+  { value: 'Топ-15', label: 'Право.ru-300' },
+];
+
+const winRates = [
+  { label: 'Корпоративные споры и M&A', pct: 96 },
+  { label: 'Банкротство и субсидиарная ответственность', pct: 91 },
+  { label: 'Арбитраж и налоговые споры', pct: 94 },
+  { label: 'Недвижимость и строительство', pct: 89 },
+];
+
+const practices = [
+  'Корпоративное право и M&A',
+  'Разрешение споров и Арбитраж',
+  'Банкротство и реструктуризация',
+  'Налоговое право',
+  'Уголовно-правовая защита бизнеса',
+  'Недвижимость и строительство',
+];
+
+const partners = [
+  { initials: 'ЕД', name: 'Егоров Дмитрий Александрович', role: 'Управляющий партнёр', spec: 'Корпоративные споры, M&A', years: 18 },
+  { initials: 'СА', name: 'Соловьёва Анна Игоревна', role: 'Партнёр', spec: 'Банкротство, субсидиарная ответственность', years: 12 },
+  { initials: 'МВ', name: 'Марков Виктор Павлович', role: 'Партнёр', spec: 'Арбитраж, налоговые споры', years: 15 },
+];
+
+const caseVolume = [
+  { label: 'M&A и корпоративные', count: '120+', pct: 92 },
+  { label: 'Банкротство', count: '85+', pct: 68 },
+  { label: 'Арбитраж', count: '140+', pct: 100 },
+  { label: 'Налоговые споры', count: '60+', pct: 46 },
+  { label: 'Недвижимость', count: '45+', pct: 35 },
+];
+
+const principles = [
+  { mono: '◆', title: 'Эксклюзивность', desc: 'Ограниченное количество дел в работе гарантирует максимальное погружение команды в специфику вашего бизнеса.' },
+  { mono: '⛨', title: 'Конфиденциальность', desc: 'Строгое соблюдение адвокатской тайны. Сведения о доверителях никогда не становятся публичными без согласия.' },
+  { mono: '↗', title: 'Ориентация на результат', desc: 'Мы предлагаем конкретные правовые решения для достижения экономической цели бизнеса, а не просто консультируем о рисках.' },
+  { mono: '◎', title: 'Прозрачность', desc: 'Честная оценка судебных перспектив до подписания договора. Фиксированная стоимость услуг без скрытых платежей.' },
+];
+
+const process = [
+  { n: '1', title: 'Правовой аудит', desc: 'Изучение материалов дела, анализ практики и выработка предварительной правовой позиции с оценкой рисков.' },
+  { n: '2', title: 'Формирование стратегии', desc: 'Пошаговый план действий, сбор доказательной базы и согласование с доверителем тактики ведения дела.' },
+  { n: '3', title: 'Реализация и защита', desc: 'Представительство интересов в судах и на переговорах, реализация стратегии до нужного результата.' },
+];
+
+const goldStats = [
+  { value: '15+', label: 'Лет практики' },
+  { value: '92%', label: 'Успешных дел' },
+  { value: '5млрд+', label: 'Защищённых активов ₽' },
+  { value: 'Топ-15', label: 'Рейтингов Право-300' },
+];
+
+const casesData = [
+  { tag: 'Корпоративный конфликт • 2025', title: 'Защита мажоритарного акционера производственного холдинга', desc: 'Успешное отражение попыток недружественного поглощения. Суды трёх инстанций отказали оппонентам во взыскании убытков на сумму более 5 млрд рублей с доверителя.', tags: ['Арбитражный суд г. Москвы', 'Победа'] },
+  { tag: 'Банкротство • 2024', title: 'Защита от субсидиарной ответственности бывших бенефициаров', desc: 'В деле о банкротстве крупного ритейлера доказали отсутствие причинно-следственной связи между действиями доверителей и банкротством, сохранив их активы на сумму 1.2 млрд рублей.', tags: ['Кассация', 'Победа'] },
+];
+
+const faqsData = [
+  { q: 'Как формируется стоимость услуг?', a: 'Мы работаем по системе фиксированных гонораров (Flat Fee) или по почасовым ставкам (Hourly Rate), в зависимости от специфики проекта. В некоторых делах возможен гонорар успеха (Success Fee).' },
+  { q: 'Даёте ли вы стопроцентную гарантию выигрыша в суде?', a: 'В соответствии с Кодексом профессиональной этики адвоката мы не имеем права давать гарантии исхода судебного спора. Но мы гарантируем профессиональный подход и максимальную защиту ваших интересов.' },
+  { q: 'С какими регионами вы работаете?', a: 'Главный офис находится в Москве, но мы представляем интересы доверителей в арбитражных судах и судах общей юрисдикции по всей территории РФ.' },
+  { q: 'Как обеспечивается конфиденциальность?', a: 'Конфиденциальность защищена законом об адвокатской деятельности. Любые сведения, связанные с оказанием правовой помощи, составляют строгую адвокатскую тайну.' },
+];
+
+function WinRateRings() {
+  const [ref, vis] = useInView<HTMLDivElement>();
+  const radii = [86, 64, 42];
+  const colors = ['#C9A263', '#E8CB94', '#8A6A3B'];
+  const vals = [96, 91, 94];
+  return (
+    <div ref={ref} className="relative w-full aspect-square max-w-[420px] mx-auto">
+      <svg viewBox="0 0 200 200" className="w-full h-full -rotate-90">
+        <circle cx="100" cy="100" r="86" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="14" />
+        <circle cx="100" cy="100" r="64" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="14" />
+        <circle cx="100" cy="100" r="42" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="14" />
+        {radii.map((r, i) => {
+          const circ = 2 * Math.PI * r;
+          const shown = vis ? vals[i] : 0;
+          const offset = circ - (circ * shown) / 100;
+          return (
+            <circle key={i} cx="100" cy="100" r={r} fill="none" stroke={colors[i]} strokeWidth="14" strokeLinecap="round"
+              strokeDasharray={circ} strokeDashoffset={offset} style={{ transition: 'stroke-dashoffset 1.3s cubic-bezier(0.22,1,0.36,1)' }} />
+          );
+        })}
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <div className="text-[40px] md:text-[48px] text-white font-medium leading-none">94%</div>
+        <div className="font-sans text-[10px] uppercase tracking-[0.15em] text-slate-500 mt-2">общий win-rate</div>
+      </div>
+    </div>
+  );
+}
 
 export default function LawFirm() {
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [submitted, setSubmitted] = useState(false);
+
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 5000);
   };
 
   return (
-    <div className="relative min-h-screen bg-[#0a1023] text-slate-300 font-serif selection:bg-[#c9a263] selection:text-white overflow-hidden">
-
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-[#0a1023]/95 backdrop-blur border-b border-[#2a365c] py-5 pl-20 pr-6 md:pl-24 md:pr-12 flex justify-between items-center">
-        <div className="text-xl md:text-2xl font-bold tracking-widest text-[#c9a263] uppercase">
-          Egorov <span className="text-white font-light">& Partners</span>
+    <div className="relative min-h-screen bg-[#0A1023] text-slate-300 font-cormorant selection:bg-[#C9A263]/25 selection:text-white overflow-x-clip">
+      {/* HEADER */}
+      <header className="sticky top-0 z-50 bg-[#0A1023]/92 backdrop-blur-md border-b border-[#2A365C]">
+        <div className="max-w-[1360px] mx-auto px-6 md:px-8 py-5 flex justify-between items-center pl-20 md:pl-24">
+          <div className="font-manrope text-lg md:text-xl font-extrabold uppercase tracking-[0.15em] text-[#C9A263]">Egorov <span className="text-white font-light">& Partners</span></div>
+          <nav className="hidden lg:flex gap-7 font-manrope">
+            {navLinks.map((l) => (
+              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="text-xs uppercase tracking-[0.1em] text-slate-300 hover:text-[#C9A263] transition-colors">{l.name}</a>
+            ))}
+          </nav>
+          <button onClick={(e: any) => scrollTo(e, 'contacts')} className="font-manrope bg-[#C9A263] text-[#0A1023] px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em] transition-all hover:bg-[#B08B53] hover:-translate-y-0.5 cursor-pointer">Консультация</button>
         </div>
-        <nav className="hidden md:flex gap-8 text-sm font-sans tracking-wider text-slate-300 uppercase">
-          <a href="#practice" onClick={(e) => scrollTo(e, 'practice')} className="hover:text-[#c9a263] transition-colors">Практики</a>
-          <a href="#partners" onClick={(e) => scrollTo(e, 'partners')} className="hover:text-[#c9a263] transition-colors">Партнёры</a>
-          <a href="#principles" onClick={(e) => scrollTo(e, 'principles')} className="hover:text-[#c9a263] transition-colors">Принципы</a>
-          <a href="#process" onClick={(e) => scrollTo(e, 'process')} className="hover:text-[#c9a263] transition-colors">Этапы</a>
-          <a href="#cases" onClick={(e) => scrollTo(e, 'cases')} className="hover:text-[#c9a263] transition-colors">Дела</a>
-          <a href="#faq" onClick={(e) => scrollTo(e, 'faq')} className="hover:text-[#c9a263] transition-colors">FAQ</a>
-          <a href="#contacts" onClick={(e) => scrollTo(e, 'contacts')} className="hover:text-[#c9a263] transition-colors">Контакты</a>
-        </nav>
-        <button className="bg-[#c9a263] text-[#0a1023] px-4 md:px-6 py-2 font-sans font-bold uppercase tracking-wider text-[10px] md:text-xs transition-colors hover:bg-[#b08b53] cursor-pointer">
-          Консультация
-        </button>
       </header>
 
-      {/* Hero */}
-      <section className="relative min-h-[85vh] flex items-center pt-20 px-6 md:px-12 bg-[#0a1023] overflow-hidden">
-        {/* Graphic backdrop: fine gold linework, no stock imagery */}
-        <div className="absolute inset-0">
-          <div
-            className="absolute inset-0 opacity-[0.05]"
-            style={{
-              backgroundImage: 'linear-gradient(#c9a263 1px, transparent 1px), linear-gradient(90deg, #c9a263 1px, transparent 1px)',
-              backgroundSize: '56px 56px',
-            }}
-          />
-          <div className="absolute top-1/4 right-[8%] w-[42vw] h-[42vw] max-w-[560px] max-h-[560px] rounded-full bg-[#c9a263]/[0.07] blur-[120px]" />
-          <div className="absolute inset-0 flex items-center justify-end pointer-events-none select-none overflow-hidden">
-            <Scale className="w-[46vw] h-[46vw] max-w-[620px] max-h-[620px] text-[#c9a263]/[0.06] translate-x-[18%]" strokeWidth={0.4} />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1023] via-[#0a1023]/85 to-[#0a1023]/40" />
-        </div>
+      {/* HERO */}
+      <section className="relative min-h-[86dvh] flex items-center py-20 px-6 md:px-8 overflow-hidden">
+        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'linear-gradient(#C9A263 1px,transparent 1px),linear-gradient(90deg,#C9A263 1px,transparent 1px)', backgroundSize: '56px 56px' }} />
+        <div className="absolute top-[20%] right-[6%] w-[44vw] h-[44vw] max-w-[600px] max-h-[600px] rounded-full" style={{ background: 'rgba(201,162,99,0.08)', filter: 'blur(120px)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right,#0A1023,rgba(10,16,35,0.85) 55%,rgba(10,16,35,0.3))' }} />
 
-        <div className="max-w-7xl mx-auto w-full relative z-10">
-          <div className="max-w-2xl relative z-10">
-            <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="flex items-center gap-4 mb-8">
-               <div className="h-px bg-[#c9a263] w-12"></div>
-               <div className="text-[#c9a263] font-sans font-medium uppercase tracking-widest text-xs">Юридическое бюро</div>
+        <div className="max-w-[1360px] mx-auto relative z-[2] w-full">
+          <div className="max-w-[680px]">
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: EASE }} className="font-manrope flex items-center gap-4 mb-7">
+              <span className="w-11 h-px bg-[#C9A263]" />
+              <span className="text-[#C9A263] font-semibold uppercase tracking-[0.2em] text-xs">Юридическое бюро с 2010 года</span>
             </motion.div>
-            <motion.h1
-              {...fadeUp}
-              transition={{ duration: 0.8, delay: 0.1, ease }}
-              className="text-4xl md:text-6xl text-white leading-[1.1] mb-8 font-medium"
-            >
-              Безупречная защита <br/>интересов вашего бизнеса в суде
+            <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1, ease: EASE }} className="text-[34px] sm:text-[44px] md:text-[58px] leading-[1.14] text-white font-medium mb-7">
+              Безупречная защита интересов вашего бизнеса в суде
             </motion.h1>
-            <motion.p
-              {...fadeUp}
-              transition={{ duration: 0.8, delay: 0.2, ease }}
-              className="text-lg md:text-xl mb-12 font-sans font-light leading-relaxed max-w-lg"
-            >
-              Разрешение сложных корпоративных споров, защита активов и юридическое сопровождение сделок с 2010 года.
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.2, ease: EASE }} className="font-manrope text-base font-light leading-[1.7] max-w-[480px] mb-10">
+              Разрешение сложных корпоративных споров, защита активов и юридическое сопровождение сделок для собственников и топ-менеджмента.
             </motion.p>
-            <motion.div
-              {...fadeUp}
-              transition={{ duration: 0.8, delay: 0.3, ease }}
-              className="bg-[#131d3b]/80 border border-[#2a365c] p-6 md:p-8 backdrop-blur-md"
-            >
-              <h3 className="text-white text-lg mb-6 font-medium">Запись на первичную консультацию</h3>
-              <form className="flex flex-col sm:flex-row gap-4">
-                <input type="tel" placeholder="Ваш телефон" className="flex-1 bg-transparent border-b border-[#2a365c] text-white px-2 py-2 font-sans focus:outline-none focus:border-[#c9a263] transition-colors" />
-                <button type="button" className="bg-[#c9a263] text-[#0a1023] font-sans font-bold uppercase tracking-wider text-xs px-8 py-3 hover:bg-[#b08b53] transition-colors cursor-pointer">
-                  Отправить
-                </button>
+
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.3, ease: EASE }} className="bg-[#131D3B]/80 border border-[#2A365C] p-7 backdrop-blur-xl max-w-[520px]">
+              <h3 className="font-manrope text-white text-base font-semibold mb-5">Запись на первичную консультацию</h3>
+              <form onSubmit={handleSubmit} className="flex gap-4 flex-wrap">
+                <input required type="tel" placeholder="Ваш телефон" className="font-manrope flex-1 min-w-[160px] bg-transparent border-0 border-b border-[#2A365C] py-2.5 px-1 text-white text-base outline-none placeholder:text-white/30" />
+                <button type="submit" className="font-manrope bg-[#C9A263] text-[#0A1023] font-bold uppercase tracking-[0.1em] text-[11px] px-7 py-3.5 border-none cursor-pointer transition-all hover:bg-[#B08B53] hover:-translate-y-0.5">Отправить</button>
               </form>
+              {submitted && <p className="font-manrope text-[#C9A263] text-xs mt-3.5">Заявка отправлена. Свяжемся в течение часа.</p>}
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Stats/Credibility */}
-      <section className="border-y border-[#2a365c] bg-[#0a1023] py-12 px-6 md:px-12">
-         <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-[#2a365c]">
-            {[
-              { v: '10+', l: 'Лет практики' },
-              { v: '₽45 млрд', l: 'Защищенных активов' },
-              { v: '94%', l: 'Выигранных дел' },
-              { v: 'Топ-15', l: 'Право.ru-300' },
-            ].map((s, i) => (
-              <div key={i} className="px-4 text-center">
-                <div className="text-3xl text-[#c9a263] mb-2 font-light">{s.v}</div>
-                <div className="font-sans text-xs uppercase tracking-widest text-slate-500">{s.l}</div>
-              </div>
-            ))}
-         </motion.div>
-      </section>
-
-      {/* Services */}
-      <section id="practice" className="py-24 px-6 md:px-12 bg-[#0d152e]">
-        <div className="max-w-7xl mx-auto">
-          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl text-white font-medium mb-6">Ключевые практики</h2>
-            <div className="w-16 h-0.5 bg-[#c9a263] mx-auto"></div>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-1">
-            {[
-              'Корпоративное право и M&A',
-              'Разрешение споров и Арбитраж',
-              'Банкротство и реструктуризация',
-              'Налоговое право',
-              'Уголовно-правовая защита бизнеса',
-              'Недвижимость и строительство'
-            ].map((practice, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: (i % 3) * 0.08, ease }}
-                className="bg-[#131d3b] p-8 md:p-10 border border-[#2a365c] hover:border-[#c9a263] hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(201,162,99,0.2)] group transition-all duration-500 cursor-pointer flex flex-col justify-between h-full min-h-[250px]"
-              >
-                <h3 className="text-xl text-white font-medium mb-6 group-hover:text-[#c9a263] transition-colors">{practice}</h3>
-                <div className="w-10 h-10 border border-[#2a365c] rounded-full flex items-center justify-center text-[#c9a263] group-hover:bg-[#c9a263] group-hover:text-[#0a1023] transition-all">
-                  <ArrowUpRight className="w-4 h-4" strokeWidth={2} />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Partners */}
-      <section id="partners" className="py-24 px-6 md:px-12 bg-[#0d152e] border-t border-[#2a365c]">
-        <div className="max-w-7xl mx-auto">
-          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl text-white font-medium mb-6">Партнёры бюро</h2>
-            <div className="w-16 h-0.5 bg-[#c9a263] mx-auto"></div>
-          </motion.div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { initials: 'ЕД', name: 'Егоров Дмитрий Александрович', role: 'Управляющий партнёр', spec: 'Корпоративные споры, M&A', years: 18 },
-              { initials: 'СА', name: 'Соловьёва Анна Игоревна', role: 'Партнёр', spec: 'Банкротство, субсидиарная ответственность', years: 12 },
-              { initials: 'МВ', name: 'Марков Виктор Павлович', role: 'Партнёр', spec: 'Арбитраж, налоговые споры', years: 15 },
-            ].map((p, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: i * 0.1, ease }}
-                className="bg-[#131d3b] border border-[#2a365c] hover:border-[#c9a263] hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(201,162,99,0.2)] transition-all duration-500 p-8"
-              >
-                <div className="w-16 h-16 rounded-full bg-[#c9a263]/10 border border-[#c9a263]/40 text-[#c9a263] flex items-center justify-center font-medium text-xl mb-6">
-                  {p.initials}
-                </div>
-                <h3 className="text-white font-medium text-lg mb-1">{p.name}</h3>
-                <p className="text-[#c9a263] text-xs uppercase tracking-widest mb-3">{p.role}</p>
-                <p className="text-slate-400 text-sm font-sans font-light mb-6">{p.spec}</p>
-                <div className="pt-4 border-t border-[#2a365c] flex items-baseline gap-2">
-                  <span className="text-2xl font-serif text-white">{p.years}</span>
-                  <span className="text-[10px] uppercase tracking-widest text-slate-500 font-sans">лет практики</span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Client types */}
-      <section id="clients" className="py-24 px-6 md:px-12 bg-[#0a1023] border-t border-[#2a365c]">
-        <div className="max-w-7xl mx-auto">
-          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8 text-white">
-            <h2 className="text-3xl md:text-5xl font-medium">С кем мы работаем</h2>
-            <div className="w-16 h-0.5 bg-[#c9a263]"></div>
-          </motion.div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#2a365c]">
-            {['Собственники и топ-менеджмент', 'Промышленные холдинги', 'IT и технологические компании', 'Инвестиционные фонды'].map((c, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: i * 0.08, ease }}
-                className="bg-[#0d152e] p-8 min-h-[120px] flex items-center hover:bg-[#131d3b] transition-colors duration-500"
-              >
-                <span className="text-white font-sans text-sm leading-snug">{c}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Principles */}
-      <section id="principles" className="py-24 px-6 md:px-12 bg-[#0a1023] border-t border-[#2a365c]">
-        <div className="max-w-7xl mx-auto">
-          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8 text-white">
-            <div>
-              <h2 className="text-3xl md:text-5xl font-medium mb-6">Принципы нашей работы</h2>
-              <div className="w-16 h-0.5 bg-[#c9a263]"></div>
-            </div>
-            <p className="max-w-md font-sans font-light text-slate-300 leading-relaxed">
-              Фундамент, на котором строятся отношения с доверителями и выигрываются самые сложные споры.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { icon: Target, title: 'Эксклюзивность', desc: 'Мы берем в работу ограниченное количество дел, чтобы гарантировать максимальное погружение команды в специфику вашего бизнеса.' },
-              { icon: Lock, title: 'Конфиденциальность', desc: 'Строгое соблюдение адвокатской тайны. Информация о наших доверителях и деталях споров никогда не становится публичной без их согласия.' },
-              { icon: ArrowUpRight, title: 'Ориентация на результат', desc: 'Мы не просто консультируем о рисках, а предлагаем конкретные правовые решения для достижения экономической цели бизнеса.' },
-              { icon: Eye, title: 'Прозрачность', desc: 'Честная оценка судебных перспектив до подписания договора. Фиксированная стоимость услуг, исключающая скрытые платежи.' }
-            ].map((p, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: i * 0.1, ease }}
-                className="bg-[#131d3b] p-8 border border-[#2a365c] hover:border-[#c9a263] hover:-translate-y-1 hover:shadow-[0_24px_48px_-16px_rgba(201,162,99,0.18)] transition-all duration-500 flex flex-col min-h-[280px]"
-              >
-                <p.icon className="text-[#c9a263] w-8 h-8 mb-6" strokeWidth={1.5} />
-                <h3 className="text-xl text-white font-medium mb-4">{p.title}</h3>
-                <p className="font-sans font-light text-sm text-slate-400 flex-grow leading-relaxed">{p.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Process */}
-      <section id="process" className="py-24 px-6 md:px-12 bg-[#0d152e] border-t border-[#2a365c]">
-        <div className="max-w-7xl mx-auto">
-          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl text-white font-medium mb-6">Этапы сотрудничества</h2>
-            <div className="w-16 h-0.5 bg-[#c9a263] mx-auto"></div>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { n: 1, title: 'Правовой аудит', desc: 'Изучение материалов дела, анализ судебной практики и выработка предварительной правовой позиции с оценкой рисков и перспектив.', line: true },
-              { n: 2, title: 'Формирование стратегии', desc: 'Выработка пошагового плана действий (дорожной карты), сбор доказательной базы и согласование с доверителем тактики ведения дела.', line: true },
-              { n: 3, title: 'Реализация и защита', desc: 'Активное представительство интересов в судах и на переговорах, реализация выработанной стратегии вплоть до достижения необходимого результата.', line: false },
-            ].map((step, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: i * 0.15, ease }}
-                className="relative group"
-              >
-                {step.line && <div className="hidden md:block absolute top-8 left-1/2 w-full h-px bg-[#2a365c] group-hover:bg-[#c9a263] transition-colors"></div>}
-                <div className="bg-[#0a1023] w-16 h-16 rounded-full border-2 border-[#2a365c] group-hover:border-[#c9a263] text-[#c9a263] flex items-center justify-center font-sans font-medium text-xl mx-auto mb-6 relative z-10 transition-colors">
-                  {step.n}
-                </div>
-                <div className="text-center px-4">
-                  <h3 className="text-xl text-white font-medium mb-4">{step.title}</h3>
-                  <p className="font-sans font-light text-slate-400 text-sm leading-relaxed">
-                    {step.desc}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="py-20 px-6 md:px-12 bg-[#c9a263]">
-        <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 divide-x-0 md:divide-x md:divide-[#8a6a3b] text-center">
-          {[
-            { v: '15+', l: 'Лет практики' },
-            { v: '92%', l: 'Успешных дел' },
-            { v: '5млрд+', l: 'Защищенных активов ₽' },
-            { v: 'Топ-15', l: 'Рейтингов Право-300' },
-          ].map((s, i) => (
-            <div key={i} className="px-4">
-              <div className="text-4xl md:text-5xl font-medium text-[#0a1023] mb-2">{s.v}</div>
-              <p className="text-xs md:text-sm font-sans font-medium text-[#0a1023] uppercase tracking-wider">{s.l}</p>
+      {/* STATS */}
+      <section className="border-t border-b border-[#2A365C] py-14 px-6 md:px-8">
+        <Reveal className="max-w-[1360px] mx-auto grid grid-cols-2 lg:grid-cols-4">
+          {heroStats.map((s, i) => (
+            <div key={s.label} className={`text-center px-4 ${i < heroStats.length - 1 ? 'lg:border-r border-[#2A365C]' : ''}`}>
+              <div className="text-2xl md:text-[32px] text-[#C9A263] font-normal mb-2">{s.value}</div>
+              <div className="font-manrope text-[10px] uppercase tracking-[0.15em] text-slate-500">{s.label}</div>
             </div>
           ))}
-        </motion.div>
+        </Reveal>
       </section>
 
-      {/* Cases */}
-      <section id="cases" className="py-24 px-6 md:px-12 bg-[#0d152e] border-t border-[#2a365c]">
-        <div className="max-w-7xl mx-auto">
-          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="flex justify-between items-end mb-16 border-b border-[#2a365c] pb-6">
-            <h2 className="text-3xl md:text-5xl text-white font-medium">Значимые дела</h2>
-            <button className="hidden md:block font-sans uppercase tracking-widest text-xs text-[#c9a263] hover:text-white transition-colors cursor-pointer">Все кейсы →</button>
-          </motion.div>
-          <div className="grid md:grid-cols-2 gap-x-12 gap-y-16">
-            {[
-              { tag: 'Корпоративный конфликт • 2025', title: 'Защита мажоритарного акционера производственного холдинга', desc: 'Успешное отражение попыток недружественного поглощения (рейдерского захвата). Суды трех инстанций отказали оппонентам во взыскании убытков на сумму более 5 млрд рублей с доверителя.', tags: ['Арбитражный суд г. Москвы', 'Победа'] },
-              { tag: 'Банкротство • 2024', title: 'Защита от субсидиарной ответственности бывших бенефициаров', desc: 'В рамках дела о банкротстве крупного ритейлера нам удалось доказать отсутствие причинно-следственной связи между действиями доверителей и банкротством компании, сохранив их личные активы на сумму 1.2 млрд рублей.', tags: ['Кассация', 'Победа'] },
-            ].map((c, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.7, delay: i * 0.15, ease }}
-                className="group cursor-pointer"
-              >
-                <div className="font-sans font-medium uppercase tracking-widest text-xs text-slate-500 mb-3 group-hover:text-[#c9a263] transition-colors">{c.tag}</div>
-                <h3 className="text-2xl text-white font-medium mb-4 leading-snug">{c.title}</h3>
-                <p className="font-sans font-light text-slate-400 text-sm leading-relaxed mb-6">
-                  {c.desc}
-                </p>
-                <div className="flex gap-4">
-                  {c.tags.map((t, j) => (
-                    <div key={j} className="font-sans font-light text-xs bg-[#131d3b] text-slate-300 px-3 py-1 border border-[#2a365c]">{t}</div>
+      {/* WIN-RATE INFOGRAPHIC */}
+      <section className="py-20 md:py-28 px-6 md:px-8 bg-[#0D152E]">
+        <div className="max-w-[1360px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-16 items-center">
+          <Reveal>
+            <div className="font-manrope flex items-center gap-4 mb-6"><span className="w-11 h-px bg-[#C9A263]" /><span className="text-[#C9A263] font-semibold uppercase tracking-[0.2em] text-xs">Практика в цифрах</span></div>
+            <h2 className="text-3xl md:text-[42px] text-white font-medium mb-6">Результативность по направлениям</h2>
+            <p className="font-manrope text-sm font-light text-slate-400 leading-[1.7] max-w-[460px] mb-9">Доля выигранных дел за последние 5 лет практики в разрезе ключевых направлений бюро.</p>
+            <div className="flex flex-col gap-5.5">
+              {winRates.map((w) => (
+                <div key={w.label}>
+                  <div className="font-manrope flex justify-between mb-2.5">
+                    <span className="text-[13px] text-slate-300">{w.label}</span>
+                    <span className="text-sm text-[#C9A263] font-bold">{w.pct}%</span>
+                  </div>
+                  <div className="h-1.5 bg-white/[0.06] relative">
+                    <motion.div initial={{ width: 0 }} whileInView={{ width: `${w.pct}%` }} viewport={{ once: true }} transition={{ duration: 1.2, ease: EASE }} className="h-full" style={{ background: 'linear-gradient(90deg,#C9A263,#E8CB94)' }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+          <Reveal><WinRateRings /></Reveal>
+        </div>
+      </section>
+
+      {/* PRACTICES */}
+      <section id="practice" className="py-20 md:py-28 px-6 md:px-8 scroll-mt-20">
+        <div className="max-w-[1360px] mx-auto">
+          <Reveal className="text-center mb-14 md:mb-16">
+            <h2 className="text-3xl md:text-[44px] text-white font-medium mb-5">Ключевые практики</h2>
+            <div className="w-14 h-0.5 bg-[#C9A263] mx-auto" />
+          </Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px">
+            {practices.map((p, i) => (
+              <Reveal key={p} delay={(i % 3) * 0.07} className="group bg-[#131D3B] border border-[#2A365C] p-9 min-h-[220px] flex flex-col justify-between transition-all duration-400 hover:-translate-y-1.5 hover:border-[#C9A263] hover:shadow-[0_26px_54px_-20px_rgba(201,162,99,0.22)]">
+                <h3 className="text-xl md:text-2xl text-white font-medium">{p}</h3>
+                <div className="w-10 h-10 rounded-full border border-[#2A365C] text-[#C9A263] flex items-center justify-center text-lg transition-colors duration-300 group-hover:bg-[#C9A263] group-hover:text-[#0A1023]">↗</div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PARTNERS */}
+      <section id="partners" className="py-20 md:py-28 px-6 md:px-8 bg-[#0D152E] border-t border-[#2A365C] scroll-mt-20">
+        <div className="max-w-[1360px] mx-auto">
+          <Reveal className="text-center mb-14 md:mb-16">
+            <h2 className="text-3xl md:text-[44px] text-white font-medium mb-5">Партнёры бюро</h2>
+            <div className="w-14 h-0.5 bg-[#C9A263] mx-auto" />
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
+            {partners.map((p, i) => (
+              <Reveal key={p.name} delay={i * 0.08} className="bg-[#131D3B] border border-[#2A365C] p-9 transition-all duration-400 hover:-translate-y-1.5 hover:border-[#C9A263] hover:shadow-[0_26px_54px_-20px_rgba(201,162,99,0.22)]">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center text-xl mb-6" style={{ background: 'rgba(201,162,99,0.1)', border: '1px solid rgba(201,162,99,0.4)', color: '#C9A263' }}>{p.initials}</div>
+                <h3 className="text-lg md:text-xl text-white font-medium mb-1.5">{p.name}</h3>
+                <p className="font-manrope text-[#C9A263] text-[10px] uppercase tracking-[0.15em] mb-3.5">{p.role}</p>
+                <p className="font-manrope text-slate-400 text-[13px] font-light mb-6">{p.spec}</p>
+                <div className="pt-4.5 border-t border-[#2A365C] flex items-baseline gap-2">
+                  <span className="text-2xl md:text-[26px] text-white">{p.years}</span>
+                  <span className="font-manrope text-[9px] uppercase tracking-[0.15em] text-slate-500">лет практики</span>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CASE VOLUME */}
+      <section className="py-20 md:py-28 px-6 md:px-8">
+        <div className="max-w-[1360px] mx-auto">
+          <Reveal className="text-center mb-14 md:mb-16">
+            <h2 className="text-3xl md:text-[44px] text-white font-medium mb-5">Портфель дел по категориям</h2>
+            <div className="w-14 h-0.5 bg-[#C9A263] mx-auto" />
+          </Reveal>
+          <Reveal className="grid grid-cols-5 gap-2 sm:gap-5 items-end h-[220px] md:h-[260px]">
+            {caseVolume.map((c) => (
+              <div key={c.label} className="flex flex-col items-center justify-end h-full gap-2 sm:gap-3">
+                <span className="text-[#C9A263] text-xs sm:text-base">{c.count}</span>
+                <div className="w-full h-[150px] sm:h-[190px] flex items-end bg-white/[0.03]">
+                  <motion.div initial={{ height: 0 }} whileInView={{ height: `${c.pct}%` }} viewport={{ once: true }} transition={{ duration: 1.2, ease: EASE }} className="w-full" style={{ background: 'linear-gradient(to top,#8A6A3B,#C9A263)' }} />
+                </div>
+                <span className="font-manrope text-[9px] sm:text-[11px] uppercase tracking-[0.08em] text-slate-500 text-center">{c.label}</span>
+              </div>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
+      {/* PRINCIPLES */}
+      <section id="principles" className="py-20 md:py-28 px-6 md:px-8 bg-[#0D152E] border-t border-[#2A365C] scroll-mt-20">
+        <div className="max-w-[1360px] mx-auto">
+          <Reveal className="flex justify-between items-end gap-8 flex-wrap mb-14 md:mb-16">
+            <div>
+              <h2 className="text-3xl md:text-[44px] text-white font-medium mb-5">Принципы нашей работы</h2>
+              <div className="w-14 h-0.5 bg-[#C9A263]" />
+            </div>
+            <p className="font-manrope text-slate-400 text-sm max-w-[380px]">Фундамент, на котором строятся отношения с доверителями и выигрываются самые сложные споры.</p>
+          </Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {principles.map((pr, i) => (
+              <Reveal key={pr.title} delay={i * 0.07} className="bg-[#131D3B] border border-[#2A365C] p-8 min-h-[240px] flex flex-col transition-all duration-400 hover:-translate-y-1.5 hover:border-[#C9A263] hover:shadow-[0_26px_54px_-20px_rgba(201,162,99,0.22)]">
+                <div className="text-[#C9A263] text-2xl mb-5">{pr.mono}</div>
+                <h3 className="text-xl text-white font-medium mb-3.5">{pr.title}</h3>
+                <p className="font-manrope text-slate-400 text-[13px] font-light leading-[1.65]">{pr.desc}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PROCESS */}
+      <section id="process" className="py-20 md:py-28 px-6 md:px-8 scroll-mt-20">
+        <div className="max-w-[1100px] mx-auto">
+          <Reveal className="text-center mb-14 md:mb-16">
+            <h2 className="text-3xl md:text-[44px] text-white font-medium mb-5">Этапы сотрудничества</h2>
+            <div className="w-14 h-0.5 bg-[#C9A263] mx-auto" />
+          </Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-9">
+            {process.map((step, i) => (
+              <Reveal key={step.n} delay={i * 0.1} className="text-center">
+                <div className="w-16 h-16 rounded-full border-2 border-[#2A365C] text-[#C9A263] flex items-center justify-center text-xl mx-auto mb-6">{step.n}</div>
+                <h3 className="text-xl text-white font-medium mb-3.5">{step.title}</h3>
+                <p className="font-manrope text-slate-400 text-[13px] font-light leading-[1.65]">{step.desc}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* GOLD BAND */}
+      <section className="py-16 md:py-20 px-6 md:px-8 bg-[#C9A263]">
+        <Reveal className="max-w-[1360px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+          {goldStats.map((g) => (
+            <div key={g.label}>
+              <div className="text-3xl md:text-[40px] text-[#0A1023] font-semibold mb-2">{g.value}</div>
+              <div className="font-manrope text-[11px] uppercase tracking-[0.1em] text-[#0A1023] font-semibold">{g.label}</div>
+            </div>
+          ))}
+        </Reveal>
+      </section>
+
+      {/* CASES */}
+      <section id="cases" className="py-20 md:py-28 px-6 md:px-8 bg-[#0D152E] border-t border-[#2A365C] scroll-mt-20">
+        <div className="max-w-[1200px] mx-auto">
+          <Reveal className="flex justify-between items-end border-b border-[#2A365C] pb-6.5 mb-14 md:mb-16">
+            <h2 className="text-3xl md:text-[44px] text-white font-medium">Значимые дела</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-14">
+            {casesData.map((c, i) => (
+              <Reveal key={c.title} delay={i * 0.1}>
+                <div className="font-manrope text-slate-500 text-[11px] uppercase tracking-[0.1em] mb-3.5">{c.tag}</div>
+                <h3 className="text-xl md:text-2xl text-white font-medium mb-4 leading-[1.35]">{c.title}</h3>
+                <p className="font-manrope text-slate-400 text-[13px] font-light leading-[1.65] mb-6">{c.desc}</p>
+                <div className="flex gap-3 flex-wrap">
+                  {c.tags.map((t) => (
+                    <span key={t} className="font-manrope bg-[#131D3B] border border-[#2A365C] text-slate-300 text-[11px] px-3.5 py-1.5">{t}</span>
                   ))}
                 </div>
-              </motion.div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-24 px-6 md:px-12 bg-[#0a1023] border-t border-[#2a365c]">
-        <div className="max-w-4xl mx-auto">
-          <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-center mb-16">
-             <h2 className="text-3xl md:text-5xl text-white font-medium mb-6">Частые вопросы</h2>
-             <div className="w-16 h-0.5 bg-[#c9a263] mx-auto"></div>
-          </motion.div>
-          <div className="space-y-4">
-            {[
-              { q: 'Как формируется стоимость услуг?', a: 'Мы работаем по системе фиксированных гонораров (Flat Fee) или по почасовым ставкам (Hourly Rate), в зависимости от специфики проекта. В некоторых делах возможен гонорар успеха (Success Fee).' },
-              { q: 'Даете ли вы стопроцентную гарантию выигрыша в суде?', a: 'В соответствии с Кодексом профессиональной этики адвоката, мы не имеем права давать гарантии исхода судебного спора. Однако мы гарантируем профессиональный подход, глубокую экспертизу и максимальную защиту ваших интересов.' },
-              { q: 'С какими регионами вы работаете?', a: 'Главный офис находится в Москве, но мы представляем интересы доверителей в арбитражных судах и судах общей юрисдикции по всей территории Российской Федерации.' },
-              { q: 'Как обеспечивается конфиденциальность?', a: 'Конфиденциальность защищена законом об адвокатской деятельности. Любые сведения, связанные с оказанием правовой помощи, составляют строгую адвокатскую тайну и не подлежат разглашению.' }
-            ].map((faq, i) => (
-              <motion.details
-                key={i}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: i * 0.06, ease }}
-                className="group bg-[#131d3b] border border-[#2a365c] p-6 lg:p-8 cursor-pointer open:border-[#c9a263] transition-colors rounded-none"
-              >
-                <summary className="text-white font-medium text-lg marker:content-none flex justify-between items-center outline-none">
-                  <span className="pr-8">{faq.q}</span>
-                  <span className="text-[#c9a263] shrink-0">
-                    <Plus className="w-5 h-5 group-open:hidden" strokeWidth={1.5} />
-                    <Minus className="w-5 h-5 hidden group-open:block" strokeWidth={1.5} />
-                  </span>
-                </summary>
-                <div className="mt-6 font-sans font-light text-slate-400 text-sm leading-relaxed pr-8 border-t border-[#2a365c] pt-6">
-                  {faq.a}
-                </div>
-              </motion.details>
-            ))}
+      <section id="faq" className="py-20 md:py-28 px-6 md:px-8 scroll-mt-20">
+        <div className="max-w-[900px] mx-auto">
+          <Reveal className="text-center mb-14 md:mb-16">
+            <h2 className="text-3xl md:text-[44px] text-white font-medium mb-5">Частые вопросы</h2>
+            <div className="w-14 h-0.5 bg-[#C9A263] mx-auto" />
+          </Reveal>
+          <div className="flex flex-col gap-3.5">
+            {faqsData.map((faq, i) => {
+              const open = openFaq === i;
+              return (
+                <Reveal key={faq.q} delay={i * 0.05} className="bg-[#131D3B] border px-7 md:px-8 py-6.5 transition-colors duration-300" style={{ borderColor: open ? '#C9A263' : '#2A365C' }}>
+                  <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center bg-transparent border-none cursor-pointer text-left text-white">
+                    <span className="text-lg md:text-xl font-medium pr-5">{faq.q}</span>
+                    <span className="text-[#C9A263] text-xl shrink-0">{open ? '−' : '+'}</span>
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {open && (
+                      <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: EASE }} className="overflow-hidden">
+                        <p className="font-manrope text-slate-400 text-[13px] font-light leading-[1.65] mt-5.5 pt-5.5 border-t border-[#2A365C]">{faq.a}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Contacts / Footer */}
-      <footer id="contacts" className="bg-[#0a1023] border-t border-[#2a365c] py-16 px-6 md:px-12 text-slate-400 font-sans font-light">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-12">
-          <div className="col-span-1 md:col-span-2">
-            <div className="text-2xl font-bold tracking-widest text-[#c9a263] uppercase font-serif mb-6">
-              Egorov <span className="text-white font-light">& Partners</span>
-            </div>
-            <p className="text-sm max-w-sm leading-relaxed mb-8">
-              Юридическое бюро, предоставляющее эксклюзивные услуги бизнесу в области разрешения сложных корпоративных и коммерческих споров.
-            </p>
-            <div className="flex items-center gap-6 text-[#c9a263]">
-               <div>г. Москва, Пресненская наб., 12 (Башня Федерация)</div>
+      {/* FOOTER */}
+      <footer id="contacts" className="bg-[#0A1023] border-t border-[#2A365C] pt-16 md:pt-[70px] pb-10 px-6 md:px-8 scroll-mt-20">
+        <div className="max-w-[1360px] mx-auto grid grid-cols-1 lg:grid-cols-[1.6fr_1fr_1fr] gap-12 mb-14">
+          <div>
+            <div className="font-manrope text-xl md:text-2xl font-extrabold uppercase tracking-[0.1em] text-[#C9A263] mb-5">Egorov <span className="text-white font-light">& Partners</span></div>
+            <p className="font-manrope text-slate-400 text-[13px] font-light leading-[1.7] max-w-[420px] mb-5.5">Юридическое бюро, предоставляющее эксклюзивные услуги бизнесу в области разрешения сложных корпоративных и коммерческих споров.</p>
+            <div className="font-manrope text-[#C9A263] text-[13px]">г. Москва, Пресненская наб., 12 (Башня Федерация)</div>
+          </div>
+          <div>
+            <h4 className="font-manrope text-white text-[11px] uppercase tracking-[0.15em] font-bold mb-5">Связь</h4>
+            <div className="font-manrope flex flex-col gap-3 text-[13px] text-slate-400">
+              <span>+7 (495) 000-00-00</span>
+              <span>info@egorov-partners.ru</span>
             </div>
           </div>
           <div>
-            <h4 className="text-white font-medium uppercase tracking-widest text-xs mb-6 font-sans">Связь</h4>
-            <ul className="space-y-4 text-sm">
-              <li>+7 (495) 000-00-00</li>
-              <li>info@egorovlegal.ru</li>
-            </ul>
-            <button className="mt-8 border border-[#c9a263] text-[#c9a263] px-6 py-2 uppercase tracking-widest text-xs hover:bg-[#c9a263] hover:text-[#0a1023] transition-colors font-medium cursor-pointer">Оставить заявку</button>
-          </div>
-          <div>
-            <h4 className="text-white font-medium uppercase tracking-widest text-xs mb-6 font-sans">Информация</h4>
-            <ul className="space-y-4 text-sm">
-              <li><a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Политика конфиденциальности</a></li>
-              <li><a href="#" onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Правовая оговорка</a></li>
-            </ul>
-             <div className="mt-12 text-xs text-slate-500">© 2026 Egorov & Partners</div>
+            <h4 className="font-manrope text-white text-[11px] uppercase tracking-[0.15em] font-bold mb-5">Информация</h4>
+            <div className="font-manrope flex flex-col gap-3 text-[13px]">
+              <a href="#" className="text-slate-400 hover:text-white transition-colors">Политика конфиденциальности</a>
+              <a href="#" className="text-slate-400 hover:text-white transition-colors">Правовая оговорка</a>
+            </div>
           </div>
         </div>
+        <div className="font-manrope max-w-[1360px] mx-auto border-t border-[#2A365C] pt-6.5 text-[11px] text-slate-500">© 2026 Egorov & Partners</div>
       </footer>
     </div>
   );
