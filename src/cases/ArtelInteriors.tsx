@@ -158,29 +158,31 @@ function GaugeCard() {
       <div className="relative">
         <span className="uppercase tracking-[0.35em] text-[10px] text-[#C7A45C]/75 block mb-7">Принципы в цифрах</span>
         <div className="flex items-center gap-8 flex-wrap">
-          <div className="relative w-[150px] h-[150px] shrink-0">
-            <svg viewBox="0 0 150 150" className="w-full h-full -rotate-90">
-              <circle cx="75" cy="75" r="66" fill="none" stroke="rgba(199,164,92,0.12)" strokeWidth="7" />
-              <circle cx="75" cy="75" r="50" fill="none" stroke="rgba(199,164,92,0.12)" strokeWidth="7" />
-              <circle cx="75" cy="75" r="34" fill="none" stroke="rgba(199,164,92,0.12)" strokeWidth="7" />
-              {radii.map((r, i) => {
-                const circ = 2 * Math.PI * r;
-                const shown = vis ? meterBars[i].value : 0;
-                const offset = circ - (circ * shown) / 100;
-                return (
-                  <circle
-                    key={i}
-                    cx="75" cy="75" r={r} fill="none" stroke={colors[i]} strokeWidth="7" strokeLinecap="round"
-                    strokeDasharray={circ} strokeDashoffset={offset}
-                    style={{ transition: 'stroke-dashoffset 1.4s cubic-bezier(0.22,1,0.36,1)' }}
-                  />
-                );
-              })}
-            </svg>
-            <div className="absolute inset-4 flex flex-col items-center justify-center text-center">
-              <span className="font-bodoni text-[22px] text-[#EDE6D8] leading-none whitespace-nowrap">98%</span>
-              <span className="text-[7px] uppercase tracking-[0.1em] opacity-50 mt-1 whitespace-nowrap">рекомендаций</span>
+          <div className="flex flex-col items-center gap-3 shrink-0">
+            <div className="relative w-[150px] h-[150px]">
+              <svg viewBox="0 0 150 150" className="w-full h-full -rotate-90">
+                <circle cx="75" cy="75" r="66" fill="none" stroke="rgba(199,164,92,0.12)" strokeWidth="7" />
+                <circle cx="75" cy="75" r="50" fill="none" stroke="rgba(199,164,92,0.12)" strokeWidth="7" />
+                <circle cx="75" cy="75" r="34" fill="none" stroke="rgba(199,164,92,0.12)" strokeWidth="7" />
+                {radii.map((r, i) => {
+                  const circ = 2 * Math.PI * r;
+                  const shown = vis ? meterBars[i].value : 0;
+                  const offset = circ - (circ * shown) / 100;
+                  return (
+                    <circle
+                      key={i}
+                      cx="75" cy="75" r={r} fill="none" stroke={colors[i]} strokeWidth="7" strokeLinecap="round"
+                      strokeDasharray={circ} strokeDashoffset={offset}
+                      style={{ transition: 'stroke-dashoffset 1.4s cubic-bezier(0.22,1,0.36,1)' }}
+                    />
+                  );
+                })}
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="font-bodoni text-[26px] text-[#EDE6D8] leading-none">98%</span>
+              </div>
             </div>
+            <span className="text-[9px] uppercase tracking-[0.2em] text-[#C7A45C]/70 whitespace-nowrap">рекомендаций клиентов</span>
           </div>
           <div className="flex flex-col gap-3 flex-1 min-w-[160px]">
             {meterBars.map((bar) => (
@@ -456,22 +458,22 @@ export default function ArtelInteriors() {
             const left = i % 2 === 0;
             const delay = i * 0.06;
             return (
-              <div key={s.title} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-12 md:mb-16">
+              <div key={s.title} className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-12 items-center mb-12 md:mb-16">
                 {left ? (
                   <>
-                    <div className="text-right order-2 md:order-1"><StepNumber num={String(i + 1).padStart(2, '0')} delay={delay} /></div>
-                    <Reveal delay={delay} className="order-1 md:order-2">
+                    <div className="text-left md:text-right order-1"><StepNumber num={String(i + 1).padStart(2, '0')} delay={delay} /></div>
+                    <Reveal delay={delay} className="order-2">
                       <h3 className="font-bodoni text-2xl mb-3 font-medium">{s.title}</h3>
                       <p className="text-sm opacity-60 leading-[1.6]">{s.desc}</p>
                     </Reveal>
                   </>
                 ) : (
                   <>
-                    <Reveal delay={delay} className="order-1">
+                    <div className="text-left order-1 md:order-2"><StepNumber num={String(i + 1).padStart(2, '0')} delay={delay} /></div>
+                    <Reveal delay={delay} className="order-2 md:order-1">
                       <h3 className="font-bodoni text-2xl mb-3 font-medium md:text-right">{s.title}</h3>
                       <p className="text-sm opacity-60 leading-[1.6] md:text-right">{s.desc}</p>
                     </Reveal>
-                    <div className="order-2"><StepNumber num={String(i + 1).padStart(2, '0')} delay={delay} /></div>
                   </>
                 )}
               </div>
