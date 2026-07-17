@@ -16,12 +16,13 @@ export function LeadForm({
 }) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const [consent, setConsent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !phone.trim() || submitting) return;
+    if (!name.trim() || !phone.trim() || !consent || submitting) return;
     setSubmitting(true);
     try {
       await sendLead(name.trim(), phone.trim());
@@ -76,9 +77,27 @@ export function LeadForm({
               />
             </div>
 
+            <label className="flex items-start gap-3 text-[12px] font-body text-fog/80 leading-snug cursor-pointer select-none">
+              <input
+                type="checkbox"
+                required
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
+                className="mt-0.5 w-4 h-4 shrink-0 rounded accent-cobalt cursor-pointer"
+              />
+              Согласен(а) на обработку{' '}
+              <button
+                type="button"
+                onClick={() => document.dispatchEvent(new CustomEvent('open-legal', { detail: 'privacy' }))}
+                className="text-cobalt-soft hover:text-bone underline underline-offset-2 transition-colors"
+              >
+                персональных данных
+              </button>
+            </label>
+
             <button
               type="submit"
-              disabled={submitting}
+              disabled={submitting || !consent}
               className="w-full flex items-center justify-center gap-3 rounded-full bg-cobalt text-white font-body font-semibold text-base py-5 mt-2 hover:bg-bone hover:text-ink transition-all duration-300 shadow-[0_10px_40px_rgba(78,124,255,0.28)] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
               {submitting ? 'Отправляем…' : submitLabel}

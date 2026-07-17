@@ -6,27 +6,19 @@ export const BOT_LINK = 'https://t.me/onyxwebsites_bot';
 // Личный Telegram для вопросов, которые не связаны с ботом-заявками.
 export const TELEGRAM_QUESTIONS_LINK = 'https://t.me/mynameisbutati';
 
-// Отправка заявки в Telegram-бота и в Google-таблицу лидов (если заданы переменные окружения).
-// Без env-переменных форма всё равно показывает успех (placeholder) — не блокируем UX.
+// Отправка заявки в Google-таблицу лидов (если задана переменная окружения).
+// Без env-переменной форма всё равно показывает успех (placeholder) — не блокируем UX.
+//
+// ВАЖНО: заявка НЕ отправляется в Telegram Bot API напрямую из браузера.
+// Vite зашивает все переменные с префиксом VITE_ в публичный JS-файл сайта —
+// это значит, что токен бота был бы виден любому в исходном коде страницы.
+// Если нужна доставка заявок в Telegram, настройте пересылку на стороне
+// Google Apps Script (sheetUrl ниже) — там токен бота хранится на сервере
+// Google, а не в браузере пользователя.
 export async function sendLead(name: string, phone: string) {
-  const token = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
-  const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
   const sheetUrl = import.meta.env.VITE_LEADS_GOOGLE_SCRIPT_URL;
 
   const tasks: Promise<unknown>[] = [];
-
-  if (token && chatId) {
-    tasks.push(
-      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: `Новая заявка с сайта ONYX\nИмя: ${name}\nТелефон: ${phone}`,
-        }),
-      })
-    );
-  }
 
   if (sheetUrl) {
     const params = new URLSearchParams({ name, phone, date: new Date().toISOString(), source: 'onyx-web.ru' });
