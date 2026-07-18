@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, SectionTitle, Reveal } from './ui';
-import { Check, Star, ShieldCheck, Zap, Rocket, Crown, ArrowUpRight, PlugZap } from 'lucide-react';
+import { Check, Star, Zap, Rocket, Crown, ArrowUpRight, PlugZap } from 'lucide-react';
 import LaunchEconomics from './LaunchEconomics';
 import { BOT_LINK } from '../lib/leads';
 
@@ -10,7 +10,7 @@ const plans = [
   {
     name: 'Старт онлайн',
     subtitle: 'Для бизнеса, которому нужен быстрый и понятный сайт без затрат на разработку',
-    prices: { dev: '0 ₽', launch: '5 990 ₽', support: '1 990 ₽/мес', marketDev: '60 000 ₽' },
+    prices: { dev: '0 ₽', launch: '5 990 ₽', marketDev: '60 000 ₽' },
     features: [
       'одностраничный сайт для бизнеса',
       'адаптация под телефон, планшет и компьютер',
@@ -25,11 +25,7 @@ const plans = [
       'размещение сайта на хостинге',
       'SSL-сертификат',
       'публикация сайта',
-      'базовая техническая настройка',
-      'резервное копирование',
-      'контроль работы сайта',
-      'мелкие технические правки',
-      'поддержка после запуска'
+      'базовая техническая настройка'
     ],
     forWho: ['экспертам', 'мастерам', 'салонам красоты', 'небольшим локальным компаниям', 'начинающим проектам', 'бизнесу, которому нужен быстрый выход в интернет'],
     problem: 'У бизнеса появляется сайт, который можно отправлять клиентам, размещать в соцсетях, добавлять в карты, указывать в рекламе и использовать как официальную точку доверия.',
@@ -39,7 +35,7 @@ const plans = [
     name: 'Сайт + заявки',
     badge: 'Оптимальный выбор',
     subtitle: 'Для бизнеса, которому нужен не просто сайт, а обращения от клиентов',
-    prices: { dev: '0 ₽', launch: '8 900 ₽', support: '2 590 ₽/мес', marketDev: '90 000 ₽' },
+    prices: { dev: '0 ₽', launch: '8 900 ₽', marketDev: '90 000 ₽' },
     features: [
       'всё из тарифа «Старт онлайн»',
       'усиленная структура сайта под заявки',
@@ -50,10 +46,7 @@ const plans = [
       'подключение Яндекс Метрики',
       'базовая настройка целей',
       'подключение карты или геосервиса',
-      'проверка работы формы заявки',
-      '3 правки в месяц',
-      'ежемесячная проверка сайта',
-      'рекомендации по улучшению сайта'
+      'проверка работы формы заявки'
     ],
     forWho: ['клиникам и стоматологиям', 'фитнес-клубам', 'салонам красоты', 'ремонтным и строительным компаниям', 'юридическим услугам', 'B2B-компаниям', 'локальному бизнесу, которому важны заявки'],
     problem: 'Сайт не просто существует в интернете, а помогает клиентам быстро понять предложение, довериться компании и оставить заявку.',
@@ -62,7 +55,7 @@ const plans = [
   {
     name: 'Сайт как система продаж',
     subtitle: 'Для бизнеса, которому нужен сайт, заявки, аналитика и контроль обработки клиентов',
-    prices: { dev: '0 ₽', launch: 'от 19 900 ₽', support: 'от 3 590 ₽/мес', marketDev: '150 000 ₽' },
+    prices: { dev: '0 ₽', launch: 'от 19 900 ₽', marketDev: '150 000 ₽' },
     features: [
       'всё из тарифа «Сайт + заявки»',
       'расширенная структура сайта',
@@ -72,26 +65,12 @@ const plans = [
       'расширенная аналитика',
       'настройка целей и событий',
       'улучшенная логика заявок',
-      'до 3 небольших правок в месяц',
-      'приоритетная поддержка',
-      'ежемесячные рекомендации по развитию сайта',
       'подготовка сайта к рекламе и продвижению'
     ],
     forWho: ['бизнесу с высоким средним чеком', 'компаниям, которые запускают рекламу', 'клиникам, студиям, салонам и фитнес-клубам', 'ремонтным, строительным и сервисным компаниям', 'бизнесу, где важно не терять заявки', 'компаниям, которым нужна связка сайт + CRM + аналитика'],
     problem: 'Сайт становится не просто страницей в интернете, а частью системы продаж: принимает заявки, передаёт их в удобный канал, помогает отслеживать обращения и улучшать результат.',
     benefit: 'Бизнес получает не только сайт, а управляемый канал привлечения и обработки клиентов.'
   }
-];
-
-const support = [
-  'размещение сайта на хостинге',
-  'контроль стабильной работы сайта',
-  'поддержка формы заявки',
-  'подключение и проверка мессенджеров',
-  'мелкие правки по сайту в рамках тарифа',
-  'помощь с техническими вопросами',
-  'базовый контроль доступности сайта',
-  'поддержка после запуска'
 ];
 
 const addons = [
@@ -120,7 +99,7 @@ export default function Services() {
 
       <Reveal className="relative z-10 max-w-3xl text-[15px] md:text-base font-body text-fog leading-relaxed mb-16">
         <p>
-          Разработка сайта в ONYX стоит <span className="text-bone font-semibold">0 ₽</span>. Вы оплачиваете только запуск, сопровождение и функции, которые нужны вашему бизнесу.
+          Разработка сайта в ONYX стоит <span className="text-bone font-semibold">0 ₽</span>. Вы оплачиваете только запуск и функции, которые нужны вашему бизнесу.
         </p>
       </Reveal>
 
@@ -149,7 +128,6 @@ export default function Services() {
                 {[
                   { k: 'Разработка', v: plan.prices.dev, hl: true, strike: plan.prices.marketDev },
                   { k: 'Запуск', v: plan.prices.launch },
-                  { k: 'Сопровождение', v: plan.prices.support },
                 ].map((r, j) => (
                   <div key={j} className="flex justify-between items-center px-5 py-3.5">
                     <span className="text-[13px] font-body text-fog">{r.k}</span>
@@ -210,35 +188,6 @@ export default function Services() {
 
       {/* ── Экономика запуска: 2 инфографики прямо под тарифами ── */}
       <LaunchEconomics />
-
-      {/* ── Monthly support panel: выделенный блок ── */}
-      <Reveal>
-        <div className="relative z-10 rounded-[28px] border-2 border-cobalt/40 bg-gradient-to-br from-cobalt/[0.12] via-ink-2/80 to-ink-2/60 p-7 md:p-10 mb-24 grid lg:grid-cols-[auto_1fr] gap-8 items-start overflow-hidden shadow-[0_0_90px_rgba(78,124,255,0.14)]">
-          <div className="absolute -top-1/2 -right-1/4 w-2/3 aspect-square rounded-full bg-cobalt/[0.15] blur-[120px] pointer-events-none" />
-          <span className="relative sm:absolute sm:top-6 sm:right-6 inline-block w-fit mb-4 sm:mb-0 font-mono text-[10px] tracking-[0.25em] uppercase text-cobalt-soft bg-cobalt/10 border border-cobalt/30 rounded-full px-3 py-1.5">
-            Входит во все тарифы
-          </span>
-
-          <div className="relative flex lg:flex-col items-center lg:items-start gap-4 lg:max-w-[220px]">
-            <div className="w-14 h-14 rounded-2xl bg-cobalt/25 border border-cobalt/50 flex items-center justify-center shrink-0 shadow-[0_0_30px_rgba(78,124,255,0.3)]">
-              <ShieldCheck className="w-7 h-7 text-cobalt-soft" />
-            </div>
-            <h4 className="font-display font-semibold text-xl text-white leading-snug">Что входит в ежемесячное сопровождение</h4>
-          </div>
-          <div className="relative">
-            <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3 mb-6">
-              {support.map((item, i) => (
-                <li key={i} className="flex gap-3 items-start text-sm font-body text-bone/90">
-                  <Check className="w-4 h-4 text-cobalt-soft shrink-0 mt-0.5" /> {item}
-                </li>
-              ))}
-            </ul>
-            <p className="text-[13px] font-body text-fog leading-relaxed border-t border-cobalt/20 pt-5">
-              Смысл сопровождения простой: вы не остаётесь один на один с сайтом после запуска. ONYX отвечает за то, чтобы сайт работал, был доступен клиентам и помогал бизнесу принимать заявки.
-            </p>
-          </div>
-        </div>
-      </Reveal>
 
       {/* ── Addons ── */}
       <div id="addons" className="scroll-mt-28 relative z-10">

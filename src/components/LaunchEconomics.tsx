@@ -30,7 +30,7 @@ function CostBar({ label, value, width, accent = false, danger = false, delay = 
 const facts = [
   { k: 'Разработка', v: '0 ₽' },
   { k: 'Запуск', v: 'от 5 990 ₽' },
-  { k: 'Сопровождение', v: 'от 1 990 ₽/мес' },
+  { k: 'Доп. опции', v: 'по потребности' },
   { k: 'Старт', v: 'за 2–3 дня' },
 ];
 

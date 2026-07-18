@@ -1,18 +1,17 @@
 import React from 'react';
 import { Container, SectionTitle, Reveal } from './ui';
-import { Wallet, Settings, Clock, Blocks, X, Check } from 'lucide-react';
+import { Wallet, Settings, Blocks, X, Check } from 'lucide-react';
 
 const modelSteps = [
   { icon: Wallet, title: 'Разработка сайта', value: '0 ₽', note: 'структура, дизайн, сборка, форма заявки', free: true },
-  { icon: Settings, title: 'Запуск и настройка', value: 'Оплачиваются', note: 'домен, хостинг, SSL, публикация' },
-  { icon: Clock, title: 'Сопровождение сайта', value: 'Оплачивается ежемесячно', note: 'работа сайта, правки, поддержка' },
+  { icon: Settings, title: 'Запуск и настройка', value: 'Оплачивается', note: 'домен, хостинг, SSL, публикация' },
   { icon: Blocks, title: 'Дополнительные функции', value: 'По необходимости', note: 'CRM, каталог, калькулятор и другое' },
 ];
 
 const compare = [
   { k: 'Оплата до запуска', usual: 'десятки–сотни тысяч ₽', onyx: '0 ₽' },
   { k: 'Срок старта', usual: 'недели ожидания', onyx: '2–3 дня' },
-  { k: 'После запуска', usual: 'сайт остаётся на вас', onyx: 'сопровождение включено' },
+  { k: 'После запуска', usual: 'часто нужна ежемесячная плата студии', onyx: 'сайт полностью ваш, без ежемесячных платежей' },
   { k: 'Риск на старте', usual: 'бюджет до первой заявки', onyx: 'минимальные вложения' },
 ];
 
@@ -33,14 +32,14 @@ export default function Benefits() {
           Мы работаем по другой модели: создаём сайт без оплаты разработки, чтобы бизнес мог быстрее выйти в интернет, проверить спрос и начать получать обращения.
         </p>
         <p className="text-bone/90 font-medium">
-          Вы не тратите большой бюджет на старт. Вместо этого оплачиваете только то, что нужно для работы и развития сайта: запуск, домен, сопровождение и дополнительные опции, если они понадобятся.
+          Вы не тратите большой бюджет на старт. Вместо этого оплачиваете только то, что нужно для запуска и развития сайта: домен, хостинг, публикацию и дополнительные опции, если они понадобятся.
         </p>
       </Reveal>
 
       {/* ── Payment model stepper ── */}
       <div className="relative z-10 mb-16">
-        <div className="hidden lg:block absolute top-[26px] left-[12%] right-[12%] h-px bg-gradient-to-r from-cobalt/50 via-white/15 to-white/15" />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="hidden lg:block absolute top-[26px] left-[16.5%] right-[16.5%] h-px bg-gradient-to-r from-cobalt/50 via-white/15 to-white/15" />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {modelSteps.map((s, i) => (
             <Reveal key={i} delay={i * 0.1}>
               <div className={`relative h-full rounded-[24px] border p-6 transition-all duration-500 group hover:-translate-y-1.5 ${s.free ? 'border-cobalt/50 bg-cobalt/[0.07] shadow-[0_0_50px_rgba(78,124,255,0.1)]' : 'border-white/[0.08] bg-ink-2/70 hover:border-white/20'}`}>
