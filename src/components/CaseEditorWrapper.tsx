@@ -57,6 +57,13 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
     } ${invert ? 'bg-slate-900' : ''}`}>
       <DemoCloseButton />
 
+      {/* Demo disclaimer: кейсы — демонстрационные шаблоны с условными данными (38-ФЗ) */}
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] pointer-events-none max-w-[92vw]">
+        <div className="pointer-events-auto rounded-full bg-slate-950/85 backdrop-blur-md border border-white/15 text-white/90 text-[10px] sm:text-[11px] font-medium tracking-wide px-3.5 py-1.5 shadow-lg text-center whitespace-nowrap overflow-hidden text-ellipsis">
+          Демонстрационный шаблон · названия, цифры и отзывы приведены для примера
+        </div>
+      </div>
+
       {/* Editor Panel Toggle Button */}
       <div className="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-4">
         {showTooltip && !isEditorOpen && (
