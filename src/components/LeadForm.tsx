@@ -85,14 +85,12 @@ export function LeadForm({
                 onChange={(e) => setConsent(e.target.checked)}
                 className="mt-0.5 w-4 h-4 shrink-0 rounded accent-cobalt cursor-pointer"
               />
-              Согласен(а) на обработку{' '}
-              <button
-                type="button"
-                onClick={() => document.dispatchEvent(new CustomEvent('open-legal', { detail: 'privacy' }))}
-                className="text-cobalt-soft hover:text-bone underline underline-offset-2 transition-colors"
-              >
-                персональных данных
-              </button>
+              <span>
+                Я согласен(а) на обработку моих персональных данных (имени и номера телефона) и принимаю{' '}
+                <a href="/politika-obrabotki-pdn.html" target="_blank" rel="noreferrer" className="text-cobalt-soft hover:text-bone underline underline-offset-2 transition-colors">Политику обработки персональных данных</a>
+                {' '}и{' '}
+                <a href="/publichnaya-oferta.html" target="_blank" rel="noreferrer" className="text-cobalt-soft hover:text-bone underline underline-offset-2 transition-colors">Публичную оферту</a>.
+              </span>
             </label>
 
             <button

@@ -10,7 +10,6 @@ import FAQ from './components/FAQ';
 import FormSection from './components/FormSection';
 import Footer from './components/Footer';
 import CaseEditorWrapper from './components/CaseEditorWrapper';
-import LegalModal from './components/LegalModal';
 import CookieConsent from './components/CookieConsent';
 
 // Cases
@@ -70,7 +69,6 @@ export default function App() {
       <FAQ />
       <FormSection />
       <Footer />
-      <LegalModal />
       <CookieConsent />
     </main>
   );

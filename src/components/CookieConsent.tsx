@@ -27,12 +27,10 @@ export default function CookieConsent() {
       </p>
       <p className="text-xs text-neutral-400 font-mono leading-relaxed mb-4">
         Мы используем файлы cookie для улучшения работы сайта. Продолжая использование, вы соглашаетесь с{' '}
-        <a 
-          href="#" 
-          onClick={(e) => { 
-            e.preventDefault(); 
-            document.dispatchEvent(new CustomEvent('open-legal', { detail: 'privacy' })); 
-          }} 
+        <a
+          href="/politika-obrabotki-pdn.html"
+          target="_blank"
+          rel="noreferrer"
           className="text-blue-400 hover:text-blue-300 transition-colors border-b border-blue-400/30 hover:border-blue-400"
         >
           политикой обработки данных

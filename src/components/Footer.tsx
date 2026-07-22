@@ -1,8 +1,6 @@
 import React from 'react';
 import { Mail, Phone, Send } from 'lucide-react';
 
-const openLegal = (doc: string) => document.dispatchEvent(new CustomEvent('open-legal', { detail: doc }));
-
 export default function Footer() {
   return (
     <footer id="contacts" className="relative border-t border-white/[0.08] overflow-hidden">
@@ -43,14 +41,15 @@ export default function Footer() {
             <h4 className="font-mono text-[10px] tracking-[0.25em] uppercase text-fog mb-6">Документы</h4>
             <div className="flex flex-col gap-3">
               {[
-                { label: 'Политика обработки персональных данных', doc: 'privacy' },
-                { label: 'Публичная оферта', doc: 'terms' },
-                { label: 'Условия оплаты, доставки и возврата', doc: 'payment' },
+                { label: 'Политика обработки персональных данных', href: '/politika-obrabotki-pdn.html' },
+                { label: 'Публичная оферта', href: '/publichnaya-oferta.html' },
+                { label: 'Условия оплаты, доставки и возврата', href: '/publichnaya-oferta.html#pay' },
               ].map((d) => (
                 <a
-                  key={d.doc}
-                  href="#"
-                  onClick={(e) => { e.preventDefault(); openLegal(d.doc); }}
+                  key={d.href + d.label}
+                  href={d.href}
+                  target="_blank"
+                  rel="noreferrer"
                   className="text-[13px] font-body text-fog hover:text-bone transition-colors"
                 >
                   {d.label}
