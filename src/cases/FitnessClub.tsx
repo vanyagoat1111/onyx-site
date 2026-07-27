@@ -117,13 +117,13 @@ export default function FitnessClub() {
       {/* HEADER */}
       <header className="sticky top-0 z-50 bg-[#0A0A0A]/85 backdrop-blur-xl border-b border-red-900/30">
         <div className="max-w-[1360px] mx-auto px-6 md:px-8 py-4 flex justify-between items-center pl-20 md:pl-24">
-          <div className="font-black italic uppercase text-2xl">IRON<span className="text-[#DC2626]">CORE</span></div>
+          <div className="font-black italic uppercase text-lg sm:text-xl md:text-2xl whitespace-nowrap">IRON<span className="text-[#DC2626]">CORE</span></div>
           <nav className="hidden md:flex gap-8">
             {navLinks.map((l) => (
               <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="text-xs font-bold uppercase tracking-[0.12em] text-neutral-400 hover:text-white transition-colors">{l.name}</a>
             ))}
           </nav>
-          <button className="bg-[#DC2626] text-white px-4 md:px-5.5 py-3 text-[11px] font-bold uppercase tracking-[0.1em] shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_34px_rgba(220,38,38,0.6)] transition-shadow cursor-pointer">
+          <button className="hidden sm:block bg-[#DC2626] text-white px-4 md:px-5.5 py-3 text-[11px] font-bold uppercase tracking-[0.1em] shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_34px_rgba(220,38,38,0.6)] transition-shadow cursor-pointer">
             <Skew>Стать резидентом</Skew>
           </button>
         </div>
@@ -132,11 +132,17 @@ export default function FitnessClub() {
       {/* HERO */}
       <section className="relative min-h-[88dvh] flex items-center py-16 px-6 md:px-8 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 opacity-[0.07]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.5) 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
-          <div className="absolute -top-[25%] right-0 w-2/3 h-full rounded-full" style={{ background: 'rgba(220,38,38,0.18)', filter: 'blur(140px)' }} />
-          <div className="absolute -bottom-[33%] -left-[25%] w-1/2 h-full rounded-full" style={{ background: 'rgba(249,115,22,0.1)', filter: 'blur(140px)' }} />
+          <img
+            src="/fitness-hero.svg"
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover object-right pointer-events-none select-none opacity-45 md:opacity-100"
+          />
+          <div className="absolute inset-0 md:hidden" style={{ background: 'linear-gradient(to bottom,rgba(10,10,10,0.72),rgba(10,10,10,0.45) 55%,rgba(10,10,10,0.88))' }} />
+          <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.5) 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
+          <div className="absolute -bottom-[33%] -left-[25%] w-1/2 h-full rounded-full" style={{ background: 'rgba(249,115,22,0.08)', filter: 'blur(140px)' }} />
           <div className="absolute inset-0 flex items-center justify-end overflow-hidden pointer-events-none">
-            <span className="font-black italic uppercase leading-none text-white/[0.03]" style={{ fontSize: '28vw', transform: 'translateX(25%)' }}>CORE</span>
+            <span className="font-black italic uppercase leading-none text-white/[0.022]" style={{ fontSize: '28vw', transform: 'translateX(25%)' }}>CORE</span>
           </div>
         </div>
 

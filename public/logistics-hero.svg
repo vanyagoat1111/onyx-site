@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" width="1600" height="900">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0A0F26"/>
+      <stop offset="55%" stop-color="#0D1533"/>
+      <stop offset="100%" stop-color="#111B44"/>
+    </linearGradient>
+    <radialGradient id="glowB" cx="76%" cy="40%" r="46%">
+      <stop offset="0%" stop-color="#2F6FED" stop-opacity="0.42"/>
+      <stop offset="55%" stop-color="#22D3EE" stop-opacity="0.09"/>
+      <stop offset="100%" stop-color="#0A0F26" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="readL" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0A0F26" stop-opacity="0.96"/>
+      <stop offset="38%" stop-color="#0A0F26" stop-opacity="0.72"/>
+      <stop offset="70%" stop-color="#0A0F26" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#0A0F26" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="vgn" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0A0F26" stop-opacity="0.75"/>
+      <stop offset="40%" stop-color="#0A0F26" stop-opacity="0"/>
+      <stop offset="86%" stop-color="#0A0F26" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#0A0F26" stop-opacity="0.98"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#131E4A"/>
+      <stop offset="100%" stop-color="#0A0F26"/>
+    </linearGradient>
+    <!-- рифление контейнера -->
+    <pattern id="corr" width="9" height="8" patternUnits="userSpaceOnUse">
+      <rect width="9" height="8" fill="none"/>
+      <rect x="0" y="0" width="1.5" height="8" fill="#ffffff" opacity="0.05"/>
+      <rect x="5" y="0" width="1.5" height="8" fill="#000000" opacity="0.20"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <rect width="1600" height="900" fill="url(#glowB)"/>
+
+  <!-- Дальние портовые огни -->
+  <g opacity="0.5">
+    <circle cx="1180" cy="352" r="2.5" fill="#22D3EE"/>
+    <circle cx="1298" cy="336" r="2" fill="#4E8CFF"/>
+    <circle cx="1412" cy="358" r="2.5" fill="#22D3EE"/>
+    <circle cx="1520" cy="342" r="2" fill="#4E8CFF"/>
+    <circle cx="1080" cy="344" r="2" fill="#4E8CFF"/>
+  </g>
+
+  <!-- ПОРТАЛЬНЫЕ КРАНЫ -->
+  <g opacity="1" fill="none" stroke="#5C79C4" stroke-width="6" transform="translate(-30,-30)">
+    <!-- кран 1 -->
+    <path d="M1010 560 V300 M1170 560 V300"/>
+    <path d="M980 300 H1300"/>
+    <path d="M1010 300 L1090 236 L1170 300"/>
+    <path d="M1090 236 V300"/>
+    <path d="M1256 300 V352" stroke-width="3"/>
+    <rect x="1240" y="352" width="32" height="20" fill="#1A2650" stroke="none"/>
+    <!-- кран 2 -->
+    <path d="M1360 560 V318 M1500 560 V318"/>
+    <path d="M1330 318 H1600"/>
+    <path d="M1360 318 L1430 262 L1500 318"/>
+    <path d="M1430 262 V318"/>
+    <path d="M1572 318 V364" stroke-width="3"/>
+    <rect x="1558" y="364" width="28" height="18" fill="#1A2650" stroke="none"/>
+  </g>
+
+  <!-- ШТАБЕЛИ КОНТЕЙНЕРОВ: дальний ряд -->
+  <g opacity="0.9" transform="translate(-430,110)">
+    <g>
+      <rect x="900" y="470" width="150" height="40" fill="#3A5BA0"/><rect x="900" y="470" width="150" height="40" fill="url(#corr)"/>
+      <rect x="900" y="512" width="150" height="40" fill="#4264AD"/><rect x="900" y="512" width="150" height="40" fill="url(#corr)"/>
+      <rect x="1060" y="470" width="150" height="40" fill="#4A6EB8"/><rect x="1060" y="470" width="150" height="40" fill="url(#corr)"/>
+      <rect x="1060" y="512" width="150" height="40" fill="#3A5BA0"/><rect x="1060" y="512" width="150" height="40" fill="url(#corr)"/>
+      <rect x="1220" y="470" width="150" height="40" fill="#3E5FA6"/><rect x="1220" y="470" width="150" height="40" fill="url(#corr)"/>
+      <rect x="1220" y="512" width="150" height="40" fill="#5077BE"/><rect x="1220" y="512" width="150" height="40" fill="url(#corr)"/>
+      <rect x="1380" y="470" width="150" height="40" fill="#4264AD"/><rect x="1380" y="470" width="150" height="40" fill="url(#corr)"/>
+      <rect x="1380" y="512" width="150" height="40" fill="#3A5BA0"/><rect x="1380" y="512" width="150" height="40" fill="url(#corr)"/>
+    </g>
+  </g>
+
+  <!-- ШТАБЕЛИ: средний ряд, крупнее -->
+  <g opacity="1" transform="translate(-480,146)">
+    <!-- стопка A -->
+    <rect x="860" y="560" width="196" height="52" fill="#4568AF"/><rect x="860" y="560" width="196" height="52" fill="url(#corr)"/>
+    <rect x="860" y="614" width="196" height="52" fill="#36569C"/><rect x="860" y="614" width="196" height="52" fill="url(#corr)"/>
+    <!-- стопка B: акцентный синий -->
+    <rect x="1066" y="560" width="196" height="52" fill="#2F6FED" opacity="0.55"/><rect x="1066" y="560" width="196" height="52" fill="url(#corr)"/>
+    <rect x="1066" y="614" width="196" height="52" fill="#3C5DA4"/><rect x="1066" y="614" width="196" height="52" fill="url(#corr)"/>
+    <!-- стопка C -->
+    <rect x="1272" y="560" width="196" height="52" fill="#4568AF"/><rect x="1272" y="560" width="196" height="52" fill="url(#corr)"/>
+    <rect x="1272" y="614" width="196" height="52" fill="#22D3EE" opacity="0.28"/><rect x="1272" y="614" width="196" height="52" fill="url(#corr)"/>
+    <!-- стопка D -->
+    <rect x="1478" y="560" width="196" height="52" fill="#36569C"/><rect x="1478" y="560" width="196" height="52" fill="url(#corr)"/>
+    <rect x="1478" y="614" width="196" height="52" fill="#4568AF"/><rect x="1478" y="614" width="196" height="52" fill="url(#corr)"/>
+  </g>
+
+  <!-- Земля -->
+  <rect x="0" y="812" width="1600" height="88" fill="url(#ground)"/>
+  <rect x="0" y="810" width="1600" height="2" fill="#4E8CFF" opacity="0.3"/>
+
+  <!-- Разметка площадки, уходящая в перспективу -->
+  <g stroke="#4E8CFF" stroke-width="2" opacity="0.13">
+    <path d="M700 900 L980 668"/>
+    <path d="M930 900 L1120 668"/>
+    <path d="M1170 900 L1262 668"/>
+    <path d="M1420 900 L1404 668"/>
+  </g>
+
+  <!-- Отражения на площадке -->
+  <g opacity="0.10">
+    <rect x="246" y="812" width="196" height="60" fill="#2F6FED"/>
+    <rect x="452" y="812" width="196" height="60" fill="#22D3EE"/>
+  </g>
+
+  <rect width="1600" height="900" fill="url(#readL)"/>
+  <rect width="1600" height="900" fill="url(#vgn)"/>
+</svg>

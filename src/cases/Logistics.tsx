@@ -103,7 +103,7 @@ export default function Logistics() {
       {/* HEADER */}
       <header className="sticky top-0 z-50 bg-[#0A0F26]/85 backdrop-blur-md border-b border-white/[0.06]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-8 py-5 flex justify-between items-center pl-20 md:pl-24">
-          <div className="font-sora text-xl font-extrabold tracking-tight">PRIME<span className="text-[#4E8CFF]">LOGISTICS</span></div>
+          <div className="font-sora text-base sm:text-lg md:text-xl font-extrabold tracking-tight whitespace-nowrap">PRIME<span className="text-[#4E8CFF]">LOGISTICS</span></div>
           <nav className="hidden lg:flex gap-7">
             {navLinks.map((l) => (
               <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="text-xs font-bold uppercase tracking-[0.1em] text-[#B4BEDB] hover:text-white transition-colors">{l.name}</a>
@@ -114,16 +114,22 @@ export default function Logistics() {
               <div className="text-[10px] text-[#8B95BD]">Бесплатный звонок по РФ</div>
               <div className="text-sm font-bold">8 (800) 500-00-00</div>
             </div>
-            <button onClick={(e: any) => scrollTo(e, 'geography')} style={{ clipPath: CLIP }} className="bg-[#2F6FED] text-white px-6.5 py-3.5 text-xs font-bold uppercase tracking-[0.08em] cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-10px_rgba(78,140,255,0.5)]">Расчёт стоимости</button>
+            <button onClick={(e: any) => scrollTo(e, 'geography')} style={{ clipPath: CLIP }} className="hidden sm:block bg-[#2F6FED] text-white px-6.5 py-3.5 text-xs font-bold uppercase tracking-[0.08em] cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-10px_rgba(78,140,255,0.5)]">Расчёт стоимости</button>
           </div>
         </div>
       </header>
 
       {/* HERO */}
       <section className="relative py-20 px-6 md:px-8 min-h-[88dvh] flex items-center overflow-hidden border-b border-white/[0.06]">
-        <div className="absolute inset-0 opacity-50" style={gridBg} />
-        <div className="absolute top-0 right-0 w-2/3 h-full" style={{ background: 'rgba(47,111,237,0.14)', filter: 'blur(140px)' }} />
-        <div className="absolute bottom-0 left-0 w-1/2 h-2/3" style={{ background: 'rgba(34,211,238,0.07)', filter: 'blur(140px)' }} />
+        <img
+          src="/logistics-hero.svg"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-right pointer-events-none select-none opacity-40 md:opacity-100"
+        />
+        <div className="absolute inset-0 md:hidden" style={{ background: 'linear-gradient(to bottom,rgba(10,15,38,0.7),rgba(10,15,38,0.45) 55%,rgba(10,15,38,0.85))' }} />
+        <div className="absolute inset-0 opacity-30" style={gridBg} />
+        <div className="absolute top-0 right-0 w-2/3 h-full" style={{ background: 'rgba(47,111,237,0.10)', filter: 'blur(140px)' }} />
 
         <div className="max-w-[1400px] mx-auto relative z-[2] w-full grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center">
           <div>

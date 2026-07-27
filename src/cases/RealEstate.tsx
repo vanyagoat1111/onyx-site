@@ -95,7 +95,7 @@ export default function RealEstate() {
       {/* HEADER */}
       <header className="sticky top-0 z-50 bg-[#080808]/85 backdrop-blur-md border-b border-white/[0.06]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-9 py-5.5 flex justify-between items-center pl-20 md:pl-24">
-          <div className="font-cormorant text-2xl text-white tracking-[0.2em] uppercase">Vanguard <span className="opacity-50">Estates</span></div>
+          <div className="font-cormorant text-base sm:text-xl md:text-2xl text-white tracking-[0.14em] sm:tracking-[0.2em] uppercase whitespace-nowrap">Vanguard <span className="opacity-50">Estates</span></div>
           <nav className="hidden lg:flex gap-9">
             {navLinks.map((l) => (
               <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="relative text-[10px] uppercase tracking-[0.2em] font-medium text-white/70 hover:text-white transition-colors group">
@@ -104,16 +104,17 @@ export default function RealEstate() {
               </a>
             ))}
           </nav>
-          <button onClick={(e: any) => scrollTo(e, 'properties')} className="bg-transparent border border-white/20 text-white px-7 py-3 text-[10px] uppercase tracking-[0.2em] cursor-pointer transition-all hover:bg-white hover:text-[#080808]">Связаться</button>
+          <button onClick={(e: any) => scrollTo(e, 'properties')} className="hidden sm:block bg-transparent border border-white/20 text-white px-7 py-3 text-[10px] uppercase tracking-[0.2em] cursor-pointer transition-all hover:bg-white hover:text-[#080808]">Связаться</button>
         </div>
       </header>
 
       {/* HERO */}
       <section className="relative min-h-[94dvh] flex items-center justify-center py-20 px-6 md:px-9 overflow-hidden text-center">
-        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(rgba(201,162,99,0.5) 1px,transparent 1px)', backgroundSize: '32px 32px' }} />
+        <img src="/realestate-hero.svg" alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover object-bottom select-none pointer-events-none" />
+        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(rgba(201,162,99,0.5) 1px,transparent 1px)', backgroundSize: '32px 32px' }} />
         <div className="absolute -top-[10%] left-1/2 -translate-x-1/2 w-[70vw] h-[70vw] max-w-[900px] max-h-[900px] rounded-full" style={{ background: 'rgba(201,162,99,0.06)', filter: 'blur(160px)' }} />
-        <svg className="absolute bottom-0 left-0 w-full h-[30vh] opacity-[0.15]" viewBox="0 0 1440 300" preserveAspectRatio="none"><path d="M0 300V210L60 210V150H120V210H180V90H260V210H320V170H400V210H460V60H540V210H620V130H700V210H780V180H860V210H940V70H1020V210H1100V150H1180V210H1260V100H1340V210H1440V300H0Z" fill="#C9A263" /></svg>
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom,#080808,transparent,#080808)' }} />
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 54% 46% at 50% 44%,rgba(8,8,8,0.86) 0%,rgba(8,8,8,0.6) 50%,rgba(8,8,8,0.12) 82%,rgba(8,8,8,0) 100%)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom,#080808 0%,rgba(8,8,8,0.2) 24%,rgba(8,8,8,0.15) 72%,#080808 100%)' }} />
 
         <div className="relative z-[2] max-w-[1100px] w-full">
           <div className="text-[10px] text-[#C9A263] uppercase tracking-[0.4em] font-semibold mb-9">Бутик элитной недвижимости</div>
