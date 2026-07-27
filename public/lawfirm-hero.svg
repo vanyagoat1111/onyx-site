@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" width="1600" height="900">
+  <defs>
+    <!-- Тёплый свет из глубины колоннады -->
+    <radialGradient id="lightSource" cx="72%" cy="34%" r="52%">
+      <stop offset="0%" stop-color="#C9A263" stop-opacity="0.42"/>
+      <stop offset="45%" stop-color="#8A6A3B" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#0A1023" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Атмосферная перспектива: дальние планы бледнее -->
+    <linearGradient id="colFar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1B2748"/>
+      <stop offset="100%" stop-color="#131D3B"/>
+    </linearGradient>
+    <linearGradient id="colMid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2A3A61"/>
+      <stop offset="100%" stop-color="#16223F"/>
+    </linearGradient>
+    <linearGradient id="colNear" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0E1731"/>
+      <stop offset="100%" stop-color="#080E1F"/>
+    </linearGradient>
+
+    <!-- Блик по левой грани колонны -->
+    <linearGradient id="shaftLight" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#C9A263" stop-opacity="0.16"/>
+      <stop offset="28%" stop-color="#C9A263" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.22"/>
+    </linearGradient>
+
+    <!-- Пол: мягкое отражение -->
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#101A36" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0A1023" stop-opacity="1"/>
+    </linearGradient>
+
+    <!-- Затемнение к краям, чтобы текст читался -->
+    <linearGradient id="readMask" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0A1023" stop-opacity="0.97"/>
+      <stop offset="42%" stop-color="#0A1023" stop-opacity="0.78"/>
+      <stop offset="72%" stop-color="#0A1023" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#0A1023" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="vignette" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0A1023" stop-opacity="0.55"/>
+      <stop offset="35%" stop-color="#0A1023" stop-opacity="0"/>
+      <stop offset="82%" stop-color="#0A1023" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0A1023" stop-opacity="0.95"/>
+    </linearGradient>
+
+    <!-- Каннелюры (вертикальные желобки) на стволе колонны -->
+    <pattern id="flute" width="13" height="10" patternUnits="userSpaceOnUse">
+      <rect width="13" height="10" fill="none"/>
+      <rect x="0" y="0" width="1" height="10" fill="#C9A263" opacity="0.07"/>
+      <rect x="6" y="0" width="1" height="10" fill="#000000" opacity="0.16"/>
+    </pattern>
+
+    <!-- Капитель: упрощённая ионическая -->
+    <g id="capital">
+      <rect x="-46" y="0" width="92" height="9" fill="#33456E"/>
+      <rect x="-40" y="9" width="80" height="7" fill="#26355A"/>
+      <path d="M-40 16 q40 16 80 0 v6 h-80 z" fill="#121B36"/>
+    </g>
+    <g id="base">
+      <rect x="-42" y="0" width="84" height="8" fill="#141E3C"/>
+      <rect x="-48" y="8" width="96" height="10" fill="#101830"/>
+    </g>
+  </defs>
+
+  <!-- Фон -->
+  <rect width="1600" height="900" fill="#0A1023"/>
+  <rect width="1600" height="900" fill="url(#lightSource)"/>
+
+  <!-- ДАЛЬНИЙ ПЛАН: арочная галерея в глубине -->
+  <g opacity="0.75">
+    <rect x="900" y="150" width="700" height="520" fill="#16223F"/>
+    <!-- арки -->
+    <path d="M960 670 v-300 a55 55 0 0 1 110 0 v300 z" fill="#1E2C4E"/>
+    <path d="M1120 670 v-300 a55 55 0 0 1 110 0 v300 z" fill="#1E2C4E"/>
+    <path d="M1280 670 v-300 a55 55 0 0 1 110 0 v300 z" fill="#1E2C4E"/>
+    <path d="M1440 670 v-300 a55 55 0 0 1 110 0 v300 z" fill="#1E2C4E"/>
+    <!-- свет внутри арок -->
+    <path d="M975 670 v-292 a40 40 0 0 1 80 0 v292 z" fill="#C9A263" opacity="0.055"/>
+    <path d="M1135 670 v-292 a40 40 0 0 1 80 0 v292 z" fill="#C9A263" opacity="0.075"/>
+    <path d="M1295 670 v-292 a40 40 0 0 1 80 0 v292 z" fill="#C9A263" opacity="0.06"/>
+    <path d="M1455 670 v-292 a40 40 0 0 1 80 0 v292 z" fill="#C9A263" opacity="0.04"/>
+  </g>
+
+  <!-- Антаблемент (балка над колоннами) -->
+  <g>
+    <rect x="620" y="86" width="980" height="26" fill="#24335A"/>
+    <rect x="620" y="112" width="980" height="12" fill="#1A2647"/>
+    <rect x="620" y="124" width="980" height="5" fill="#C9A263" opacity="0.10"/>
+    <!-- дентикулы -->
+    <g fill="#1B2748">
+      <rect x="640" y="129" width="14" height="12"/><rect x="674" y="129" width="14" height="12"/>
+      <rect x="708" y="129" width="14" height="12"/><rect x="742" y="129" width="14" height="12"/>
+      <rect x="776" y="129" width="14" height="12"/><rect x="810" y="129" width="14" height="12"/>
+      <rect x="844" y="129" width="14" height="12"/><rect x="878" y="129" width="14" height="12"/>
+      <rect x="912" y="129" width="14" height="12"/><rect x="946" y="129" width="14" height="12"/>
+      <rect x="980" y="129" width="14" height="12"/><rect x="1014" y="129" width="14" height="12"/>
+      <rect x="1048" y="129" width="14" height="12"/><rect x="1082" y="129" width="14" height="12"/>
+      <rect x="1116" y="129" width="14" height="12"/><rect x="1150" y="129" width="14" height="12"/>
+      <rect x="1184" y="129" width="14" height="12"/><rect x="1218" y="129" width="14" height="12"/>
+      <rect x="1252" y="129" width="14" height="12"/><rect x="1286" y="129" width="14" height="12"/>
+      <rect x="1320" y="129" width="14" height="12"/><rect x="1354" y="129" width="14" height="12"/>
+      <rect x="1388" y="129" width="14" height="12"/><rect x="1422" y="129" width="14" height="12"/>
+      <rect x="1456" y="129" width="14" height="12"/><rect x="1490" y="129" width="14" height="12"/>
+      <rect x="1524" y="129" width="14" height="12"/><rect x="1558" y="129" width="14" height="12"/>
+    </g>
+  </g>
+
+  <!-- СРЕДНИЙ ПЛАН: колоннада -->
+  <g>
+    <!-- колонна 1 -->
+    <g transform="translate(760,0)">
+      <use href="#capital" y="146"/>
+      <rect x="-33" y="176" width="66" height="474" fill="url(#colMid)"/>
+      <rect x="-33" y="176" width="66" height="474" fill="url(#flute)"/>
+      <rect x="-33" y="176" width="66" height="474" fill="url(#shaftLight)"/>
+      <g transform="translate(0,650)"><use href="#base"/></g>
+    </g>
+    <!-- колонна 2 -->
+    <g transform="translate(950,0)">
+      <use href="#capital" y="146"/>
+      <rect x="-33" y="176" width="66" height="474" fill="url(#colMid)"/>
+      <rect x="-33" y="176" width="66" height="474" fill="url(#flute)"/>
+      <rect x="-33" y="176" width="66" height="474" fill="url(#shaftLight)"/>
+      <g transform="translate(0,650)"><use href="#base"/></g>
+    </g>
+    <!-- колонна 3 -->
+    <g transform="translate(1150,0)">
+      <use href="#capital" y="146"/>
+      <rect x="-33" y="176" width="66" height="474" fill="url(#colMid)"/>
+      <rect x="-33" y="176" width="66" height="474" fill="url(#flute)"/>
+      <rect x="-33" y="176" width="66" height="474" fill="url(#shaftLight)"/>
+      <g transform="translate(0,650)"><use href="#base"/></g>
+    </g>
+    <!-- колонна 4 -->
+    <g transform="translate(1360,0)">
+      <use href="#capital" y="146"/>
+      <rect x="-33" y="176" width="66" height="474" fill="url(#colMid)"/>
+      <rect x="-33" y="176" width="66" height="474" fill="url(#flute)"/>
+      <rect x="-33" y="176" width="66" height="474" fill="url(#shaftLight)"/>
+      <g transform="translate(0,650)"><use href="#base"/></g>
+    </g>
+    <!-- колонна 5 -->
+    <g transform="translate(1560,0)">
+      <use href="#capital" y="146"/>
+      <rect x="-33" y="176" width="66" height="474" fill="url(#colMid)"/>
+      <rect x="-33" y="176" width="66" height="474" fill="url(#flute)"/>
+      <rect x="-33" y="176" width="66" height="474" fill="url(#shaftLight)"/>
+      <g transform="translate(0,650)"><use href="#base"/></g>
+    </g>
+  </g>
+
+  <!-- Пол и мягкое отражение -->
+  <rect x="0" y="668" width="1600" height="232" fill="url(#floor)"/>
+  <g opacity="0.14">
+    <rect x="727" y="668" width="66" height="120" fill="#C9A263"/>
+    <rect x="917" y="668" width="66" height="120" fill="#C9A263"/>
+    <rect x="1117" y="668" width="66" height="120" fill="#C9A263"/>
+    <rect x="1327" y="668" width="66" height="120" fill="#C9A263"/>
+  </g>
+  <rect x="0" y="666" width="1600" height="2" fill="#C9A263" opacity="0.16"/>
+
+  <!-- Читаемость текста слева -->
+  <rect width="1600" height="900" fill="url(#readMask)"/>
+  <rect width="1600" height="900" fill="url(#vignette)"/>
+</svg>

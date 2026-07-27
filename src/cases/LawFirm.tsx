@@ -161,44 +161,98 @@ export default function LawFirm() {
       {/* HEADER */}
       <header className="sticky top-0 z-50 bg-[#0A1023]/92 backdrop-blur-md border-b border-[#2A365C]">
         <div className="max-w-[1360px] mx-auto px-6 md:px-8 py-5 flex justify-between items-center pl-20 md:pl-24">
-          <div className="font-manrope text-lg md:text-xl font-extrabold uppercase tracking-[0.15em] text-[#C9A263]">Egorov <span className="text-white font-light">& Partners</span></div>
+          <div className="font-manrope text-[13px] sm:text-lg md:text-xl font-extrabold uppercase tracking-[0.08em] sm:tracking-[0.15em] text-[#C9A263] whitespace-nowrap">Egorov <span className="text-white font-light">& Partners</span></div>
           <nav className="hidden lg:flex gap-7 font-manrope">
             {navLinks.map((l) => (
               <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="text-xs uppercase tracking-[0.1em] text-slate-300 hover:text-[#C9A263] transition-colors">{l.name}</a>
             ))}
           </nav>
-          <button onClick={(e: any) => scrollTo(e, 'contacts')} className="font-manrope bg-[#C9A263] text-[#0A1023] px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em] transition-all hover:bg-[#B08B53] hover:-translate-y-0.5 cursor-pointer">Консультация</button>
+          <button onClick={(e: any) => scrollTo(e, 'contacts')} className="hidden sm:block font-manrope bg-[#C9A263] text-[#0A1023] px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em] transition-all hover:bg-[#B08B53] hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">Консультация</button>
         </div>
       </header>
 
       {/* HERO */}
-      <section className="relative min-h-[86dvh] flex items-center py-20 px-6 md:px-8 overflow-hidden">
-        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'linear-gradient(#C9A263 1px,transparent 1px),linear-gradient(90deg,#C9A263 1px,transparent 1px)', backgroundSize: '56px 56px' }} />
-        <div className="absolute top-[20%] right-[6%] w-[44vw] h-[44vw] max-w-[600px] max-h-[600px] rounded-full" style={{ background: 'rgba(201,162,99,0.08)', filter: 'blur(120px)' }} />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right,#0A1023,rgba(10,16,35,0.85) 55%,rgba(10,16,35,0.3))' }} />
+      <section className="relative min-h-[86dvh] flex items-center py-20 md:py-24 px-6 md:px-8 overflow-hidden">
+        {/* Фон: классическая колоннада */}
+        <img
+          src="/lawfirm-hero.svg"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-right pointer-events-none select-none"
+        />
+        <div className="absolute inset-0 opacity-[0.045]" style={{ backgroundImage: 'linear-gradient(#C9A263 1px,transparent 1px),linear-gradient(90deg,#C9A263 1px,transparent 1px)', backgroundSize: '56px 56px' }} />
+        <div className="absolute inset-x-0 bottom-0 h-40 pointer-events-none" style={{ background: 'linear-gradient(to bottom,rgba(10,16,35,0),#0A1023)' }} />
 
-        <div className="max-w-[1360px] mx-auto relative z-[2] w-full">
-          <div className="max-w-[680px]">
+        <div className="max-w-[1360px] mx-auto relative z-[2] w-full grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-16 xl:gap-20 items-center">
+          {/* Левая колонка — оффер */}
+          <div>
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: EASE }} className="font-manrope flex items-center gap-4 mb-7">
               <span className="w-11 h-px bg-[#C9A263]" />
               <span className="text-[#C9A263] font-semibold uppercase tracking-[0.2em] text-xs">Юридическое бюро с 2010 года</span>
             </motion.div>
-            <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1, ease: EASE }} className="text-[34px] sm:text-[44px] md:text-[58px] leading-[1.14] text-white font-medium mb-7">
-              Безупречная защита интересов вашего бизнеса в суде
+            <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1, ease: EASE }} className="text-[34px] sm:text-[46px] md:text-[58px] xl:text-[64px] leading-[1.1] text-white font-medium mb-7 [text-wrap:balance]">
+              Безупречная защита интересов вашего бизнеса <span className="text-[#C9A263]">в суде</span>
             </motion.h1>
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.2, ease: EASE }} className="font-manrope text-base font-light leading-[1.7] max-w-[480px] mb-10">
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.2, ease: EASE }} className="font-manrope text-base md:text-[17px] font-light leading-[1.75] max-w-[520px] mb-10">
               Разрешение сложных корпоративных споров, защита активов и юридическое сопровождение сделок для собственников и топ-менеджмента.
             </motion.p>
 
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.3, ease: EASE }} className="bg-[#131D3B]/80 border border-[#2A365C] p-7 backdrop-blur-xl max-w-[520px]">
-              <h3 className="font-manrope text-white text-base font-semibold mb-5">Запись на первичную консультацию</h3>
-              <form onSubmit={handleSubmit} className="flex gap-4 flex-wrap">
-                <input required type="tel" placeholder="Ваш телефон" className="font-manrope flex-1 min-w-[160px] bg-transparent border-0 border-b border-[#2A365C] py-2.5 px-1 text-white text-base outline-none placeholder:text-white/30" />
-                <button type="submit" className="font-manrope bg-[#C9A263] text-[#0A1023] font-bold uppercase tracking-[0.1em] text-[11px] px-7 py-3.5 border-none cursor-pointer transition-all hover:bg-[#B08B53] hover:-translate-y-0.5">Отправить</button>
-              </form>
-              {submitted && <p className="font-manrope text-[#C9A263] text-xs mt-3.5">Заявка отправлена. Свяжемся в течение часа.</p>}
+            {/* Маркеры доверия */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.3, ease: EASE }} className="flex flex-wrap items-stretch gap-x-10 gap-y-6 border-t border-[#2A365C] pt-7">
+              {[
+                { v: '94%', l: 'выигранных дел' },
+                { v: '₽5 млрд+', l: 'защищённых активов' },
+                { v: 'Топ-15', l: 'Право.ru-300' },
+              ].map((m) => (
+                <div key={m.l}>
+                  <div className="text-2xl md:text-[28px] text-[#C9A263] leading-none mb-2">{m.v}</div>
+                  <div className="font-manrope text-[10px] uppercase tracking-[0.15em] text-slate-400">{m.l}</div>
+                </div>
+              ))}
             </motion.div>
           </div>
+
+          {/* Правая колонка — форма консультации */}
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.35, ease: EASE }}
+            className="relative lg:justify-self-end w-full max-w-[480px]"
+          >
+            <div className="absolute -inset-px bg-gradient-to-b from-[#C9A263]/40 via-[#C9A263]/10 to-transparent pointer-events-none" />
+            <div className="relative bg-[#0D152E]/92 border border-[#2A365C] backdrop-blur-xl p-7 md:p-9 shadow-[0_40px_90px_-30px_rgba(0,0,0,0.75)]">
+              <span className="font-manrope inline-block text-[10px] uppercase tracking-[0.2em] text-[#C9A263] border border-[#C9A263]/35 px-3 py-1.5 mb-6">Бесплатно · конфиденциально</span>
+              <h3 className="text-white text-2xl md:text-[26px] font-medium leading-snug mb-3">Запись на первичную консультацию</h3>
+              <p className="font-manrope text-[13px] font-light text-slate-400 leading-relaxed mb-7">
+                Оценим судебные перспективы вашего дела и предложим стратегию защиты. Ответим в течение часа.
+              </p>
+
+              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                <div>
+                  <label htmlFor="lf-phone" className="font-manrope block text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-2.5">Телефон</label>
+                  <input
+                    id="lf-phone"
+                    required
+                    type="tel"
+                    placeholder="+7 (___) ___-__-__"
+                    className="font-manrope w-full bg-[#0A1023]/70 border border-[#2A365C] py-3.5 px-4 text-white text-base outline-none transition-colors focus:border-[#C9A263] placeholder:text-white/25"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="font-manrope w-full bg-[#C9A263] text-[#0A1023] font-bold uppercase tracking-[0.12em] text-[11px] py-4 border-none cursor-pointer transition-all hover:bg-[#E8CB94] hover:-translate-y-0.5 hover:shadow-[0_14px_34px_-12px_rgba(201,162,99,0.6)]"
+                >
+                  Записаться на консультацию
+                </button>
+              </form>
+
+              {submitted && <p className="font-manrope text-[#C9A263] text-xs mt-4">Заявка отправлена. Свяжемся в течение часа.</p>}
+
+              <p className="font-manrope text-[11px] font-light text-slate-500 leading-relaxed mt-6 pt-5 border-t border-[#2A365C]">
+                Сведения, полученные на консультации, составляют адвокатскую тайну и не передаются третьим лицам.
+              </p>
+            </div>
+          </motion.div>
         </div>
       </section>
 
