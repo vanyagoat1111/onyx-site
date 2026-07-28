@@ -3,7 +3,10 @@ import { Container, SectionTitle, Reveal } from './ui';
 import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import SpaceTransition from './SpaceTransition';
 
-const cases = [
+const cases: {
+  name: string; category: string; url: string; problem: string; result: string;
+  previewImg?: string; tone?: string[];
+}[] = [
   {
     name: 'Artel Interiors',
     category: 'Премиум-интерьеры',
@@ -51,6 +54,70 @@ const cases = [
     problem: 'Сложно продавать объекты через сайт.',
     result: 'Интуитивный поиск, больше целевых обращений.',
     previewImg: '/case5.1.png',
+  },
+  {
+    name: 'Osnova',
+    category: 'Строительство',
+    url: '#case/construction',
+    problem: 'Смету обещают, но не показывают.',
+    result: 'Фиксированная цена и калькулятор дома.',
+    tone: ['#C8703C', '#2A2620'],
+  },
+  {
+    name: 'Fleur',
+    category: 'Красота',
+    url: '#case/beauty',
+    problem: 'Салон теряется среди одинаковых.',
+    result: 'Журнальная подача и запись на диагностику.',
+    tone: ['#B4796B', '#E8D9CE'],
+  },
+  {
+    name: 'Apex',
+    category: 'Автосервис',
+    url: '#case/auto',
+    problem: 'Клиент не понимает, за что платит.',
+    result: 'Прайс по кодам работ и фотоотчёты.',
+    tone: ['#C4F82A', '#14170F'],
+  },
+  {
+    name: 'Forma',
+    category: 'Производство',
+    url: '#case/manufacturing',
+    problem: 'Снабженцу негде посмотреть мощности.',
+    result: 'Парк оборудования и расчёт по чертежу.',
+    tone: ['#5B8BB5', '#121722'],
+  },
+  {
+    name: 'Brasero',
+    category: 'Рестораны',
+    url: '#case/food',
+    problem: 'Меню только в PDF, брони по телефону.',
+    result: 'Живое меню, залы и доставка на сайте.',
+    tone: ['#D4703A', '#1C1614'],
+  },
+  {
+    name: 'Taiga',
+    category: 'Отели и отдых',
+    url: '#case/hotel',
+    problem: 'Гость не понимает, что входит в цену.',
+    result: 'Домики, календарь и расчёт без сюрпризов.',
+    tone: ['#7E9B6E', '#161C16'],
+  },
+  {
+    name: 'Method',
+    category: 'Образование',
+    url: '#case/education',
+    problem: 'Курсы описаны одинаково и без результата.',
+    result: 'Программы по уровням и цифры выпускников.',
+    tone: ['#F2C14E', '#18203A'],
+  },
+  {
+    name: 'Vector',
+    category: 'Услуги для бизнеса',
+    url: '#case/b2b',
+    problem: 'Консалтинг продаётся вслепую.',
+    result: 'Тарифы, диагностика и ответственность в договоре.',
+    tone: ['#2F5DA8', '#EDEEEB'],
   },
 ];
 
@@ -185,12 +252,27 @@ export default function Templates() {
                 style={{ borderColor: card.style.borderColor as string, boxShadow: card.style.boxShadow as string }}
               >
                 <div className="relative aspect-[16/10] overflow-hidden">
-                  <img
-                    src={card.previewImg}
-                    alt={`Кейс: ${card.name}`}
-                    draggable={false}
-                    className="w-full h-full object-cover object-top"
-                  />
+                  {card.previewImg ? (
+                    <img
+                      src={card.previewImg}
+                      alt={`Кейс: ${card.name}`}
+                      draggable={false}
+                      className="w-full h-full object-cover object-top"
+                    />
+                  ) : (
+                    <div
+                      className="w-full h-full flex items-center justify-center"
+                      style={{ background: `linear-gradient(140deg, ${card.tone?.[1]}, ${card.tone?.[0]})` }}
+                      aria-label={`Кейс: ${card.name}`}
+                    >
+                      <span
+                        className="font-display font-semibold uppercase tracking-[0.2em] text-[clamp(18px,3.4vw,34px)]"
+                        style={{ color: 'rgba(255,255,255,0.9)', mixBlendMode: 'overlay' }}
+                      >
+                        {card.name}
+                      </span>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-transparent" style={{ backgroundImage: 'linear-gradient(to top, rgba(10,10,13,0.85), transparent 55%)' }} />
                   <span className="absolute top-5 left-5 rounded-full bg-ink/70 backdrop-blur-md border border-white/15 text-bone/90 text-[10px] font-mono tracking-wider uppercase px-3.5 py-1.5">
                     {card.category}
