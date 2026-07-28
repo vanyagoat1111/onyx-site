@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Rocket, Star, MousePointerClick } from 'lucide-react';
+import { Rocket, Star, MousePointerClick, LayoutGrid } from 'lucide-react';
 import { Button } from './ui';
-import { BOT_LINK } from '../lib/leads';
+import { BOT_AUDIT_LINK } from '../lib/leads';
 import LeadFormModal from './LeadFormModal';
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -62,10 +62,10 @@ export default function Hero() {
             className="max-w-xl space-y-4 mb-10"
           >
             <p className="text-base md:text-lg font-body text-bone/90 leading-relaxed">
-              Создадим сайт, который вызывает доверие, показывает ваши услуги и помогает получать заявки — без оплаты разработки.
+              Начинаем не с прайса, а с разбора. Смотрим ваш сайт или нишу, показываем, что мешает получать заявки, и составляем план — какой сайт нужен именно вашему бизнесу.
             </p>
             <p className="text-[15px] font-body text-fog leading-relaxed">
-              Вы оплачиваете только запуск, размещение и дополнительные функции, если они нужны вашему бизнесу. Сначала показываем предварительную версию — если направление подходит, запускаем сайт на домене.
+              Разбор и план бесплатны и ни к чему не обязывают. Разработка стоит 0 ₽: вы платите только за запуск, размещение и дополнительные функции, если они нужны.
             </p>
           </motion.div>
 
@@ -76,19 +76,31 @@ export default function Hero() {
             className="flex flex-col sm:flex-row gap-4 sm:items-start"
           >
             <div className="flex flex-col gap-2">
-              <Button className="min-h-[56px] px-9" onClick={() => setFormOpen(true)}>
-                Начать разработку
+              {/* Главный вход: deep-link открывает разбор сайта сразу, без приветствия. */}
+              <Button className="min-h-[56px] px-9" onClick={() => window.open(BOT_AUDIT_LINK, '_blank')}>
+                Бесплатный аудит сайта
               </Button>
-              <span className="text-[11px] text-fog/70 text-center font-mono tracking-wide">Без скрытой оплаты за разработку</span>
+              <span className="text-[11px] text-fog/70 text-center font-mono tracking-wide max-w-[280px] mx-auto">Разбор за 2 минуты. Нужен только адрес сайта.</span>
             </div>
             <div className="flex flex-col gap-2">
-              {/* Ведёт в Telegram-бота ONYX. */}
-              <Button variant="outline" className="min-h-[56px] px-9" onClick={() => window.open(BOT_LINK, '_blank')}>
-                Бесплатный аудит вашего сайта
+              <Button variant="outline" className="min-h-[56px] px-9" onClick={() => setFormOpen(true)}>
+                Сайта пока нет
               </Button>
-              <span className="text-[11px] text-fog/70 text-center font-mono tracking-wide max-w-[280px] mx-auto">Если у вас уже есть сайт, укажем на слабые места и расскажем, что усилить.</span>
+              <span className="text-[11px] text-fog/70 text-center font-mono tracking-wide max-w-[280px] mx-auto">Оставьте номер — разберём нишу и покажем, каким должен быть первый сайт.</span>
             </div>
           </motion.div>
+
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.8, ease }}
+            onClick={() => document.querySelector('#templates')?.scrollIntoView({ behavior: 'smooth' })}
+            className="mt-7 inline-flex items-center gap-2 text-[13px] font-body text-fog hover:text-bone transition-colors cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt rounded-full"
+          >
+            <LayoutGrid className="w-4 h-4 text-cobalt-soft" />
+            Сначала посмотреть примеры сайтов
+            <span className="transition-transform group-hover:translate-x-0.5">→</span>
+          </motion.button>
         </div>
 
         {/* Infographic: как устроена модель ONYX */}
@@ -110,8 +122,8 @@ export default function Hero() {
             <div className="relative grid grid-cols-2 gap-3 mb-6">
               {[
                 { value: '0 ₽', label: 'Стоимость разработки' },
+                { value: '2 мин', label: 'Разбор сайта в боте' },
                 { value: '2–3 дня', label: 'До первой версии сайта' },
-                { value: '40 мин', label: 'Ответ на заявку' },
                 { value: '150+', label: 'Запущенных сайтов' },
               ].map((stat, i) => (
                 <motion.div
@@ -129,6 +141,7 @@ export default function Hero() {
 
             <div className="relative space-y-3 pt-6 border-t border-white/[0.07]">
               {[
+                { icon: MousePointerClick, text: 'Разбор и план — бесплатно, без обязательств' },
                 { icon: Rocket, text: 'Показываем сайт, вы утверждаете направление' },
                 { icon: Star, text: 'Запускаем на домене и подключаем заявки' },
               ].map((row, i) => (

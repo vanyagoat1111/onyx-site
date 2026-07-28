@@ -1,12 +1,12 @@
 import React from 'react';
 import { Container, SectionTitle, Button, Reveal } from './ui';
-import { FileText, ArrowUpRight } from 'lucide-react';
-import { BOT_LINK } from '../lib/leads';
+import { FileText, ArrowUpRight, ScanSearch } from 'lucide-react';
+import { BOT_LINK, BOT_AUDIT_LINK, BOT_CHECKLIST_LINK } from '../lib/leads';
 
 const steps = [
-  { title: 'Оставляете заявку', desc: 'Пара минут: рассказываете о бизнесе и задаче сайта.' },
-  { title: 'Разбираем ваш бизнес', desc: 'Смотрим текущую упаковку и находим слабые места.' },
-  { title: 'Показываем план и превью', desc: 'Какие блоки нужны, как усилить доверие и принимать заявки.' },
+  { title: 'Разбор за две минуты', desc: 'Даёте адрес сайта — бот показывает, что мешает получать заявки. Если сайта нет, разбираем нишу.' },
+  { title: 'Бесплатная консультация', desc: 'Созваниваемся и составляем план сайта под ваш бизнес: структура, блоки, что показать первым.' },
+  { title: 'Показываем превью', desc: 'Собираем предварительную версию. Смотрите вживую и говорите, что поправить.' },
   { title: 'Запускаем сайт', desc: 'На вашем домене, без оплаты разработки — платите только за запуск и работу.' },
 ];
 
@@ -16,7 +16,7 @@ export default function ActionBlock() {
       <div className="grid lg:grid-cols-2 gap-14 lg:gap-24 items-start">
         <div className="lg:sticky lg:top-28">
           <SectionTitle index="03" subtitle="План действий" className="!mb-8">
-            Оставьте заявку — мы покажем, какой сайт нужен вашему бизнесу
+            Сначала разбор, потом план. Цена — в самом конце
           </SectionTitle>
 
           <Reveal className="space-y-5 text-[15px] md:text-base font-body text-fog leading-relaxed mb-10">
@@ -24,10 +24,10 @@ export default function ActionBlock() {
               Вам не нужно разбираться в дизайне, доменах, хостинге, структуре сайта и технических настройках.
             </p>
             <p>
-              Вы оставляете заявку, а мы изучаем ваш бизнес, смотрим текущую упаковку, находим слабые места и предлагаем понятный план сайта: какие блоки нужны, какие услуги показать, как усилить доверие и как принимать заявки.
+              Мы смотрим ваш сайт или нишу, находим слабые места и предлагаем понятный план: какие блоки нужны, какие услуги показать первыми, как усилить доверие и как принимать заявки.
             </p>
             <p className="text-bone/90">
-              После этого вы понимаете, каким должен быть ваш сайт, за что вы платите и как ONYX может запустить его без оплаты разработки.
+              Разбор и консультация бесплатны и ни к чему не обязывают. К разговору о деньгах переходим только тогда, когда вы уже понимаете, каким должен быть ваш сайт.
             </p>
           </Reveal>
 
@@ -35,20 +35,26 @@ export default function ActionBlock() {
             <div className="rounded-[24px] border border-white/[0.08] bg-ink-2/70 p-6 md:p-7">
               <div className="flex items-start gap-4 mb-5">
                 <div className="w-11 h-11 rounded-2xl bg-cobalt/15 border border-cobalt/30 flex items-center justify-center shrink-0">
-                  <FileText className="w-5 h-5 text-cobalt-soft" />
+                  <ScanSearch className="w-5 h-5 text-cobalt-soft" />
                 </div>
                 <p className="text-sm font-body text-bone/85 leading-relaxed">
-                  А также мы подготовили для вас бесплатный чек-лист-инструкцию по созданию сайта для вашего бизнеса.
+                  Начните с разбора: дайте адрес сайта — покажем, что мешает получать заявки, и предложим план. Бесплатно.
                 </p>
               </div>
-              <Button className="w-full min-h-[54px] mb-3" onClick={() => window.open(BOT_LINK, '_blank')}>
-                Начать разработку <ArrowUpRight className="w-4 h-4" />
+              <Button className="w-full min-h-[54px] mb-3" onClick={() => window.open(BOT_AUDIT_LINK, '_blank')}>
+                Бесплатный аудит сайта <ArrowUpRight className="w-4 h-4" />
               </Button>
-              <Button variant="outline" className="w-full min-h-[54px]" onClick={() => window.open(BOT_LINK, '_blank')}>
-                Получить чек-лист
+              <Button variant="outline" className="w-full min-h-[54px] mb-3" onClick={() => window.open(BOT_LINK, '_blank')}>
+                Сайта пока нет — разобрать нишу
               </Button>
-              <span className="mt-3 block text-[11px] text-fog/70 text-center font-mono tracking-wide">
-                Заполните анкету и личный кабинет в боте — узнаете о всех подводных камнях в разработке сайта и поиске разработчика.
+              <button
+                onClick={() => window.open(BOT_CHECKLIST_LINK, '_blank')}
+                className="w-full flex items-center justify-center gap-2 text-[13px] font-body text-fog hover:text-bone transition-colors cursor-pointer py-2 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt"
+              >
+                <FileText className="w-3.5 h-3.5 text-cobalt-soft" /> Забрать чек-лист по подготовке
+              </button>
+              <span className="mt-2 block text-[11px] text-fog/70 text-center font-mono tracking-wide">
+                Разбор и консультация ни к чему не обязывают.
               </span>
             </div>
           </Reveal>

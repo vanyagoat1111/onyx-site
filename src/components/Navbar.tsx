@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
-import { BOT_LINK } from '../lib/leads';
+import { Menu, X, ArrowUpRight, LayoutGrid, ScanSearch } from 'lucide-react';
+import { BOT_LINK, BOT_AUDIT_LINK } from '../lib/leads';
 
 const links = [
   { name: 'Главная', href: '#home', num: '01' },
-  { name: 'Тарифы', href: '#prices', num: '02' },
-  { name: 'Доп. опции', href: '#addons', num: '03' },
-  { name: 'FAQ', href: '#faq', num: '04' },
-  { name: 'Контакты', href: '#contact-form', num: '05' },
+  { name: 'Примеры сайтов', href: '#templates', num: '02' },
+  { name: 'Тарифы', href: '#prices', num: '03' },
+  { name: 'Доп. опции', href: '#addons', num: '04' },
+  { name: 'FAQ', href: '#faq', num: '05' },
+  { name: 'Контакты', href: '#contact-form', num: '06' },
 ];
 
 const scrollTo = (href: string) => {
@@ -36,12 +37,12 @@ export default function Navbar() {
             </span>
           </a>
 
-          <div className="hidden lg:flex items-center gap-9">
+          <div className="hidden lg:flex items-center gap-7 xl:gap-9">
             {links.map(link => (
               <a
                 key={link.name}
                 href={link.href}
-                className="text-[13px] font-body font-medium text-fog hover:text-bone transition-colors relative group cursor-pointer"
+                className="text-[13px] font-body font-medium text-fog hover:text-bone transition-colors relative group cursor-pointer whitespace-nowrap"
                 onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
               >
                 <sup className="font-mono text-[9px] text-cobalt-soft mr-1">{link.num}</sup>
@@ -49,6 +50,13 @@ export default function Navbar() {
                 <span className="absolute -bottom-1.5 left-0 w-0 h-px bg-cobalt transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
+            {/* Вход в бесплатный аудит: бот открывает разбор сразу, без приветствия. */}
+            <button
+              onClick={() => window.open(BOT_AUDIT_LINK, '_blank')}
+              className="inline-flex items-center gap-1.5 rounded-full border border-cobalt/40 text-cobalt-soft text-[13px] font-body font-semibold px-4 py-2.5 hover:bg-cobalt hover:text-white hover:border-cobalt transition-colors duration-300 cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+            >
+              <ScanSearch className="w-3.5 h-3.5" /> Бесплатный аудит
+            </button>
             <button
               onClick={() => window.open(BOT_LINK, '_blank')}
               className="inline-flex items-center gap-1.5 rounded-full bg-cobalt text-white text-[13px] font-body font-semibold px-5 py-2.5 hover:bg-bone hover:text-ink transition-colors duration-300 shadow-[0_6px_24px_rgba(78,124,255,0.35)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
@@ -58,12 +66,19 @@ export default function Navbar() {
           </div>
 
           {/* Mobile: закреплённая CTA + бургер */}
-          <div className="flex items-center gap-2.5 lg:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
             <button
-              onClick={() => window.open(BOT_LINK, '_blank')}
+              onClick={() => document.querySelector('#templates')?.scrollIntoView({ behavior: 'smooth' })}
+              className="inline-flex items-center justify-center rounded-full border border-white/15 text-fog w-10 h-10 hover:text-bone hover:border-cobalt/50 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt"
+              aria-label="Примеры сайтов"
+            >
+              <LayoutGrid className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => window.open(BOT_AUDIT_LINK, '_blank')}
               className="inline-flex items-center gap-1 rounded-full bg-cobalt text-white text-[11px] font-body font-semibold px-3.5 py-2 hover:bg-bone hover:text-ink transition-colors duration-300 shadow-[0_4px_18px_rgba(78,124,255,0.4)] whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
-              Начать разработку
+              Бесплатный аудит
             </button>
             <button className="text-bone relative z-50 p-2 -m-1 min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt rounded-full" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Меню">
               {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -105,8 +120,17 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.44, duration: 0.5 }}
-                onClick={() => { setMobileMenuOpen(false); window.open(BOT_LINK, '_blank'); }}
+                onClick={() => { setMobileMenuOpen(false); window.open(BOT_AUDIT_LINK, '_blank'); }}
                 className="mt-10 w-full rounded-full bg-cobalt text-white font-body font-semibold py-5 hover:bg-bone hover:text-ink transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+              >
+                Бесплатный аудит сайта
+              </motion.button>
+              <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+                onClick={() => { setMobileMenuOpen(false); window.open(BOT_LINK, '_blank'); }}
+                className="mt-3 mb-10 w-full rounded-full border border-white/15 text-bone font-body font-semibold py-5 hover:border-cobalt/60 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt"
               >
                 Начать разработку
               </motion.button>

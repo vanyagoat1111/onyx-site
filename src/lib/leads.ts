@@ -3,6 +3,30 @@
 // Telegram-бот ONYX: сбор заявок, тарифы/опции, создание личного кабинета, выдача чек-листа и аудита.
 export const BOT_LINK = 'https://t.me/onyxwebsites_bot';
 
+// Прямые входы в бота через deep-link. Бот разбирает параметр start и открывает
+// нужный экран сразу, минуя общее приветствие. Коды должны совпадать с
+// parse_start_payload в api/index.py: audit, checklist, build.
+//
+// audit    — бесплатный разбор существующего сайта: бот сразу просит адрес.
+// consult  — путь к бесплатной консультации «План сайта под ваш бизнес».
+// checklist— выдача чек-листа по подготовке к разработке.
+export const BOT_AUDIT_LINK = `${BOT_LINK}?start=audit`;
+export const BOT_CONSULT_LINK = `${BOT_LINK}?start=build`;
+export const BOT_CHECKLIST_LINK = `${BOT_LINK}?start=checklist`;
+
+// Аудит с уже известным адресом: сайт передаёт домен прямо в ссылке.
+// Точки в deep-link Telegram недопустимы, поэтому домен кодируется base64url —
+// ровно так же, как это делает decode_audit_payload на стороне бота.
+export function botAuditLinkFor(domain: string) {
+  const clean = (domain || '').trim();
+  if (!clean) return BOT_AUDIT_LINK;
+  const b64 = btoa(unescape(encodeURIComponent(clean)))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
+  return `${BOT_LINK}?start=a_${b64}`;
+}
+
 // Личный Telegram для вопросов, которые не связаны с ботом-заявками.
 export const TELEGRAM_QUESTIONS_LINK = 'https://t.me/mynameisbutati';
 
