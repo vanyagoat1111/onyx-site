@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 const addons = [
   {
     title: 'Подключение оплаты',
-    price: '5 990р',
+    price: '8 990р',
     desc: 'Через ЮKassa, Т-Банк или CloudPayments.',
     action: 'Оплатить'
   },

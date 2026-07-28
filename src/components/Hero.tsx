@@ -30,8 +30,12 @@ export default function Hero() {
             <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-cobalt-soft">Веб-студия ONYX · сайты для бизнеса</span>
           </motion.div>
 
+          {/* Заголовок продаёт не цену, а снятие риска. «Сайт за 0 рублей»
+              притягивает тех, у кого нет денег, и производство работает вхолостую.
+              «Увидите раньше, чем заплатите» цепляет тех, кто уже обжигался
+              на предоплате, - а это платёжеспособные люди. */}
           <h1 className="font-display font-bold text-[2.1rem] sm:text-5xl lg:text-[3.6rem] xl:text-[4.2rem] leading-[1.06] tracking-tight text-white mb-8">
-            {['Сайт для', 'бизнеса за'].map((line, i) => (
+            {['Сайт вы увидите', 'раньше, чем'].map((line, i) => (
               <span key={i} className="block overflow-hidden">
                 <motion.span
                   className="block"
@@ -50,7 +54,7 @@ export default function Hero() {
                 animate={{ y: 0 }}
                 transition={{ duration: 0.9, delay: 0.34, ease }}
               >
-                0 рублей<span className="text-white">.</span>
+                заплатите<span className="text-white">.</span>
               </motion.span>
             </span>
           </h1>

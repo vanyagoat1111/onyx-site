@@ -29,7 +29,7 @@ function CostBar({ label, value, width, accent = false, danger = false, delay = 
 
 const facts = [
   { k: 'Разработка', v: '0 ₽' },
-  { k: 'Запуск', v: 'от 5 990 ₽' },
+  { k: 'Запуск', v: 'от 8 990 ₽' },
   { k: 'Доп. опции', v: 'от 2 500 ₽' },
   { k: 'Старт', v: 'за 2–3 дня' },
 ];
@@ -53,7 +53,7 @@ export default function LaunchEconomics() {
               <div className="space-y-6">
                 <CostBar label="Обычная студия — разработка" value="60 000–150 000 ₽" width="100%" delay={0.1} danger />
                 <CostBar label="ONYX — разработка" value="0 ₽" width="2.5%" accent delay={0.3} />
-                <CostBar label="ONYX — запуск под ключ" value="от 5 990 ₽" width="9%" accent delay={0.45} />
+                <CostBar label="ONYX — запуск под ключ" value="от 8 990 ₽" width="9%" accent delay={0.45} />
               </div>
 
               <div className="mt-8 flex items-center gap-3 rounded-2xl bg-cobalt/[0.08] border border-cobalt/20 px-4 py-3">
