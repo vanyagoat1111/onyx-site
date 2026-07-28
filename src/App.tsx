@@ -63,14 +63,14 @@ export default function App() {
   if (currentRoute === '#case/lawfirm') return <CaseEditorWrapper><LawFirm /></CaseEditorWrapper>;
   if (currentRoute === '#case/realestate') return <CaseEditorWrapper><RealEstate /></CaseEditorWrapper>;
   if (currentRoute === '#case/artel') return <CaseEditorWrapper><ArtelInteriors /></CaseEditorWrapper>;
-  if (currentRoute === '#case/construction') return <CaseEditorWrapper><OsnovaBuild /></CaseEditorWrapper>;
+  if (currentRoute.startsWith('#case/construction')) return <CaseEditorWrapper><OsnovaBuild /></CaseEditorWrapper>;
   if (currentRoute === '#case/beauty') return <CaseEditorWrapper><FleurBeauty /></CaseEditorWrapper>;
   if (currentRoute === '#case/auto') return <CaseEditorWrapper><ApexDetailing /></CaseEditorWrapper>;
-  if (currentRoute === '#case/manufacturing') return <CaseEditorWrapper><FormaIndustry /></CaseEditorWrapper>;
-  if (currentRoute === '#case/food') return <CaseEditorWrapper><BraseroKitchen /></CaseEditorWrapper>;
-  if (currentRoute === '#case/hotel') return <CaseEditorWrapper><TaigaRetreat /></CaseEditorWrapper>;
-  if (currentRoute === '#case/education') return <CaseEditorWrapper><MethodSchool /></CaseEditorWrapper>;
-  if (currentRoute === '#case/b2b') return <CaseEditorWrapper><VectorConsulting /></CaseEditorWrapper>;
+  if (currentRoute.startsWith('#case/manufacturing')) return <CaseEditorWrapper><FormaIndustry /></CaseEditorWrapper>;
+  if (currentRoute.startsWith('#case/food')) return <CaseEditorWrapper><BraseroKitchen /></CaseEditorWrapper>;
+  if (currentRoute.startsWith('#case/hotel')) return <CaseEditorWrapper><TaigaRetreat /></CaseEditorWrapper>;
+  if (currentRoute.startsWith('#case/education')) return <CaseEditorWrapper><MethodSchool /></CaseEditorWrapper>;
+  if (currentRoute.startsWith('#case/b2b')) return <CaseEditorWrapper><VectorConsulting /></CaseEditorWrapper>;
 
   return (
     <main className="bg-ink text-bone font-body selection:bg-cobalt selection:text-white w-full overflow-clip">

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { ColumnChart, DonutStat } from '../components/DemoCharts';
 
 /* METHOD — образовательный центр (языки и подготовка к экзаменам).
    Визуальный язык: учебная тетрадь. Чернильно-синий фон, жёлтый маркер,
@@ -63,12 +64,47 @@ const faqs = [
   { q: 'Возвращаете деньги?', a: 'Да, за неиспользованные занятия в любой момент. Удерживаем только стоимость проведённых уроков по цене разового посещения.' },
 ];
 
+const courseModules = [
+  { m: 'Месяц 1', t: 'Звуки и первые фразы', d: 'Фонетика, приветствия, рассказ о себе. К четвёртому занятию говорите простыми предложениями.', hours: '16 ч' },
+  { m: 'Месяц 2', t: 'Настоящее время', d: 'Present Simple и Continuous на бытовых ситуациях: распорядок дня, семья, работа.', hours: '16 ч' },
+  { m: 'Месяц 3', t: 'Прошедшее время', d: 'Рассказ о событиях: выходные, поездки, детство. Неправильные глаголы порциями.', hours: '16 ч' },
+  { m: 'Месяц 4', t: 'Планы и будущее', d: 'Договориться о встрече, забронировать, отменить. Много ролевых диалогов.', hours: '16 ч' },
+  { m: 'Месяц 5', t: 'Аудирование', d: 'Понимание речи на слух: объявления, короткие интервью, песни, сериалы с субтитрами.', hours: '16 ч' },
+  { m: 'Месяц 6', t: 'Промежуточный экзамен', d: 'Тест по всем навыкам и разбор ошибок. Решаем, идти дальше или закрепить уровень.', hours: '8 ч' },
+  { m: 'Месяц 7–8', t: 'Расширение словаря', d: 'Темы под ваши задачи: работа, путешествия, учёба. Словарь набирается из живой речи.', hours: '32 ч' },
+  { m: 'Месяц 9', t: 'Свободная речь', d: 'Только разговор: споры, презентации, истории. Грамматику подтягиваем точечно.', hours: '16 ч' },
+];
+
+const weekGrid = [
+  { day: 'ПН', slots: ['18:30 · A0 Начальный', '20:00 · B1 Разговорный'] },
+  { day: 'ВТ', slots: ['17:00 · Дети 7–9', '19:00 · ЕГЭ'] },
+  { day: 'СР', slots: ['18:30 · A0 Начальный', '20:00 · IELTS'] },
+  { day: 'ЧТ', slots: ['17:00 · Дети 10–11', '19:00 · ЕГЭ'] },
+  { day: 'ПТ', slots: ['19:00 · Клуб с носителем'] },
+  { day: 'СБ', slots: ['11:00 · A0 Начальный', '13:00 · B2 Работа'] },
+];
+
 export default function MethodSchool() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [sent, setSent] = useState(false);
+  const [page, setPage] = useState(() =>
+    typeof window !== 'undefined' && window.location.hash.includes('/program') ? 'program' : 'home');
+
+  useEffect(() => {
+    const sync = () => setPage(window.location.hash.includes('/program') ? 'program' : 'home');
+    window.addEventListener('hashchange', sync);
+    return () => window.removeEventListener('hashchange', sync);
+  }, []);
+
+  const go = (e: React.MouseEvent, to: string) => {
+    e.preventDefault();
+    window.location.hash = to;
+    window.scrollTo(0, 0);
+  };
 
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
+    if (page !== 'home') { window.location.hash = '#case/education'; setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 60); return; }
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -77,15 +113,101 @@ export default function MethodSchool() {
       <header className="sticky top-0 z-50 backdrop-blur-xl border-b border-white/10" style={{ background: 'rgba(20,26,46,0.9)' }}>
         <div className="max-w-[1280px] mx-auto px-6 md:px-8 py-4 flex justify-between items-center pl-20 md:pl-24">
           <div className="font-bold tracking-[0.2em] text-[17px]">METHOD<span style={{ color: MARK }}>.</span></div>
-          <nav className="hidden md:flex gap-8">
+          <nav className="hidden md:flex gap-8 items-center">
             {navLinks.map((l) => (
               <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="text-[12px] uppercase tracking-[0.14em] text-white/45 hover:text-white transition-colors">{l.name}</a>
             ))}
+            <a href="#case/education/program" onClick={(e) => go(e, '#case/education/program')}
+               className="text-[12px] uppercase tracking-[0.14em] transition-colors"
+               style={{ color: page === 'program' ? MARK : 'rgba(255,255,255,0.45)' }}>Программа курса</a>
           </nav>
           <a href="#trial" onClick={(e) => scrollTo(e, 'trial')} className="hidden sm:inline-block px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.12em] rounded-lg" style={{ background: MARK, color: BG }}>Пробный урок</a>
         </div>
       </header>
 
+      {page === 'program' ? (
+        <>
+          {/* ── ВТОРАЯ СТРАНИЦА: программа курса ── */}
+          <section className="px-6 md:px-8 pt-14 md:pt-20 pb-12 border-b border-white/10">
+            <div className="max-w-[1000px] mx-auto">
+              <a href="#case/education" onClick={(e) => go(e, '#case/education')}
+                 className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.14em] text-white/40 hover:text-white transition-colors mb-9">
+                ← На главную
+              </a>
+              <div className="text-[11px] uppercase tracking-[0.3em] mb-6" style={{ color: MARK }}>Английский с нуля · A0 → A2</div>
+              <h1 className="font-bold leading-[1.06] tracking-[-0.02em] max-w-[18ch]" style={{ fontSize: 'clamp(34px,5.4vw,64px)' }}>
+                Девять месяцев<br />по неделям
+              </h1>
+              <p className="mt-7 max-w-[54ch] text-white/50 text-[16.5px] leading-[1.75]">
+                Полная программа курса: что проходим каждый месяц, сколько это часов
+                и какого результата ждать. Ничего не скрываем — можете сравнить с другими школами.
+              </p>
+              <div className="mt-10 flex flex-wrap gap-8">
+                {[['136 ч', 'аудиторных часов'], ['2 раза', 'в неделю по 80 минут'], ['до 8', 'человек в группе'], ['5 200 ₽', 'в месяц']].map(([v, l]) => (
+                  <div key={l}>
+                    <div className="font-bold text-[26px] leading-none" style={{ color: MARK }}>{v}</div>
+                    <div className="text-[12px] text-white/40 mt-2">{l}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="px-6 md:px-8 py-16 md:py-20">
+            <div className="max-w-[1000px] mx-auto">
+              <Reveal className="mb-10"><h2 className="font-bold text-2xl md:text-[32px] tracking-tight">Помесячный план</h2></Reveal>
+              <div className="flex flex-col">
+                {courseModules.map((m, i) => (
+                  <Reveal key={m.m} delay={i * 0.03}
+                          className="grid grid-cols-[80px_1fr_auto] gap-5 md:gap-8 items-start py-6 border-b border-white/10">
+                    <div className="text-[12px] uppercase tracking-[0.1em] pt-1" style={{ color: MARK }}>{m.m}</div>
+                    <div>
+                      <h3 className="font-bold text-[16.5px] mb-2">{m.t}</h3>
+                      <p className="text-[13.5px] text-white/45 leading-[1.7]">{m.d}</p>
+                    </div>
+                    <div className="text-[12px] text-white/30 pt-1 whitespace-nowrap">{m.hours}</div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="px-6 md:px-8 py-16 md:py-20 border-y border-white/10" style={{ background: '#18203A' }}>
+            <div className="max-w-[1000px] mx-auto">
+              <Reveal className="mb-10">
+                <h2 className="font-bold text-2xl md:text-[32px] tracking-tight mb-3">Расписание на неделю</h2>
+                <p className="text-white/45 text-[14.5px]">Актуально на текущий набор. Онлайн-группы идут в те же слоты.</p>
+              </Reveal>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                {weekGrid.map((d) => (
+                  <div key={d.day} className="p-5 min-h-[150px]" style={{ background: '#18203A' }}>
+                    <div className="text-[11px] uppercase tracking-[0.16em] mb-4" style={{ color: MARK }}>{d.day}</div>
+                    <div className="flex flex-col gap-3">
+                      {d.slots.map((sl) => (
+                        <div key={sl} className="text-[12.5px] text-white/55 leading-[1.5]">{sl}</div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="px-6 md:px-8 py-16 md:py-24">
+            <Reveal className="max-w-[720px] mx-auto text-center">
+              <h2 className="font-bold tracking-tight leading-[1.1] mb-5" style={{ fontSize: 'clamp(26px,4vw,42px)' }}>
+                Записаться в эту группу
+              </h2>
+              <p className="text-white/45 text-[15px] mb-9">Ближайший набор стартует через две недели. Осталось три места.</p>
+              <a href="#case/education" onClick={(e) => { go(e, '#case/education'); setTimeout(() => document.getElementById('trial')?.scrollIntoView({ behavior: 'smooth' }), 80); }}
+                 className="inline-block px-8 py-4 rounded-lg text-[13px] font-semibold uppercase tracking-[0.1em]" style={{ background: MARK, color: BG }}>
+                Пробный урок
+              </a>
+            </Reveal>
+          </section>
+        </>
+      ) : (
+      <>
       {/* HERO */}
       <section className="relative px-6 md:px-8 pt-16 md:pt-24 pb-20 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(234,238,247,.8) 1px,transparent 1px),linear-gradient(90deg,rgba(234,238,247,.8) 1px,transparent 1px)', backgroundSize: '26px 26px' }} />
@@ -120,6 +242,34 @@ export default function MethodSchool() {
             </Reveal>
           ))}
         </div>
+
+        <div className="max-w-[1280px] mx-auto mt-16 pt-14 border-t border-white/10 grid grid-cols-1 lg:grid-cols-[1.25fr_0.75fr] gap-14 items-center">
+          <div>
+            <Reveal className="mb-8">
+              <h3 className="font-bold text-[26px] md:text-[32px] tracking-[-0.02em] mb-3">Средний балл ЕГЭ у наших выпускников</h3>
+              <p className="text-white/45 text-[14px] leading-[1.75] max-w-[52ch]">
+                Тёмные столбцы — средний балл по региону, жёлтые — наши группы.
+                Считаем по всем, кто дошёл до экзамена, а не по лучшим.
+              </p>
+            </Reveal>
+            <Reveal className="overflow-x-auto pb-2">
+              <ColumnChart tone={MARK} height={200} className="min-w-[440px]"
+                items={[
+                  { label: '2021', value: 61 }, { label: 'наши', value: 69, hi: true },
+                  { label: '2022', value: 60 }, { label: 'наши', value: 72, hi: true },
+                  { label: '2023', value: 63 }, { label: 'наши', value: 74, hi: true },
+                  { label: '2024', value: 62 }, { label: 'наши', value: 76, hi: true },
+                  { label: '2025', value: 62 }, { label: 'наши', value: 78, hi: true },
+                ]} />
+            </Reveal>
+          </div>
+          <Reveal className="flex flex-col sm:flex-row lg:flex-col gap-10 justify-center">
+            <DonutStat tone={MARK} value={91} size={150}
+              label="Доходят до конца курса" sub="По группам набора 2025 года." />
+            <DonutStat tone={MARK} value={68} size={150}
+              label="Продолжают на следующий уровень" sub="Записываются в новую группу сразу после выпуска." />
+          </Reveal>
+        </div>
       </section>
 
       {/* PROGRAMS */}
@@ -138,8 +288,12 @@ export default function MethodSchool() {
                   </div>
                   <h3 className="font-bold text-[19px] mb-3">{p.t}</h3>
                   <p className="text-[13.5px] text-white/45 leading-[1.7] mb-6 flex-1">{p.d}</p>
-                  <div className="flex gap-5 text-[12px] text-white/35 pt-5 border-t border-white/10">
+                  <div className="flex gap-5 text-[12px] text-white/35 pt-5 border-t border-white/10 items-center">
                     <span>{p.len}</span><span>{p.grp}</span>
+                    {i === 0 && (
+                      <a href="#case/education/program" onClick={(e) => go(e, '#case/education/program')}
+                         className="ml-auto text-[12px] font-semibold" style={{ color: MARK }}>Программа →</a>
+                    )}
                   </div>
                 </div>
               </Reveal>
@@ -232,6 +386,9 @@ export default function MethodSchool() {
           {sent && <p className="mt-4 text-[13px]" style={{ color: MARK }}>Записали! Администратор перезвонит и предложит время.</p>}
         </Reveal>
       </section>
+
+      </>
+      )}
 
       <footer className="px-6 md:px-8 pt-16 pb-10 border-t border-white/10" style={{ background: '#101527' }}>
         <div className="max-w-[1280px] mx-auto flex flex-wrap justify-between gap-10 mb-12">

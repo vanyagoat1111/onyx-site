@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import DemoPlaceholder from '../components/DemoPlaceholder';
+import { DonutStat, StatBars } from '../components/DemoCharts';
 
 /* FLEUR — салон красоты и косметология.
    Визуальный язык: журнальный разворот. Светлая песочная бумага, крупная
@@ -123,8 +125,10 @@ export default function FleurBeauty() {
             </div>
 
             <Reveal>
-              <div className="relative aspect-[4/5] rounded-[3px] overflow-hidden" style={{ background: 'linear-gradient(150deg,#E8D9CE,#CDB3A5 60%,#B4796B)' }}>
-                <div className="absolute inset-0 opacity-[0.12]" style={{ backgroundImage: 'repeating-linear-gradient(90deg,rgba(255,255,255,.6) 0 1px,transparent 1px 26px)' }} />
+              <div className="relative aspect-[4/5] rounded-[3px] overflow-hidden">
+                <img src="/hero-beauty.jpg" alt="Кабинет косметолога"
+                     className="absolute inset-0 w-full h-full object-cover" />
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(to top,rgba(42,36,34,.72),rgba(42,36,34,.10) 55%,transparent)' }} />
                 <div className="absolute bottom-7 left-7 right-7 text-white">
                   <div className="font-cormorant text-[42px] leading-none mb-2">7 лет</div>
                   <div className="text-[11px] uppercase tracking-[0.2em] opacity-80">и 4 100 постоянных гостей</div>
@@ -188,7 +192,9 @@ export default function FleurBeauty() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {masters.map((m, i) => (
               <Reveal key={m.n} delay={i * 0.07}>
-                <div className="aspect-[3/4] mb-5 rounded-[3px]" style={{ background: `linear-gradient(160deg,#E3D3C6,#C7AC9C)` }} />
+                <div className="mb-5 rounded-[3px] overflow-hidden">
+                  <DemoPlaceholder label="Портрет мастера" tone={ROSE} ratio="3/4" icon="person" dark={false} />
+                </div>
                 <div className="text-[11px] uppercase tracking-[0.18em] mb-2" style={{ color: ROSE }}>{m.r} · {m.exp}</div>
                 <h3 className="font-cormorant text-[24px] mb-2.5">{m.n}</h3>
                 <p className="text-[13px] leading-[1.65]" style={{ color: 'rgba(42,36,34,0.55)' }}>{m.note}</p>
@@ -253,6 +259,65 @@ export default function FleurBeauty() {
       </section>
 
       {/* BOOKING */}
+      {/* ПРАЙС + ИНФОГРАФИКА */}
+      <section className="px-6 md:px-8 py-20 md:py-28 border-t" style={{ borderColor: 'rgba(42,36,34,0.1)', background: '#EFE8DE' }}>
+        <div className="max-w-[1100px] mx-auto">
+          <Reveal className="text-center mb-14">
+            <h2 className="font-cormorant leading-none mb-4" style={{ fontSize: 'clamp(34px,5vw,54px)' }}>Прайс и время</h2>
+            <p className="text-[14.5px] max-w-[48ch] mx-auto leading-[1.75]" style={{ color: 'rgba(42,36,34,0.55)' }}>
+              Сколько длится процедура и сколько стоит. Время указано с запасом — мы не ставим записи впритык,
+              чтобы никто не ждал в коридоре.
+            </p>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-14">
+            {[
+              ['Стрижка и укладка', '90 мин', '3 400 ₽'],
+              ['Окрашивание в один тон', '150 мин', '6 800 ₽'],
+              ['Сложное окрашивание', 'от 240 мин', 'от 12 000 ₽'],
+              ['Уход и восстановление', '60 мин', '4 200 ₽'],
+              ['Маникюр с покрытием', '90 мин', '2 900 ₽'],
+              ['Педикюр', '105 мин', '3 600 ₽'],
+              ['Оформление бровей', '45 мин', '1 800 ₽'],
+              ['Чистка лица', '75 мин', '4 900 ₽'],
+            ].map(([n, t, p], i) => (
+              <Reveal key={n} delay={i * 0.03} className="grid grid-cols-[1fr_auto_auto] gap-5 py-4 border-b items-baseline" style={{ borderColor: 'rgba(42,36,34,0.12)' }}>
+                <span className="text-[15px]">{n}</span>
+                <span className="text-[12.5px] w-[80px] text-right" style={{ color: 'rgba(42,36,34,0.4)' }}>{t}</span>
+                <span className="text-[15px] w-[100px] text-right" style={{ color: ROSE }}>{p}</span>
+              </Reveal>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-14 items-center mt-20 pt-16 border-t" style={{ borderColor: 'rgba(42,36,34,0.12)' }}>
+            <Reveal className="flex flex-col sm:flex-row lg:flex-col gap-10 justify-center">
+              <DonutStat tone={ROSE} muted="rgba(42,36,34,0.12)" value={82} size={150}
+                label="Возвращаются к своему мастеру" sub="Доля клиентов, записавшихся повторно в течение трёх месяцев." />
+              <DonutStat tone={ROSE} muted="rgba(42,36,34,0.12)" value={7} max={30} suffix=" мин" size={150}
+                label="Средняя задержка" sub="Мы закладываем паузу между записями, поэтому ждать почти не приходится." />
+            </Reveal>
+            <div>
+              <Reveal className="mb-8">
+                <h3 className="font-cormorant text-[28px] md:text-[34px] leading-none mb-3">Когда проще записаться</h3>
+                <p className="text-[14px] leading-[1.75] max-w-[48ch]" style={{ color: 'rgba(42,36,34,0.55)' }}>
+                  Загруженность по дням недели. В понедельник и вторник почти всегда есть окна
+                  на ближайшие сутки, в субботу записываться лучше за неделю.
+                </p>
+              </Reveal>
+              <Reveal>
+                <StatBars tone={ROSE} muted="rgba(42,36,34,0.1)" unit="%" labelColor="rgba(42,36,34,0.75)"
+                  items={[
+                    { label: 'Понедельник — вторник', value: 46, note: 'окна почти всегда есть' },
+                    { label: 'Среда — четверг', value: 68 },
+                    { label: 'Пятница', value: 87 },
+                    { label: 'Суббота', value: 97, note: 'записываться за неделю' },
+                  ]} />
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="booking" className="px-6 md:px-8 py-20 md:py-28 scroll-mt-20">
         <Reveal className="max-w-[760px] mx-auto text-center">
           <h2 className="font-cormorant leading-[1.05] mb-6" style={{ fontSize: 'clamp(34px,5vw,58px)' }}>
