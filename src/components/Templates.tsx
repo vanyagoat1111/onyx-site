@@ -62,6 +62,7 @@ const cases: {
     problem: 'Смету обещают, но не показывают.',
     result: 'Фиксированная цена и калькулятор дома.',
     tone: ['#C8703C', '#2A2620'],
+    previewImg: '/covers/osnova.jpg',
   },
   {
     name: 'Fleur',
@@ -70,6 +71,7 @@ const cases: {
     problem: 'Салон теряется среди одинаковых.',
     result: 'Журнальная подача и запись на диагностику.',
     tone: ['#B4796B', '#E8D9CE'],
+    previewImg: '/covers/fleur.jpg',
   },
   {
     name: 'Apex',
@@ -78,6 +80,7 @@ const cases: {
     problem: 'Клиент не понимает, за что платит.',
     result: 'Прайс по кодам работ и фотоотчёты.',
     tone: ['#C4F82A', '#14170F'],
+    previewImg: '/covers/apex.jpg',
   },
   {
     name: 'Forma',
@@ -86,6 +89,7 @@ const cases: {
     problem: 'Снабженцу негде посмотреть мощности.',
     result: 'Парк оборудования и расчёт по чертежу.',
     tone: ['#5B8BB5', '#121722'],
+    previewImg: '/covers/forma.jpg',
   },
   {
     name: 'Brasero',
@@ -94,6 +98,7 @@ const cases: {
     problem: 'Меню только в PDF, брони по телефону.',
     result: 'Живое меню, залы и доставка на сайте.',
     tone: ['#D4703A', '#1C1614'],
+    previewImg: '/covers/brasero.jpg',
   },
   {
     name: 'Taiga',
@@ -102,6 +107,7 @@ const cases: {
     problem: 'Гость не понимает, что входит в цену.',
     result: 'Домики, календарь и расчёт без сюрпризов.',
     tone: ['#7E9B6E', '#161C16'],
+    previewImg: '/covers/taiga.jpg',
   },
   {
     name: 'Method',
@@ -110,6 +116,7 @@ const cases: {
     problem: 'Курсы описаны одинаково и без результата.',
     result: 'Программы по уровням и цифры выпускников.',
     tone: ['#F2C14E', '#18203A'],
+    previewImg: '/covers/method.jpg',
   },
   {
     name: 'Vector',
@@ -118,6 +125,7 @@ const cases: {
     problem: 'Консалтинг продаётся вслепую.',
     result: 'Тарифы, диагностика и ответственность в договоре.',
     tone: ['#2F5DA8', '#EDEEEB'],
+    previewImg: '/covers/vector.jpg',
   },
 ];
 
