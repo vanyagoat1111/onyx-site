@@ -4,6 +4,7 @@ import Hero from './components/Hero';
 import Problem from './components/Problem';
 import ActionBlock from './components/ActionBlock';
 import Benefits from './components/Benefits';
+import Consultation from './components/Consultation';
 import Templates from './components/Templates';
 import Services from './components/Services';
 import FAQ from './components/FAQ';
@@ -80,6 +81,7 @@ export default function App() {
       <Problem />
       <Benefits />
       <ActionBlock />
+      <Consultation />
       <Templates />
       <Services />
       <FAQ />

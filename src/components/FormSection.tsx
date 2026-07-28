@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Reveal } from './ui';
 import { Search, ArrowUpRight } from 'lucide-react';
-import { BOT_LINK } from '../lib/leads';
+import { BOT_AUDIT_LINK } from '../lib/leads';
 import { LeadForm } from './LeadForm';
 
 export default function FormSection() {
@@ -20,16 +20,22 @@ export default function FormSection() {
                 <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-fog">Уже есть сайт?</span>
               </div>
               <h2 className="heading-glow font-display font-semibold text-2xl md:text-[2rem] leading-[1.15] tracking-tight mb-5 [text-wrap:balance]">
-                Расскажем, как должен выглядеть ваш сайт
+                Покажем, что мешает вашему сайту приносить заявки
               </h2>
-              <p className="text-[15px] font-body text-fog leading-relaxed max-w-md">
-                Если у вас уже есть сайт, проведём бесплатный аудит через сервис pr-cy, выявим слабые места и расскажем, как их улучшить. Нажмите кнопку, заполните анкету и создайте личный кабинет в боте — после этого пришлём готовый аудит.
+              <p className="text-[15px] font-body text-fog leading-relaxed max-w-md mb-4">
+                Нужен только адрес — анкету заполнять не надо. Проверяем скорость,
+                мобильную версию, формы заявки, контакты и то, насколько сайт вызывает
+                доверие с первого экрана. Разбор приходит сразу, прямо в чат.
+              </p>
+              <p className="text-[14px] font-body text-fog/70 leading-relaxed max-w-md">
+                Дальше — если захотите — созвонимся и составим план: что переделать
+                в текущем сайте или каким сделать новый.
               </p>
             </div>
 
             <div className="relative mt-10">
               <button
-                onClick={() => window.open(BOT_LINK, '_blank')}
+                onClick={() => window.open(BOT_AUDIT_LINK, '_blank')}
                 className="group inline-flex items-center gap-3 rounded-full border border-cobalt/40 bg-cobalt/10 text-bone font-body font-semibold text-sm px-7 py-4 hover:bg-cobalt hover:text-white transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
               >
                 <Search className="w-4 h-4 text-cobalt-soft group-hover:text-white transition-colors" />

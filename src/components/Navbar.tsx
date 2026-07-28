@@ -3,13 +3,18 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ArrowUpRight, LayoutGrid, ScanSearch } from 'lucide-react';
 import { BOT_LINK, BOT_AUDIT_LINK } from '../lib/leads';
 
+// Номер у пункта меню — это номер самой секции на странице, а не порядок в
+// списке: человек видит «05 Примеры сайтов» в шапке и «05 / Шаблоны» на
+// странице и понимает, что попал куда надо. У первого экрана и формы своего
+// номера нет, поэтому у них он не показывается.
 const links = [
-  { name: 'Главная', href: '#home', num: '01' },
-  { name: 'Примеры сайтов', href: '#templates', num: '02' },
-  { name: 'Тарифы', href: '#prices', num: '03' },
-  { name: 'Доп. опции', href: '#addons', num: '04' },
-  { name: 'FAQ', href: '#faq', num: '05' },
-  { name: 'Контакты', href: '#contact-form', num: '06' },
+  { name: 'Главная', href: '#home' },
+  { name: 'Консультация', href: '#consultation', num: '04' },
+  { name: 'Примеры сайтов', href: '#templates', num: '05' },
+  { name: 'Тарифы', href: '#prices', num: '06' },
+  { name: 'Доп. опции', href: '#addons', num: '07' },
+  { name: 'FAQ', href: '#faq', num: '08' },
+  { name: 'Контакты', href: '#contact-form' },
 ];
 
 const scrollTo = (href: string) => {
@@ -37,7 +42,7 @@ export default function Navbar() {
             </span>
           </a>
 
-          <div className="hidden lg:flex items-center gap-7 xl:gap-9">
+          <div className="hidden lg:flex items-center gap-5 xl:gap-7">
             {links.map(link => (
               <a
                 key={link.name}
@@ -45,7 +50,7 @@ export default function Navbar() {
                 className="text-[13px] font-body font-medium text-fog hover:text-bone transition-colors relative group cursor-pointer whitespace-nowrap"
                 onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
               >
-                <sup className="font-mono text-[9px] text-cobalt-soft mr-1">{link.num}</sup>
+                {link.num && <sup className="font-mono text-[9px] text-cobalt-soft mr-1">{link.num}</sup>}
                 {link.name}
                 <span className="absolute -bottom-1.5 left-0 w-0 h-px bg-cobalt transition-all duration-300 group-hover:w-full" />
               </a>
@@ -112,7 +117,7 @@ export default function Navbar() {
                     setTimeout(() => scrollTo(link.href), 60);
                   }}
                 >
-                  <span className="font-mono text-xs text-cobalt-soft">{link.num}</span>
+                  {link.num && <span className="font-mono text-xs text-cobalt-soft">{link.num}</span>}
                   {link.name}
                 </motion.a>
               ))}

@@ -27,7 +27,7 @@ export default function FAQ() {
     <Container id="faq" className="relative border-t border-white/[0.06] scroll-mt-20">
       <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-20 items-start">
         <div className="lg:sticky lg:top-28">
-          <SectionTitle index="07" subtitle="Вопросы и ответы" className="!mb-8">
+          <SectionTitle index="08" subtitle="Вопросы и ответы" className="!mb-8">
             Найдите ответ на ваш вопрос, если не нашли, пишите, ответим лично
           </SectionTitle>
           <Reveal>

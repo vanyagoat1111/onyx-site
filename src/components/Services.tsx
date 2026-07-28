@@ -93,7 +93,7 @@ export default function Services() {
     <Container id="prices" className="relative border-t border-white/[0.06] scroll-mt-20">
       <div className="absolute top-40 left-[-10%] w-[35vw] h-[35vw] rounded-full bg-cobalt/[0.05] blur-[130px] pointer-events-none" />
 
-      <SectionTitle index="05" subtitle="Тарифы ONYX WEB" className="max-w-4xl relative z-10">
+      <SectionTitle index="06" subtitle="Тарифы ONYX WEB" className="max-w-4xl relative z-10">
         Выберите, какую задачу должен решить сайт
       </SectionTitle>
 
@@ -198,7 +198,7 @@ export default function Services() {
 
       {/* ── Addons ── */}
       <div id="addons" className="scroll-mt-28 relative z-10">
-        <SectionTitle index="06" subtitle="Дополнительные опции" className="max-w-3xl">
+        <SectionTitle index="07" subtitle="Дополнительные опции" className="max-w-3xl">
           Усильте сайт только нужными функциями
         </SectionTitle>
 

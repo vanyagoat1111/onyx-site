@@ -227,7 +227,7 @@ export default function Templates() {
     <Container id="templates" className="relative border-t border-white/[0.06] scroll-mt-20">
       <SpaceTransition active={warp} label={warpLabel} onDone={onWarpDone} />
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 md:mb-20">
-        <SectionTitle index="04" subtitle="Шаблоны и готовые решения" className="!mb-0 max-w-3xl">
+        <SectionTitle index="05" subtitle="Шаблоны и готовые решения" className="!mb-0 max-w-3xl">
           Живые демо в 3D-галерее — листайте и заходите внутрь
         </SectionTitle>
         <span className="hidden md:block font-mono text-xs text-fog whitespace-nowrap pb-3">({n}) проектов</span>
