@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import DemoPlaceholder from '../components/DemoPlaceholder';
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -327,6 +327,544 @@ function Elevation({ className = '' }: { className?: string }) {
   );
 }
 
+/* ═══════════ СТРОЙКА, КОТОРОЙ УПРАВЛЯЕТ ПРОКРУТКА ═══════════
+
+   Первый экран держится на месте, пока человек прокручивает, и за это время
+   дом проходит путь от разметки осей до сданного объекта.
+
+   Почему sticky, а не перехват прокрутки. Соблазн повесить preventDefault
+   на wheel и touchmove большой, но так делать нельзя: в Safari ломается
+   инерция, в Chrome слушатели по умолчанию пассивные, а при любой ошибке
+   в скрипте страница блокируется намертво и человек не может уйти дальше.
+   Высокий трек со sticky-слоем внутри даёт ровно то же ощущение, но
+   прокрутка остаётся нативной, отматывается назад сама и ничего не ломает.
+
+   Прогресс считается в requestAnimationFrame и пишется в CSS-переменные
+   напрямую в DOM. React на кадрах не перерисовывается - иначе на слабом
+   телефоне это была бы каша.                                              */
+
+const BUILD_STAGES: { at: number; name: string; note: string }[] = [
+  { at: 0.00, name: 'Разметка', note: 'Выносим оси и нулевую отметку' },
+  { at: 0.12, name: 'Рабочий чертёж', note: 'Габариты, размеры, отметки' },
+  { at: 0.26, name: 'Фундамент', note: 'Плита по расчёту грунта' },
+  { at: 0.40, name: 'Стены', note: 'Газобетон 375 мм, армопояс' },
+  { at: 0.57, name: 'Кровля', note: 'Стропила, контур закрыт' },
+  { at: 0.70, name: 'Окна и двери', note: 'Остекление, входная группа' },
+  { at: 0.83, name: 'Отделка', note: 'Фасад, водосток, цвет' },
+  { at: 0.94, name: 'Дом сдан', note: 'Ключи и гарантийный талон' },
+];
+
+const MASONRY_ROWS = 13;
+const WINDOW_ITEMS = 6;
+
+/* сглаженная доля отрезка: 0 до начала, 1 после конца, плавно между */
+function seg(p: number, a: number, b: number) {
+  const t = Math.max(0, Math.min(1, (p - a) / (b - a)));
+  return t * t * (3 - 2 * t);
+}
+
+/* Раскладываем один общий прогресс на восемь стадий и кладём в переменные.
+   Имена короткие: их читает разметка ниже. */
+function writeBuild(el: HTMLElement, p: number) {
+  const mk = seg(p, 0.00, 0.13);   // разметка
+  const pl = seg(p, 0.10, 0.27);   // чертёж целиком
+  const fd = seg(p, 0.25, 0.41);   // фундамент
+  const wl = seg(p, 0.38, 0.59);   // стены
+  const rf = seg(p, 0.55, 0.71);   // кровля
+  const dt = seg(p, 0.68, 0.85);   // окна, двери, фасад
+  const rl = seg(p, 0.79, 0.95);   // переход чертежа в визуализацию
+  const fn = seg(p, 0.91, 1.00);   // финал: свет и участок
+
+  const s = el.style;
+  const set = (k: string, v: number) => s.setProperty(k, String(Math.round(v * 1000) / 1000));
+
+  set('--mk', mk); set('--mkD', 1 - mk);
+  set('--pl', pl); set('--plD', 1 - pl);
+  set('--fd', fd); set('--fdD', 1 - fd);
+  set('--wl', wl); set('--wlD', 1 - wl);
+  set('--rf', rf); set('--rfD', 1 - rf);
+  set('--dt', dt);
+  set('--rl', rl);
+  set('--fn', fn);
+
+  // «бегущие» счётчики для поэтапной кладки и остекления
+  set('--wlN', wl * (MASONRY_ROWS + 1));
+  set('--dtN', dt * (WINDOW_ITEMS + 1));
+
+  // чертёжные линии уходят, когда появляется визуализация, но не в ноль:
+  // тонкий контур поверх рендера читается как авторская подача
+  set('--dwg', 1 - 0.9 * rl);
+}
+
+/* доля для i-го элемента внутри стадии: 0 → 1 по очереди */
+const stagger = (v: string, i: number) => `max(0, min(1, calc(var(${v}) - ${i})))`;
+
+function BuildScene() {
+  const track = useRef<HTMLDivElement | null>(null);
+  const pane = useRef<HTMLDivElement | null>(null);
+  const scene = useRef<HTMLDivElement | null>(null);
+  const bar = useRef<HTMLDivElement | null>(null);
+  const stageRef = useRef(0);
+  const [stage, setStage] = useState(0);
+  const [ready, setReady] = useState(false);
+  const [calm, setCalm] = useState(false);
+  const [mobile, setMobile] = useState(false);
+  const [vh, setVh] = useState(0);
+
+  /* Разметка отдаётся с готовым домом: если скрипт не выполнится, человек
+     увидит нормальный первый экран, а не пустой лист. Здесь, до первой
+     отрисовки, переводим сцену в начало - без мигания. */
+  useLayoutEffect(() => {
+    const el = scene.current;
+    if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Считаем сразу по фактическому положению: если человек перезагрузил
+    // страницу в середине трека, браузер вернёт прокрутку туда же, и жёсткий
+    // ноль дал бы кадр с пустым листом.
+    const t = track.current;
+    const r = t?.getBoundingClientRect();
+    const span = r ? r.height - window.innerHeight : 0;
+    writeBuild(el, span > 0 && r ? Math.max(0, Math.min(1, -r.top / span)) : 0);
+  }, []);
+
+  /* Высоту экрана меряем сами, а не берём из 100svh.
+     Причина - встроенные браузеры. Наши клиенты часто приходят по ссылке
+     из Telegram, а там сверху своя панель с адресом: полезная высота меньше
+     обычной, и на Android бывают старые WebView без поддержки svh, где
+     правило просто отбрасывается и вёрстка рассыпается.
+     Если липкая панель окажется выше экрана, sticky перестанет держать -
+     поэтому высота панели всегда равна фактической высоте окна.
+
+     Меряем на старте и при существенном изменении. Мелкие колебания
+     игнорируем: в Safari и Telegram адресная строка при прокрутке
+     то прячется, то показывается, и высота дёргается на 60-100 пикселей.
+     Реагировать на это - значит дёргать весь экран. */
+  useEffect(() => {
+    const mqCalm = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mqNarrow = window.matchMedia('(max-width: 1023px)');
+
+    let lastW = window.innerWidth;
+    let lastH = window.innerHeight;
+
+    const sync = () => {
+      setCalm(mqCalm.matches);
+      setMobile(mqNarrow.matches);
+      setVh(window.innerHeight);
+    };
+    sync();
+
+    const onResize = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      // поворот экрана или появление клавиатуры - пересчитываем;
+      // спрятавшаяся адресная строка - нет
+      if (w !== lastW || Math.abs(h - lastH) > 120) {
+        lastW = w; lastH = h;
+        sync();
+      }
+    };
+
+    mqCalm.addEventListener?.('change', sync);
+    mqNarrow.addEventListener?.('change', sync);
+    window.addEventListener('resize', onResize);
+    window.addEventListener('orientationchange', onResize);
+    return () => {
+      mqCalm.removeEventListener?.('change', sync);
+      mqNarrow.removeEventListener?.('change', sync);
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('orientationchange', onResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const el = scene.current;
+    if (!el) return;
+
+    // Человек попросил меньше движения - показываем готовый дом и не держим экран
+    if (calm) {
+      writeBuild(el, 1);
+      stageRef.current = BUILD_STAGES.length - 1;
+      setStage(BUILD_STAGES.length - 1);
+      setReady(false);
+      if (bar.current) bar.current.style.transform = 'scaleX(1)';
+      return;
+    }
+
+    setReady(true);
+
+    let raf = 0;
+    let last = -1;
+    let visible = true;
+
+    const io = typeof IntersectionObserver !== 'undefined'
+      ? new IntersectionObserver((es) => es.forEach((e) => { visible = e.isIntersecting; }), { rootMargin: '10% 0px' })
+      : null;
+    if (io && track.current) io.observe(track.current);
+
+    const tick = () => {
+      raf = requestAnimationFrame(tick);
+      const t = track.current;
+      if (!t || !visible) return;
+      const r = t.getBoundingClientRect();
+      // Считаем по фактической высоте липкой панели, а не по window.innerHeight:
+      // на телефоне при скрытии адресной строки innerHeight меняется, и прогресс
+      // дёргался бы на ровном месте.
+      const viewH = pane.current?.offsetHeight || window.innerHeight;
+      const span = r.height - viewH;
+      const p = span <= 0 ? 1 : Math.max(0, Math.min(1, -r.top / span));
+      if (Math.abs(p - last) < 0.0008) return;
+      last = p;
+
+      writeBuild(el, p);
+      if (bar.current) bar.current.style.transform = `scaleX(${p})`;
+
+      let s = 0;
+      for (let i = 0; i < BUILD_STAGES.length; i++) if (p >= BUILD_STAGES[i].at) s = i;
+      if (s !== stageRef.current) { stageRef.current = s; setStage(s); }
+    };
+
+    // Если что-то пойдёт не так, дом остаётся достроенным, а страница -
+    // прокручиваемой. Молча ломаться нельзя: это первый экран.
+    const guarded = () => {
+      try { tick(); } catch {
+        cancelAnimationFrame(raf);
+        writeBuild(el, 1);
+        setReady(false);
+      }
+    };
+    raf = requestAnimationFrame(guarded);
+
+    return () => { cancelAnimationFrame(raf); io?.disconnect(); };
+  }, [calm]);
+
+  const cur = BUILD_STAGES[stage];
+
+  /* Два порога, посчитанные от реальной полезной высоты вебвью.
+     В Telegram сверху своя панель, поэтому у телефона на 844 точки остаётся
+     около 610, а у SE - около 510. Дом обязан помещаться целиком в любом
+     из этих случаев, поэтому текстовый блок ужимается ступенями.
+     Порог взят с запасом: 6-дюймовый Android в Telegram даёт 641,
+     и при границе в 640 он бы не сработал впритык. */
+  const short = vh > 0 && vh < 700;   // прячем подзаголовок
+  const tiny = vh > 0 && vh < 560;    // прячем ещё и подсказку, заголовок мельче
+
+  // Длина трека кратна высоте экрана. На телефоне короче: длинная прокрутка
+  // на маленьком экране утомляет и человек уходит, не досмотрев.
+  const trackH = ready && vh ? Math.round(vh * (mobile ? 2.1 : 3.4)) : undefined;
+  const paneH = vh || undefined;
+
+  const drawn = { fill: 'none' as const, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, pathLength: 1 };
+
+  return (
+    <div ref={track} className="relative" style={{ height: trackH }}>
+      {/* height из JS перебивает класс: класс нужен только как запасной
+          вариант, если скрипт не выполнится */}
+      <div ref={pane} className="sticky top-0 h-[100svh] flex flex-col" style={{ height: paneH }}>
+        <div className="flex-1 min-h-0 max-w-[1340px] w-full mx-auto px-6 md:px-8 pt-[70px] lg:pt-[78px] pb-3 lg:pb-4 grid grid-cols-1 grid-rows-[auto_1fr] lg:grid-cols-[1.02fr_0.98fr] lg:grid-rows-1 gap-3 lg:gap-10 lg:items-center">
+
+          {/* текст первого экрана - без изменений по смыслу */}
+          <div>
+            <div className="flex items-center gap-3 mb-4 lg:mb-8">
+              <span className="w-8 h-px" style={{ background: CLAY }} />
+              <span className="font-mono text-[9px] lg:text-[10px] uppercase tracking-[0.24em] lg:tracking-[0.28em]" style={{ color: CLAY }}>Дома под ключ · Казань и область</span>
+            </div>
+
+            <h1
+              className="font-archivo-black uppercase leading-[0.86] tracking-[-0.035em]"
+              style={{ fontSize: tiny ? 'clamp(22px,6.2vw,27px)' : short ? 'clamp(27px,7.2vw,34px)' : 'clamp(34px,7.4vw,100px)' }}
+            >
+              Дом<br />по смете,<br />
+              <span className="relative inline-block">
+                <span className="relative z-10" style={{ color: CLAY }}>а не по факту</span>
+                <span className="absolute left-0 bottom-[0.08em] h-[0.14em] w-full" style={{ background: `${CLAY}2E` }} />
+              </span>
+            </h1>
+
+            <p
+              className="mt-4 lg:mt-9 max-w-[50ch] text-[14px] lg:text-[17px] leading-[1.6] lg:leading-[1.75]"
+              style={{ color: ink(0.62), display: short ? 'none' : undefined }}
+            >
+              Цену закрепляем договором, стройку показываем каждую пятницу,
+              деньги берём за завершённый этап, а не вперёд.
+            </p>
+
+            <div className="mt-4 lg:mt-10 flex flex-wrap gap-2.5 lg:gap-3.5">
+              <a
+                href="#contacts"
+                onClick={(e) => { e.preventDefault(); document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' }); }}
+                className="inline-flex items-center justify-center font-mono text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.16em] px-6 lg:px-8 py-3.5 lg:py-4 text-white transition-transform duration-200 hover:-translate-y-[2px]"
+                style={{ background: INK }}
+              >
+                Бесплатная смета
+              </a>
+              <a
+                href={ROOT + '/projects'}
+                onClick={(e) => { e.preventDefault(); window.location.hash = ROOT + '/projects'; window.scrollTo(0, 0); }}
+                className="inline-flex items-center justify-center font-mono text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.16em] px-6 lg:px-8 py-3.5 lg:py-4 transition-transform duration-200 hover:-translate-y-[2px]"
+                style={{ border: `1.4px solid ${ink(0.3)}` }}
+              >
+                Каталог проектов
+              </a>
+            </div>
+
+            {/* Подсказка живёт в текстовой колонке, а не поверх листа:
+                во встроенных браузерах низ экрана занимает панель приложения,
+                и абсолютно позиционированная плашка там перекрывалась бы. */}
+            {ready && !tiny && (
+              <div
+                className="mt-4 lg:mt-8 h-4 pointer-events-none"
+                style={{ opacity: stage === 0 ? 1 : 0, transition: 'opacity .4s ease' }}
+              >
+                <span className="font-mono text-[9px] lg:text-[9.5px] uppercase tracking-[0.22em] flex items-center gap-2" style={{ color: ink(0.42) }}>
+                  Листайте - дом строится
+                  <span className="inline-block w-[9px] h-[9px] border-b border-r rotate-45" style={{ borderColor: CLAY }} />
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* лист, на котором идёт стройка */}
+          <div className="relative min-h-0 flex flex-col" style={{ background: PAPER_HI, border: `1px solid ${ink(0.2)}`, boxShadow: `10px 12px 0 ${ink(0.06)}` }}>
+            <div className="flex justify-between items-start px-4 lg:px-6 pt-3 lg:pt-5">
+              <span className="font-mono text-[9px] lg:text-[9.5px] uppercase tracking-[0.2em]" style={{ color: ink(0.42) }}>Фасад в осях 1–5</span>
+              <span className="font-mono text-[9px] lg:text-[9.5px] uppercase tracking-[0.2em]" style={{ color: ink(0.42) }}>ОЛХ-146</span>
+            </div>
+
+            {/* Значения по умолчанию - достроенный дом. Скрипт до первой
+                отрисовки переводит их в начало; если он не выполнится,
+                посетитель увидит готовый дом, а не пустой лист. */}
+            <div
+              ref={scene}
+              className="flex-1 min-h-0 px-2 lg:px-4"
+              style={{
+                '--mk': '1', '--mkD': '0', '--pl': '1', '--plD': '0',
+                '--fd': '1', '--fdD': '0', '--wl': '1', '--wlD': '0',
+                '--rf': '1', '--rfD': '0', '--dt': '1',
+                '--rl': '1', '--fn': '1',
+                '--wlN': String(MASONRY_ROWS + 1), '--dtN': String(WINDOW_ITEMS + 1),
+                '--dwg': '0.1',
+              } as React.CSSProperties}
+            >
+              <svg viewBox="0 0 600 430" preserveAspectRatio="xMidYMid meet" className="w-full h-full" role="img" aria-label="Дом от разметки до сдачи">
+                <defs>
+                  <linearGradient id="osn-sky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#C3D4E2" /><stop offset="62%" stopColor="#E4E6E2" /><stop offset="100%" stopColor="#EFEAE0" />
+                  </linearGradient>
+                  <linearGradient id="osn-wall" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stopColor="#E6DCCA" /><stop offset="52%" stopColor="#D6CAB5" /><stop offset="100%" stopColor="#BEB09A" />
+                  </linearGradient>
+                  <linearGradient id="osn-roof" x1="0" y1="0" x2="1" y2="0.4">
+                    <stop offset="0%" stopColor="#45413C" /><stop offset="48%" stopColor="#332F2B" /><stop offset="100%" stopColor="#252220" />
+                  </linearGradient>
+                  <linearGradient id="osn-glass" x1="0" y1="0" x2="0.7" y2="1">
+                    <stop offset="0%" stopColor="#6E828E" /><stop offset="46%" stopColor="#42525C" /><stop offset="100%" stopColor="#2E3A42" />
+                  </linearGradient>
+                  <linearGradient id="osn-warm" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stopColor="#FFD9A8" stopOpacity="0.55" /><stop offset="100%" stopColor="#FFD9A8" stopOpacity="0" />
+                  </linearGradient>
+                  {/* стены поднимаются снизу вверх */}
+                  <clipPath id="osn-rise">
+                    <rect
+                      x="100" y="0" width="400" height="340"
+                      style={{ transform: 'scaleY(var(--wl,0))', transformOrigin: '300px 340px', transformBox: 'view-box' }}
+                    />
+                  </clipPath>
+                </defs>
+
+                {/* ── СЛОЙ ВИЗУАЛИЗАЦИИ: проявляется на предпоследней стадии ── */}
+                <g style={{ opacity: 'var(--rl,0)' }}>
+                  <rect x="0" y="0" width="600" height="340" fill="url(#osn-sky)" />
+                  <rect x="0" y="336" width="600" height="94" fill="#7C8560" />
+                  <rect x="0" y="336" width="600" height="10" fill="#6B7452" />
+                  {/* тень дома на участке */}
+                  <ellipse cx="330" cy="349" rx="230" ry="13" fill="#15171A" opacity="0.16" />
+                  {/* фундамент */}
+                  <rect x="112" y="330" width="376" height="16" fill="#9A948B" />
+                  <rect x="112" y="330" width="376" height="4" fill="#B0AAA0" />
+                  {/* стены */}
+                  <rect x="120" y="160" width="360" height="170" fill="url(#osn-wall)" />
+                  {/* кровля */}
+                  <path d="M100 162 L300 64 L500 162 Z" fill="url(#osn-roof)" />
+                  <path d="M100 162 L300 64 L306 64 L112 168 Z" fill="#5A554E" opacity="0.7" />
+                  <rect x="98" y="158" width="404" height="7" fill="#2B2825" />
+                  {/* дымоход */}
+                  <rect x="398" y="92" width="28" height="58" fill="#B8A691" />
+                  <rect x="394" y="88" width="36" height="8" fill="#8E8071" />
+                  {/* окна второго этажа */}
+                  {[152, 272, 392].map((x) => (
+                    <g key={`r2-${x}`}>
+                      <rect x={x} y="182" width="56" height="46" fill="url(#osn-glass)" />
+                      <path d={`M${x} 228 L${x + 56} 182 L${x + 56} 196 L${x + 18} 228 Z`} fill="#FFFFFF" opacity="0.16" />
+                      <rect x={x - 3} y="179" width="62" height="3" fill="#EFEAE0" />
+                    </g>
+                  ))}
+                  {/* окна первого этажа */}
+                  {[140, 412].map((x) => (
+                    <g key={`r1-${x}`}>
+                      <rect x={x} y="264" width="68" height="52" fill="url(#osn-glass)" />
+                      <path d={`M${x} 316 L${x + 68} 264 L${x + 68} 280 L${x + 22} 316 Z`} fill="#FFFFFF" opacity="0.16" />
+                      <rect x={x - 3} y="261" width="74" height="3" fill="#EFEAE0" />
+                    </g>
+                  ))}
+                  {/* входная группа */}
+                  <rect x="270" y="256" width="60" height="74" fill={CLAY} />
+                  <rect x="270" y="256" width="60" height="5" fill="#9B3512" />
+                  <circle cx="320" cy="294" r="3" fill="#F1EEE6" />
+                  <rect x="258" y="330" width="84" height="7" fill="#A9A299" />
+                  <rect x="264" y="324" width="72" height="7" fill="#BCB5AB" />
+                </g>
+
+                {/* ── ФИНАЛ: тёплый свет и участок ── */}
+                <g style={{ opacity: 'var(--fn,0)' }}>
+                  <rect x="0" y="60" width="600" height="290" fill="url(#osn-warm)" />
+                  <path d="M300 337 L268 430 L332 430 Z" fill="#6B7452" opacity="0.55" />
+                  {[[60, 336], [545, 336]].map(([x, y], i) => (
+                    <g key={`tree-${i}`}>
+                      <rect x={x - 3} y={y - 22} width="6" height="24" fill="#5B4A35" />
+                      <path d={`M${x} ${y - 84} L${x + 26} ${y - 20} L${x - 26} ${y - 20} Z`} fill="#4F5C3C" />
+                      <path d={`M${x} ${y - 84} L${x + 26} ${y - 20} L${x} ${y - 20} Z`} fill="#3F4A30" />
+                    </g>
+                  ))}
+                  <ellipse cx="330" cy="349" rx="236" ry="12" fill="#15171A" opacity="0.1" />
+                </g>
+
+                {/* ── СЛОЙ ЧЕРТЕЖА ── */}
+                <g style={{ opacity: 'var(--dwg,1)' }}>
+
+                  {/* 1. разметка: оси и нулевая отметка */}
+                  <g style={{ opacity: 'var(--mk,0)' }}>
+                    {[120, 240, 360, 480].map((x) => (
+                      <line key={`ax-${x}`} x1={x} y1="52" x2={x} y2="368" stroke={blue(0.32)} strokeWidth="0.8" strokeDasharray="7 6" />
+                    ))}
+                    {[120, 240, 360, 480].map((x, i) => (
+                      <g key={`axm-${x}`}>
+                        <circle cx={x} cy="46" r="9" fill="none" stroke={blue(0.45)} strokeWidth="0.9" />
+                        <text x={x} y="49.5" textAnchor="middle" fill={blue(0.6)} fontSize="9" fontFamily="'JetBrains Mono', monospace">{i + 1}</text>
+                      </g>
+                    ))}
+                    <path d="M76 330 l8 -9 l8 9 z" fill="none" stroke={CLAY} strokeWidth="1.2" />
+                    <text x="60" y="318" fill={CLAY} fontSize="9" fontFamily="'JetBrains Mono', monospace">0.000</text>
+                  </g>
+
+                  {/* линия земли */}
+                  <line x1="40" y1="330" x2="560" y2="330" stroke={INK} strokeWidth="1.6" {...drawn} style={{ strokeDasharray: 1, strokeDashoffset: 'var(--mkD,1)' }} />
+                  <g stroke={ink(0.32)} strokeWidth="1" style={{ opacity: 'var(--pl,0)' }}>
+                    {Array.from({ length: 28 }).map((_, i) => (
+                      <line key={`h-${i}`} x1={48 + i * 18} y1={332} x2={36 + i * 18} y2={344} />
+                    ))}
+                  </g>
+
+                  {/* 2. чертёж: габарит и размеры */}
+                  <path d="M120 330 V160 H480 V330" stroke={INK} strokeWidth="1.4" strokeDasharray="1" {...drawn} style={{ strokeDashoffset: 'var(--plD,1)', opacity: 'calc(1 - var(--wl,0) * 0.55)' }} />
+                  <path d="M100 162 L300 64 L500 162" stroke={ink(0.45)} strokeWidth="1.1" strokeDasharray="1" {...drawn} style={{ strokeDashoffset: 'var(--plD,1)', opacity: 'calc(1 - var(--rf,0) * 0.7)' }} />
+                  <g style={{ opacity: 'var(--pl,0)' }}>
+                    <line x1="120" y1="392" x2="480" y2="392" stroke={BLUE} strokeWidth="1" />
+                    <line x1="120" y1="384" x2="120" y2="400" stroke={BLUE} strokeWidth="1" />
+                    <line x1="480" y1="384" x2="480" y2="400" stroke={BLUE} strokeWidth="1" />
+                    <rect x="262" y="383" width="76" height="18" fill={PAPER_HI} />
+                    <text x="300" y="397" textAnchor="middle" fill={BLUE} fontSize="11" fontFamily="'JetBrains Mono', monospace">12 400</text>
+                  </g>
+                  <g className="hidden lg:block" style={{ opacity: 'var(--pl,0)' }}>
+                    <line x1="548" y1="64" x2="548" y2="330" stroke={BLUE} strokeWidth="1" />
+                    <line x1="540" y1="64" x2="556" y2="64" stroke={BLUE} strokeWidth="1" />
+                    <line x1="540" y1="330" x2="556" y2="330" stroke={BLUE} strokeWidth="1" />
+                    <text x="548" y="197" textAnchor="middle" fill={BLUE} fontSize="11" fontFamily="'JetBrains Mono', monospace" transform="rotate(-90 548 197)" dy="-4">8 100</text>
+                  </g>
+
+                  {/* 3. фундамент */}
+                  <g style={{ opacity: 'var(--fd,0)' }}>
+                    <path d="M112 330 H488 V346 H112 Z" stroke={INK} strokeWidth="1.6" fill="none" strokeDasharray="1" {...drawn} style={{ strokeDashoffset: 'var(--fdD,1)' }} />
+                    {Array.from({ length: 22 }).map((_, i) => (
+                      <line key={`f-${i}`} x1={116 + i * 17} y1={346} x2={126 + i * 17} y2={331} stroke={ink(0.3)} strokeWidth="0.9" />
+                    ))}
+                    <text x="112" y="362" fill={ink(0.45)} fontSize="8.5" fontFamily="'JetBrains Mono', monospace">УШП 300 мм</text>
+                  </g>
+
+                  {/* 4. стены: кладка растёт снизу вверх ряд за рядом */}
+                  <g clipPath="url(#osn-rise)">
+                    <rect x="120" y="160" width="360" height="170" fill={`${CLAY}0F`} />
+                  </g>
+                  <g>
+                    {Array.from({ length: MASONRY_ROWS }).map((_, i) => {
+                      const y = 330 - (i + 1) * (170 / MASONRY_ROWS);
+                      return (
+                        <line
+                          key={`m-${i}`} x1="120" y1={y} x2="480" y2={y}
+                          stroke={ink(0.26)} strokeWidth="0.9" pathLength={1}
+                          style={{ strokeDasharray: 1, strokeDashoffset: `calc(1 - ${stagger('--wlN', i)})` }}
+                        />
+                      );
+                    })}
+                    <path d="M120 330 V160 H480 V330" stroke={INK} strokeWidth="2.2" strokeDasharray="1" {...drawn} style={{ strokeDashoffset: 'var(--wlD,1)' }} />
+                    <line x1="120" y1="246" x2="480" y2="246" stroke={ink(0.3)} strokeWidth="1" strokeDasharray="6 5" style={{ opacity: 'var(--wl,0)' }} />
+                  </g>
+
+                  {/* 5. кровля */}
+                  <g>
+                    <path d="M100 162 L300 64 L500 162" stroke={INK} strokeWidth="2.2" strokeDasharray="1" {...drawn} style={{ strokeDashoffset: 'var(--rfD,1)' }} />
+                    <path d="M398 96 V88 H426 V150" stroke={INK} strokeWidth="1.6" strokeDasharray="1" {...drawn} style={{ strokeDashoffset: 'var(--rfD,1)' }} />
+                    <g style={{ opacity: 'var(--rf,0)' }}>
+                      {Array.from({ length: 7 }).map((_, i) => (
+                        <line key={`s-${i}`} x1={300} y1={64} x2={130 + i * 57} y2={162} stroke={ink(0.22)} strokeWidth="0.8" />
+                      ))}
+                      <line x1="120" y1="160" x2="480" y2="160" stroke={ink(0.4)} strokeWidth="1" />
+                    </g>
+                  </g>
+
+                  {/* 6. окна, двери, фасад */}
+                  <g>
+                    {[152, 272, 392].map((x, i) => (
+                      <g key={`w2-${x}`} style={{ opacity: stagger('--dtN', i) }}>
+                        <rect x={x} y="182" width="56" height="46" stroke={INK} strokeWidth="1.5" fill="none" />
+                        <line x1={x + 28} y1="182" x2={x + 28} y2="228" stroke={ink(0.4)} strokeWidth="1" />
+                      </g>
+                    ))}
+                    {[140, 412].map((x, i) => (
+                      <g key={`w1-${x}`} style={{ opacity: stagger('--dtN', i + 3) }}>
+                        <rect x={x} y="264" width="68" height="52" stroke={INK} strokeWidth="1.5" fill="none" />
+                        <line x1={x + 34} y1="264" x2={x + 34} y2="316" stroke={ink(0.4)} strokeWidth="1" />
+                      </g>
+                    ))}
+                    <g style={{ opacity: stagger('--dtN', 5) }}>
+                      <rect x="270" y="256" width="60" height="74" stroke={CLAY} strokeWidth="2" fill="none" />
+                      <circle cx="320" cy="294" r="2.6" fill={CLAY} />
+                      <path d="M258 337 H342 M264 331 H336" stroke={ink(0.4)} strokeWidth="1.4" fill="none" />
+                    </g>
+                  </g>
+
+                  {/* выноска на конструктив */}
+                  <g className="hidden lg:block" style={{ opacity: 'calc(var(--dt,0) * (1 - var(--rl,0)))' }}>
+                    <line x1="440" y1="206" x2="512" y2="228" stroke={ink(0.45)} strokeWidth="1" />
+                    <circle cx="440" cy="206" r="2.6" fill={ink(0.55)} />
+                    <text x="486" y="243" fill={ink(0.5)} fontSize="9.5" fontFamily="'JetBrains Mono', monospace">D400</text>
+                  </g>
+                </g>
+              </svg>
+            </div>
+
+            {/* стадия и прогресс */}
+            <div className="px-4 lg:px-6 pb-3 lg:pb-5 pt-2" style={{ borderTop: `1px solid ${ink(0.12)}` }}>
+              <div className="flex items-baseline justify-between gap-4 mb-2">
+                <span className="font-mono text-[9.5px] lg:text-[10px] uppercase tracking-[0.18em] flex items-baseline gap-2">
+                  <span style={{ color: CLAY }}>{String(stage + 1).padStart(2, '0')}</span>
+                  <span>{cur.name}</span>
+                </span>
+                {!tiny && (
+                  <span className="font-mono text-[9px] lg:text-[9.5px] uppercase tracking-[0.14em] text-right truncate" style={{ color: ink(0.4) }}>{cur.note}</span>
+                )}
+              </div>
+              <div className="h-[3px]" style={{ background: ink(0.1) }}>
+                <div ref={bar} className="h-full origin-left" style={{ background: CLAY, transform: 'scaleX(0)' }} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
 /* Полоса в разбивке сметы: растёт, когда доходит до экрана. */
 function BarLine({ value, max, delay }: { value: number; max: number; delay: number }) {
   const { ref, seen } = useSeen<HTMLDivElement>();
@@ -405,7 +943,6 @@ export default function OsnovaBuild() {
 
   const btn = 'inline-flex items-center justify-center font-mono text-[11px] font-bold uppercase tracking-[0.16em] transition-all duration-200';
   const btnSolid = `${btn} px-8 py-4 text-white hover:-translate-y-[2px]`;
-  const btnGhost = `${btn} px-8 py-4 hover:-translate-y-[2px]`;
 
   const navLink = (active: boolean) =>
     `font-mono text-[11px] uppercase tracking-[0.18em] transition-opacity ${active ? '' : 'opacity-55 hover:opacity-100'}`;
@@ -447,58 +984,18 @@ export default function OsnovaBuild() {
       {/* ═════════════════════ ГЛАВНАЯ ═════════════════════ */}
       {page === 'home' && (
         <>
-          <section className="relative px-6 md:px-8 pt-14 md:pt-20 pb-4">
-            <div className="max-w-[1340px] mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-[1.02fr_0.98fr] gap-12 lg:gap-10 items-center">
-                <div>
-                  <div className="flex items-center gap-3 mb-8">
-                    <span className="w-8 h-px" style={{ background: CLAY }} />
-                    <span className="font-mono text-[10px] uppercase tracking-[0.28em]" style={{ color: CLAY }}>Дома под ключ · Казань и область</span>
-                  </div>
+          {/* Первый экран: дом строится по мере прокрутки. Тексты и CTA
+              те же, что были, - изменился только способ подачи. */}
+          <BuildScene />
 
-                  <h1 className={H1} style={{ fontSize: 'clamp(46px,7.4vw,100px)' }}>
-                    Дом<br />по смете,<br />
-                    <span className="relative inline-block">
-                      <span className="relative z-10" style={{ color: CLAY }}>а не по факту</span>
-                      <span className="absolute left-0 bottom-[0.08em] h-[0.14em] w-full" style={{ background: `${CLAY}2E` }} />
-                    </span>
-                  </h1>
-
-                  <p className="mt-9 max-w-[50ch] text-[17px] leading-[1.75]" style={{ color: ink(0.62) }}>
-                    Цену закрепляем договором, стройку показываем каждую пятницу,
-                    деньги берём за завершённый этап, а не вперёд.
-                  </p>
-
-                  <div className="mt-10 flex flex-wrap gap-3.5">
-                    <a href="#contacts" onClick={(e) => jump(e, 'contacts')} className={btnSolid} style={{ background: INK }}>Бесплатная смета</a>
-                    <a href={ROOT + '/projects'} onClick={(e) => go(e, ROOT + '/projects')} className={btnGhost} style={{ border: `1.4px solid ${ink(0.3)}` }}>Каталог проектов</a>
-                  </div>
-                </div>
-
-                {/* лист с фасадом */}
-                <div className="relative">
-                  <div className="relative p-5 sm:p-7" style={{ background: PAPER_HI, border: `1px solid ${ink(0.2)}`, boxShadow: `10px 12px 0 ${ink(0.06)}` }}>
-                    <div className="flex justify-between items-start mb-2">
-                      <span className="font-mono text-[9.5px] uppercase tracking-[0.2em]" style={{ color: ink(0.42) }}>Фасад в осях 1–5</span>
-                      <span className="font-mono text-[9.5px] uppercase tracking-[0.2em]" style={{ color: ink(0.42) }}>ОЛХ-146</span>
-                    </div>
-                    <Elevation />
-                    <div className="mt-3 pt-3 flex justify-between items-end gap-4 flex-wrap" style={{ borderTop: `1px solid ${ink(0.14)}` }}>
-                      <TitleBlock sheet="АР-02" name="Дом «Ольха»" />
-                      <span className="font-mono text-[9.5px] uppercase tracking-[0.18em] text-right leading-relaxed" style={{ color: ink(0.4) }}>
-                        Такой лист вы получаете<br />вместе с договором
-                      </span>
-                    </div>
-                  </div>
-                  {/* уголок «прикреплено скотчем» */}
-                  <span
-                    className="absolute -top-3 left-8 w-16 h-6 rotate-[-4deg] hidden sm:block"
-                    style={{ background: `${CLAY}26`, border: `1px solid ${CLAY}44` }}
-                    aria-hidden="true"
-                  />
-                </div>
-              </div>
-            </div>
+          {/* штамп листа - вынесен под сцену, чтобы не занимать высоту экрана */}
+          <section className="px-6 md:px-8 pt-8">
+            <Up className="max-w-[1340px] mx-auto flex flex-wrap justify-between items-end gap-4">
+              <TitleBlock sheet="АР-02" name="Дом «Ольха»" />
+              <span className="font-mono text-[9.5px] uppercase tracking-[0.18em] leading-relaxed" style={{ color: ink(0.4) }}>
+                Такой лист вы получаете вместе с договором
+              </span>
+            </Up>
           </section>
 
           {/* фотополоса, поверх неё - факты */}
