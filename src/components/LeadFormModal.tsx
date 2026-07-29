@@ -25,7 +25,7 @@ export default function LeadFormModal({ open, onClose }: { open: boolean; onClos
             animate={{ opacity: 1, scale: 1, rotate: 0, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, rotate: 2, y: 20 }}
             transition={{ type: 'spring', stiffness: 300, damping: 26 }}
-            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-[28px] border border-cobalt/30 bg-ink-2/95 p-7 md:p-10 shadow-[0_40px_120px_rgba(0,0,0,0.6)]"
+            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-[26px] border border-cobalt/30 bg-ink-2/95 p-7 md:p-10 shadow-[0_40px_120px_rgba(0,0,0,0.6)]"
           >
             <div className="absolute -top-1/2 right-0 w-2/3 aspect-square rounded-full bg-cobalt/[0.15] blur-[120px] pointer-events-none" />
             <div className="absolute -bottom-1/3 -left-1/4 w-1/2 aspect-square rounded-full bg-cobalt/[0.1] blur-[100px] pointer-events-none" />

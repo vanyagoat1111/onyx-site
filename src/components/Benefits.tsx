@@ -42,7 +42,7 @@ export default function Benefits() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {modelSteps.map((s, i) => (
             <Reveal key={i} delay={i * 0.1}>
-              <div className={`relative h-full rounded-[24px] border p-6 transition-all duration-500 group hover:-translate-y-1.5 ${s.free ? 'border-cobalt/50 bg-cobalt/[0.07] shadow-[0_0_50px_rgba(78,124,255,0.1)]' : 'border-white/[0.08] bg-ink-2/70 hover:border-white/20'}`}>
+              <div className={`relative h-full rounded-[26px] border p-6 transition-all duration-500 group hover:-translate-y-1.5 ${s.free ? 'border-cobalt/50 bg-cobalt/[0.07] shadow-[0_0_50px_rgba(78,124,255,0.1)]' : 'border-white/[0.08] bg-ink-2/70 hover:border-white/20'}`}>
                 <div className="flex items-center justify-between mb-6">
                   <div className={`w-[52px] h-[52px] rounded-full flex items-center justify-center border ${s.free ? 'bg-cobalt border-cobalt text-white' : 'bg-ink border-white/15 text-cobalt-soft'}`}>
                     <s.icon className="w-5 h-5" />
@@ -63,7 +63,7 @@ export default function Benefits() {
 
       {/* ── Comparison ── */}
       <Reveal>
-        <div className="relative z-10 rounded-[28px] border border-white/[0.08] overflow-hidden">
+        <div className="relative z-10 rounded-[26px] border border-white/[0.08] overflow-hidden">
           <div className="grid md:grid-cols-[1.2fr_1fr_1fr] text-sm font-body">
             <div className="hidden md:block px-7 py-5 border-b border-white/[0.08] font-mono text-[10px] tracking-[0.25em] uppercase text-fog">Сравнение</div>
             <div className="hidden md:block px-7 py-5 border-b border-l border-danger/20 font-mono text-[10px] tracking-[0.25em] uppercase text-danger-soft bg-danger/[0.05]">Обычная студия</div>

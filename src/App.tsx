@@ -13,6 +13,7 @@ import Footer from './components/Footer';
 import CaseEditorWrapper from './components/CaseEditorWrapper';
 import ContactFab from './components/ContactFab';
 import CookieConsent from './components/CookieConsent';
+import IntroAssembly from './components/IntroAssembly';
 
 // Cases
 import DentalClinic from './cases/DentalClinic';
@@ -78,7 +79,14 @@ export default function App() {
     <main className="bg-ink text-bone font-body selection:bg-cobalt selection:text-white w-full overflow-clip">
       <div className="noise-overlay" aria-hidden="true" />
       <Navbar />
-      <Hero />
+      {/* Первый экран собирается на глазах: человек прокручивает, и пустое
+          окно браузера превращается в готовую главную. Внутри обёртки лежит
+          тот самый Hero, который был раньше, - это не отдельная заставка,
+          а сама страница в процессе сборки. Если анимации отключены или
+          скрипт не выполнился, обёртка отдаёт Hero как есть. */}
+      <IntroAssembly>
+        <Hero />
+      </IntroAssembly>
       <Problem />
       <Benefits />
       <ActionBlock />

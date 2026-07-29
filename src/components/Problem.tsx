@@ -56,7 +56,7 @@ export default function Problem() {
 
       {/* ── Client path infographic ── */}
       <Reveal>
-        <div className="relative rounded-[28px] border border-white/[0.08] bg-ink-2/60 p-7 md:p-12 overflow-hidden">
+        <div className="relative rounded-[26px] border border-white/[0.08] bg-ink-2/60 p-7 md:p-12 overflow-hidden">
           <div className="absolute inset-0 dot-grid opacity-50 [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)] pointer-events-none" />
           <p className="relative font-mono text-[10px] tracking-[0.25em] uppercase text-fog mb-10 text-center">Как клиент приходит к вам</p>
 
@@ -82,7 +82,7 @@ export default function Problem() {
             <div className="md:hidden flex justify-center"><ArrowDown className="w-5 h-5 text-cobalt-soft" /></div>
 
             {/* Site node */}
-            <div className="relative rounded-3xl border border-cobalt/40 bg-cobalt/[0.08] p-6 text-center shadow-[0_0_60px_rgba(78,124,255,0.12)]">
+            <div className="relative rounded-[26px] border border-cobalt/40 bg-cobalt/[0.08] p-6 text-center shadow-[0_0_60px_rgba(78,124,255,0.12)]">
               <div className="font-display font-semibold text-lg text-bone mb-3">Ваш сайт</div>
               <div className="flex flex-wrap justify-center gap-2">
                 {['доверие', 'услуги', 'отзывы', 'форма заявки'].map((t, i) => (
@@ -100,7 +100,7 @@ export default function Problem() {
             <div className="md:hidden flex justify-center"><ArrowDown className="w-5 h-5 text-cobalt-soft" /></div>
 
             {/* Result */}
-            <div className="rounded-3xl border border-white/10 bg-ink/70 p-6 text-center">
+            <div className="rounded-[26px] border border-white/10 bg-ink/70 p-6 text-center">
               <div className="font-display font-semibold text-2xl text-cobalt mb-1.5">Заявка</div>
               <p className="text-[12px] font-body text-fog leading-snug">звонок, сообщение или запись — туда, где вам удобно</p>
             </div>

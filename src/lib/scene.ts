@@ -280,6 +280,63 @@ export function useScrollTrack(onProgress: (p: number) => void, enabled: boolean
   return { track, pane };
 }
 
+/**
+ * Вступительная сборка первого экрана больше не мешает.
+ *
+ * На главной первый экран занимает три с лишним высоты окна: пока человек
+ * его собирает, всплывающие поверх элементы неуместны. Кнопка связи,
+ * появлявшаяся по жёсткому порогу «600 пикселей прокрутки», теперь
+ * выскакивала бы прямо посреди сборки, а баннер cookie - через полторы
+ * секунды на почти пустом экране, накрыв подсказку «листайте».
+ *
+ * Порог считаем от самого трека, а не от числа пикселей: высота трека
+ * зависит от высоты окна, и любая константа тут врала бы на каждом
+ * втором устройстве.
+ *
+ * Если трека на странице нет - отключены анимации, другая страница,
+ * скрипт вступления не выполнился, - возвращаем true: ждать нечего,
+ * и всё ведёт себя как раньше. Отсутствие вступления не должно уметь
+ * спрятать баннер согласия.
+ */
+export function usePastIntro(): boolean {
+  const [past, setPast] = useState(false);
+
+  useEffect(() => {
+    let raf = 0;
+
+    const apply = () => {
+      raf = 0;
+      const t = document.querySelector('[data-intro-track]');
+      const ok = !t || t.getBoundingClientRect().bottom < window.innerHeight * 0.6;
+      setPast((prev) => (prev === ok ? prev : ok));
+    };
+
+    // Одно измерение на кадр, сколько бы событий ни прислал браузер.
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(apply); };
+
+    apply();
+    /* Трек появляется на втором отрисовке вступления: высота окна меряется
+       в эффекте, а до этого его в разметке нет. Одно измерение на монтировании
+       поэтому соврало бы «трека нет» - и баннер cookie выскочил бы на пустом
+       экране, потому что его таймер не ждёт прокрутки. Перемеряем сразу после
+       первого кадра и ещё раз чуть позже. */
+    const t0 = window.setTimeout(apply, 0);
+    const t1 = window.setTimeout(apply, 400);
+
+    document.addEventListener('scroll', onScroll, { capture: true, passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      window.clearTimeout(t0);
+      window.clearTimeout(t1);
+      document.removeEventListener('scroll', onScroll, { capture: true } as EventListenerOptions);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+
+  return past;
+}
+
 /** Записать число в CSS-переменную с округлением: меньше мусора в стилях. */
 export function setVar(el: HTMLElement, name: string, value: number) {
   el.style.setProperty(name, String(Math.round(value * 1000) / 1000));

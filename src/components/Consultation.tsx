@@ -63,7 +63,7 @@ export default function Consultation() {
         {branches.map((b, i) => (
           <Reveal key={b.title} delay={i * 0.08} className="flex">
             <div
-              className={`relative w-full rounded-[24px] border p-7 flex flex-col transition-colors duration-300 ${
+              className={`relative w-full rounded-[26px] border p-7 flex flex-col transition-colors duration-300 ${
                 b.primary
                   ? 'border-cobalt/45 bg-cobalt/[0.07]'
                   : 'border-white/[0.08] bg-ink-2/50 hover:border-white/20'
@@ -97,7 +97,7 @@ export default function Consultation() {
 
       {/* Что человек получает и чего это стоит */}
       <Reveal delay={0.1}>
-        <div className="rounded-[24px] border border-white/[0.08] bg-ink-2/40 p-7 md:p-9">
+        <div className="rounded-[26px] border border-white/[0.08] bg-ink-2/40 p-7 md:p-9">
           <div className="grid sm:grid-cols-3 gap-8">
             {facts.map((f) => (
               <div key={f.title} className="flex gap-4">

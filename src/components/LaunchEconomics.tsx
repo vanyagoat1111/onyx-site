@@ -41,8 +41,8 @@ export default function LaunchEconomics() {
         {/* ── Инфографика 1: сравнение стоимости ── */}
         <Reveal className="flex">
           <div className="relative w-full">
-            <div className="absolute -inset-px rounded-[28px] bg-gradient-to-b from-white/15 via-white/[0.06] to-transparent pointer-events-none" />
-            <div className="relative h-full rounded-[28px] bg-ink-2/90 backdrop-blur-xl p-7 md:p-9">
+            <div className="absolute -inset-px rounded-[26px] bg-gradient-to-b from-white/15 via-white/[0.06] to-transparent pointer-events-none" />
+            <div className="relative h-full rounded-[26px] bg-ink-2/90 backdrop-blur-xl p-7 md:p-9">
               <div className="flex items-center justify-between mb-8">
                 <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-cobalt-soft">Экономика запуска</span>
                 <span className="flex items-center gap-2 font-mono text-[10px] text-cobalt-soft">
@@ -68,7 +68,7 @@ export default function LaunchEconomics() {
 
         {/* ── Инфографика 2: ключевые цифры ── */}
         <Reveal delay={0.12} className="flex">
-          <div className="relative w-full rounded-[28px] border border-white/[0.08] bg-ink-2/50 p-7 md:p-9 flex flex-col justify-between overflow-hidden">
+          <div className="relative w-full rounded-[26px] border border-white/[0.08] bg-ink-2/50 p-7 md:p-9 flex flex-col justify-between overflow-hidden">
             <div className="absolute -top-1/3 -right-1/4 w-2/3 aspect-square rounded-full bg-cobalt/[0.07] blur-[110px] pointer-events-none" />
 
             <div className="relative">

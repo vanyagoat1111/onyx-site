@@ -118,7 +118,7 @@ export default function Services() {
                 <Star className="w-3 h-3 fill-white" /> {plan.badge}
               </span>
             )}
-            <div className={`relative flex flex-col h-full rounded-[28px] border p-7 md:p-8 transition-all duration-500 overflow-hidden ${plan.badge ? 'border-cobalt/60 bg-gradient-to-b from-cobalt/[0.14] to-ink-2/80 shadow-[0_0_80px_rgba(78,124,255,0.18)]' : 'border-white/[0.08] bg-ink-2/60 hover:border-cobalt/30 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.35)]'}`}>
+            <div className={`relative flex flex-col h-full rounded-[26px] border p-7 md:p-8 transition-all duration-500 overflow-hidden ${plan.badge ? 'border-cobalt/60 bg-gradient-to-b from-cobalt/[0.14] to-ink-2/80 shadow-[0_0_80px_rgba(78,124,255,0.18)]' : 'border-white/[0.08] bg-ink-2/60 hover:border-cobalt/30 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.35)]'}`}>
               <div className={`absolute inset-x-0 top-0 h-[3px] ${plan.badge ? 'bg-gradient-to-r from-cobalt via-cobalt-soft to-cobalt' : 'bg-gradient-to-r from-white/5 via-white/20 to-white/5'}`} />
 
               <div className={`w-13 h-13 rounded-2xl border flex items-center justify-center mb-5 shrink-0 ${plan.badge ? 'bg-cobalt/20 border-cobalt/40' : 'bg-white/[0.06] border-white/10'}`}>
@@ -216,7 +216,7 @@ export default function Services() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {addons.map((a, i) => (
             <Reveal key={i} delay={(i % 4) * 0.06}>
-              <div className="group h-full rounded-[22px] border border-white/[0.08] bg-ink-2/50 p-6 flex flex-col hover:border-cobalt/40 hover:bg-ink-2/90 transition-all duration-400 hover:-translate-y-1">
+              <div className="group h-full rounded-[26px] border border-white/[0.08] bg-ink-2/50 p-6 flex flex-col hover:border-cobalt/40 hover:bg-ink-2/90 transition-all duration-400 hover:-translate-y-1">
                 <div className="flex items-start justify-between gap-3 mb-4">
                   <h4 className="font-body font-semibold text-[15px] text-white leading-tight">{a.title}</h4>
                   <span className="font-mono text-[10px] text-fog pt-0.5">{String(i + 1).padStart(2, '0')}</span>

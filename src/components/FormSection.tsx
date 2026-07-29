@@ -10,7 +10,7 @@ export default function FormSection() {
       <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-10 lg:gap-16 items-stretch">
         {/* ── Аудит: замена блока «Готовы начать проект?» ── */}
         <Reveal className="flex">
-          <div className="relative w-full rounded-[28px] border border-white/[0.09] bg-ink-2/60 overflow-hidden p-8 md:p-10 flex flex-col justify-between">
+          <div className="relative w-full rounded-[26px] border border-white/[0.09] bg-ink-2/60 overflow-hidden p-8 md:p-10 flex flex-col justify-between">
             <div className="absolute inset-0 dot-grid opacity-40 [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_75%)] pointer-events-none" />
             <div className="absolute -top-1/3 -left-1/4 w-2/3 aspect-square rounded-full bg-cobalt/[0.08] blur-[110px] pointer-events-none" />
 
@@ -48,7 +48,7 @@ export default function FormSection() {
 
         {/* ── Форма заявки ── */}
         <Reveal delay={0.1} className="flex">
-          <div className="relative w-full rounded-[28px] border border-white/[0.09] bg-ink-2/70 overflow-hidden p-8 md:p-10">
+          <div className="relative w-full rounded-[26px] border border-white/[0.09] bg-ink-2/70 overflow-hidden p-8 md:p-10">
             <div className="absolute -top-1/2 right-0 w-2/3 aspect-square rounded-full bg-cobalt/[0.12] blur-[120px] pointer-events-none" />
             <LeadForm />
           </div>

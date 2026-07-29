@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageCircle, Send, X, Phone } from 'lucide-react';
 import { WHATSAPP_LINK, BOT_LINK, TELEGRAM_QUESTIONS_LINK } from '../lib/leads';
+import { usePastIntro } from '../lib/scene';
 
 /* Плавающие кнопки связи.
    Стоят слева внизу: справа у демо-шаблонов живёт кнопка редактора,
@@ -41,10 +42,19 @@ const channels = [
 
 export default function ContactFab() {
   const [open, setOpen] = useState(false);
-  const [shown, setShown] = useState(false);
+  const [scrolledEnough, setScrolledEnough] = useState(false);
+
+  /* Первый экран теперь собирается по прокрутке и занимает три с лишним
+     высоты окна, поэтому одного порога в 600 пикселей мало: кнопка
+     выскакивала бы прямо посреди сборки, на почти пустом экране.
+     Ждём, пока вступление окажется позади. Если вступления нет -
+     отключены анимации, скрипт не выполнился - хук отдаёт true,
+     и поведение остаётся прежним. */
+  const pastIntro = usePastIntro();
+  const shown = scrolledEnough && pastIntro;
 
   useEffect(() => {
-    const onScroll = () => setShown(window.scrollY > 600);
+    const onScroll = () => setScrolledEnough(window.scrollY > 600);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);

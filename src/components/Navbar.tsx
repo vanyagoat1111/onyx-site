@@ -17,7 +17,24 @@ const links = [
   { name: 'Контакты', href: '#contact-form' },
 ];
 
+/* «Наверх» - это к собранному первому экрану, а не к пустому окну.
+
+   Первый экран теперь занимает трек в три с лишним высоты окна: ноль
+   прокрутки - это начало вступительной сборки. Человек, который нажал
+   логотип, чтобы вернуться на главную, не должен заново пролистывать
+   три экрана сборки, чтобы увидеть текст. Поэтому ведём его в конец
+   трека: страница уже собрана и стоит первым экраном.
+
+   Если трека нет - отключены анимации, скрипт вступления не выполнился -
+   работает обычный переход в ноль. */
+const scrollHome = () => {
+  const t = document.querySelector('[data-intro-track]') as HTMLElement | null;
+  const top = t ? t.offsetTop + Math.max(0, t.offsetHeight - window.innerHeight) : 0;
+  window.scrollTo({ top, behavior: 'smooth' });
+};
+
 const scrollTo = (href: string) => {
+  if (href === '#home' || href === '#') { scrollHome(); return; }
   document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
 };
 
@@ -63,9 +80,28 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-ink/85 backdrop-blur-xl py-3 border-b border-white/10' : 'bg-transparent py-5'}`}>
+      {/* Шапка участвует во вступительной сборке первого экрана.
+
+          Пока рамка окна на месте, шапка живёт внутри него и потому сдвинута
+          вниз на высоту панели браузера; когда рамка растворяется, шапка
+          поднимается на своё настоящее место. Прозрачность и сдвиг приходят
+          из CSS-переменных, которые пишет IntroAssembly.
+
+          Значения по умолчанию - «всё видно, ничего не сдвинуто». Поэтому на
+          страницах шаблонов, при отключённых анимациях и если скрипт вообще
+          не выполнился, шапка ведёт себя как обычно. Отдельно погашены
+          нажатия: невидимая полоса сверху не должна ловить курсор, пока
+          навигации на странице формально ещё нет. */}
+      <nav
+        className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-ink/85 backdrop-blur-xl py-3 border-b border-white/10' : 'bg-transparent py-5'}`}
+        style={{
+          opacity: 'var(--intro-nav, 1)',
+          transform: 'translateY(var(--intro-nav-y, 0px))',
+          pointerEvents: 'var(--intro-pe, auto)' as React.CSSProperties['pointerEvents'],
+        }}
+      >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-6 md:px-12 flex justify-between items-center">
-          <a href="#" className="flex items-center gap-3 group" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+          <a href="#" className="flex items-center gap-3 group" style={{ opacity: 'var(--intro-logo, 1)' }} onClick={(e) => { e.preventDefault(); scrollHome(); }}>
             <img src="/favicon.svg" alt="ONYX Logo" className="w-8 h-8 group-hover:rotate-90 transition-transform duration-500" />
             <span className="font-display font-bold text-lg tracking-wide text-bone group-hover:text-cobalt-soft transition-colors">
               ONYX
