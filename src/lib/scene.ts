@@ -153,6 +153,28 @@ export function scrollHost(el: HTMLElement | null): HTMLElement {
   return document.documentElement;
 }
 
+/**
+ * Слабое устройство: считаем по числу ядер.
+ *
+ * Мерить настоящую частоту кадров бесполезно - на неподвижной странице
+ * она всегда шестьдесят, а проблема вылезает только во время прокрутки,
+ * когда мерить уже поздно. Поэтому берём грубый, но честный признак:
+ * четыре ядра и меньше - это или старый телефон, или дешёвый Android.
+ * Таким сцену упрощаем заранее, а не ждём, пока начнёт дёргаться.
+ *
+ * Главное всё равно не в этом флаге, а в том, чтобы дорогих операций
+ * не было вовсе: анимированный filter и blend по всей площади экрана
+ * тормозят даже флагманы.
+ */
+export function useLowPower(): boolean {
+  const [low, setLow] = useState(false);
+  useEffect(() => {
+    const cores = (navigator as Navigator & { hardwareConcurrency?: number }).hardwareConcurrency;
+    if (typeof cores === 'number' && cores > 0 && cores <= 4) setLow(true);
+  }, []);
+  return low;
+}
+
 export type ScrollTrack = {
   track: React.RefObject<HTMLDivElement | null>;
   pane: React.RefObject<HTMLDivElement | null>;

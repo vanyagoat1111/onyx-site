@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { StatBars, DonutStat } from '../components/DemoCharts';
-import { seg, setVar, useViewport, useScrollTrack } from '../lib/scene';
+import { seg, setVar, useViewport, useScrollTrack, useLowPower } from '../lib/scene';
 
 /* APEX — автосервис и детейлинг.
    Визуальный язык: сервисная карта. Графит, кислотно-зелёный акцент,
@@ -107,6 +107,10 @@ const faqs = [
    до края кадра, ровный свет, желательно светлый фон бокса.            */
 
 const CAR_PHOTO = '/demo/apex-car.jpg';
+/* Отдельный кадр для телефона. Тянуть на экран шириной 390 точек
+   картинку в 2200 пикселей - это лишние полтора мегабайта и лишняя
+   работа по масштабированию на каждый кадр прокрутки. */
+const CAR_PHOTO_SM = '/demo/apex-car-sm.jpg';
 
 const WASH_STAGES: { at: number; name: string; note: string }[] = [
   { at: 0.00, name: 'Приехала', note: 'Дорожная плёнка, разводы, матовый лак' },
@@ -199,6 +203,7 @@ function WashScene({
   src, onBook, onPrices, marks,
 }: { src: string; onBook: (e: React.MouseEvent<HTMLAnchorElement>) => void; onPrices: (e: React.MouseEvent<HTMLAnchorElement>) => void; marks: string[] }) {
   const { vh, mobile, calm, short, tiny } = useViewport(64);
+  const lowPower = useLowPower();
   const scene = useRef<HTMLDivElement | null>(null);
   const bar = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef(0);
@@ -261,11 +266,17 @@ function WashScene({
       >
         {/* Вымытая: глубокий чёрный, резкие блики */}
         <img
-          src={src} alt="" aria-hidden="true"
+          src={mobile ? CAR_PHOTO_SM : src} alt="" aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover"
           style={{
-            objectPosition: mobile ? '58% 50%' : 'center',
-            filter: 'contrast(calc(1.06 + var(--fin) * 0.12)) saturate(calc(1 + var(--fin) * 0.1)) brightness(calc(0.98 - var(--fin) * 0.03))',
+            objectPosition: mobile ? '54% 52%' : 'center',
+            /* Фильтр постоянный, а не считаемый через var на каждом кадре.
+               Анимированный filter заставляет браузер прогонять всю
+               полноэкранную картинку через фильтр заново каждый кадр -
+               это самая дорогая операция при прокрутке и главная причина
+               подтормаживаний даже на быстрых телефонах. Глубину лака
+               в финале добираем дешёвым слоем с прозрачностью ниже. */
+            filter: 'contrast(1.16) saturate(1.08) brightness(0.96)',
           }}
         />
 
@@ -278,15 +289,15 @@ function WashScene({
             в темноту, и разницы видно не будет. */}
         <div className="absolute inset-0" style={{ clipPath: 'var(--clipDirty)' }}>
           <img
-            src={src} alt="" aria-hidden="true"
+            src={mobile ? CAR_PHOTO_SM : src} alt="" aria-hidden="true"
             className="absolute inset-0 w-full h-full object-cover"
             style={{
-              objectPosition: mobile ? '58% 50%' : 'center',
+              objectPosition: mobile ? '54% 52%' : 'center',
               filter: 'contrast(0.6) brightness(1.22) saturate(0.68)',
             }}
           />
           <div className="absolute inset-0" style={{ background: 'rgba(150,134,104,0.3)', mixBlendMode: 'screen' }} />
-          <div
+          {!lowPower && <div
             className="absolute inset-0"
             style={{
               opacity: 'var(--dust)',
@@ -297,8 +308,20 @@ function WashScene({
                 'repeating-linear-gradient(101deg, rgba(214,198,168,0.12) 0 2px, transparent 2px 30px)',
               backgroundSize: '190px 150px, 240px 200px, 170px 220px, auto',
             }}
-          />
+          />}
         </div>
+
+        {/* Глубина лака к финалу: тёмная подложка с умножением.
+            Композитится на видеокарте, стоит почти ноль - в отличие
+            от пересчёта фильтра по всей картинке. */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            opacity: 'calc(var(--fin) * 0.4)',
+            background: 'radial-gradient(120% 100% at 55% 45%, rgba(0,0,0,0.55), rgba(0,0,0,0.15))',
+            mixBlendMode: 'multiply',
+          }}
+        />
 
         {/* Линия мойки: световая полоса и намёк на воду за ней */}
         <div
@@ -342,7 +365,7 @@ function WashScene({
         />
 
         {/* капли, которые кузов отталкивает */}
-        <div
+        {!lowPower && <div
           className="absolute inset-0 pointer-events-none"
           style={{
             opacity: 'var(--beads)',
@@ -352,7 +375,7 @@ function WashScene({
               'radial-gradient(circle at 52% 26%, rgba(255,255,255,0.45) 0 1.5px, transparent 3px)',
             backgroundSize: '120px 96px, 160px 130px, 96px 110px',
           }}
-        />
+        />}
       </div>
 
       {/* Рамка наводки поверх кадра.
@@ -393,17 +416,31 @@ function WashScene({
       <div ref={pane} className="sticky top-0 h-[100svh] overflow-hidden" style={{ height: vh || undefined }}>
 
         {mobile ? (
-          /* ТЕЛЕФОН: текст сверху, машина полосой снизу - кузов виден целиком */
-          <div className="relative h-full flex flex-col" style={{ paddingTop: 66, paddingBottom: 64 }}>
-            <div className="px-6 pt-2">
+          /* ТЕЛЕФОН: кадр на весь экран, текст поверх снизу.
+
+             Раньше машина стояла отдельной полосой внизу и висела
+             в воздухе прямоугольником. Полноэкранный кадр с затенением
+             под текстом читается как обложка журнала, а не как вставленная
+             картинка. Портретный экран обрежет края - поэтому для телефона
+             свой кадр, снятый ближе к машине. */
+          <>
+            {car}
+            <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(to top, ${CARBON} 4%, rgba(12,13,12,.9) 30%, rgba(12,13,12,.35) 58%, rgba(12,13,12,.55) 100%)` }} />
+
+            <div className="relative h-full flex flex-col justify-end px-6" style={{ paddingTop: 66, paddingBottom: 104 }}>
               <div className="font-mono text-[9px] uppercase tracking-[0.24em] mb-3" style={{ color: LIME }}>
                 Екатеринбург · сервис и детейлинг
               </div>
-              <h1 className="font-black leading-[0.95] tracking-[-0.03em]" style={{ fontSize: tiny ? 'clamp(23px,6.4vw,28px)' : 'clamp(28px,7.6vw,36px)' }}>
+              <h1 className="font-black leading-[0.95] tracking-[-0.03em]" style={{ fontSize: tiny ? 'clamp(24px,6.6vw,29px)' : 'clamp(29px,7.8vw,38px)' }}>
                 Смета до работ.<br />
                 <span style={{ color: LIME }}>Фото</span> после каждой.
               </h1>
-              <div className="mt-4 flex flex-wrap gap-2.5">
+              {!tiny && (
+                <p className="mt-4 text-white/60 text-[13.5px] leading-[1.6] max-w-[34ch]">
+                  Нормо-час фиксированный, старые детали отдаём, гарантия год.
+                </p>
+              )}
+              <div className="mt-5 flex flex-wrap gap-2.5">
                 <a href="#booking" onClick={onBook} className="px-5 py-3 font-mono text-[10px] uppercase tracking-[0.12em] text-[#0C0D0C]" style={{ background: LIME }}>
                   Записаться
                 </a>
@@ -412,13 +449,7 @@ function WashScene({
                 </a>
               </div>
             </div>
-
-            <div className="relative flex-1 min-h-0 mt-4">
-              {car}
-              <div className="absolute inset-x-0 top-0 h-16 pointer-events-none" style={{ background: `linear-gradient(to bottom, ${CARBON}, transparent)` }} />
-              <div className="absolute inset-x-0 bottom-0 h-16 pointer-events-none" style={{ background: `linear-gradient(to top, ${CARBON}, transparent)` }} />
-            </div>
-          </div>
+          </>
         ) : (
           /* КОМПЬЮТЕР: кадр во весь экран, текст слева на затенении */
           <>

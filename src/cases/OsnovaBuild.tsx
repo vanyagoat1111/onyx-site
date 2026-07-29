@@ -949,6 +949,73 @@ function BuildScene() {
   );
 }
 
+/* ═══════════ БЫЛО / СТАЛО ═══════════
+
+   Готовые склеенные кадры: линия раздела впечатана в саму фотографию.
+   Для перетаскиваемой шторки, как в «Артели», такие не годятся - там
+   нужны два отдельных снимка одного вида. Зато как карточки результата
+   они работают лучше каталога: человек видит не обещание, а разницу.
+
+   Разделитель и подписи рисуем поверх кодом, а не берём из картинки.
+   Так они на русском, в палитре студии и одинаковые на всех четырёх -
+   у исходников надписи были английские и разного вида. */
+const beforeAfter = [
+  {
+    img: '/demo/osnova-ba-1.jpg',
+    t: 'Дом 168 м², Лаишево',
+    d: 'Монолитный каркас и панорамное остекление. От коробки до сдачи - шесть месяцев.',
+    stage: 'Отделка и благоустройство',
+  },
+  {
+    img: '/demo/osnova-ba-2.jpg',
+    t: 'Дом 210 м², Пестрецы',
+    d: 'Кирпич с утеплением, фальцевая кровля. Фасад закрыли до холодов.',
+    stage: 'Фасад и кровля',
+  },
+  {
+    img: '/demo/osnova-ba-3.jpg',
+    t: 'Дом 240 м², Казань',
+    d: 'Три уровня, монолит с плоской кровлей. Инженерию согласовали до штробления.',
+    stage: 'Инженерия и фасад',
+  },
+  {
+    img: '/demo/osnova-ba-4.jpg',
+    t: 'Реконструкция, 96 м²',
+    d: 'Обследование конструкций, усиление узлов, новый фасад с деревом.',
+    stage: 'Реконструкция',
+  },
+];
+
+function BeforeAfterCard({ item, i }: { item: typeof beforeAfter[number]; i: number }) {
+  return (
+    <Up delay={(i % 2) * 0.07}>
+      <div style={{ background: PAPER_HI, border: `1px solid ${ink(0.2)}` }}>
+        <div className="flex justify-between px-4 py-2.5 font-mono text-[9.5px] uppercase tracking-[0.16em]" style={{ borderBottom: `1px solid ${ink(0.14)}`, color: ink(0.42) }}>
+          <span>Объект {String(i + 1).padStart(2, '0')}</span>
+          <span>{item.stage}</span>
+        </div>
+
+        <div className="relative overflow-hidden" style={{ aspectRatio: '4/5' }}>
+          <img src={item.img} alt={item.t} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover" />
+          {/* разделитель по центру: у всех исходников склейка ровно посередине */}
+          <span className="absolute top-0 bottom-0 left-1/2 w-px" style={{ background: 'rgba(255,255,255,0.7)' }} />
+          <span className="absolute top-4 left-4 font-mono text-[9.5px] uppercase tracking-[0.2em] px-2.5 py-1.5" style={{ background: 'rgba(21,23,26,0.72)', color: 'rgba(255,255,255,0.85)' }}>
+            Было
+          </span>
+          <span className="absolute top-4 right-4 font-mono text-[9.5px] uppercase tracking-[0.2em] px-2.5 py-1.5" style={{ background: CLAY, color: '#fff' }}>
+            Стало
+          </span>
+        </div>
+
+        <div className="p-5">
+          <h3 className="font-archivo-black text-[19px] uppercase tracking-[-0.02em] mb-2">{item.t}</h3>
+          <p className="text-[13.5px] leading-[1.7]" style={{ color: ink(0.55) }}>{item.d}</p>
+        </div>
+      </div>
+    </Up>
+  );
+}
+
 /* Полоса в разбивке сметы: растёт, когда доходит до экрана. */
 function BarLine({ value, max, delay }: { value: number; max: number; delay: number }) {
   const { ref, seen } = useSeen<HTMLDivElement>();
@@ -1156,7 +1223,7 @@ export default function OsnovaBuild() {
                       <div className="flex justify-between px-4 py-2.5 font-mono text-[9.5px] uppercase tracking-[0.16em]" style={{ borderBottom: `1px solid ${ink(0.14)}`, color: ink(0.42) }}>
                         <span>{p.index}</span><span>{p.tech}</span>
                       </div>
-                      <DemoPhoto src={`/demo/osnova-${p.slug}.jpg`} label={`Фасад · ${p.name}`} tone={CLAY} ratio="4/3" icon="building" dark={false} bg="transparent" />
+                      <DemoPhoto src={`/demo/osnova-${p.slug}.jpg`} label={`Интерьер · ${p.name}`} tone={CLAY} ratio="4/3" icon="interior" dark={false} bg="transparent" />
                       <div className="p-5">
                         <h3 className="font-archivo-black text-[21px] uppercase tracking-[-0.02em] mb-3">{p.name}</h3>
                         <div className="flex flex-wrap gap-x-2 gap-y-1 font-mono text-[10.5px] mb-4" style={{ color: ink(0.45) }}>
@@ -1206,6 +1273,25 @@ export default function OsnovaBuild() {
                     </Up>
                   ))}
                 </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ── было / стало ── */}
+          <section className="px-6 md:px-8 py-20 md:py-28">
+            <div className="max-w-[1340px] mx-auto">
+              <Up className="mb-12">
+                <CutMark letter="Р" label="Сданные объекты" />
+                <div className="mt-6 flex flex-wrap items-end justify-between gap-8">
+                  <h2 className={H2} style={{ fontSize: 'clamp(34px,5.2vw,60px)' }}>Было<br />и стало</h2>
+                  <p className="text-[14.5px] max-w-[40ch] leading-[1.7]" style={{ color: ink(0.5) }}>
+                    Один и тот же ракурс до начала работ и после сдачи. Такой кадр мы делаем
+                    на каждом объекте - он попадает в отчёт и остаётся у вас.
+                  </p>
+                </div>
+              </Up>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {beforeAfter.map((b, i) => <BeforeAfterCard key={b.img} item={b} i={i} />)}
               </div>
             </div>
           </section>
@@ -1374,7 +1460,7 @@ export default function OsnovaBuild() {
                     <div className="flex justify-between px-6 py-3 font-mono text-[9.5px] uppercase tracking-[0.18em]" style={{ borderBottom: `1px solid ${ink(0.14)}`, color: ink(0.42) }}>
                       <span>{p.index}</span><span>{p.tech}</span><span>масштаб 1:100</span>
                     </div>
-                    <DemoPhoto src={`/demo/osnova-${p.slug}.jpg`} label={`Фото · дом «${p.name}»`} tone={CLAY} ratio="16/9" icon="building" dark={false} bg="transparent" />
+                    <DemoPhoto src={`/demo/osnova-${p.slug}.jpg`} label={`Интерьер · дом «${p.name}»`} tone={CLAY} ratio="16/9" icon="interior" dark={false} bg="transparent" />
                     <div className="p-7">
                       <h3 className="font-archivo-black text-[27px] uppercase tracking-[-0.025em] mb-3">Дом «{p.name}»</h3>
                       <p className="text-[14px] leading-[1.7] mb-6" style={{ color: ink(0.55) }}>{p.lead}</p>
