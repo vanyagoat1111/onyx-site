@@ -135,6 +135,24 @@ export function useViewport(reserveBottom = 0): Viewport {
   };
 }
 
+/**
+ * Ближайший предок, внутри которого реально идёт прокрутка.
+ *
+ * Демо-шаблоны на сайте живут внутри обёртки редактора, а она прокручивает
+ * содержимое во вложенном контейнере с `overflow-y: auto`, а не в окне.
+ * Из-за этого `window.scrollY` всегда ноль, а события `scroll` на window
+ * не приходят вообще. Любая логика, привязанная к окну, там мертва.
+ */
+export function scrollHost(el: HTMLElement | null): HTMLElement {
+  let n: HTMLElement | null = el?.parentElement || null;
+  while (n) {
+    const s = getComputedStyle(n);
+    if (/(auto|scroll|overlay)/.test(s.overflowY) && n.scrollHeight > n.clientHeight + 1) return n;
+    n = n.parentElement;
+  }
+  return document.documentElement;
+}
+
 export type ScrollTrack = {
   track: React.RefObject<HTMLDivElement | null>;
   pane: React.RefObject<HTMLDivElement | null>;
@@ -222,11 +240,16 @@ export function useScrollTrack(onProgress: (p: number) => void, enabled: boolean
     };
 
     guarded();
-    window.addEventListener('scroll', onScroll, { passive: true });
+    /* Слушаем на document в фазе перехвата, а НЕ на window.
+       События scroll не всплывают, но в фазе перехвата document получает их
+       от любого вложенного контейнера. Внутри обёртки редактора демо
+       прокручивается именно во вложенном контейнере, поэтому слушатель
+       на window там не срабатывал ни разу и сцена стояла на месте. */
+    document.addEventListener('scroll', onScroll, { capture: true, passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     return () => {
       if (raf) cancelAnimationFrame(raf);
-      window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('scroll', onScroll, { capture: true } as EventListenerOptions);
       window.removeEventListener('resize', onScroll);
       io?.disconnect();
     };

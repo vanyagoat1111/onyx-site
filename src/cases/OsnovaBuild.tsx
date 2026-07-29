@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import DemoPlaceholder from '../components/DemoPlaceholder';
 import DemoPhoto from '../components/DemoPhoto';
+import { scrollHost } from '../lib/scene';
 
 /* ═══════════════════════════════════════════════════════════════════════════
    ОСНОВА — строительство домов под ключ.
@@ -595,12 +596,17 @@ function BuildScene() {
     };
 
     guarded();
-    window.addEventListener('scroll', onScroll, { passive: true });
+    /* Слушаем на document в фазе перехвата, а НЕ на window.
+       События scroll не всплывают, но в фазе перехвата document получает их
+       от любого вложенного контейнера. Внутри обёртки редактора демо
+       прокручивается во вложенном контейнере, поэтому слушатель на window
+       там не срабатывал ни разу и стройка стояла на месте. */
+    document.addEventListener('scroll', onScroll, { capture: true, passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
 
     return () => {
       if (raf) cancelAnimationFrame(raf);
-      window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('scroll', onScroll, { capture: true } as EventListenerOptions);
       window.removeEventListener('resize', onScroll);
       io?.disconnect();
     };
@@ -986,18 +992,20 @@ export default function OsnovaBuild() {
     let raf = 0;
     const apply = () => {
       raf = 0;
-      const h = document.documentElement;
+      // берём тот контейнер, который реально прокручивается: в обёртке
+      // редактора это вложенный div, а не документ
+      const h = scrollHost(progBar.current);
       const max = h.scrollHeight - h.clientHeight;
       const p = max > 0 ? Math.min(1, h.scrollTop / max) : 0;
       if (progBar.current) progBar.current.style.transform = `scaleX(${p})`;
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(apply); };
     apply();
-    window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('scroll', onScroll, { capture: true, passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     return () => {
       if (raf) cancelAnimationFrame(raf);
-      window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('scroll', onScroll, { capture: true } as EventListenerOptions);
       window.removeEventListener('resize', onScroll);
     };
   }, []);

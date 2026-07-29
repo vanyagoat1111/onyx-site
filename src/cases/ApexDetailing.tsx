@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { StatBars, DonutStat } from '../components/DemoCharts';
 import { seg, setVar, useViewport, useScrollTrack } from '../lib/scene';
@@ -85,18 +85,28 @@ const faqs = [
   { q: 'Есть ли очередь?', a: 'На ТО и диагностику обычно записываем на следующий день. На детейлинг — за неделю, потому что бокс занимается под один автомобиль целиком.' },
 ];
 
-/* ═══════════ ПЕРВЫЙ ЭКРАН: МАШИНА МОЕТСЯ ПО ПРОКРУТКЕ ═══════════
+/* ═══════════ ПЕРВЫЙ ЭКРАН ═══════════
 
-   Тот же приём, что на «Основе»: липкий трек, прокрутка гонит прогресс.
-   Но здесь работаем не с рисунком, а с настоящей фотографией - в детейлинге
-   продаётся именно разница на реальном металле, нарисованная машина
-   в этой нише выглядит как отговорка.
+   Здесь два варианта, и переключаются они сами.
 
-   Фотография одна, лежит в двух слоях с разными фильтрами: нижний -
-   вымытый и поляризованный, верхний - тусклый и запылённый. Прокрутка
-   сдвигает границу между ними, как будто по кузову идёт мойка.
-   Дальше проходит блик полировки и появляются капли, которые кузов
-   отталкивает - это и есть то, за что платят за керамику.             */
+   По умолчанию - статичный экран на кадре цеха. Он честно работает:
+   атмосфера, читаемый заголовок, две кнопки, марки внизу.
+
+   Если в public/demo появится apex-car.jpg - включается сцена мойки,
+   которой управляет прокрутка: машина приезжает матовой, по кузову идёт
+   линия мойки, камера наезжает на салон, проходит блик полировки,
+   выступают капли, и машина уезжает из кадра уже чистой.
+
+   Почему так, а не сразу сцена. Сцена требует кадра, где КУЗОВ занимает
+   основную часть площади и освещён. На атмосферном снимке цеха машина -
+   тёмный силуэт, и разницу «грязная / чистая» на нём физически не видно:
+   мыть нечего. Механизм от плохого кадра не спасает, поэтому он ждёт
+   подходящий, а не портит первый экран.
+
+   Что нужно на фото: машина боком или в три четверти, кузов от края
+   до края кадра, ровный свет, желательно светлый фон бокса.            */
+
+const CAR_PHOTO = '/demo/apex-car.jpg';
 
 const WASH_STAGES: { at: number; name: string; note: string }[] = [
   { at: 0.00, name: 'Приехала', note: 'Дорожная плёнка, разводы, матовый лак' },
@@ -150,10 +160,9 @@ function writeWash(el: HTMLElement, p: number) {
   // линия мойки видна только пока идёт мойка
   setVar(el, '--line', wash > 0.004 && wash < 0.996 ? 1 : 0);
 }
-
 function WashScene({
-  onBook, onPrices, marks,
-}: { onBook: (e: React.MouseEvent<HTMLAnchorElement>) => void; onPrices: (e: React.MouseEvent<HTMLAnchorElement>) => void; marks: string[] }) {
+  src, onBook, onPrices, marks,
+}: { src: string; onBook: (e: React.MouseEvent<HTMLAnchorElement>) => void; onPrices: (e: React.MouseEvent<HTMLAnchorElement>) => void; marks: string[] }) {
   const { vh, mobile, calm, short, tiny } = useViewport(64);
   const scene = useRef<HTMLDivElement | null>(null);
   const bar = useRef<HTMLDivElement | null>(null);
@@ -172,178 +181,218 @@ function WashScene({
 
   const cur = WASH_STAGES[stage];
   const live = !calm && vh > 0;
-  const trackH = live ? Math.round(vh * (mobile ? 2.0 : 3.2)) : undefined;
+  const trackH = live ? Math.round(vh * (mobile ? 2.1 : 3.2)) : undefined;
+
+  /* Значения по умолчанию - вымытая машина в кадре. Если скрипт не выполнится,
+     посетитель увидит нормальный первый экран, а не матовый кузов и не пустоту. */
+  const defaults = {
+    '--wash': '1', '--washL': '100%', '--clipDirty': 'inset(0 0 0 100%)',
+    '--dust': '0', '--cabin': '0',
+    '--gloss': '1', '--glossL': '130%', '--beads': '0',
+    '--fin': '1', '--line': '0', '--leave': '0',
+    '--zoom': '1', '--driveT': '0%',
+  } as React.CSSProperties;
+
+  /* Фотография в двух состояниях.
+
+     Физика для чёрного глянца обратная привычной: грязь его не темнит,
+     а поднимает чёрный до матово-серого и убивает блики. Поэтому «грязная» -
+     это низкий контраст и подсветка, а «чистая» - глубокий чёрный и резкие
+     отражения. Если сделать наоборот, кузов просто уйдёт в темноту и разницы
+     видно не будет.
+
+     На телефоне кадр 21:9 при заполнении портретного экрана обрезался бы
+     до середины двери, поэтому там своя раскладка: текст сверху, машина
+     полосой снизу. */
+  const car = (
+    <div
+      ref={scene}
+      className="absolute inset-0 overflow-hidden"
+      style={defaults}
+    >
+      <div
+        className="absolute inset-0"
+        style={{
+          transform: 'translateX(var(--driveT)) scale(var(--zoom))',
+          transformOrigin: '58% 34%',
+          opacity: 'calc(1 - var(--leave) * 0.8)',
+          willChange: 'transform',
+        }}
+      >
+        {/* вымытая: глубокий чёрный, резкие блики */}
+        <img
+          src={src} alt="" aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{
+            objectPosition: mobile ? '58% 50%' : 'center',
+            filter: 'contrast(calc(1.06 + var(--fin) * 0.12)) saturate(calc(1 + var(--fin) * 0.1)) brightness(calc(0.98 - var(--fin) * 0.03))',
+          }}
+        />
+
+        {/* матовая: тот же кадр с поднятым чёрным. Уходит вправо за линией мойки */}
+        <div className="absolute inset-0" style={{ clipPath: 'var(--clipDirty)' }}>
+          <img
+            src={src} alt="" aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{
+              objectPosition: mobile ? '58% 50%' : 'center',
+              filter: 'contrast(0.6) brightness(1.22) saturate(0.68)',
+            }}
+          />
+          {/* серо-коричневая дымка: именно она читается как дорожная плёнка */}
+          <div className="absolute inset-0" style={{ background: 'rgba(150,134,104,0.3)', mixBlendMode: 'screen' }} />
+          <div
+            className="absolute inset-0"
+            style={{
+              opacity: 'var(--dust)',
+              backgroundImage:
+                'radial-gradient(circle at 18% 34%, rgba(226,214,190,0.3) 0 2px, transparent 3px),' +
+                'radial-gradient(circle at 62% 21%, rgba(226,214,190,0.24) 0 3px, transparent 4px),' +
+                'radial-gradient(circle at 41% 72%, rgba(226,214,190,0.26) 0 2px, transparent 3px),' +
+                'repeating-linear-gradient(101deg, rgba(214,198,168,0.12) 0 2px, transparent 2px 30px)',
+              backgroundSize: '190px 150px, 240px 200px, 170px 220px, auto',
+            }}
+          />
+        </div>
+
+        {/* салон: за стеклом мутно, пока не дошли до химчистки */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            opacity: 'var(--cabin)',
+            background: 'radial-gradient(22% 16% at 58% 34%, rgba(210,198,176,0.5) 0%, rgba(210,198,176,0.2) 55%, transparent 100%)',
+          }}
+        />
+
+        {/* линия мойки: световая полоса и намёк на воду за ней */}
+        <div
+          className="absolute top-0 bottom-0 pointer-events-none"
+          style={{
+            left: 'var(--washL)', width: 130, marginLeft: -130,
+            opacity: 'var(--line)',
+            background: `linear-gradient(90deg, transparent, ${LIME}1F 70%, ${LIME}59)`,
+          }}
+        />
+        <div
+          className="absolute top-0 bottom-0 pointer-events-none"
+          style={{
+            left: 'var(--washL)', width: 3, transform: 'translateX(-1.5px)',
+            opacity: 'var(--line)',
+            background: LIME,
+            boxShadow: `0 0 30px 10px ${LIME}66`,
+          }}
+        />
+
+        {/* блик полировки: на чёрном лаке это главный кадр всей сцены */}
+        <div
+          className="absolute inset-y-0 pointer-events-none"
+          style={{
+            left: 'var(--glossL)', width: '22%',
+            transform: 'skewX(-14deg)',
+            opacity: 'calc(var(--gloss) * (1 - var(--gloss)) * 3.6)',
+            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.72), transparent)',
+          }}
+        />
+
+        {/* капли, которые кузов отталкивает */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            opacity: 'var(--beads)',
+            backgroundImage:
+              'radial-gradient(circle at 30% 42%, rgba(255,255,255,0.6) 0 1.5px, rgba(255,255,255,0.14) 2px, transparent 3px),' +
+              'radial-gradient(circle at 70% 62%, rgba(255,255,255,0.5) 0 2px, rgba(255,255,255,0.12) 3px, transparent 4px),' +
+              'radial-gradient(circle at 52% 26%, rgba(255,255,255,0.45) 0 1.5px, transparent 3px)',
+            backgroundSize: '120px 96px, 160px 130px, 96px 110px',
+          }}
+        />
+      </div>
+
+      {/* пустой бокс остаётся, когда машина уехала */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ opacity: 'var(--leave)', background: `radial-gradient(70% 60% at 52% 62%, transparent, ${CARBON} 92%)` }}
+      />
+    </div>
+  );
 
   return (
     <div ref={track} className="relative" style={{ height: trackH }}>
       <div ref={pane} className="sticky top-0 h-[100svh] overflow-hidden" style={{ height: vh || undefined }}>
 
-        {/* ── фотография в двух состояниях ── */}
-        <div
-          ref={scene}
-          className="absolute inset-0"
-          style={{
-            // значения по умолчанию - готовая машина в кадре: если скрипт
-            // не выполнится, посетитель увидит нормальный первый экран,
-            // а не грязный кузов и не пустую сцену
-            '--wash': '1', '--washL': '100%', '--clipDirty': 'inset(0 0 0 100%)',
-            '--dust': '0', '--cabin': '0',
-            '--gloss': '1', '--glossL': '130%', '--beads': '0',
-            '--fin': '1', '--line': '0', '--leave': '0',
-            '--zoom': '1', '--driveT': '0%',
-          } as React.CSSProperties}
-        >
-          {/* всё, что относится к машине, уезжает и приближается вместе */}
-          <div
-            className="absolute inset-0"
-            style={{
-              transform: 'translateX(var(--driveT)) scale(var(--zoom))',
-              transformOrigin: '46% 46%',
-              opacity: 'calc(1 - var(--leave) * 0.72)',
-              willChange: 'transform',
-            }}
-          >
-            {/* вымытая: глубина цвета, контраст, холодный свет */}
-            <img
-              src="/hero-auto.jpg" alt="" aria-hidden="true"
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ filter: 'saturate(calc(1.05 + var(--fin) * 0.25)) contrast(calc(1.06 + var(--fin) * 0.1)) brightness(1.04)' }}
-            />
-
-            {/* Грязная: та же фотография, тусклая и пыльная. Уезжает вправо.
-                Насыщенность и яркость сознательно щадящие: это первое, что
-                видит посетитель, и «матовый неухоженный кузов» должен читаться
-                как состояние машины, а не как ошибка загрузки страницы. */}
-            <div className="absolute inset-0" style={{ clipPath: 'var(--clipDirty)' }}>
-              <img
-                src="/hero-auto.jpg" alt="" aria-hidden="true"
-                className="absolute inset-0 w-full h-full object-cover"
-                style={{ filter: 'saturate(0.55) brightness(0.84) contrast(0.94)' }}
-              />
-              {/* дорожная плёнка поверх кузова */}
-              <div className="absolute inset-0" style={{ background: 'rgba(122,104,74,0.2)', mixBlendMode: 'multiply' }} />
-              {/* пыль и разводы: рисуем градиентами, чтобы ничего не грузить */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  opacity: 'var(--dust)',
-                  backgroundImage:
-                    'radial-gradient(circle at 18% 34%, rgba(214,198,168,0.18) 0 2px, transparent 3px),' +
-                    'radial-gradient(circle at 62% 21%, rgba(214,198,168,0.22) 0 3px, transparent 4px),' +
-                    'radial-gradient(circle at 41% 72%, rgba(214,198,168,0.15) 0 2px, transparent 3px),' +
-                    'radial-gradient(circle at 83% 58%, rgba(214,198,168,0.20) 0 3px, transparent 4px),' +
-                    'repeating-linear-gradient(101deg, rgba(196,178,142,0.06) 0 2px, transparent 2px 34px)',
-                  backgroundSize: '190px 150px, 240px 200px, 170px 220px, 260px 180px, auto',
-                }}
-              />
+        {mobile ? (
+          /* ТЕЛЕФОН: текст сверху, машина полосой снизу - кузов виден целиком */
+          <div className="relative h-full flex flex-col" style={{ paddingTop: 66, paddingBottom: 64 }}>
+            <div className="px-6 pt-2">
+              <div className="font-mono text-[9px] uppercase tracking-[0.24em] mb-3" style={{ color: LIME }}>
+                Екатеринбург · сервис и детейлинг
+              </div>
+              <h1 className="font-black leading-[0.95] tracking-[-0.03em]" style={{ fontSize: tiny ? 'clamp(23px,6.4vw,28px)' : 'clamp(28px,7.6vw,36px)' }}>
+                Смета до работ.<br />
+                <span style={{ color: LIME }}>Фото</span> после каждой.
+              </h1>
+              <div className="mt-4 flex flex-wrap gap-2.5">
+                <a href="#booking" onClick={onBook} className="px-5 py-3 font-mono text-[10px] uppercase tracking-[0.12em] text-[#0C0D0C]" style={{ background: LIME }}>
+                  Записаться
+                </a>
+                <a href="#prices" onClick={onPrices} className="px-5 py-3 font-mono text-[10px] uppercase tracking-[0.12em] border border-white/25">
+                  Прайс на работы
+                </a>
+              </div>
             </div>
 
-            {/* салон: за стеклом темно и пыльно, пока не дошли до химчистки */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                opacity: 'var(--cabin)',
-                background:
-                  'radial-gradient(38% 26% at 46% 42%, rgba(28,24,18,0.78) 0%, rgba(28,24,18,0.42) 58%, transparent 100%)',
-              }}
-            />
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                opacity: 'calc(var(--cabin) * 0.8)',
-                background:
-                  'radial-gradient(36% 24% at 46% 42%, rgba(190,170,132,0.22) 0 1.5px, transparent 2px)',
-                backgroundSize: '26px 22px',
-              }}
-            />
-
-            {/* линия мойки: узкая световая полоса на границе */}
-            <div
-              className="absolute top-0 bottom-0 pointer-events-none"
-              style={{
-                left: 'var(--washL)',
-                width: 3,
-                transform: 'translateX(-1.5px)',
-                opacity: 'var(--line)',
-                background: LIME,
-                boxShadow: `0 0 26px 8px ${LIME}66`,
-              }}
-            />
-
-            {/* блик полировки: уходит по кузову один раз */}
-            <div
-              className="absolute inset-y-0 pointer-events-none"
-              style={{
-                left: 'var(--glossL)',
-                width: '26%',
-                transform: 'skewX(-14deg)',
-                opacity: 'calc(var(--gloss) * (1 - var(--gloss)) * 3.4)',
-                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)',
-              }}
-            />
-
-            {/* капли, которые кузов отталкивает */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                opacity: 'var(--beads)',
-                backgroundImage:
-                  'radial-gradient(circle at 30% 40%, rgba(255,255,255,0.55) 0 1.5px, rgba(255,255,255,0.12) 2px, transparent 3px),' +
-                  'radial-gradient(circle at 70% 65%, rgba(255,255,255,0.45) 0 2px, rgba(255,255,255,0.10) 3px, transparent 4px),' +
-                  'radial-gradient(circle at 52% 22%, rgba(255,255,255,0.40) 0 1.5px, transparent 3px)',
-                backgroundSize: '120px 96px, 160px 130px, 96px 110px',
-              }}
-            />
-          </div>
-
-          {/* рамка бокса остаётся на месте, когда машина уезжает */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{ opacity: 'var(--leave)', background: `radial-gradient(70% 60% at 50% 60%, transparent, ${CARBON} 92%)` }}
-          />
-
-          {/* затемнение под текст */}
-          <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(94deg, rgba(12,13,12,.88) 0%, rgba(12,13,12,.58) 46%, rgba(12,13,12,.10) 100%)` }} />
-          <div className="absolute inset-x-0 bottom-0 h-40 pointer-events-none" style={{ background: `linear-gradient(to top, ${CARBON}, transparent)` }} />
-        </div>
-
-        {/* ── текст поверх ── */}
-        <div className="relative h-full max-w-[1320px] mx-auto px-6 md:px-8 flex flex-col justify-center" style={{ paddingTop: 78, paddingBottom: (mobile ? 64 : 0) + 24 }}>
-          <div className="font-mono text-[9.5px] md:text-[11px] uppercase tracking-[0.26em] mb-5 md:mb-8" style={{ color: LIME }}>
-            Екатеринбург · сервис и детейлинг
-          </div>
-          <h1 className="font-black leading-[0.94] tracking-[-0.03em]" style={{ fontSize: tiny ? 'clamp(24px,6.6vw,30px)' : short ? 'clamp(30px,7.4vw,38px)' : 'clamp(42px,7.6vw,96px)' }}>
-            Смета до работ.<br />
-            <span style={{ color: LIME }}>Фото</span> после каждой.
-          </h1>
-          {!short && (
-            <p className="mt-8 max-w-[50ch] text-white/55 text-[17px] leading-[1.7]">
-              Нормо-час фиксированный, старые детали отдаём, гарантия год.
-              Так работает сервис, в который возвращаются, а не заезжают один раз.
-            </p>
-          )}
-          <div className="mt-5 md:mt-10 flex flex-wrap gap-2.5 md:gap-4">
-            <a href="#booking" onClick={onBook} className="px-6 md:px-8 py-3.5 md:py-4 font-mono text-[10.5px] md:text-[12px] uppercase tracking-[0.14em] text-[#0C0D0C] transition-transform hover:-translate-y-[2px]" style={{ background: LIME }}>
-              Записаться на диагностику
-            </a>
-            <a href="#prices" onClick={onPrices} className="px-6 md:px-8 py-3.5 md:py-4 font-mono text-[10.5px] md:text-[12px] uppercase tracking-[0.14em] border border-white/25 hover:border-white/50 transition-colors">
-              Прайс на работы
-            </a>
-          </div>
-
-          {!short && (
-            <div className="mt-12 flex flex-wrap gap-x-8 gap-y-3 items-center border-t border-white/10 pt-7">
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">Работаем с</span>
-              {marks.map((m) => (
-                <span key={m} className="font-mono text-[12px] uppercase tracking-[0.12em] text-white/45">{m}</span>
-              ))}
+            <div className="relative flex-1 min-h-0 mt-4">
+              {car}
+              <div className="absolute inset-x-0 top-0 h-16 pointer-events-none" style={{ background: `linear-gradient(to bottom, ${CARBON}, transparent)` }} />
+              <div className="absolute inset-x-0 bottom-0 h-16 pointer-events-none" style={{ background: `linear-gradient(to top, ${CARBON}, transparent)` }} />
             </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          /* КОМПЬЮТЕР: кадр во весь экран, текст слева на затенении */
+          <>
+            {car}
+            <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(96deg, rgba(12,13,12,.93) 0%, rgba(12,13,12,.66) 28%, rgba(12,13,12,.14) 56%, rgba(12,13,12,0) 100%)' }} />
+            <div className="absolute inset-x-0 bottom-0 h-44 pointer-events-none" style={{ background: `linear-gradient(to top, ${CARBON}, transparent)` }} />
 
-        {/* ── этап и прогресс ── */}
+            <div className="relative h-full max-w-[1320px] mx-auto px-6 md:px-8 flex flex-col justify-center" style={{ paddingTop: 78, paddingBottom: 40 }}>
+              <div className="max-w-[54%]">
+                <div className="font-mono text-[11px] uppercase tracking-[0.26em] mb-7" style={{ color: LIME }}>
+                  Екатеринбург · сервис и детейлинг
+                </div>
+                <h1 className="font-black leading-[0.94] tracking-[-0.03em]" style={{ fontSize: short ? 'clamp(32px,4.4vw,44px)' : 'clamp(44px,5.6vw,84px)' }}>
+                  Смета до работ.<br />
+                  <span style={{ color: LIME }}>Фото</span> после каждой.
+                </h1>
+                {!short && (
+                  <p className="mt-8 max-w-[46ch] text-white/60 text-[16.5px] leading-[1.7]">
+                    Нормо-час фиксированный, старые детали отдаём, гарантия год.
+                    Так работает сервис, в который возвращаются, а не заезжают один раз.
+                  </p>
+                )}
+                <div className="mt-9 flex flex-wrap gap-3.5">
+                  <a href="#booking" onClick={onBook} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.14em] text-[#0C0D0C] transition-transform hover:-translate-y-[2px]" style={{ background: LIME }}>
+                    Записаться на диагностику
+                  </a>
+                  <a href="#prices" onClick={onPrices} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.14em] border border-white/25 hover:border-white/50 transition-colors">
+                    Прайс на работы
+                  </a>
+                </div>
+                {!short && (
+                  <div className="mt-11 flex flex-wrap gap-x-7 gap-y-2 items-center border-t border-white/10 pt-6">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">Работаем с</span>
+                    {marks.map((m) => (
+                      <span key={m} className="font-mono text-[11.5px] uppercase tracking-[0.12em] text-white/40">{m}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* этап и прогресс */}
         {live && (
-          <div className="absolute inset-x-0 bottom-0 px-6 md:px-8" style={{ paddingBottom: mobile ? 72 : 22 }}>
+          <div className="absolute inset-x-0 bottom-0 px-6 md:px-8" style={{ paddingBottom: mobile ? 74 : 22 }}>
             <div className="max-w-[1320px] mx-auto">
               <div className="flex items-baseline justify-between gap-4 mb-2">
                 <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.18em] flex items-baseline gap-2">
@@ -369,6 +418,70 @@ function WashScene({
       </div>
     </div>
   );
+}
+type HeroProps = {
+  marks: string[];
+  onBook: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+  onPrices: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+};
+
+/* Статичный первый экран: работает всегда и ни от чего не зависит. */
+function StaticHero({ marks, onBook, onPrices }: HeroProps) {
+  return (
+    <section className="relative px-6 md:px-8 pt-16 md:pt-24 pb-16 overflow-hidden">
+      <img
+        src="/hero-auto.jpg" alt="" aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+        style={{ filter: 'saturate(0.9) brightness(1.06)' }}
+      />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(95deg,rgba(12,13,12,.93) 0%,rgba(12,13,12,.7) 46%,rgba(12,13,12,.28) 100%)' }} />
+      <div className="absolute inset-0 pointer-events-none opacity-[0.5]" style={{ background: 'radial-gradient(900px 460px at 78% 0%, rgba(196,248,42,0.1), transparent 62%)' }} />
+      <div className="max-w-[1320px] mx-auto relative">
+        <div className="font-mono text-[11px] uppercase tracking-[0.28em] mb-8" style={{ color: LIME }}>
+          Екатеринбург · сервис и детейлинг
+        </div>
+        <h1 className="font-black leading-[0.94] tracking-[-0.03em]" style={{ fontSize: 'clamp(42px,7.6vw,96px)' }}>
+          Смета до работ.<br />
+          <span style={{ color: LIME }}>Фото</span> после каждой.
+        </h1>
+        <p className="mt-8 max-w-[50ch] text-white/55 text-[17px] leading-[1.7]">
+          Нормо-час фиксированный, старые детали отдаём, гарантия год.
+          Так работает сервис, в который возвращаются, а не заезжают один раз.
+        </p>
+        <div className="mt-10 flex flex-wrap gap-4">
+          <a href="#booking" onClick={onBook} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.14em] text-[#0C0D0C] transition-transform hover:-translate-y-[2px]" style={{ background: LIME }}>
+            Записаться на диагностику
+          </a>
+          <a href="#prices" onClick={onPrices} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.14em] border border-white/25 hover:border-white/50 transition-colors">
+            Прайс на работы
+          </a>
+        </div>
+        <Reveal className="mt-14 flex flex-wrap gap-x-8 gap-y-3 items-center border-t border-white/10 pt-8">
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">Работаем с</span>
+          {marks.map((m) => (
+            <span key={m} className="font-mono text-[12px] uppercase tracking-[0.12em] text-white/45">{m}</span>
+          ))}
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* Выбор варианта. Проверяем фотографию до отрисовки сцены: подсовывать
+   мойку на кадре, где кузова не видно, - хуже, чем честный статичный экран.
+   Пока проверка идёт, показываем статичный, чтобы не мигало. */
+function ApexHero(props: HeroProps) {
+  const [hasCar, setHasCar] = useState(false);
+
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => setHasCar(true);
+    img.onerror = () => setHasCar(false);
+    img.src = CAR_PHOTO;
+    return () => { img.onload = null; img.onerror = null; };
+  }, []);
+
+  return hasCar ? <WashScene src={CAR_PHOTO} {...props} /> : <StaticHero {...props} />;
 }
 
 export default function ApexDetailing() {
@@ -403,8 +516,8 @@ export default function ApexDetailing() {
         </div>
       </header>
 
-      {/* HERO: машина моется по мере прокрутки */}
-      <WashScene
+      {/* HERO: сцена мойки, если есть подходящее фото, иначе статичный экран */}
+      <ApexHero
         marks={marks}
         onBook={(e) => scrollTo(e, 'booking')}
         onPrices={(e) => scrollTo(e, 'prices')}
