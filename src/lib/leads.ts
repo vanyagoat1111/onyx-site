@@ -27,6 +27,17 @@ export function botAuditLinkFor(domain: string) {
   return `${BOT_LINK}?start=a_${b64}`;
 }
 
+// WhatsApp менеджера. Номер можно переопределить переменной окружения -
+// тогда он не попадёт в репозиторий и в историю коммитов.
+// Текст первого сообщения подставляем сами: человеку не надо думать,
+// с чего начать, а мы сразу понимаем, откуда он пришёл.
+const WHATSAPP_PHONE = (import.meta.env.VITE_WHATSAPP_PHONE || '79223767525')
+  .replace(/\D/g, '');
+const WHATSAPP_HELLO = encodeURIComponent(
+  'Здравствуйте! Пишу с сайта onyx-web.ru. Хочу узнать про сайт для бизнеса.'
+);
+export const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_PHONE}?text=${WHATSAPP_HELLO}`;
+
 // Личный Telegram для вопросов, которые не связаны с ботом-заявками.
 export const TELEGRAM_QUESTIONS_LINK = 'https://t.me/mynameisbutati';
 

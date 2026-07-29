@@ -11,6 +11,7 @@ import FAQ from './components/FAQ';
 import FormSection from './components/FormSection';
 import Footer from './components/Footer';
 import CaseEditorWrapper from './components/CaseEditorWrapper';
+import ContactFab from './components/ContactFab';
 import CookieConsent from './components/CookieConsent';
 
 // Cases
@@ -87,6 +88,7 @@ export default function App() {
       <FAQ />
       <FormSection />
       <Footer />
+      <ContactFab />
       <CookieConsent />
     </main>
   );

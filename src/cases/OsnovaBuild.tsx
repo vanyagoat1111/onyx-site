@@ -1,38 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useState, useEffect, useRef } from 'react';
 import DemoPlaceholder from '../components/DemoPlaceholder';
-import { Timeline, Waterfall, ColumnChart } from '../components/DemoCharts';
 
-/* OSNOVA — строительство домов под ключ. ЧЕТЫРЕ СТРАНИЦЫ:
-   главная → каталог проектов → проект внутри → цены.
-   Визуальный язык: бетон и чертёж. Оливково-песочная палитра, широкие
-   гротескные заголовки, разметочная сетка как у рабочей документации. */
+/* ═══════════════════════════════════════════════════════════════════════════
+   ОСНОВА — строительство домов под ключ.
 
-const EASE = [0.22, 1, 0.36, 1] as const;
+   Визуальный язык: рабочий чертёж на бумаге.
+   Почти все сайты строителей выглядят одинаково: тёмный фон, оранжевая
+   кнопка, фото коттеджа на закате. Мы идём ровно в другую сторону -
+   светлая чертёжная бумага, синька разметочной сетки, штамп листа,
+   размерные линии, мономаркировка. Человек попадает не на лендинг,
+   а внутрь проектной документации на свой будущий дом.
 
-function Reveal({ children, className = '', delay = 0, style }: { children: React.ReactNode; className?: string; delay?: number; style?: React.CSSProperties }) {
-  return (
-    <motion.div initial={{ opacity: 0, y: 26 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.75, delay, ease: EASE }} className={className} style={style}>
-      {children}
-    </motion.div>
-  );
-}
+   Главный приём: фасад дома вычерчивается прямо на глазах, линия за линией,
+   как на плоттере. Размеры проставляются после того, как контур замкнулся.
 
-const CLAY = '#C8703C';
-const SAND = '#D8CFC0';
+   Анимация - на чистом CSS. Никакой библиотеки: на демо-страницах
+   scroll-триггеры motion срабатывают ненадёжно, а лист должен рисоваться
+   всегда.
+
+   Четыре страницы: главная → каталог → проект → цены.
+   ═══════════════════════════════════════════════════════════════════════ */
+
 const ROOT = '#case/construction';
 
-const heroFacts = [
-  { v: '184', l: 'дома сдано' },
-  { v: '11 лет', l: 'на рынке' },
-  { v: '5 лет', l: 'гарантия на каркас' },
-  { v: '0 ₽', l: 'смета и выезд' },
+const PAPER = '#E7E3D8';
+const PAPER_HI = '#F1EEE6';
+const INK = '#15171A';
+const CLAY = '#C8471C';
+const BLUE = '#1E3A6E';
+
+const ink = (a: number) => `rgba(21,23,26,${a})`;
+const blue = (a: number) => `rgba(30,58,110,${a})`;
+
+/* ────────────────────────── данные ────────────────────────── */
+
+const heroFacts: [string, string, string][] = [
+  ['184', 'дома сдано', 'с 2015 года, все с актом'],
+  ['11 лет', 'на рынке', 'одно юрлицо, без переименований'],
+  ['5 лет', 'гарантия на каркас', 'выезд по гарантии за 3 дня'],
+  ['0 ₽', 'смета и выезд', 'даже если потом не строите'],
 ];
 
 type Project = {
-  slug: string; name: string; area: string; term: string; price: string; tech: string; tone: string;
-  floors: string; beds: string; lead: string;
+  slug: string; name: string; area: string; term: string; price: string; tech: string;
+  floors: string; beds: string; lead: string; index: string;
   rooms: [string, string][];
   spec: [string, string][];
   notes: string[];
@@ -40,55 +51,61 @@ type Project = {
 
 const projects: Project[] = [
   {
-    slug: 'olha', name: 'Дом «Ольха»', area: '146 м²', term: '5 месяцев', price: '6 900 000 ₽', tech: 'Газобетон', tone: '#8A7F6D',
+    slug: 'olha', name: 'Ольха', index: 'ОЛХ-146', area: '146 м²', term: '5 месяцев', price: '6 900 000 ₽', tech: 'Газобетон',
     floors: '2 этажа', beds: '3 спальни',
     lead: 'Самый заказываемый проект. Компактный второй свет в гостиной, три спальни наверху и котельная с отдельным входом с улицы.',
     rooms: [['Гостиная-кухня', '42 м², второй свет'], ['Спальня родителей', '18 м², гардеробная'], ['Детская 1', '14 м²'], ['Детская 2', '14 м²'], ['Санузлы', '2 шт., 5 и 8 м²'], ['Котельная', '7 м², отдельный вход'], ['Терраса', '16 м², под общей кровлей']],
     spec: [['Фундамент', 'Утеплённая шведская плита'], ['Стены', 'Газобетон 375 мм, D400'], ['Перекрытие', 'Монолитное, 200 мм'], ['Кровля', 'Металлочерепица, утепление 250 мм'], ['Окна', 'ПВХ, двухкамерный стеклопакет'], ['Отопление', 'Тёплый пол первого этажа + радиаторы']],
-    notes: ['Проект прошёл семнадцать реализаций — узлы отработаны', 'Можно зеркалить планировку под ориентацию участка', 'Второй свет по желанию закрывается — получается четвёртая спальня'],
+    notes: ['Проект прошёл семнадцать реализаций - узлы отработаны', 'Можно зеркалить планировку под ориентацию участка', 'Второй свет по желанию закрывается - получается четвёртая спальня'],
   },
   {
-    slug: 'sosna', name: 'Дом «Сосна»', area: '112 м²', term: '4 месяца', price: '5 200 000 ₽', tech: 'Каркас', tone: '#9C8E76',
+    slug: 'sosna', name: 'Сосна', index: 'СОС-112', area: '112 м²', term: '4 месяца', price: '5 200 000 ₽', tech: 'Каркас',
     floors: '1 этаж', beds: '3 спальни',
     lead: 'Одноэтажный дом без лестницы и лишних метров. Берут семьи с маленькими детьми и те, кто строит для родителей.',
     rooms: [['Кухня-гостиная', '34 м²'], ['Спальня', '16 м²'], ['Спальня', '12 м²'], ['Спальня', '12 м²'], ['Санузел', '6 м²'], ['Постирочная', '4 м²'], ['Тамбур', '5 м²']],
     spec: [['Фундамент', 'Свайно-ростверковый'], ['Каркас', 'Сухая строганая доска 200 мм'], ['Утепление', 'Каменная вата 200 мм + 50 мм перекрёстно'], ['Кровля', 'Мягкая черепица'], ['Окна', 'ПВХ, энергосберегающий стеклопакет'], ['Отопление', 'Электрокотёл, тёплый пол по всему дому']],
-    notes: ['Самый быстрый срок — четыре месяца от фундамента', 'Нет лестницы: удобно с колясками и в старости', 'Возможен вариант с гаражом под общей кровлей, +1 100 000 ₽'],
+    notes: ['Самый быстрый срок - четыре месяца от фундамента', 'Нет лестницы: удобно с колясками и в старости', 'Возможен вариант с гаражом под общей кровлей, +1 100 000 ₽'],
   },
   {
-    slug: 'granit', name: 'Дом «Гранит»', area: '210 м²', term: '7 месяцев', price: '11 400 000 ₽', tech: 'Кирпич', tone: '#77705F',
+    slug: 'granit', name: 'Гранит', index: 'ГРН-210', area: '210 м²', term: '7 месяцев', price: '11 400 000 ₽', tech: 'Кирпич',
     floors: '2 этажа + цоколь', beds: '4 спальни',
     lead: 'Большой кирпичный дом с цокольным этажом. Строим, когда участок с уклоном и хочется спрятать в склон гараж и техпомещения.',
     rooms: [['Гостиная', '46 м², камин'], ['Кухня-столовая', '28 м²'], ['Кабинет', '16 м²'], ['Спальни', '4 шт., от 14 до 22 м²'], ['Санузлы', '3 шт.'], ['Цоколь', 'Гараж на 2 машины, сауна, кладовые']],
     spec: [['Фундамент', 'Монолитная лента с цокольным этажом'], ['Стены', 'Керамический кирпич 380 мм + утепление 150 мм'], ['Перекрытия', 'Сборно-монолитные'], ['Кровля', 'Натуральная черепица'], ['Окна', 'Алюминий-дерево'], ['Отопление', 'Газовый котёл, два контура']],
-    notes: ['Требуется геология: цоколь на пучинистых грунтах считается отдельно', 'Срок семь месяцев — при работе в тёплый сезон', 'Проект адаптируется под уклон участка до 12%'],
+    notes: ['Требуется геология: цоколь на пучинистых грунтах считается отдельно', 'Срок семь месяцев - при работе в тёплый сезон', 'Проект адаптируется под уклон участка до 12%'],
   },
   {
-    slug: 'terrasa', name: 'Дом «Терраса»', area: '168 м²', term: '6 месяцев', price: '8 300 000 ₽', tech: 'Газобетон', tone: '#8A7F6D',
+    slug: 'terrasa', name: 'Терраса', index: 'ТРС-168', area: '168 м²', term: '6 месяцев', price: '8 300 000 ₽', tech: 'Газобетон',
     floors: '2 этажа', beds: '3 спальни',
     lead: 'Дом вокруг большой террасы. Панорамное остекление гостиной выходит на закрытую от соседей сторону участка.',
     rooms: [['Гостиная', '38 м², панорамное остекление'], ['Кухня', '18 м²'], ['Спальня родителей', '20 м², санузел'], ['Спальни', '2 шт., по 15 м²'], ['Терраса', '38 м², частично крытая'], ['Кладовая', '6 м²']],
     spec: [['Фундамент', 'Утеплённая плита'], ['Стены', 'Газобетон 400 мм'], ['Перекрытие', 'Монолитное'], ['Кровля', 'Фальцевая, тёмный графит'], ['Остекление', 'Панорамные двери, тёплый алюминий'], ['Отопление', 'Тепловой насос воздух-вода']],
-    notes: ['Панорамные двери — самая дорогая позиция сметы, считаем отдельно', 'Терраса на отдельных сваях, не связана с домом', 'Ориентация окон подбирается по инсоляции участка'],
+    notes: ['Панорамные двери - самая дорогая позиция сметы, считаем отдельно', 'Терраса на отдельных сваях, не связана с домом', 'Ориентация окон подбирается по инсоляции участка'],
   },
 ];
 
 const stages = [
-  { n: '01', t: 'Выезд и замер', d: 'Смотрим участок, геологию и подъезд техники. Бесплатно, в течение двух дней после заявки.' },
-  { n: '02', t: 'Проект и смета', d: 'Планировки, разрезы, ведомость материалов. Смета фиксируется договором и не растёт по ходу.' },
-  { n: '03', t: 'Фундамент', d: 'Свайно-ростверковый или плита — по результатам геологии, а не по прайсу.' },
-  { n: '04', t: 'Коробка и кровля', d: 'Стены, перекрытия, стропильная система. Закрываем контур до холодов.' },
-  { n: '05', t: 'Инженерия', d: 'Отопление, водоснабжение, электрика. Схемы согласуем до штробления.' },
-  { n: '06', t: 'Отделка и сдача', d: 'Чистовая отделка, уборка, исполнительная документация и гарантийный талон.' },
+  { n: '01', t: 'Выезд и замер', mark: 'нед. 1–2', d: 'Смотрим участок, геологию и подъезд техники. Бесплатно, в течение двух дней после заявки.' },
+  { n: '02', t: 'Проект и смета', mark: 'мес. 1', d: 'Планировки, разрезы, ведомость материалов. Смета фиксируется договором и не растёт по ходу.' },
+  { n: '03', t: 'Фундамент', mark: 'мес. 2', d: 'Свайно-ростверковый или плита - по результатам геологии, а не по прайсу.' },
+  { n: '04', t: 'Коробка и кровля', mark: 'мес. 3–5', d: 'Стены, перекрытия, стропильная система. Закрываем контур до холодов.' },
+  { n: '05', t: 'Инженерия', mark: 'мес. 6', d: 'Отопление, водоснабжение, электрика. Схемы согласуем до штробления.' },
+  { n: '06', t: 'Отделка и сдача', mark: 'мес. 7–8', d: 'Чистовая отделка, уборка, исполнительная документация и гарантийный талон.' },
 ];
 
 const packages = [
-  { name: 'Коробка', price: 'от 32 000', unit: '₽ / м²', lead: 'Фундамент, стены, кровля, окна', accent: false,
-    items: ['Геология и проект', 'Фундамент по расчёту', 'Стены и перекрытия', 'Кровля с водостоком', 'Окна и входная дверь'] },
-  { name: 'Под ключ', price: 'от 58 000', unit: '₽ / м²', lead: 'Заезжаете и живёте', accent: true,
-    items: ['Всё из «Коробки»', 'Инженерные сети', 'Чистовая отделка', 'Сантехника и электрика', 'Благоустройство входной группы', 'Гарантия 5 лет'] },
-  { name: 'Реконструкция', price: 'по смете', unit: '', lead: 'Работа с существующим домом', accent: false,
-    items: ['Обследование конструкций', 'Усиление и замена узлов', 'Перепланировка', 'Замена инженерии', 'Фасад и кровля'] },
+  {
+    name: 'Коробка', price: 'от 32 000', unit: '₽ / м²', lead: 'Фундамент, стены, кровля, окна', accent: false,
+    items: ['Геология и проект', 'Фундамент по расчёту', 'Стены и перекрытия', 'Кровля с водостоком', 'Окна и входная дверь'],
+  },
+  {
+    name: 'Под ключ', price: 'от 58 000', unit: '₽ / м²', lead: 'Заезжаете и живёте', accent: true,
+    items: ['Всё из «Коробки»', 'Инженерные сети', 'Чистовая отделка', 'Сантехника и электрика', 'Благоустройство входной группы', 'Гарантия 5 лет'],
+  },
+  {
+    name: 'Реконструкция', price: 'по смете', unit: '', lead: 'Работа с существующим домом', accent: false,
+    items: ['Обследование конструкций', 'Усиление и замена узлов', 'Перепланировка', 'Замена инженерии', 'Фасад и кровля'],
+  },
 ];
 
 const priceRows: [string, string, string][] = [
@@ -114,7 +131,7 @@ const extras: [string, string][] = [
 ];
 
 const guarantees = [
-  { t: 'Смета не растёт', d: 'Цена в договоре фиксированная. Дополнительные работы — только письменным соглашением.' },
+  { t: 'Смета не растёт', d: 'Цена в договоре фиксированная. Дополнительные работы - только письменным соглашением.' },
   { t: 'Свои бригады', d: 'Не субподряд. Прораб на объекте каждый день, вы знаете его по имени.' },
   { t: 'Отчёт каждую пятницу', d: 'Фотоотчёт, что сделано за неделю и что будет на следующей.' },
   { t: 'Оплата по этапам', d: 'Платите за завершённый этап после приёмки, а не вперёд.' },
@@ -125,8 +142,209 @@ const faqs = [
   { q: 'Можно с моим проектом?', a: 'Можно. Проведём экспертизу документации, укажем на слабые узлы и посчитаем смету по вашим чертежам.' },
   { q: 'Что если смета вырастет?', a: 'Не вырастет. Всё, что можно посчитать заранее, посчитано в договоре. Изменения возможны только если вы сами захотите добавить работы.' },
   { q: 'Помогаете с ипотекой?', a: 'Готовим полный пакет для банка: договор, смету, проект. Работаем с эскроу-счетами и сельской ипотекой.' },
-  { q: 'Сколько длится гарантия?', a: 'Пять лет на несущие конструкции и кровлю, два года на инженерию и отделку. Выезд по гарантии — в течение трёх дней.' },
+  { q: 'Сколько длится гарантия?', a: 'Пять лет на несущие конструкции и кровлю, два года на инженерию и отделку. Выезд по гарантии - в течение трёх дней.' },
 ];
+
+const smetaRows: [string, number][] = [
+  ['Проект и геология', 242000],
+  ['Фундамент', 1635000],
+  ['Коробка', 2117000],
+  ['Кровля', 569000],
+  ['Инженерия', 1431000],
+  ['Отделка', 2628000],
+];
+
+/* ────────────────────────── мелкие детали листа ────────────────────────── */
+
+/* Появление блока при прокрутке. Своим наблюдателем, без библиотеки:
+   на демо-страницах scroll-триггеры motion срабатывали ненадёжно. */
+function useSeen<T extends HTMLElement>() {
+  const ref = useRef<T | null>(null);
+  const [seen, setSeen] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || seen) return;
+    if (typeof IntersectionObserver === 'undefined') { setSeen(true); return; }
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setSeen(true)),
+      { rootMargin: '-40px 0px -8% 0px' }
+    );
+    io.observe(el);
+    // подстраховка: если наблюдатель почему-то молчит, показываем сами
+    const t = window.setTimeout(() => setSeen(true), 1600);
+    return () => { io.disconnect(); window.clearTimeout(t); };
+  }, [seen]);
+  return { ref, seen };
+}
+
+function Up({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
+  const { ref, seen } = useSeen<HTMLDivElement>();
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: seen ? 1 : 0,
+        transform: seen ? 'none' : 'translateY(22px)',
+        transition: `opacity .7s cubic-bezier(.22,1,.36,1) ${delay}s, transform .7s cubic-bezier(.22,1,.36,1) ${delay}s`,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+/* Маркер разреза, как на настоящем листе: кружок с литерой и стрелка. */
+function CutMark({ letter, label }: { letter: string; label: string }) {
+  return (
+    <div className="flex items-center gap-3 select-none">
+      <span
+        className="w-[26px] h-[26px] rounded-full grid place-items-center font-mono text-[10px] font-bold shrink-0"
+        style={{ border: `1.4px solid ${CLAY}`, color: CLAY }}
+      >
+        {letter}
+      </span>
+      <span className="h-px w-9" style={{ background: CLAY }} />
+      <span className="font-mono text-[10px] uppercase tracking-[0.22em]" style={{ color: ink(0.42) }}>{label}</span>
+    </div>
+  );
+}
+
+/* Штамп листа - как в правом нижнем углу чертежа. */
+function TitleBlock({ sheet, name, scale = '1:100', className = '' }: { sheet: string; name: string; scale?: string; className?: string }) {
+  const cell = 'px-3 py-2 font-mono text-[9.5px] uppercase tracking-[0.14em] leading-tight';
+  return (
+    <div className={`inline-grid grid-cols-3 ${className}`} style={{ border: `1px solid ${ink(0.28)}`, background: PAPER_HI }}>
+      <div className={cell} style={{ borderRight: `1px solid ${ink(0.18)}`, color: ink(0.4) }}>
+        лист<br /><span className="text-[12px] tracking-[0.06em] font-bold" style={{ color: INK }}>{sheet}</span>
+      </div>
+      <div className={cell} style={{ borderRight: `1px solid ${ink(0.18)}`, color: ink(0.4) }}>
+        наименование<br /><span className="text-[11px] tracking-[0.06em] font-bold" style={{ color: INK }}>{name}</span>
+      </div>
+      <div className={cell} style={{ color: ink(0.4) }}>
+        масштаб<br /><span className="text-[11px] tracking-[0.06em] font-bold" style={{ color: INK }}>{scale}</span>
+      </div>
+    </div>
+  );
+}
+
+/* ────────── фасад, который вычерчивается сам ────────── */
+
+function Elevation({ className = '' }: { className?: string }) {
+  const { ref, seen } = useSeen<HTMLDivElement>();
+
+  const L = { fill: 'none', strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+  // d — задержка начала прорисовки, s — длительность
+  const draw = (d: number, s = 0.7) => ({
+    strokeDasharray: 1,
+    strokeDashoffset: seen ? 0 : 1,
+    transition: `stroke-dashoffset ${s}s cubic-bezier(.65,0,.35,1) ${d}s`,
+  });
+  const fade = (d: number) => ({ opacity: seen ? 1 : 0, transition: `opacity .5s ease ${d}s` });
+
+  const winsTop: [number, number][] = [[110, 150], [218, 150], [326, 150]];
+
+  return (
+    <div ref={ref} className={className}>
+      <svg viewBox="0 0 500 372" className="w-full h-auto" role="img" aria-label="Фасад дома с размерами">
+        {/* земля: штриховка под линией грунта */}
+        <g stroke={ink(0.3)} strokeWidth="1" style={fade(2.5)}>
+          {Array.from({ length: 24 }).map((_, i) => (
+            <line key={i} x1={38 + i * 18} y1={302} x2={26 + i * 18} y2={314} />
+          ))}
+        </g>
+        <line x1="26" y1="300" x2="474" y2="300" stroke={INK} strokeWidth="1.6" pathLength={1} {...L} style={draw(0.05, 0.6)} />
+
+        {/* контур дома */}
+        <path d="M66 300 V130 H434 V300" stroke={INK} strokeWidth="2.2" pathLength={1} {...L} style={draw(0.35, 0.85)} />
+        {/* кровля */}
+        <path d="M50 132 L250 46 L450 132" stroke={INK} strokeWidth="2.2" pathLength={1} {...L} style={draw(1.05, 0.7)} />
+        <path d="M66 130 H434" stroke={ink(0.35)} strokeWidth="1" pathLength={1} {...L} style={draw(1.5, 0.4)} />
+        {/* дымоход */}
+        <path d="M336 100 V84 H360 V116" stroke={INK} strokeWidth="1.8" pathLength={1} {...L} style={draw(1.6, 0.4)} />
+
+        {/* межэтажная линия */}
+        <path d="M66 215 H434" stroke={ink(0.28)} strokeWidth="1" strokeDasharray="6 5" {...L} style={fade(1.9)} />
+
+        {/* окна второго этажа */}
+        {winsTop.map(([x, y], i) => (
+          <g key={x} style={fade(1.75 + i * 0.09)}>
+            <rect x={x} y={y} width="50" height="46" stroke={INK} strokeWidth="1.5" fill="none" />
+            <line x1={x + 25} y1={y} x2={x + 25} y2={y + 46} stroke={ink(0.4)} strokeWidth="1" />
+          </g>
+        ))}
+
+        {/* первый этаж: окна и дверь */}
+        <g style={fade(2.05)}>
+          <rect x="102" y="234" width="60" height="52" stroke={INK} strokeWidth="1.5" fill="none" />
+          <line x1="132" y1="234" x2="132" y2="286" stroke={ink(0.4)} strokeWidth="1" />
+        </g>
+        <g style={fade(2.14)}>
+          <rect x="338" y="234" width="60" height="52" stroke={INK} strokeWidth="1.5" fill="none" />
+          <line x1="368" y1="234" x2="368" y2="286" stroke={ink(0.4)} strokeWidth="1" />
+        </g>
+        <g style={fade(2.23)}>
+          <rect x="216" y="228" width="60" height="72" stroke={CLAY} strokeWidth="2" fill="none" />
+          <circle cx="266" cy="266" r="2.6" fill={CLAY} />
+        </g>
+
+        {/* размерная линия по низу */}
+        <g style={fade(2.6)}>
+          <line x1="66" y1="336" x2="434" y2="336" stroke={BLUE} strokeWidth="1" />
+          <line x1="66" y1="328" x2="66" y2="344" stroke={BLUE} strokeWidth="1" />
+          <line x1="434" y1="328" x2="434" y2="344" stroke={BLUE} strokeWidth="1" />
+          <rect x="212" y="327" width="76" height="18" fill={PAPER_HI} />
+          <text x="250" y="341" textAnchor="middle" fill={BLUE} fontSize="11" fontFamily="'JetBrains Mono', monospace">12 400</text>
+        </g>
+
+        {/* размерная линия по высоте */}
+        <g style={fade(2.75)}>
+          <line x1="482" y1="46" x2="482" y2="300" stroke={BLUE} strokeWidth="1" />
+          <line x1="474" y1="46" x2="490" y2="46" stroke={BLUE} strokeWidth="1" />
+          <line x1="474" y1="300" x2="490" y2="300" stroke={BLUE} strokeWidth="1" />
+          <text
+            x="482" y="173" textAnchor="middle" fill={BLUE} fontSize="11"
+            fontFamily="'JetBrains Mono', monospace" transform="rotate(-90 482 173)" dy="-4"
+          >
+            8 100
+          </text>
+        </g>
+
+        {/* выноска на конструктив */}
+        <g style={fade(2.9)}>
+          <line x1="380" y1="176" x2="446" y2="196" stroke={ink(0.45)} strokeWidth="1" />
+          <circle cx="380" cy="176" r="2.6" fill={ink(0.55)} />
+          <text x="420" y="210" fill={ink(0.5)} fontSize="9.5" fontFamily="'JetBrains Mono', monospace">D400</text>
+        </g>
+
+        {/* отметка нулевого уровня */}
+        <g style={fade(3.0)}>
+          <path d="M14 300 l7 -8 l7 8 z" fill="none" stroke={CLAY} strokeWidth="1.2" />
+          <text x="6" y="288" fill={CLAY} fontSize="9" fontFamily="'JetBrains Mono', monospace">0.000</text>
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+/* Полоса в разбивке сметы: растёт, когда доходит до экрана. */
+function BarLine({ value, max, delay }: { value: number; max: number; delay: number }) {
+  const { ref, seen } = useSeen<HTMLDivElement>();
+  return (
+    <div ref={ref} className="h-[7px] w-full" style={{ background: ink(0.07) }}>
+      <div
+        className="h-full"
+        style={{
+          background: CLAY,
+          width: seen ? `${(value / max) * 100}%` : '0%',
+          transition: `width .9s cubic-bezier(.22,1,.36,1) ${delay + 0.1}s`,
+        }}
+      />
+    </div>
+  );
+}
+
+/* ────────────────────────── страница ────────────────────────── */
 
 export default function OsnovaBuild() {
   const [hash, setHash] = useState(() => (typeof window !== 'undefined' ? window.location.hash : ROOT));
@@ -135,6 +353,7 @@ export default function OsnovaBuild() {
   const [area, setArea] = useState(140);
   const [pkg, setPkg] = useState(1);
   const [tech, setTech] = useState<string>('Все');
+  const [prog, setProg] = useState(0);
 
   useEffect(() => {
     const sync = () => setHash(window.location.hash);
@@ -142,13 +361,23 @@ export default function OsnovaBuild() {
     return () => window.removeEventListener('hashchange', sync);
   }, []);
 
+  // тонкая полоса прогресса в шапке: лист «разворачивается» по мере чтения
+  useEffect(() => {
+    const onScroll = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      setProg(max > 0 ? Math.min(1, h.scrollTop / max) : 0);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   const slug = hash.startsWith(ROOT + '/project/') ? hash.split('/project/')[1] : null;
   const current = projects.find((p) => p.slug === slug) || null;
   const page = current ? 'project' : hash.startsWith(ROOT + '/projects') ? 'projects' : hash.startsWith(ROOT + '/prices') ? 'prices' : 'home';
 
-  const go = (e: React.MouseEvent, to: string) => {
-    e.preventDefault(); window.location.hash = to; window.scrollTo(0, 0);
-  };
+  const go = (e: React.MouseEvent, to: string) => { e.preventDefault(); window.location.hash = to; window.scrollTo(0, 0); };
   const jump = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     if (page !== 'home') { window.location.hash = ROOT; setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 70); return; }
@@ -160,418 +389,343 @@ export default function OsnovaBuild() {
   const techs = ['Все', ...Array.from(new Set(projects.map((p) => p.tech)))];
   const shown = projects.filter((p) => tech === 'Все' || p.tech === tech);
 
-  const linkCls = (active: boolean) =>
-    'text-[12px] uppercase tracking-[0.14em] transition-colors ' + (active ? '' : 'text-white/45 hover:text-white');
+  const smetaSum = smetaRows.reduce((s, [, v]) => s + v, 0);
+  const smetaMax = Math.max(...smetaRows.map(([, v]) => v));
+
+  /* сетка миллиметровки под всей страницей */
+  const gridBg = {
+    backgroundColor: PAPER,
+    backgroundImage: `
+      linear-gradient(${blue(0.05)} 1px, transparent 1px),
+      linear-gradient(90deg, ${blue(0.05)} 1px, transparent 1px),
+      linear-gradient(${blue(0.1)} 1px, transparent 1px),
+      linear-gradient(90deg, ${blue(0.1)} 1px, transparent 1px)`,
+    backgroundSize: '20px 20px, 20px 20px, 100px 100px, 100px 100px',
+  };
+
+  const btn = 'inline-flex items-center justify-center font-mono text-[11px] font-bold uppercase tracking-[0.16em] transition-all duration-200';
+  const btnSolid = `${btn} px-8 py-4 text-white hover:-translate-y-[2px]`;
+  const btnGhost = `${btn} px-8 py-4 hover:-translate-y-[2px]`;
+
+  const navLink = (active: boolean) =>
+    `font-mono text-[11px] uppercase tracking-[0.18em] transition-opacity ${active ? '' : 'opacity-55 hover:opacity-100'}`;
+
+  const H1 = 'font-archivo-black uppercase leading-[0.86] tracking-[-0.035em]';
+  const H2 = 'font-archivo-black uppercase leading-[0.9] tracking-[-0.03em]';
 
   return (
-    <div className="relative min-h-screen bg-[#12110F] text-[#EDE8DF] font-archivo selection:bg-[#C8703C]/40 overflow-x-clip">
-      <header className="sticky top-0 z-50 bg-[#12110F]/90 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-[1320px] mx-auto px-6 md:px-8 py-4 flex justify-between items-center pl-20 md:pl-24">
-          <a href={ROOT} onClick={(e) => go(e, ROOT)} className="font-black text-[19px] tracking-[-0.02em] uppercase">Основа<span style={{ color: CLAY }}>.</span></a>
-          <nav className="hidden md:flex gap-8 items-center">
-            <a href={ROOT + '/projects'} onClick={(e) => go(e, ROOT + '/projects')} className={linkCls(page === 'projects' || page === 'project')} style={page === 'projects' || page === 'project' ? { color: CLAY } : undefined}>Проекты</a>
-            <a href="#stages" onClick={(e) => jump(e, 'stages')} className={linkCls(false)}>Этапы</a>
-            <a href={ROOT + '/prices'} onClick={(e) => go(e, ROOT + '/prices')} className={linkCls(page === 'prices')} style={page === 'prices' ? { color: CLAY } : undefined}>Цены</a>
-            <a href="#contacts" onClick={(e) => jump(e, 'contacts')} className={linkCls(false)}>Контакты</a>
+    <div className="relative min-h-screen font-archivo overflow-x-clip" style={{ ...gridBg, color: INK }}>
+      {/* зерно бумаги */}
+      <div
+        className="pointer-events-none fixed inset-0 z-[1] mix-blend-multiply opacity-50"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E\")",
+        }}
+      />
+
+      {/* ── шапка ── */}
+      <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: 'rgba(231,227,216,0.92)', borderBottom: `1px solid ${ink(0.16)}` }}>
+        <div className="max-w-[1340px] mx-auto px-6 md:px-8 py-4 flex justify-between items-center pl-20 md:pl-24 gap-6">
+          <a href={ROOT} onClick={(e) => go(e, ROOT)} className="flex items-baseline gap-2 shrink-0">
+            <span className="font-archivo-black text-[19px] tracking-[-0.04em] uppercase">Основа</span>
+            <span className="font-mono text-[9px] uppercase tracking-[0.2em] hidden sm:inline" style={{ color: ink(0.4) }}>с 2015</span>
+          </a>
+          <nav className="hidden md:flex gap-9 items-center">
+            <a href={ROOT + '/projects'} onClick={(e) => go(e, ROOT + '/projects')} className={navLink(page === 'projects' || page === 'project')} style={{ color: page === 'projects' || page === 'project' ? CLAY : INK }}>Проекты</a>
+            <a href="#stages" onClick={(e) => jump(e, 'stages')} className={navLink(false)}>Этапы</a>
+            <a href={ROOT + '/prices'} onClick={(e) => go(e, ROOT + '/prices')} className={navLink(page === 'prices')} style={{ color: page === 'prices' ? CLAY : INK }}>Цены</a>
+            <a href="#contacts" onClick={(e) => jump(e, 'contacts')} className={navLink(false)}>Контакты</a>
           </nav>
-          <a href="#contacts" onClick={(e) => jump(e, 'contacts')} className="hidden sm:inline-block px-6 py-3 text-[11px] font-bold uppercase tracking-[0.13em] text-[#12110F]" style={{ background: CLAY }}>Смета бесплатно</a>
+          <a href="#contacts" onClick={(e) => jump(e, 'contacts')} className={`${btn} px-6 py-3 text-white hidden sm:inline-flex hover:-translate-y-[2px]`} style={{ background: CLAY }}>Смета бесплатно</a>
+        </div>
+        <div className="h-[2px]" style={{ background: ink(0.08) }}>
+          <div className="h-full origin-left" style={{ background: CLAY, transform: `scaleX(${prog})`, transition: 'transform .1s linear' }} />
         </div>
       </header>
 
-      {/* ═════════ КАТАЛОГ ПРОЕКТОВ ═════════ */}
-      {page === 'projects' && (
+      {/* ═════════════════════ ГЛАВНАЯ ═════════════════════ */}
+      {page === 'home' && (
         <>
-          <section className="px-6 md:px-8 pt-14 md:pt-20 pb-10">
-            <div className="max-w-[1320px] mx-auto">
-              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block text-[12px] uppercase tracking-[0.14em] text-white/40 hover:text-white transition-colors mb-9">← На главную</a>
-              <h1 className="font-black leading-[0.94] tracking-[-0.03em] uppercase max-w-[16ch]" style={{ fontSize: 'clamp(38px,6.4vw,80px)' }}>
-                Каталог<br /><span style={{ color: CLAY }}>проектов</span>
-              </h1>
-              <p className="mt-8 max-w-[56ch] text-[16.5px] leading-[1.8]" style={{ color: 'rgba(237,232,223,0.55)' }}>
-                Четыре отработанных проекта. Цена в карточке — «под ключ» для базовой комплектации,
-                без учёта участка и подключений. Любой проект адаптируем под ваш участок бесплатно.
-              </p>
-              <div className="mt-9 flex flex-wrap gap-2.5">
-                {techs.map((t) => (
-                  <button key={t} onClick={() => setTech(t)} className="px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] border transition-colors"
-                    style={{ borderColor: tech === t ? CLAY : 'rgba(255,255,255,0.16)', background: tech === t ? CLAY : 'transparent', color: tech === t ? '#12110F' : 'rgba(237,232,223,0.55)' }}>
-                    {t}
-                  </button>
+          <section className="relative px-6 md:px-8 pt-14 md:pt-20 pb-4">
+            <div className="max-w-[1340px] mx-auto">
+              <div className="grid grid-cols-1 lg:grid-cols-[1.02fr_0.98fr] gap-12 lg:gap-10 items-center">
+                <div>
+                  <div className="flex items-center gap-3 mb-8">
+                    <span className="w-8 h-px" style={{ background: CLAY }} />
+                    <span className="font-mono text-[10px] uppercase tracking-[0.28em]" style={{ color: CLAY }}>Дома под ключ · Казань и область</span>
+                  </div>
+
+                  <h1 className={H1} style={{ fontSize: 'clamp(46px,7.4vw,100px)' }}>
+                    Дом<br />по смете,<br />
+                    <span className="relative inline-block">
+                      <span className="relative z-10" style={{ color: CLAY }}>а не по факту</span>
+                      <span className="absolute left-0 bottom-[0.08em] h-[0.14em] w-full" style={{ background: `${CLAY}2E` }} />
+                    </span>
+                  </h1>
+
+                  <p className="mt-9 max-w-[50ch] text-[17px] leading-[1.75]" style={{ color: ink(0.62) }}>
+                    Цену закрепляем договором, стройку показываем каждую пятницу,
+                    деньги берём за завершённый этап, а не вперёд.
+                  </p>
+
+                  <div className="mt-10 flex flex-wrap gap-3.5">
+                    <a href="#contacts" onClick={(e) => jump(e, 'contacts')} className={btnSolid} style={{ background: INK }}>Бесплатная смета</a>
+                    <a href={ROOT + '/projects'} onClick={(e) => go(e, ROOT + '/projects')} className={btnGhost} style={{ border: `1.4px solid ${ink(0.3)}` }}>Каталог проектов</a>
+                  </div>
+                </div>
+
+                {/* лист с фасадом */}
+                <div className="relative">
+                  <div className="relative p-5 sm:p-7" style={{ background: PAPER_HI, border: `1px solid ${ink(0.2)}`, boxShadow: `10px 12px 0 ${ink(0.06)}` }}>
+                    <div className="flex justify-between items-start mb-2">
+                      <span className="font-mono text-[9.5px] uppercase tracking-[0.2em]" style={{ color: ink(0.42) }}>Фасад в осях 1–5</span>
+                      <span className="font-mono text-[9.5px] uppercase tracking-[0.2em]" style={{ color: ink(0.42) }}>ОЛХ-146</span>
+                    </div>
+                    <Elevation />
+                    <div className="mt-3 pt-3 flex justify-between items-end gap-4 flex-wrap" style={{ borderTop: `1px solid ${ink(0.14)}` }}>
+                      <TitleBlock sheet="АР-02" name="Дом «Ольха»" />
+                      <span className="font-mono text-[9.5px] uppercase tracking-[0.18em] text-right leading-relaxed" style={{ color: ink(0.4) }}>
+                        Такой лист вы получаете<br />вместе с договором
+                      </span>
+                    </div>
+                  </div>
+                  {/* уголок «прикреплено скотчем» */}
+                  <span
+                    className="absolute -top-3 left-8 w-16 h-6 rotate-[-4deg] hidden sm:block"
+                    style={{ background: `${CLAY}26`, border: `1px solid ${CLAY}44` }}
+                    aria-hidden="true"
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* фотополоса, поверх неё - факты */}
+          <section className="relative mt-10 md:mt-14">
+            <div className="relative h-[240px] sm:h-[300px] md:h-[380px] overflow-hidden">
+              <img src="/hero-construction.jpg" alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover" style={{ filter: 'grayscale(1) contrast(1.12)' }} />
+              <div className="absolute inset-0" style={{ background: CLAY, mixBlendMode: 'multiply', opacity: 0.42 }} />
+              <div className="absolute inset-0" style={{ background: `linear-gradient(to top, ${PAPER} 2%, transparent 46%)` }} />
+              <div className="absolute inset-0" style={{ boxShadow: `inset 0 0 0 1px ${ink(0.18)}` }} />
+              <span className="absolute top-5 left-6 md:left-10 font-mono text-[10px] uppercase tracking-[0.22em] text-white/85">
+                рис. 01 · объект в Лаишеве, кровля закрыта в срок
+              </span>
+            </div>
+
+            <div className="px-6 md:px-8 -mt-16 md:-mt-20 relative">
+              <div className="max-w-[1340px] mx-auto grid grid-cols-2 lg:grid-cols-4" style={{ background: PAPER_HI, border: `1px solid ${ink(0.2)}` }}>
+                {heroFacts.map(([v, l, note], i) => (
+                  <Up
+                    key={l} delay={i * 0.07}
+                    className={
+                      'p-6 md:p-7 border-black/[0.12] ' +
+                      // на узком экране сетка 2×2, на широком - одна строка,
+                      // поэтому разделители расставляем по-разному
+                      (i % 2 === 1 ? 'border-l ' : '') +
+                      (i > 1 ? 'border-t ' : '') +
+                      'lg:border-t-0 ' +
+                      (i > 0 ? 'lg:border-l' : 'lg:border-l-0')
+                    }
+                  >
+                    <div className="font-archivo-black text-[30px] md:text-[40px] leading-none tracking-[-0.03em]">{v}</div>
+                    <div className="font-mono text-[10px] uppercase tracking-[0.16em] mt-3" style={{ color: CLAY }}>{l}</div>
+                    <div className="text-[12.5px] leading-[1.55] mt-2" style={{ color: ink(0.45) }}>{note}</div>
+                  </Up>
                 ))}
               </div>
             </div>
           </section>
 
-          <section className="px-6 md:px-8 pb-20">
-            <div className="max-w-[1320px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-              {shown.map((p, i) => (
-                <Reveal key={p.slug} delay={i * 0.06}>
-                  <a href={`${ROOT}/project/${p.slug}`} onClick={(e) => go(e, `${ROOT}/project/${p.slug}`)}
-                     className="block h-full border border-white/10 hover:border-[#C8703C]/60 transition-colors duration-500 group">
-                    <DemoPlaceholder label={`Фото · ${p.name}`} tone={CLAY} ratio="16/9" icon="building" />
-                    <div className="p-7">
-                      <div className="flex items-baseline justify-between gap-4 mb-3 flex-wrap">
-                        <h3 className="font-black text-[26px] tracking-[-0.02em] uppercase">{p.name}</h3>
-                        <span className="text-[11px] uppercase tracking-[0.12em] px-3 py-1.5" style={{ background: 'rgba(200,112,60,0.14)', color: CLAY }}>{p.tech}</span>
+          {/* ── проекты ── */}
+          <section className="px-6 md:px-8 py-20 md:py-28">
+            <div className="max-w-[1340px] mx-auto">
+              <Up className="mb-12">
+                <CutMark letter="А" label="Каталог типовых решений" />
+                <div className="mt-6 flex flex-wrap items-end justify-between gap-6">
+                  <h2 className={H2} style={{ fontSize: 'clamp(34px,5.2vw,60px)' }}>Проекты</h2>
+                  <a href={ROOT + '/projects'} onClick={(e) => go(e, ROOT + '/projects')} className="font-mono text-[11px] uppercase tracking-[0.16em] pb-2" style={{ color: CLAY, borderBottom: `1px solid ${CLAY}` }}>Весь каталог →</a>
+                </div>
+              </Up>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {projects.map((p, i) => (
+                  <Up key={p.slug} delay={i * 0.07}>
+                    <a
+                      href={`${ROOT}/project/${p.slug}`}
+                      onClick={(e) => go(e, `${ROOT}/project/${p.slug}`)}
+                      className="group block h-full transition-all duration-300 hover:-translate-y-1.5"
+                      style={{ background: PAPER_HI, border: `1px solid ${ink(0.2)}` }}
+                    >
+                      <div className="flex justify-between px-4 py-2.5 font-mono text-[9.5px] uppercase tracking-[0.16em]" style={{ borderBottom: `1px solid ${ink(0.14)}`, color: ink(0.42) }}>
+                        <span>{p.index}</span><span>{p.tech}</span>
                       </div>
-                      <p className="text-[14px] leading-[1.7] mb-6" style={{ color: 'rgba(237,232,223,0.5)' }}>{p.lead}</p>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-5 border-t border-white/10">
-                        {[[p.area, 'площадь'], [p.floors, 'этажность'], [p.beds, 'спальни'], [p.term, 'срок']].map(([v, l]) => (
-                          <div key={l}>
-                            <div className="font-bold text-[15px]">{v}</div>
-                            <div className="text-[10px] uppercase tracking-[0.1em] mt-1" style={{ color: 'rgba(237,232,223,0.35)' }}>{l}</div>
+                      <DemoPlaceholder label={`Фасад · ${p.name}`} tone={CLAY} ratio="4/3" icon="building" dark={false} bg="transparent" />
+                      <div className="p-5">
+                        <h3 className="font-archivo-black text-[21px] uppercase tracking-[-0.02em] mb-3">{p.name}</h3>
+                        <div className="flex flex-wrap gap-x-2 gap-y-1 font-mono text-[10.5px] mb-4" style={{ color: ink(0.45) }}>
+                          <span>{p.area}</span><span>·</span><span>{p.floors}</span><span>·</span><span>{p.term}</span>
+                        </div>
+                        <div className="flex items-baseline justify-between gap-2 pt-4" style={{ borderTop: `1px solid ${ink(0.14)}` }}>
+                          <span className="font-archivo-black text-[17px]" style={{ color: CLAY }}>{p.price}</span>
+                          <span className="font-mono text-[11px] transition-transform group-hover:translate-x-1" style={{ color: ink(0.35) }}>→</span>
+                        </div>
+                      </div>
+                    </a>
+                  </Up>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── этапы ── */}
+          <section id="stages" className="px-6 md:px-8 py-20 md:py-28 scroll-mt-20" style={{ borderTop: `1px solid ${ink(0.16)}`, borderBottom: `1px solid ${ink(0.16)}`, background: PAPER_HI }}>
+            <div className="max-w-[1340px] mx-auto">
+              <Up className="mb-14">
+                <CutMark letter="Б" label="Технологическая карта" />
+                <div className="mt-6 flex flex-wrap items-end justify-between gap-8">
+                  <h2 className={H2} style={{ fontSize: 'clamp(34px,5.2vw,60px)' }}>Как строим</h2>
+                  <p className="text-[14.5px] max-w-[38ch] leading-[1.7]" style={{ color: ink(0.5) }}>
+                    Дом 146 м² от договора до ключей - восемь месяцев. Сроки указаны по факту сданных объектов, а не по прайсу.
+                  </p>
+                </div>
+              </Up>
+
+              <div className="relative">
+                <div className="hidden lg:block absolute left-0 right-0 top-[26px] h-px" style={{ background: ink(0.16) }} />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                  {stages.map((s, i) => (
+                    <Up key={s.n} delay={i * 0.06} className="relative">
+                      <div className="flex items-center gap-3 mb-6">
+                        <span
+                          className="w-[52px] h-[52px] grid place-items-center font-archivo-black text-[17px] shrink-0 relative z-10"
+                          style={{ background: PAPER_HI, border: `1.6px solid ${i === 0 ? CLAY : ink(0.28)}`, color: i === 0 ? CLAY : INK }}
+                        >
+                          {s.n}
+                        </span>
+                        <span className="font-mono text-[10px] uppercase tracking-[0.18em] px-2.5 py-1" style={{ background: `${CLAY}18`, color: CLAY }}>{s.mark}</span>
+                      </div>
+                      <h3 className="font-archivo-black text-[20px] uppercase tracking-[-0.015em] mb-3">{s.t}</h3>
+                      <p className="text-[14px] leading-[1.75] max-w-[36ch]" style={{ color: ink(0.55) }}>{s.d}</p>
+                    </Up>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ── комплектации ── */}
+          <section className="px-6 md:px-8 py-20 md:py-28">
+            <div className="max-w-[1340px] mx-auto">
+              <Up className="mb-12">
+                <CutMark letter="В" label="Ведомость комплектаций" />
+                <div className="mt-6 flex flex-wrap items-end justify-between gap-6">
+                  <h2 className={H2} style={{ fontSize: 'clamp(34px,5.2vw,60px)' }}>Комплектации</h2>
+                  <a href={ROOT + '/prices'} onClick={(e) => go(e, ROOT + '/prices')} className="font-mono text-[11px] uppercase tracking-[0.16em] pb-2" style={{ color: CLAY, borderBottom: `1px solid ${CLAY}` }}>Полный прайс →</a>
+                </div>
+              </Up>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {packages.map((p, i) => (
+                  <Up key={p.name} delay={i * 0.08}>
+                    <div
+                      className="flex flex-col h-full p-8 relative"
+                      style={{
+                        background: p.accent ? INK : PAPER_HI,
+                        color: p.accent ? PAPER : INK,
+                        border: `1px solid ${p.accent ? INK : ink(0.2)}`,
+                      }}
+                    >
+                      {p.accent && (
+                        <span className="absolute top-0 right-0 font-mono text-[9px] uppercase tracking-[0.18em] px-3 py-1.5" style={{ background: CLAY, color: '#fff' }}>берут чаще всего</span>
+                      )}
+                      <h3 className="font-archivo-black text-[26px] uppercase tracking-[-0.025em] mb-2">{p.name}</h3>
+                      <div className="font-mono text-[10.5px] uppercase tracking-[0.14em] mb-7" style={{ color: p.accent ? 'rgba(231,227,216,0.5)' : ink(0.42) }}>{p.lead}</div>
+                      <div className="flex items-baseline gap-2 mb-7">
+                        <span className="font-archivo-black text-[34px] leading-none" style={{ color: CLAY }}>{p.price}</span>
+                        <span className="font-mono text-[12px]" style={{ color: p.accent ? 'rgba(231,227,216,0.5)' : ink(0.42) }}>{p.unit}</span>
+                      </div>
+                      <div className="flex flex-col flex-1 mb-8">
+                        {p.items.map((x) => (
+                          <div key={x} className="flex gap-3 text-[13.5px] leading-[1.6] py-2.5" style={{ borderTop: `1px solid ${p.accent ? 'rgba(231,227,216,0.14)' : ink(0.1)}`, color: p.accent ? 'rgba(231,227,216,0.78)' : ink(0.62) }}>
+                            <span className="shrink-0 mt-[7px] w-[6px] h-[6px]" style={{ background: CLAY }} />{x}
                           </div>
                         ))}
                       </div>
-                      <div className="flex items-baseline justify-between gap-3 mt-6">
-                        <span className="font-black text-[24px]" style={{ color: CLAY }}>{p.price}</span>
-                        <span className="text-[12px] text-white/35 group-hover:text-white transition-colors">смотреть проект →</span>
-                      </div>
+                      <a
+                        href="#contacts" onClick={(e) => jump(e, 'contacts')}
+                        className={`${btn} px-6 py-3.5 w-full`}
+                        style={p.accent ? { background: CLAY, color: '#fff' } : { border: `1.4px solid ${ink(0.28)}` }}
+                      >
+                        Рассчитать
+                      </a>
                     </div>
-                  </a>
-                </Reveal>
-              ))}
+                  </Up>
+                ))}
+              </div>
             </div>
           </section>
-        </>
-      )}
 
-      {/* ═════════ ПРОЕКТ ВНУТРИ ═════════ */}
-      {page === 'project' && current && (
-        <>
-          <section className="px-6 md:px-8 pt-14 md:pt-20 pb-14">
-            <div className="max-w-[1320px] mx-auto">
-              <a href={ROOT + '/projects'} onClick={(e) => go(e, ROOT + '/projects')} className="inline-block text-[12px] uppercase tracking-[0.14em] text-white/40 hover:text-white transition-colors mb-9">← Все проекты</a>
-              <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-12 items-start">
+          {/* ── гарантии со штампом ── */}
+          <section className="px-6 md:px-8 py-20 md:py-28" style={{ borderTop: `1px solid ${ink(0.16)}`, borderBottom: `1px solid ${ink(0.16)}`, background: PAPER_HI }}>
+            <div className="max-w-[1340px] mx-auto">
+              <Up className="mb-12 flex flex-wrap items-end justify-between gap-8">
                 <div>
-                  <div className="text-[11px] uppercase tracking-[0.28em] mb-6" style={{ color: CLAY }}>{current.tech} · {current.floors} · {current.beds}</div>
-                  <h1 className="font-black leading-[0.94] tracking-[-0.03em] uppercase" style={{ fontSize: 'clamp(36px,5.8vw,72px)' }}>{current.name}</h1>
-                  <p className="mt-8 max-w-[52ch] text-[16.5px] leading-[1.8]" style={{ color: 'rgba(237,232,223,0.55)' }}>{current.lead}</p>
-                  <div className="mt-10 grid grid-cols-3 border-t border-white/12">
-                    {[[current.area, 'площадь'], [current.term, 'срок'], [current.price, 'под ключ']].map(([v, l], i) => (
-                      <div key={l} className={'py-6 pr-5 ' + (i ? 'pl-5 border-l border-white/12' : '')}>
-                        <div className="font-black text-[20px] md:text-[24px]" style={i === 2 ? { color: CLAY } : undefined}>{v}</div>
-                        <div className="text-[10px] uppercase tracking-[0.1em] mt-2" style={{ color: 'rgba(237,232,223,0.35)' }}>{l}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <a href="#contacts" onClick={(e) => jump(e, 'contacts')} className="inline-block mt-9 px-8 py-4 text-[12px] font-bold uppercase tracking-[0.12em] text-[#12110F]" style={{ background: CLAY }}>Рассчитать под мой участок</a>
+                  <CutMark letter="Г" label="Условия договора" />
+                  <h2 className={`${H2} mt-6`} style={{ fontSize: 'clamp(34px,5.2vw,60px)' }}>Гарантии</h2>
                 </div>
-                <DemoPlaceholder label={`Фасад · ${current.name}`} tone={CLAY} ratio="4/3" icon="building" />
-              </div>
-            </div>
-          </section>
-
-          <section className="px-6 md:px-8 py-16 md:py-20 border-y border-white/10 bg-[#171512]">
-            <div className="max-w-[1320px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-14">
-              <div>
-                <Reveal className="mb-8"><h2 className="font-black text-[28px] md:text-[36px] uppercase tracking-[-0.02em]">Помещения</h2></Reveal>
-                {current.rooms.map(([n, s], i) => (
-                  <Reveal key={n + i} delay={i * 0.04} className="grid grid-cols-[1fr_auto] gap-6 py-4 border-b border-white/10">
-                    <span className="text-[15px]">{n}</span>
-                    <span className="text-[13.5px] text-right" style={{ color: 'rgba(237,232,223,0.45)' }}>{s}</span>
-                  </Reveal>
-                ))}
-              </div>
-              <div>
-                <Reveal className="mb-8"><h2 className="font-black text-[28px] md:text-[36px] uppercase tracking-[-0.02em]">Конструктив</h2></Reveal>
-                {current.spec.map(([n, s], i) => (
-                  <Reveal key={n} delay={i * 0.04} className="grid grid-cols-[auto_1fr] gap-6 py-4 border-b border-white/10">
-                    <span className="text-[11px] uppercase tracking-[0.1em] w-[110px] shrink-0 pt-1" style={{ color: 'rgba(237,232,223,0.35)' }}>{n}</span>
-                    <span className="text-[14.5px]">{s}</span>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <section className="px-6 md:px-8 py-16 md:py-20">
-            <div className="max-w-[1320px] mx-auto">
-              <Reveal className="mb-9"><h2 className="font-black text-[28px] md:text-[36px] uppercase tracking-[-0.02em]">Что важно знать</h2></Reveal>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {current.notes.map((n, i) => (
-                  <Reveal key={n} delay={i * 0.07} className="border-t pt-5" style={{ borderColor: 'rgba(200,112,60,0.45)' }}>
-                    <p className="text-[14.5px] leading-[1.75]" style={{ color: 'rgba(237,232,223,0.6)' }}>{n}</p>
-                  </Reveal>
-                ))}
-              </div>
-              <Reveal className="mt-14 flex flex-wrap gap-4">
-                {projects.filter((p) => p.slug !== current.slug).slice(0, 3).map((p) => (
-                  <a key={p.slug} href={`${ROOT}/project/${p.slug}`} onClick={(e) => go(e, `${ROOT}/project/${p.slug}`)}
-                     className="px-6 py-4 border border-white/15 hover:border-white/40 transition-colors text-[13px]">
-                    {p.name} · {p.area} →
-                  </a>
-                ))}
-              </Reveal>
-            </div>
-          </section>
-        </>
-      )}
-
-      {/* ═════════ ЦЕНЫ ═════════ */}
-      {page === 'prices' && (
-        <>
-          <section className="px-6 md:px-8 pt-14 md:pt-20 pb-12">
-            <div className="max-w-[1100px] mx-auto">
-              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block text-[12px] uppercase tracking-[0.14em] text-white/40 hover:text-white transition-colors mb-9">← На главную</a>
-              <h1 className="font-black leading-[0.94] tracking-[-0.03em] uppercase max-w-[14ch]" style={{ fontSize: 'clamp(38px,6.4vw,80px)' }}>
-                Прайс<br /><span style={{ color: CLAY }}>по работам</span>
-              </h1>
-              <p className="mt-8 max-w-[58ch] text-[16.5px] leading-[1.8]" style={{ color: 'rgba(237,232,223,0.55)' }}>
-                Открытые расценки, чтобы вы могли сверить нашу смету с чужой построчно.
-                Финальная цена зависит от геологии, рельефа и удалённости участка — считаем после выезда.
-              </p>
-            </div>
-          </section>
-
-          <section className="px-6 md:px-8 pb-16">
-            <div className="max-w-[1100px] mx-auto">
-              <Reveal className="grid grid-cols-[1fr_auto] md:grid-cols-[1.1fr_auto_1.3fr] gap-6 pb-4 border-b border-white/20 text-[10px] uppercase tracking-[0.14em]" style={{ color: 'rgba(237,232,223,0.35)' }}>
-                <span>Работа</span><span className="text-right md:text-left">Цена</span><span className="hidden md:block">Что входит</span>
-              </Reveal>
-              {priceRows.map(([n, p, d], i) => (
-                <Reveal key={n} delay={i * 0.03} className="grid grid-cols-[1fr_auto] md:grid-cols-[1.1fr_auto_1.3fr] gap-6 py-5 border-b border-white/10 items-baseline">
-                  <span className="text-[15px]">{n}</span>
-                  <span className="font-bold text-[15px] text-right md:text-left whitespace-nowrap" style={{ color: CLAY }}>{p}</span>
-                  <span className="col-span-2 md:col-span-1 text-[13px] leading-[1.65]" style={{ color: 'rgba(237,232,223,0.42)' }}>{d}</span>
-                </Reveal>
-              ))}
-            </div>
-          </section>
-
-          <section className="px-6 md:px-8 py-16 md:py-20 border-y border-white/10 bg-[#171512]">
-            <div className="max-w-[1100px] mx-auto">
-              <Reveal className="mb-10">
-                <h2 className="font-black text-[28px] md:text-[38px] uppercase tracking-[-0.02em] mb-3">Из чего складывается смета</h2>
-                <p className="text-[14.5px] max-w-[56ch] leading-[1.75]" style={{ color: 'rgba(237,232,223,0.5)' }}>
-                  Пример: дом «Ольха», 146 м², комплектация «Под ключ». Так выглядит реальная разбивка,
-                  которую вы получаете вместе с договором.
-                </p>
-              </Reveal>
-              <Reveal className="overflow-x-auto pb-2">
-                <Waterfall tone={CLAY} height={210} className="min-w-[620px]"
-                  items={[
-                    { label: 'Проект и геология', delta: 242000 },
-                    { label: 'Фундамент', delta: 1635000 },
-                    { label: 'Коробка', delta: 2117000 },
-                    { label: 'Кровля', delta: 569000 },
-                    { label: 'Инженерия', delta: 1431000 },
-                    { label: 'Отделка', delta: 2628000 },
-                    { label: 'Скидка на объём', delta: -1722000 },
-                  ]} />
-              </Reveal>
-              <Reveal className="mt-6 text-[12.5px] text-center" style={{ color: 'rgba(237,232,223,0.35)' }}>
-                Красный столбец — скидка за полный цикл: когда все этапы делает одна бригада, дешевле на 20%.
-              </Reveal>
-            </div>
-          </section>
-
-          <section className="px-6 md:px-8 py-16 border-y border-white/10">
-            <div className="max-w-[1100px] mx-auto">
-              <Reveal className="mb-9"><h2 className="font-black text-[28px] md:text-[38px] uppercase tracking-[-0.02em]">Дополнительно</h2></Reveal>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12">
-                {extras.map(([n, p], i) => (
-                  <Reveal key={n} delay={i * 0.04} className="flex justify-between gap-6 py-4 border-b border-white/10 items-baseline">
-                    <span className="text-[14.5px]">{n}</span>
-                    <span className="font-bold text-[14.5px] whitespace-nowrap" style={{ color: CLAY }}>{p}</span>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <section className="px-6 md:px-8 py-16 md:py-24">
-            <div className="max-w-[820px] mx-auto">
-              <Reveal className="text-center mb-10">
-                <h2 className="font-black text-[30px] md:text-[42px] uppercase tracking-[-0.02em] mb-4">Прикинуть бюджет</h2>
-                <p className="text-[15px]" style={{ color: 'rgba(237,232,223,0.5)' }}>Грубая оценка по площади и комплектации. Точную смету считаем после выезда.</p>
-              </Reveal>
-              <Reveal className="border border-white/12 p-8 md:p-10">
-                <div className="flex flex-wrap gap-2.5 mb-9">
-                  {packages.map((p, i) => (
-                    <button key={p.name} onClick={() => setPkg(i)} className="px-5 py-3 text-[11px] font-bold uppercase tracking-[0.12em] border transition-colors"
-                      style={{ borderColor: pkg === i ? CLAY : 'rgba(255,255,255,0.16)', background: pkg === i ? CLAY : 'transparent', color: pkg === i ? '#12110F' : 'rgba(237,232,223,0.55)' }}>
-                      {p.name}
-                    </button>
-                  ))}
+                <div
+                  className="rotate-[-6deg] px-5 py-3 text-center select-none"
+                  style={{ border: `2.5px solid ${CLAY}88`, color: `${CLAY}CC` }}
+                  aria-hidden="true"
+                >
+                  <div className="font-archivo-black text-[15px] uppercase tracking-[0.04em] leading-tight">Смета<br />зафиксирована</div>
+                  <div className="font-mono text-[8.5px] uppercase tracking-[0.18em] mt-1.5">п. 4.2 договора подряда</div>
                 </div>
-                <div className="flex justify-between items-baseline mb-4">
-                  <span className="text-[11px] uppercase tracking-[0.14em]" style={{ color: 'rgba(237,232,223,0.35)' }}>Площадь дома</span>
-                  <span className="font-black text-[26px]">{area} м²</span>
-                </div>
-                <input type="range" min={60} max={300} step={2} value={area} onChange={(e) => setArea(Number(e.target.value))} className="w-full accent-[#C8703C] cursor-pointer mb-9" aria-label="Площадь дома" />
-                <div className="flex items-end justify-between gap-6 flex-wrap pt-7 border-t border-white/10">
-                  <div>
-                    <div className="text-[11px] uppercase tracking-[0.14em] mb-2" style={{ color: 'rgba(237,232,223,0.35)' }}>Ориентировочно</div>
-                    <div className="font-black text-[38px] leading-none" style={{ color: CLAY }}>{total} ₽</div>
-                  </div>
-                  <a href="#contacts" onClick={(e) => jump(e, 'contacts')} className="px-8 py-4 text-[12px] font-bold uppercase tracking-[0.12em] text-[#12110F]" style={{ background: CLAY }}>Получить точную смету</a>
-                </div>
-              </Reveal>
-            </div>
-          </section>
-        </>
-      )}
+              </Up>
 
-      {/* ═════════ ГЛАВНАЯ ═════════ */}
-      {page === 'home' && (
-        <>
-          <section className="relative px-6 md:px-8 pt-20 md:pt-28 pb-20 overflow-hidden">
-            <img src="/hero-construction.jpg" alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
-            <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(95deg,rgba(18,17,15,.94) 0%,rgba(18,17,15,.80) 48%,rgba(18,17,15,.38) 100%)' }} />
-            <div className="max-w-[1320px] mx-auto relative">
-              <div className="text-[11px] uppercase tracking-[0.3em] mb-8" style={{ color: CLAY }}>Строительство домов под ключ</div>
-              <h1 className="font-black leading-[0.9] tracking-[-0.035em] uppercase max-w-[13ch]" style={{ fontSize: 'clamp(44px,8vw,104px)' }}>
-                Дом<br />по смете,<br /><span style={{ color: CLAY }}>а не по факту</span>
-              </h1>
-              <p className="mt-9 max-w-[52ch] text-[17px] leading-[1.75]" style={{ color: 'rgba(237,232,223,0.55)' }}>
-                Фиксируем цену договором, показываем стройку каждую пятницу и берём деньги
-                за завершённый этап, а не вперёд.
-              </p>
-              <div className="mt-10 flex flex-wrap gap-4">
-                <a href="#contacts" onClick={(e) => jump(e, 'contacts')} className="px-8 py-4 text-[12px] font-bold uppercase tracking-[0.12em] text-[#12110F]" style={{ background: CLAY }}>Бесплатная смета</a>
-                <a href={ROOT + '/projects'} onClick={(e) => go(e, ROOT + '/projects')} className="px-8 py-4 text-[12px] font-bold uppercase tracking-[0.12em] border border-white/20 hover:border-white/45 transition-colors">Каталог проектов</a>
-              </div>
-              <Reveal className="mt-16 grid grid-cols-2 lg:grid-cols-4 border-t border-white/12">
-                {heroFacts.map((f) => (
-                  <div key={f.l} className="py-7 pr-6 border-b lg:border-b-0 lg:border-r border-white/12 last:border-r-0 lg:pl-7 first:pl-0">
-                    <div className="font-black text-[30px] md:text-[38px] leading-none tracking-[-0.02em]">{f.v}</div>
-                    <div className="text-[11px] uppercase tracking-[0.1em] mt-2.5" style={{ color: 'rgba(237,232,223,0.4)' }}>{f.l}</div>
-                  </div>
-                ))}
-              </Reveal>
-            </div>
-          </section>
-
-          <section className="px-6 md:px-8 py-20 md:py-28 border-y border-white/10 bg-[#171512]">
-            <div className="max-w-[1320px] mx-auto">
-              <Reveal className="mb-12 flex flex-wrap items-end justify-between gap-6">
-                <h2 className="font-black text-[36px] md:text-[52px] uppercase tracking-[-0.03em] leading-none">Проекты</h2>
-                <a href={ROOT + '/projects'} onClick={(e) => go(e, ROOT + '/projects')} className="text-[12px] uppercase tracking-[0.14em]" style={{ color: CLAY }}>Весь каталог →</a>
-              </Reveal>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {projects.map((p, i) => (
-                  <Reveal key={p.slug} delay={i * 0.06}>
-                    <a href={`${ROOT}/project/${p.slug}`} onClick={(e) => go(e, `${ROOT}/project/${p.slug}`)}
-                       className="block h-full border border-white/10 hover:border-[#C8703C]/60 transition-colors duration-500 group">
-                      <DemoPlaceholder label={p.name} tone={CLAY} ratio="4/3" icon="building" />
-                      <div className="p-5">
-                        <h3 className="font-bold text-[18px] uppercase tracking-[-0.01em] mb-3">{p.name}</h3>
-                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-[12px] mb-4" style={{ color: 'rgba(237,232,223,0.4)' }}>
-                          <span>{p.area}</span><span>{p.term}</span><span>{p.tech}</span>
-                        </div>
-                        <div className="flex items-baseline justify-between gap-2">
-                          <span className="font-black text-[17px]" style={{ color: CLAY }}>{p.price}</span>
-                          <span className="text-[11px] text-white/30 group-hover:text-white transition-colors">→</span>
-                        </div>
-                      </div>
-                    </a>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <section id="stages" className="px-6 md:px-8 py-20 md:py-28 scroll-mt-20">
-            <div className="max-w-[1320px] mx-auto">
-              <Reveal className="mb-12 flex flex-wrap items-end justify-between gap-6">
-                <h2 className="font-black text-[36px] md:text-[52px] uppercase tracking-[-0.03em] leading-none">Как строим</h2>
-                <p className="text-[14px] max-w-[34ch] leading-[1.7]" style={{ color: 'rgba(237,232,223,0.45)' }}>
-                  Дом 146 м² от договора до ключей — восемь месяцев. Сроки указаны по факту сданных объектов.
-                </p>
-              </Reveal>
-
-              <Reveal className="hidden md:block mb-16 pb-4 overflow-x-auto">
-                <Timeline tone={CLAY} className="min-w-[720px]"
-                  steps={[
-                    { mark: 'Нед. 1–2', t: 'Выезд и геология', d: 'Три скважины, отчёт' },
-                    { mark: 'Мес. 1', t: 'Проект и смета', d: 'Фиксация цены' },
-                    { mark: 'Мес. 2', t: 'Фундамент', d: 'По расчёту грунта' },
-                    { mark: 'Мес. 3–5', t: 'Коробка и кровля', d: 'Контур закрыт' },
-                    { mark: 'Мес. 6', t: 'Инженерия', d: 'Схемы до штробления' },
-                    { mark: 'Мес. 7–8', t: 'Отделка и сдача', d: 'Гарантийный талон' },
-                  ]} />
-              </Reveal>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
-                {stages.map((s, i) => (
-                  <Reveal key={s.n} delay={i * 0.06} className="border-t pt-6" style={{ borderColor: 'rgba(200,112,60,0.45)' }}>
-                    <div className="font-black text-[30px] mb-3" style={{ color: CLAY }}>{s.n}</div>
-                    <h3 className="font-bold text-[21px] mb-3 uppercase tracking-[-0.01em]">{s.t}</h3>
-                    <p className="text-[14px] leading-[1.75]" style={{ color: 'rgba(237,232,223,0.5)' }}>{s.d}</p>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <section className="px-6 md:px-8 py-20 md:py-28 border-y border-white/10 bg-[#171512]">
-            <div className="max-w-[1320px] mx-auto">
-              <Reveal className="mb-12 flex flex-wrap items-end justify-between gap-6">
-                <h2 className="font-black text-[36px] md:text-[52px] uppercase tracking-[-0.03em] leading-none">Комплектации</h2>
-                <a href={ROOT + '/prices'} onClick={(e) => go(e, ROOT + '/prices')} className="text-[12px] uppercase tracking-[0.14em]" style={{ color: CLAY }}>Полный прайс →</a>
-              </Reveal>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {packages.map((p, i) => (
-                  <Reveal key={p.name} delay={i * 0.08} className="flex flex-col p-8 border"
-                    style={{ borderColor: p.accent ? CLAY : 'rgba(255,255,255,0.12)', background: p.accent ? 'rgba(200,112,60,0.07)' : 'transparent' }}>
-                    <h3 className="font-black text-[26px] uppercase tracking-[-0.02em] mb-2">{p.name}</h3>
-                    <div className="text-[12px] uppercase tracking-[0.1em] mb-6" style={{ color: 'rgba(237,232,223,0.4)' }}>{p.lead}</div>
-                    <div className="flex items-baseline gap-2 mb-7">
-                      <span className="font-black text-[34px] leading-none" style={{ color: CLAY }}>{p.price}</span>
-                      <span className="text-[13px]" style={{ color: 'rgba(237,232,223,0.4)' }}>{p.unit}</span>
-                    </div>
-                    <div className="flex flex-col gap-3 flex-1 mb-8">
-                      {p.items.map((x) => (
-                        <div key={x} className="flex gap-3 text-[13.5px] leading-[1.6]" style={{ color: 'rgba(237,232,223,0.6)' }}>
-                          <span className="shrink-0 mt-[7px] w-[5px] h-[5px]" style={{ background: CLAY }} />{x}
-                        </div>
-                      ))}
-                    </div>
-                    <a href="#contacts" onClick={(e) => jump(e, 'contacts')} className="text-center px-6 py-3.5 text-[11px] font-bold uppercase tracking-[0.12em] transition-colors"
-                       style={p.accent ? { background: CLAY, color: '#12110F' } : { border: '1px solid rgba(255,255,255,0.2)' }}>
-                      Рассчитать
-                    </a>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <section className="px-6 md:px-8 py-20 md:py-28">
-            <div className="max-w-[1320px] mx-auto">
-              <Reveal className="mb-14"><h2 className="font-black text-[36px] md:text-[52px] uppercase tracking-[-0.03em] leading-none">Гарантии</h2></Reveal>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
                 {guarantees.map((g, i) => (
-                  <Reveal key={g.t} delay={i * 0.07} className="border-t pt-6" style={{ borderColor: 'rgba(216,207,192,0.25)' }}>
-                    <h3 className="font-bold text-[20px] mb-3 uppercase tracking-[-0.01em]">{g.t}</h3>
-                    <p className="text-[13.5px] leading-[1.75]" style={{ color: 'rgba(237,232,223,0.5)' }}>{g.d}</p>
-                  </Reveal>
+                  <Up key={g.t} delay={i * 0.07}>
+                    <div className="h-[3px] w-10 mb-5" style={{ background: CLAY }} />
+                    <h3 className="font-archivo-black text-[19px] uppercase tracking-[-0.015em] mb-3">{g.t}</h3>
+                    <p className="text-[13.5px] leading-[1.75]" style={{ color: ink(0.55) }}>{g.d}</p>
+                  </Up>
                 ))}
               </div>
             </div>
           </section>
 
-          <section className="px-6 md:px-8 py-20 md:py-28 border-y border-white/10 bg-[#171512]">
-            <div className="max-w-[880px] mx-auto">
-              <Reveal className="mb-12"><h2 className="font-black text-[36px] md:text-[50px] uppercase tracking-[-0.03em] leading-none">Вопросы</h2></Reveal>
+          {/* ── вопросы ── */}
+          <section className="px-6 md:px-8 py-20 md:py-28">
+            <div className="max-w-[920px] mx-auto">
+              <Up className="mb-10">
+                <CutMark letter="Д" label="Примечания к листу" />
+                <h2 className={`${H2} mt-6`} style={{ fontSize: 'clamp(34px,5vw,56px)' }}>Вопросы</h2>
+              </Up>
               <div className="flex flex-col">
                 {faqs.map((f, i) => {
                   const open = openFaq === i;
                   return (
-                    <Reveal key={f.q} delay={i * 0.04} className="border-b border-white/10">
-                      <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
-                        <span className="font-bold text-[18px] md:text-[21px]">{f.q}</span>
-                        <span className="text-[22px] shrink-0" style={{ color: CLAY }}>{open ? '−' : '+'}</span>
-                      </button>
-                      <AnimatePresence initial={false}>
-                        {open && (
-                          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: EASE }} className="overflow-hidden">
-                            <p className="text-[14px] leading-[1.85] pb-7 max-w-[64ch]" style={{ color: 'rgba(237,232,223,0.5)' }}>{f.a}</p>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </Reveal>
+                    <Up key={f.q} delay={i * 0.04}>
+                      <div style={{ borderTop: `1px solid ${ink(0.16)}` }}>
+                        <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
+                          <span className="flex items-baseline gap-4">
+                            <span className="font-mono text-[10px] shrink-0" style={{ color: CLAY }}>{String(i + 1).padStart(2, '0')}</span>
+                            <span className="font-archivo-black text-[17px] md:text-[21px] uppercase tracking-[-0.015em]">{f.q}</span>
+                          </span>
+                          <span
+                            className="shrink-0 w-8 h-8 grid place-items-center font-mono text-[16px] transition-transform duration-300"
+                            style={{ border: `1.3px solid ${open ? CLAY : ink(0.25)}`, color: open ? CLAY : INK, transform: open ? 'rotate(45deg)' : 'none' }}
+                          >
+                            +
+                          </span>
+                        </button>
+                        <div className="overflow-hidden transition-all duration-300" style={{ maxHeight: open ? 340 : 0, opacity: open ? 1 : 0 }}>
+                          <p className="text-[14.5px] leading-[1.85] pb-7 sm:pl-9 max-w-[66ch]" style={{ color: ink(0.55) }}>{f.a}</p>
+                        </div>
+                      </div>
+                    </Up>
                   );
                 })}
               </div>
@@ -580,48 +734,387 @@ export default function OsnovaBuild() {
         </>
       )}
 
-      {/* Контакты — общие */}
-      <section id="contacts" className="px-6 md:px-8 py-20 md:py-28 scroll-mt-20 border-t border-white/10">
-        <Reveal className="max-w-[780px] mx-auto text-center">
-          <h2 className="font-black leading-[0.98] uppercase tracking-[-0.03em] mb-6" style={{ fontSize: 'clamp(32px,5vw,58px)' }}>
+      {/* ═════════════════════ КАТАЛОГ ═════════════════════ */}
+      {page === 'projects' && (
+        <>
+          <section className="px-6 md:px-8 pt-14 md:pt-20 pb-10">
+            <div className="max-w-[1340px] mx-auto">
+              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block font-mono text-[11px] uppercase tracking-[0.18em] mb-9 opacity-55 hover:opacity-100 transition-opacity">← На главную</a>
+              <CutMark letter="А" label="Лист 1 из 1 · типовые решения" />
+              <h1 className={`${H1} mt-6 max-w-[15ch]`} style={{ fontSize: 'clamp(40px,6.6vw,84px)' }}>
+                Каталог<br /><span style={{ color: CLAY }}>проектов</span>
+              </h1>
+              <p className="mt-8 max-w-[58ch] text-[16.5px] leading-[1.8]" style={{ color: ink(0.6) }}>
+                Четыре отработанных проекта. Цена в карточке - «под ключ» для базовой комплектации,
+                без учёта участка и подключений. Любой проект адаптируем под ваш участок бесплатно.
+              </p>
+              <div className="mt-9 flex flex-wrap gap-2.5">
+                {techs.map((t) => (
+                  <button
+                    key={t} onClick={() => setTech(t)}
+                    className="px-5 py-2.5 font-mono text-[10.5px] font-bold uppercase tracking-[0.14em] transition-colors"
+                    style={{
+                      border: `1.3px solid ${tech === t ? INK : ink(0.24)}`,
+                      background: tech === t ? INK : 'transparent',
+                      color: tech === t ? PAPER : ink(0.55),
+                    }}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="px-6 md:px-8 pb-20">
+            <div className="max-w-[1340px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+              {shown.map((p, i) => (
+                <Up key={p.slug} delay={i * 0.06}>
+                  <a
+                    href={`${ROOT}/project/${p.slug}`} onClick={(e) => go(e, `${ROOT}/project/${p.slug}`)}
+                    className="group block h-full transition-all duration-300 hover:-translate-y-1.5"
+                    style={{ background: PAPER_HI, border: `1px solid ${ink(0.2)}`, boxShadow: `6px 8px 0 ${ink(0.05)}` }}
+                  >
+                    <div className="flex justify-between px-6 py-3 font-mono text-[9.5px] uppercase tracking-[0.18em]" style={{ borderBottom: `1px solid ${ink(0.14)}`, color: ink(0.42) }}>
+                      <span>{p.index}</span><span>{p.tech}</span><span>масштаб 1:100</span>
+                    </div>
+                    <DemoPlaceholder label={`Фото · дом «${p.name}»`} tone={CLAY} ratio="16/9" icon="building" dark={false} bg="transparent" />
+                    <div className="p-7">
+                      <h3 className="font-archivo-black text-[27px] uppercase tracking-[-0.025em] mb-3">Дом «{p.name}»</h3>
+                      <p className="text-[14px] leading-[1.7] mb-6" style={{ color: ink(0.55) }}>{p.lead}</p>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-5" style={{ borderTop: `1px solid ${ink(0.14)}` }}>
+                        {[[p.area, 'площадь'], [p.floors, 'этажность'], [p.beds, 'спальни'], [p.term, 'срок']].map(([v, l]) => (
+                          <div key={l}>
+                            <div className="font-archivo-black text-[15px]">{v}</div>
+                            <div className="font-mono text-[9.5px] uppercase tracking-[0.12em] mt-1.5" style={{ color: ink(0.4) }}>{l}</div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="flex items-baseline justify-between gap-3 mt-6">
+                        <span className="font-archivo-black text-[24px]" style={{ color: CLAY }}>{p.price}</span>
+                        <span className="font-mono text-[11px] uppercase tracking-[0.14em] transition-transform group-hover:translate-x-1" style={{ color: ink(0.4) }}>смотреть →</span>
+                      </div>
+                    </div>
+                  </a>
+                </Up>
+              ))}
+            </div>
+          </section>
+        </>
+      )}
+
+      {/* ═════════════════════ ПРОЕКТ ═════════════════════ */}
+      {page === 'project' && current && (
+        <>
+          <section className="px-6 md:px-8 pt-14 md:pt-20 pb-14">
+            <div className="max-w-[1340px] mx-auto">
+              <a href={ROOT + '/projects'} onClick={(e) => go(e, ROOT + '/projects')} className="inline-block font-mono text-[11px] uppercase tracking-[0.18em] mb-9 opacity-55 hover:opacity-100 transition-opacity">← Все проекты</a>
+              <div className="grid grid-cols-1 lg:grid-cols-[1.02fr_0.98fr] gap-12 items-center">
+                <div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.24em] mb-6" style={{ color: CLAY }}>
+                    {current.index} · {current.tech} · {current.floors} · {current.beds}
+                  </div>
+                  <h1 className={H1} style={{ fontSize: 'clamp(38px,6vw,76px)' }}>Дом<br />«{current.name}»</h1>
+                  <p className="mt-8 max-w-[52ch] text-[16.5px] leading-[1.8]" style={{ color: ink(0.6) }}>{current.lead}</p>
+                  <div className="mt-10 grid grid-cols-3" style={{ borderTop: `1px solid ${ink(0.2)}` }}>
+                    {[[current.area, 'площадь'], [current.term, 'срок'], [current.price, 'под ключ']].map(([v, l], i) => (
+                      <div key={l} className={'py-6 pr-5 ' + (i ? 'pl-5' : '')} style={i ? { borderLeft: `1px solid ${ink(0.16)}` } : undefined}>
+                        <div className="font-archivo-black text-[19px] md:text-[23px] tracking-[-0.02em]" style={i === 2 ? { color: CLAY } : undefined}>{v}</div>
+                        <div className="font-mono text-[9.5px] uppercase tracking-[0.14em] mt-2" style={{ color: ink(0.42) }}>{l}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <a href="#contacts" onClick={(e) => jump(e, 'contacts')} className={`${btnSolid} mt-9`} style={{ background: INK }}>Рассчитать под мой участок</a>
+                </div>
+
+                <div className="relative p-5 sm:p-7" style={{ background: PAPER_HI, border: `1px solid ${ink(0.2)}`, boxShadow: `10px 12px 0 ${ink(0.06)}` }}>
+                  <div className="flex justify-between items-start mb-2">
+                    <span className="font-mono text-[9.5px] uppercase tracking-[0.2em]" style={{ color: ink(0.42) }}>Главный фасад</span>
+                    <span className="font-mono text-[9.5px] uppercase tracking-[0.2em]" style={{ color: ink(0.42) }}>{current.index}</span>
+                  </div>
+                  <Elevation key={current.slug} />
+                  <div className="mt-3 pt-3" style={{ borderTop: `1px solid ${ink(0.14)}` }}>
+                    <TitleBlock sheet="АР-02" name={`Дом «${current.name}»`} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="px-6 md:px-8 py-16 md:py-20" style={{ borderTop: `1px solid ${ink(0.16)}`, borderBottom: `1px solid ${ink(0.16)}`, background: PAPER_HI }}>
+            <div className="max-w-[1340px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-14">
+              <div>
+                <Up className="mb-8">
+                  <CutMark letter="Э" label="Экспликация помещений" />
+                  <h2 className={`${H2} mt-5`} style={{ fontSize: 'clamp(26px,3.6vw,36px)' }}>Помещения</h2>
+                </Up>
+                {current.rooms.map(([n, s], i) => (
+                  <Up key={n + i} delay={i * 0.04}>
+                    <div className="grid grid-cols-[auto_1fr_auto] gap-4 py-4 items-baseline" style={{ borderTop: `1px solid ${ink(0.13)}` }}>
+                      <span className="font-mono text-[10px] w-6" style={{ color: ink(0.35) }}>{String(i + 1).padStart(2, '0')}</span>
+                      <span className="text-[15px]">{n}</span>
+                      <span className="font-mono text-[12.5px] text-right" style={{ color: ink(0.48) }}>{s}</span>
+                    </div>
+                  </Up>
+                ))}
+              </div>
+              <div>
+                <Up className="mb-8">
+                  <CutMark letter="К" label="Конструктивные решения" />
+                  <h2 className={`${H2} mt-5`} style={{ fontSize: 'clamp(26px,3.6vw,36px)' }}>Конструктив</h2>
+                </Up>
+                {current.spec.map(([n, s], i) => (
+                  <Up key={n} delay={i * 0.04}>
+                    <div className="grid grid-cols-[110px_1fr] gap-5 py-4" style={{ borderTop: `1px solid ${ink(0.13)}` }}>
+                      <span className="font-mono text-[10px] uppercase tracking-[0.12em] pt-1" style={{ color: ink(0.4) }}>{n}</span>
+                      <span className="text-[14.5px] leading-[1.6]">{s}</span>
+                    </div>
+                  </Up>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="px-6 md:px-8 py-16 md:py-24">
+            <div className="max-w-[1340px] mx-auto">
+              <Up className="mb-9">
+                <CutMark letter="П" label="Примечания проектировщика" />
+                <h2 className={`${H2} mt-5`} style={{ fontSize: 'clamp(28px,4vw,40px)' }}>Что важно знать</h2>
+              </Up>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {current.notes.map((n, i) => (
+                  <Up key={n} delay={i * 0.07}>
+                    <div className="h-full p-6" style={{ background: PAPER_HI, border: `1px solid ${ink(0.16)}`, borderTop: `3px solid ${CLAY}` }}>
+                      <p className="text-[14.5px] leading-[1.75]" style={{ color: ink(0.6) }}>{n}</p>
+                    </div>
+                  </Up>
+                ))}
+              </div>
+              <Up className="mt-14">
+                <div className="font-mono text-[10px] uppercase tracking-[0.2em] mb-4" style={{ color: ink(0.4) }}>Смотрите также</div>
+                <div className="flex flex-wrap gap-4">
+                  {projects.filter((p) => p.slug !== current.slug).map((p) => (
+                    <a
+                      key={p.slug} href={`${ROOT}/project/${p.slug}`} onClick={(e) => go(e, `${ROOT}/project/${p.slug}`)}
+                      className="px-6 py-4 text-[13.5px] transition-all hover:-translate-y-1"
+                      style={{ border: `1px solid ${ink(0.22)}`, background: PAPER_HI }}
+                    >
+                      <span className="font-mono text-[10px] mr-2" style={{ color: CLAY }}>{p.index}</span>
+                      Дом «{p.name}» · {p.area} →
+                    </a>
+                  ))}
+                </div>
+              </Up>
+            </div>
+          </section>
+        </>
+      )}
+
+      {/* ═════════════════════ ЦЕНЫ ═════════════════════ */}
+      {page === 'prices' && (
+        <>
+          <section className="px-6 md:px-8 pt-14 md:pt-20 pb-12">
+            <div className="max-w-[1120px] mx-auto">
+              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block font-mono text-[11px] uppercase tracking-[0.18em] mb-9 opacity-55 hover:opacity-100 transition-opacity">← На главную</a>
+              <CutMark letter="Ц" label="Ведомость расценок" />
+              <h1 className={`${H1} mt-6 max-w-[13ch]`} style={{ fontSize: 'clamp(40px,6.6vw,84px)' }}>
+                Прайс<br /><span style={{ color: CLAY }}>по работам</span>
+              </h1>
+              <p className="mt-8 max-w-[60ch] text-[16.5px] leading-[1.8]" style={{ color: ink(0.6) }}>
+                Открытые расценки, чтобы вы могли сверить нашу смету с чужой построчно.
+                Финальная цена зависит от геологии, рельефа и удалённости участка - считаем после выезда.
+              </p>
+            </div>
+          </section>
+
+          <section className="px-6 md:px-8 pb-16">
+            <div className="max-w-[1120px] mx-auto" style={{ background: PAPER_HI, border: `1px solid ${ink(0.2)}` }}>
+              <div className="grid grid-cols-[auto_1fr_auto] md:grid-cols-[auto_1.1fr_auto_1.3fr] gap-5 px-6 py-3.5 font-mono text-[9.5px] uppercase tracking-[0.16em]" style={{ borderBottom: `1.5px solid ${ink(0.28)}`, color: ink(0.42) }}>
+                <span>№</span><span>Работа</span><span className="text-right md:text-left">Цена</span><span className="hidden md:block">Что входит</span>
+              </div>
+              {priceRows.map(([n, p, d], i) => (
+                <Up key={n} delay={i * 0.03}>
+                  <div className="grid grid-cols-[auto_1fr_auto] md:grid-cols-[auto_1.1fr_auto_1.3fr] gap-5 px-6 py-4 items-baseline transition-colors hover:bg-black/[0.03]" style={{ borderBottom: `1px solid ${ink(0.1)}` }}>
+                    <span className="font-mono text-[10px] w-6" style={{ color: ink(0.32) }}>{String(i + 1).padStart(2, '0')}</span>
+                    <span className="text-[14.5px]">{n}</span>
+                    <span className="font-archivo-black text-[14.5px] text-right md:text-left whitespace-nowrap" style={{ color: CLAY }}>{p}</span>
+                    <span className="col-span-3 md:col-span-1 text-[12.5px] leading-[1.6]" style={{ color: ink(0.45) }}>{d}</span>
+                  </div>
+                </Up>
+              ))}
+            </div>
+          </section>
+
+          {/* разбивка сметы */}
+          <section className="px-6 md:px-8 py-16 md:py-24" style={{ borderTop: `1px solid ${ink(0.16)}`, borderBottom: `1px solid ${ink(0.16)}`, background: PAPER_HI }}>
+            <div className="max-w-[1120px] mx-auto">
+              <Up className="mb-10">
+                <CutMark letter="С" label="Пример реальной сметы" />
+                <h2 className={`${H2} mt-5 mb-3`} style={{ fontSize: 'clamp(28px,4.4vw,42px)' }}>Из чего складывается смета</h2>
+                <p className="text-[14.5px] max-w-[58ch] leading-[1.75]" style={{ color: ink(0.52) }}>
+                  Дом «Ольха», 146 м², комплектация «Под ключ». Так выглядит разбивка,
+                  которую вы получаете вместе с договором - без строки «прочие работы».
+                </p>
+              </Up>
+
+              <div className="flex flex-col">
+                {smetaRows.map(([label, val], i) => {
+                  const pct = Math.round((val / smetaSum) * 100);
+                  return (
+                    <Up key={label} delay={i * 0.06}>
+                      <div className="py-4" style={{ borderTop: `1px solid ${ink(0.13)}` }}>
+                        <div className="flex justify-between items-baseline gap-4 mb-2.5">
+                          <span className="text-[14.5px] flex items-baseline gap-3">
+                            <span className="font-mono text-[10px]" style={{ color: ink(0.35) }}>{String(i + 1).padStart(2, '0')}</span>
+                            {label}
+                          </span>
+                          <span className="flex items-baseline gap-3 whitespace-nowrap">
+                            <span className="font-mono text-[11px]" style={{ color: ink(0.4) }}>{pct}%</span>
+                            <span className="font-archivo-black text-[15px]">{val.toLocaleString('ru-RU')} ₽</span>
+                          </span>
+                        </div>
+                        <BarLine value={val} max={smetaMax} delay={i * 0.06} />
+                      </div>
+                    </Up>
+                  );
+                })}
+                <Up delay={0.4}>
+                  <div className="flex justify-between items-baseline gap-4 py-5 mt-1 mb-4" style={{ borderTop: `1.5px solid ${ink(0.3)}` }}>
+                    <span className="font-mono text-[10.5px] uppercase tracking-[0.18em]" style={{ color: ink(0.45) }}>Итого по смете</span>
+                    <span className="font-archivo-black text-[26px]" style={{ color: CLAY }}>{smetaSum.toLocaleString('ru-RU')} ₽</span>
+                  </div>
+                  <p className="text-[12.5px] leading-[1.7] max-w-[70ch]" style={{ color: ink(0.42) }}>
+                    Когда все этапы ведёт одна бригада, цена выходит примерно на 20% ниже,
+                    чем при найме разных подрядчиков на каждый этап. Эта разница уже учтена в договоре.
+                  </p>
+                </Up>
+              </div>
+            </div>
+          </section>
+
+          <section className="px-6 md:px-8 py-16">
+            <div className="max-w-[1120px] mx-auto">
+              <Up className="mb-9">
+                <CutMark letter="Д" label="Дополнительные позиции" />
+                <h2 className={`${H2} mt-5`} style={{ fontSize: 'clamp(28px,4.4vw,42px)' }}>Дополнительно</h2>
+              </Up>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12">
+                {extras.map(([n, p], i) => (
+                  <Up key={n} delay={i * 0.04}>
+                    <div className="flex justify-between gap-6 py-4 items-baseline" style={{ borderBottom: `1px solid ${ink(0.13)}` }}>
+                      <span className="text-[14.5px]">{n}</span>
+                      <span className="font-archivo-black text-[14px] whitespace-nowrap" style={{ color: CLAY }}>{p}</span>
+                    </div>
+                  </Up>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* калькулятор */}
+          <section className="px-6 md:px-8 py-16 md:py-24" style={{ borderTop: `1px solid ${ink(0.16)}`, background: PAPER_HI }}>
+            <div className="max-w-[860px] mx-auto">
+              <Up className="text-center mb-10">
+                <h2 className={H2} style={{ fontSize: 'clamp(30px,4.6vw,44px)' }}>Прикинуть бюджет</h2>
+                <p className="text-[15px] mt-4" style={{ color: ink(0.52) }}>Грубая оценка по площади и комплектации. Точную смету считаем после выезда.</p>
+              </Up>
+              <Up>
+                <div className="p-8 md:p-10" style={{ border: `1px solid ${ink(0.22)}`, background: PAPER }}>
+                  <div className="flex flex-wrap gap-2.5 mb-9">
+                    {packages.map((p, i) => (
+                      <button
+                        key={p.name} onClick={() => setPkg(i)}
+                        className="px-5 py-3 font-mono text-[10.5px] font-bold uppercase tracking-[0.14em] transition-colors"
+                        style={{
+                          border: `1.3px solid ${pkg === i ? INK : ink(0.24)}`,
+                          background: pkg === i ? INK : 'transparent',
+                          color: pkg === i ? PAPER : ink(0.55),
+                        }}
+                      >
+                        {p.name}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="flex justify-between items-baseline mb-4">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.18em]" style={{ color: ink(0.42) }}>Площадь дома</span>
+                    <span className="font-archivo-black text-[26px]">{area} м²</span>
+                  </div>
+                  <input
+                    type="range" min={60} max={300} step={2} value={area}
+                    onChange={(e) => setArea(Number(e.target.value))}
+                    className="w-full cursor-pointer mb-9" aria-label="Площадь дома"
+                    style={{ accentColor: CLAY }}
+                  />
+                  <div className="flex items-end justify-between gap-6 flex-wrap pt-7" style={{ borderTop: `1px solid ${ink(0.16)}` }}>
+                    <div>
+                      <div className="font-mono text-[10px] uppercase tracking-[0.18em] mb-2" style={{ color: ink(0.42) }}>Ориентировочно</div>
+                      <div className="font-archivo-black text-[38px] leading-none" style={{ color: CLAY }}>{total} ₽</div>
+                    </div>
+                    <a href="#contacts" onClick={(e) => jump(e, 'contacts')} className={btnSolid} style={{ background: INK }}>Получить точную смету</a>
+                  </div>
+                </div>
+              </Up>
+            </div>
+          </section>
+        </>
+      )}
+
+      {/* ═════════════════════ КОНТАКТЫ ═════════════════════ */}
+      <section id="contacts" className="px-6 md:px-8 py-20 md:py-28 scroll-mt-20" style={{ borderTop: `1px solid ${ink(0.16)}` }}>
+        <Up className="max-w-[820px] mx-auto text-center">
+          <div className="flex justify-center mb-8"><CutMark letter="К" label="Первый шаг" /></div>
+          <h2 className={H2} style={{ fontSize: 'clamp(32px,5.2vw,60px)' }}>
             Выедем на участок<br /><span style={{ color: CLAY }}>бесплатно</span>
           </h2>
-          <p className="text-[15px] mb-10 max-w-[50ch] mx-auto" style={{ color: 'rgba(237,232,223,0.5)' }}>
-            Посмотрим грунт, подъезд и границы. Через два дня привезём смету с фиксированной ценой.
+          <p className="text-[15.5px] mt-6 mb-10 max-w-[52ch] mx-auto leading-[1.75]" style={{ color: ink(0.55) }}>
+            Посмотрим грунт, подъезд и границы. Через два дня привезём смету с фиксированной ценой -
+            даже если строить вы потом передумаете.
           </p>
-          <form onSubmit={(e) => { e.preventDefault(); setSent(true); setTimeout(() => setSent(false), 5000); }} className="flex gap-3 max-w-[520px] mx-auto flex-wrap">
-            <input required type="tel" placeholder="+7 (___) ___-__-__" className="flex-1 min-w-[220px] bg-transparent border border-white/20 px-6 py-4 text-[14px] outline-none focus:border-[#C8703C] transition-colors placeholder:text-white/25" />
-            <button type="submit" className="px-8 py-4 text-[12px] font-bold uppercase tracking-[0.12em] text-[#12110F]" style={{ background: CLAY }}>Записаться</button>
+          <form
+            onSubmit={(e) => { e.preventDefault(); setSent(true); setTimeout(() => setSent(false), 5000); }}
+            className="flex gap-3 max-w-[540px] mx-auto flex-wrap"
+          >
+            <input
+              required type="tel" placeholder="+7 (___) ___-__-__"
+              className="flex-1 min-w-[220px] bg-transparent px-6 py-4 text-[14.5px] outline-none transition-colors"
+              style={{ border: `1.3px solid ${ink(0.28)}`, color: INK }}
+              onFocus={(e) => { e.currentTarget.style.borderColor = CLAY; }}
+              onBlur={(e) => { e.currentTarget.style.borderColor = ink(0.28); }}
+            />
+            <button type="submit" className={btnSolid} style={{ background: CLAY }}>Записаться</button>
           </form>
-          {sent && <p className="mt-4 text-[13px]" style={{ color: CLAY }}>Заявка принята. Прораб перезвонит в течение часа.</p>}
-        </Reveal>
+          {sent && <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.14em]" style={{ color: CLAY }}>Заявка принята. Прораб перезвонит в течение часа.</p>}
+        </Up>
       </section>
 
-      <footer className="px-6 md:px-8 pt-16 pb-10 border-t border-white/10 bg-[#0E0D0C]">
-        <div className="max-w-[1320px] mx-auto flex flex-wrap justify-between gap-10 mb-12">
+      {/* ═════════════════════ ПОДВАЛ ═════════════════════ */}
+      <footer className="px-6 md:px-8 pt-16 pb-10" style={{ background: INK, color: PAPER }}>
+        <div className="max-w-[1340px] mx-auto flex flex-wrap justify-between gap-10 mb-12">
           <div className="max-w-[300px]">
-            <div className="font-black text-[19px] uppercase tracking-[-0.02em] mb-4">Основа<span style={{ color: CLAY }}>.</span></div>
-            <p className="text-[13px] leading-[1.75]" style={{ color: 'rgba(237,232,223,0.4)' }}>Строим дома под ключ с фиксированной сметой. Свои бригады, отчёт каждую пятницу.</p>
+            <div className="font-archivo-black text-[20px] uppercase tracking-[-0.04em] mb-4">Основа</div>
+            <p className="text-[13px] leading-[1.75]" style={{ color: 'rgba(231,227,216,0.5)' }}>
+              Строим дома под ключ с фиксированной сметой. Свои бригады, отчёт каждую пятницу.
+            </p>
           </div>
           <div>
-            <h4 className="text-[10px] uppercase tracking-[0.18em] mb-4" style={{ color: 'rgba(237,232,223,0.3)' }}>Разделы</h4>
-            <div className="flex flex-col gap-3 text-[13px]" style={{ color: 'rgba(237,232,223,0.5)' }}>
+            <h4 className="font-mono text-[9.5px] uppercase tracking-[0.2em] mb-4" style={{ color: 'rgba(231,227,216,0.4)' }}>Разделы</h4>
+            <div className="flex flex-col gap-3 text-[13px]" style={{ color: 'rgba(231,227,216,0.65)' }}>
               <a href={ROOT + '/projects'} onClick={(e) => go(e, ROOT + '/projects')} className="hover:text-white transition-colors">Каталог проектов</a>
               <a href={ROOT + '/prices'} onClick={(e) => go(e, ROOT + '/prices')} className="hover:text-white transition-colors">Прайс по работам</a>
               <a href="#stages" onClick={(e) => jump(e, 'stages')} className="hover:text-white transition-colors">Этапы работ</a>
             </div>
           </div>
           <div>
-            <h4 className="text-[10px] uppercase tracking-[0.18em] mb-4" style={{ color: 'rgba(237,232,223,0.3)' }}>Контакты</h4>
-            <div className="flex flex-col gap-3 text-[13px]" style={{ color: 'rgba(237,232,223,0.5)' }}>
-              <span className="text-[17px] text-white">+7 (000) 000-00-00</span>
+            <h4 className="font-mono text-[9.5px] uppercase tracking-[0.2em] mb-4" style={{ color: 'rgba(231,227,216,0.4)' }}>Контакты</h4>
+            <div className="flex flex-col gap-3 text-[13px]" style={{ color: 'rgba(231,227,216,0.65)' }}>
+              <span className="font-archivo-black text-[19px] text-white">+7 (000) 000-00-00</span>
               <span>build@osnova.example</span>
-              <span style={{ color: 'rgba(237,232,223,0.35)' }}>Офис и шоурум: ул. Строителей, 12<br />Пн–Сб 9:00–19:00</span>
+              <span style={{ color: 'rgba(231,227,216,0.42)' }}>Офис и шоурум: ул. Строителей, 12<br />Пн–Сб 9:00–19:00</span>
             </div>
           </div>
         </div>
-        <div className="max-w-[1320px] mx-auto border-t border-white/10 pt-7 flex flex-wrap justify-between gap-4 text-[11px]" style={{ color: 'rgba(237,232,223,0.25)' }}>
-          <span>© 2026 Основа. Демонстрационный шаблон.</span>
+        <div className="max-w-[1340px] mx-auto pt-7 flex flex-wrap justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.14em]" style={{ borderTop: '1px solid rgba(231,227,216,0.14)', color: 'rgba(231,227,216,0.35)' }}>
+          <span>© 2026 Основа · демонстрационный шаблон ONYX</span>
           <div className="flex gap-5"><span>Политика конфиденциальности</span><span>Договор подряда</span></div>
         </div>
       </footer>
