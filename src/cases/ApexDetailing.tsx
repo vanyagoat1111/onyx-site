@@ -115,30 +115,37 @@ const WASH_STAGES: { at: number; name: string; note: string }[] = [
    Всё на одной фотографии: масштаб, сдвиг и фильтры. Никаких вторых
    картинок, потому что каждая лишняя - это секунда загрузки на телефоне. */
 function writeWash(el: HTMLElement, p: number) {
-  const arrive = seg(p, 0.00, 0.08);   // машина докатывается в кадр
-  const wash = seg(p, 0.07, 0.34);     // граница чистого идёт по кузову
+  const wash = seg(p, 0.04, 0.34);     // граница чистого идёт по кузову
   const cabin = seg(p, 0.32, 0.54);    // салон становится чистым
   const gloss = seg(p, 0.52, 0.72);    // блик полировки проходит по капоту
   const beads = seg(p, 0.68, 0.88);    // капли выступают и скатываются
   const fin = seg(p, 0.84, 0.96);      // цвет добирает глубину
-  const leave = seg(p, 0.91, 1.00);    // выезжает из кадра
+  const leave = seg(p, 0.92, 1.00);    // выезжает из кадра
 
+  const s = el.style;
+  /* Готовые строки с процентами, а не расчёт внутри transform.
+     В CSS одно неверное значение обнуляет всё правило целиком: если бы
+     calc внутри transform где-то не сошёлся, машина просто исчезла бы
+     вместе со сдвигом и масштабом. Считаем в JS - там ошибку видно. */
   setVar(el, '--wash', wash);
-  setVar(el, '--washPct', wash * 100);
+  s.setProperty('--washL', `${(wash * 100).toFixed(2)}%`);
+  s.setProperty('--clipDirty', `inset(0 0 0 ${(wash * 100).toFixed(2)}%)`);
+
   // пыль уходит чуть раньше линии: так чище читается направление движения
-  setVar(el, '--dust', 1 - seg(p, 0.06, 0.28));
+  setVar(el, '--dust', 1 - seg(p, 0.02, 0.26));
   setVar(el, '--cabin', 1 - cabin);
   setVar(el, '--gloss', gloss);
-  setVar(el, '--glossPos', -30 + gloss * 160);
+  s.setProperty('--glossL', `${(-30 + gloss * 160).toFixed(2)}%`);
   setVar(el, '--beads', beads < 0.5 ? beads * 2 : (1 - beads) * 2);
   setVar(el, '--fin', fin);
   setVar(el, '--leave', leave);
 
-  // камера: наезд на салон и возврат
+  // Камера наезжает на салон и возвращается. Машина никуда не въезжает:
+  // на первом экране она обязана стоять в кадре сразу, иначе посетитель
+  // видит пустоту. Сдвиг остался только на выезд в самом конце.
   const focus = cabin < 0.5 ? cabin * 2 : (1 - cabin) * 2;
-  setVar(el, '--zoom', 1 + focus * 0.28);
-  // въезд слева и выезд вправо считаем одной величиной сдвига
-  setVar(el, '--driveX', -16 * (1 - arrive) + 52 * leave);
+  setVar(el, '--zoom', 1 + focus * 0.26);
+  s.setProperty('--driveT', `${(52 * leave).toFixed(2)}%`);
 
   // линия мойки видна только пока идёт мойка
   setVar(el, '--line', wash > 0.004 && wash < 0.996 ? 1 : 0);
@@ -179,17 +186,18 @@ function WashScene({
             // значения по умолчанию - готовая машина в кадре: если скрипт
             // не выполнится, посетитель увидит нормальный первый экран,
             // а не грязный кузов и не пустую сцену
-            '--wash': '1', '--washPct': '100', '--dust': '0', '--cabin': '0',
-            '--gloss': '1', '--glossPos': '130', '--beads': '0',
+            '--wash': '1', '--washL': '100%', '--clipDirty': 'inset(0 0 0 100%)',
+            '--dust': '0', '--cabin': '0',
+            '--gloss': '1', '--glossL': '130%', '--beads': '0',
             '--fin': '1', '--line': '0', '--leave': '0',
-            '--zoom': '1', '--driveX': '0',
+            '--zoom': '1', '--driveT': '0%',
           } as React.CSSProperties}
         >
-          {/* всё, что относится к машине, ездит и приближается вместе */}
+          {/* всё, что относится к машине, уезжает и приближается вместе */}
           <div
             className="absolute inset-0"
             style={{
-              transform: 'translateX(calc(var(--driveX) * 1%)) scale(var(--zoom))',
+              transform: 'translateX(var(--driveT)) scale(var(--zoom))',
               transformOrigin: '46% 46%',
               opacity: 'calc(1 - var(--leave) * 0.72)',
               willChange: 'transform',
@@ -202,26 +210,29 @@ function WashScene({
               style={{ filter: 'saturate(calc(1.05 + var(--fin) * 0.25)) contrast(calc(1.06 + var(--fin) * 0.1)) brightness(1.04)' }}
             />
 
-            {/* грязная: та же фотография, тусклая и пыльная. Уезжает вправо */}
-            <div className="absolute inset-0" style={{ clipPath: 'inset(0 0 0 calc(var(--washPct) * 1%))' }}>
+            {/* Грязная: та же фотография, тусклая и пыльная. Уезжает вправо.
+                Насыщенность и яркость сознательно щадящие: это первое, что
+                видит посетитель, и «матовый неухоженный кузов» должен читаться
+                как состояние машины, а не как ошибка загрузки страницы. */}
+            <div className="absolute inset-0" style={{ clipPath: 'var(--clipDirty)' }}>
               <img
                 src="/hero-auto.jpg" alt="" aria-hidden="true"
                 className="absolute inset-0 w-full h-full object-cover"
-                style={{ filter: 'saturate(0.28) brightness(0.6) contrast(0.88)' }}
+                style={{ filter: 'saturate(0.55) brightness(0.84) contrast(0.94)' }}
               />
               {/* дорожная плёнка поверх кузова */}
-              <div className="absolute inset-0" style={{ background: 'rgba(122,104,74,0.42)', mixBlendMode: 'multiply' }} />
+              <div className="absolute inset-0" style={{ background: 'rgba(122,104,74,0.2)', mixBlendMode: 'multiply' }} />
               {/* пыль и разводы: рисуем градиентами, чтобы ничего не грузить */}
               <div
                 className="absolute inset-0"
                 style={{
                   opacity: 'var(--dust)',
                   backgroundImage:
-                    'radial-gradient(circle at 18% 34%, rgba(214,198,168,0.30) 0 2px, transparent 3px),' +
+                    'radial-gradient(circle at 18% 34%, rgba(214,198,168,0.18) 0 2px, transparent 3px),' +
                     'radial-gradient(circle at 62% 21%, rgba(214,198,168,0.22) 0 3px, transparent 4px),' +
-                    'radial-gradient(circle at 41% 72%, rgba(214,198,168,0.26) 0 2px, transparent 3px),' +
+                    'radial-gradient(circle at 41% 72%, rgba(214,198,168,0.15) 0 2px, transparent 3px),' +
                     'radial-gradient(circle at 83% 58%, rgba(214,198,168,0.20) 0 3px, transparent 4px),' +
-                    'repeating-linear-gradient(101deg, rgba(196,178,142,0.10) 0 2px, transparent 2px 34px)',
+                    'repeating-linear-gradient(101deg, rgba(196,178,142,0.06) 0 2px, transparent 2px 34px)',
                   backgroundSize: '190px 150px, 240px 200px, 170px 220px, 260px 180px, auto',
                 }}
               />
@@ -250,7 +261,7 @@ function WashScene({
             <div
               className="absolute top-0 bottom-0 pointer-events-none"
               style={{
-                left: 'calc(var(--washPct) * 1%)',
+                left: 'var(--washL)',
                 width: 3,
                 transform: 'translateX(-1.5px)',
                 opacity: 'var(--line)',
@@ -263,7 +274,7 @@ function WashScene({
             <div
               className="absolute inset-y-0 pointer-events-none"
               style={{
-                left: 'calc(var(--glossPos) * 1%)',
+                left: 'var(--glossL)',
                 width: '26%',
                 transform: 'skewX(-14deg)',
                 opacity: 'calc(var(--gloss) * (1 - var(--gloss)) * 3.4)',
@@ -292,7 +303,7 @@ function WashScene({
           />
 
           {/* затемнение под текст */}
-          <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(94deg, rgba(12,13,12,.94) 0%, rgba(12,13,12,.78) 44%, rgba(12,13,12,.30) 100%)` }} />
+          <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(94deg, rgba(12,13,12,.88) 0%, rgba(12,13,12,.58) 46%, rgba(12,13,12,.10) 100%)` }} />
           <div className="absolute inset-x-0 bottom-0 h-40 pointer-events-none" style={{ background: `linear-gradient(to top, ${CARBON}, transparent)` }} />
         </div>
 

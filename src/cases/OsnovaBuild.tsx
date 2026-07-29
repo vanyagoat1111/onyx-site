@@ -345,15 +345,44 @@ function Elevation({ className = '' }: { className?: string }) {
    телефоне это была бы каша.                                              */
 
 const BUILD_STAGES: { at: number; name: string; note: string }[] = [
-  { at: 0.00, name: 'Разметка', note: 'Выносим оси и нулевую отметку' },
-  { at: 0.12, name: 'Рабочий чертёж', note: 'Габариты, размеры, отметки' },
-  { at: 0.26, name: 'Фундамент', note: 'Плита по расчёту грунта' },
-  { at: 0.40, name: 'Стены', note: 'Газобетон 375 мм, армопояс' },
-  { at: 0.57, name: 'Кровля', note: 'Стропила, контур закрыт' },
-  { at: 0.70, name: 'Окна и двери', note: 'Остекление, входная группа' },
-  { at: 0.83, name: 'Отделка', note: 'Фасад, водосток, цвет' },
-  { at: 0.94, name: 'Дом сдан', note: 'Ключи и гарантийный талон' },
+  { at: 0.00, name: 'Фундамент', note: 'Плита по расчёту грунта' },
+  { at: 0.14, name: 'Стены', note: 'Газобетон 375 мм, армопояс' },
+  { at: 0.40, name: 'Кровля', note: 'Стропила, контур закрыт' },
+  { at: 0.56, name: 'Окна и двери', note: 'Остекление, входная группа' },
+  { at: 0.72, name: 'Отделка', note: 'Фасад, водосток, цвет' },
+  { at: 0.88, name: 'Дом сдан', note: 'Ключи и гарантийный талон' },
 ];
+
+/* Разметка и габаритный чертёж НЕ зависят от прокрутки.
+
+   Так было раньше, и это оказалось ошибкой: при нулевой прокрутке лист был
+   пуст, человек открывал сайт и видел пустую рамку вместо дома. Первый экран
+   обязан выглядеть законченным сразу.
+
+   Теперь чертёж вычерчивается сам за две секунды после загрузки - эффект
+   остался, ждать прокрутки не нужно, - а прокрутка отвечает только за
+   стройку на готовом листе. */
+function runIntro(el: HTMLElement, done?: () => void) {
+  const DUR = 2200;
+  const t0 = performance.now();
+  let raf = 0;
+  const step = (now: number) => {
+    const t = Math.min(1, (now - t0) / DUR);
+    const mk = seg(t, 0.00, 0.45);
+    const pl = seg(t, 0.30, 1.00);
+    setVar(el, '--mk', mk); setVar(el, '--mkD', 1 - mk);
+    setVar(el, '--pl', pl); setVar(el, '--plD', 1 - pl);
+    if (t < 1) raf = requestAnimationFrame(step);
+    else done?.();
+  };
+  raf = requestAnimationFrame(step);
+  return () => cancelAnimationFrame(raf);
+}
+
+function drawnNow(el: HTMLElement) {
+  setVar(el, '--mk', 1); setVar(el, '--mkD', 0);
+  setVar(el, '--pl', 1); setVar(el, '--plD', 0);
+}
 
 const MASONRY_ROWS = 13;
 const WINDOW_ITEMS = 6;
@@ -364,23 +393,25 @@ function seg(p: number, a: number, b: number) {
   return t * t * (3 - 2 * t);
 }
 
+/* число в CSS-переменную с округлением: меньше мусора в стилях */
+function setVar(el: HTMLElement, name: string, value: number) {
+  el.style.setProperty(name, String(Math.round(value * 1000) / 1000));
+}
+
 /* Раскладываем один общий прогресс на восемь стадий и кладём в переменные.
    Имена короткие: их читает разметка ниже. */
 function writeBuild(el: HTMLElement, p: number) {
-  const mk = seg(p, 0.00, 0.13);   // разметка
-  const pl = seg(p, 0.10, 0.27);   // чертёж целиком
-  const fd = seg(p, 0.25, 0.41);   // фундамент
-  const wl = seg(p, 0.38, 0.59);   // стены
-  const rf = seg(p, 0.55, 0.71);   // кровля
-  const dt = seg(p, 0.68, 0.85);   // окна, двери, фасад
-  const rl = seg(p, 0.79, 0.95);   // переход чертежа в визуализацию
-  const fn = seg(p, 0.91, 1.00);   // финал: свет и участок
+  // разметку и габарит здесь не трогаем: ими управляет runIntro при загрузке
+  const fd = seg(p, 0.00, 0.16);   // фундамент
+  const wl = seg(p, 0.14, 0.42);   // стены
+  const rf = seg(p, 0.40, 0.58);   // кровля
+  const dt = seg(p, 0.56, 0.74);   // окна, двери, фасад
+  const rl = seg(p, 0.72, 0.92);   // переход чертежа в визуализацию
+  const fn = seg(p, 0.88, 1.00);   // финал: свет и участок
 
   const s = el.style;
   const set = (k: string, v: number) => s.setProperty(k, String(Math.round(v * 1000) / 1000));
 
-  set('--mk', mk); set('--mkD', 1 - mk);
-  set('--pl', pl); set('--plD', 1 - pl);
   set('--fd', fd); set('--fdD', 1 - fd);
   set('--wl', wl); set('--wlD', 1 - wl);
   set('--rf', rf); set('--rfD', 1 - rf);
@@ -421,12 +452,29 @@ function BuildScene() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     // Считаем сразу по фактическому положению: если человек перезагрузил
     // страницу в середине трека, браузер вернёт прокрутку туда же, и жёсткий
-    // ноль дал бы кадр с пустым листом.
+    // ноль дал бы кадр без стройки.
     const t = track.current;
     const r = t?.getBoundingClientRect();
     const span = r ? r.height - window.innerHeight : 0;
-    writeBuild(el, span > 0 && r ? Math.max(0, Math.min(1, -r.top / span)) : 0);
+    const p = span > 0 && r ? Math.max(0, Math.min(1, -r.top / span)) : 0;
+    writeBuild(el, p);
+    // чертёж на старте пустой, его дорисует вступление
+    setVar(el, '--mk', 0); setVar(el, '--mkD', 1);
+    setVar(el, '--pl', 0); setVar(el, '--plD', 1);
   }, []);
+
+  /* Вступление: чертёж проявляется сам, без участия прокрутки.
+     Если человек открыл страницу уже прокрученной вниз или попросил меньше
+     движения - показываем готовый чертёж сразу, без проигрывания. */
+  useEffect(() => {
+    const el = scene.current;
+    if (!el) return;
+    if (calm) { drawnNow(el); return; }
+    const t = track.current;
+    const r = t?.getBoundingClientRect();
+    if (r && r.top < -40) { drawnNow(el); return; }
+    return runIntro(el);
+  }, [calm]);
 
   /* Высоту экрана меряем сами, а не берём из 100svh.
      Причина - встроенные браузеры. Наши клиенты часто приходят по ссылке
