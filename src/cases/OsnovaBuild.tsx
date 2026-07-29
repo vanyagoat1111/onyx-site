@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import DemoPlaceholder from '../components/DemoPlaceholder';
+import DemoPhoto from '../components/DemoPhoto';
 
 /* ═══════════════════════════════════════════════════════════════════════════
    ОСНОВА — строительство домов под ключ.
@@ -495,6 +496,7 @@ function BuildScene() {
     let raf = 0;
     let last = -1;
     let visible = true;
+    let broken = false;
 
     const io = typeof IntersectionObserver !== 'undefined'
       ? new IntersectionObserver((es) => es.forEach((e) => { visible = e.isIntersecting; }), { rootMargin: '10% 0px' })
@@ -502,7 +504,7 @@ function BuildScene() {
     if (io && track.current) io.observe(track.current);
 
     const tick = () => {
-      raf = requestAnimationFrame(tick);
+      raf = 0;
       const t = track.current;
       if (!t || !visible) return;
       const r = t.getBoundingClientRect();
@@ -527,17 +529,42 @@ function BuildScene() {
     // прокручиваемой. Молча ломаться нельзя: это первый экран.
     const guarded = () => {
       try { tick(); } catch {
-        cancelAnimationFrame(raf);
+        broken = true;
+        if (raf) cancelAnimationFrame(raf);
         writeBuild(el, 1);
         setReady(false);
       }
     };
-    raf = requestAnimationFrame(guarded);
 
-    return () => { cancelAnimationFrame(raf); io?.disconnect(); };
+    /* Считаем только когда человек прокручивает.
+       Раньше здесь крутился безостановочный requestAnimationFrame - он
+       занимал главный поток даже на неподвижной странице, и кнопки
+       отзывались с задержкой. Теперь в покое работы ровно ноль,
+       а на кадр приходится не больше одного пересчёта. */
+    const onScroll = () => {
+      if (raf || broken) return;
+      raf = requestAnimationFrame(guarded);
+    };
+
+    guarded();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      io?.disconnect();
+    };
   }, [calm]);
 
   const cur = BUILD_STAGES[stage];
+
+  /* На телефоне внизу висит плашка «Демо-шаблон · данные для примера».
+     Она перекрывала полосу прогресса под домом, поэтому низ экрана
+     считаем занятым и поднимаем весь лист выше. */
+  const badgeSafe = mobile ? 64 : 0;
+  const usable = vh > 0 ? vh - badgeSafe : 0;
 
   /* Два порога, посчитанные от реальной полезной высоты вебвью.
      В Telegram сверху своя панель, поэтому у телефона на 844 точки остаётся
@@ -545,8 +572,8 @@ function BuildScene() {
      из этих случаев, поэтому текстовый блок ужимается ступенями.
      Порог взят с запасом: 6-дюймовый Android в Telegram даёт 641,
      и при границе в 640 он бы не сработал впритык. */
-  const short = vh > 0 && vh < 700;   // прячем подзаголовок
-  const tiny = vh > 0 && vh < 560;    // прячем ещё и подсказку, заголовок мельче
+  const short = usable > 0 && usable < 700;   // прячем подзаголовок
+  const tiny = usable > 0 && usable < 560;    // прячем ещё и подсказку, заголовок мельче
 
   // Длина трека кратна высоте экрана. На телефоне короче: длинная прокрутка
   // на маленьком экране утомляет и человек уходит, не досмотрев.
@@ -560,7 +587,10 @@ function BuildScene() {
       {/* height из JS перебивает класс: класс нужен только как запасной
           вариант, если скрипт не выполнится */}
       <div ref={pane} className="sticky top-0 h-[100svh] flex flex-col" style={{ height: paneH }}>
-        <div className="flex-1 min-h-0 max-w-[1340px] w-full mx-auto px-6 md:px-8 pt-[70px] lg:pt-[78px] pb-3 lg:pb-4 grid grid-cols-1 grid-rows-[auto_1fr] lg:grid-cols-[1.02fr_0.98fr] lg:grid-rows-1 gap-3 lg:gap-10 lg:items-center">
+        <div
+          className="flex-1 min-h-0 max-w-[1340px] w-full mx-auto px-6 md:px-8 pt-[66px] lg:pt-[78px] grid grid-cols-1 grid-rows-[auto_1fr] lg:grid-cols-[1.02fr_0.98fr] lg:grid-rows-1 gap-3 lg:gap-10 lg:items-center"
+          style={{ paddingBottom: badgeSafe + 12 }}
+        >
 
           {/* текст первого экрана - без изменений по смыслу */}
           <div>
@@ -891,7 +921,7 @@ export default function OsnovaBuild() {
   const [area, setArea] = useState(140);
   const [pkg, setPkg] = useState(1);
   const [tech, setTech] = useState<string>('Все');
-  const [prog, setProg] = useState(0);
+  const progBar = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const sync = () => setHash(window.location.hash);
@@ -899,16 +929,29 @@ export default function OsnovaBuild() {
     return () => window.removeEventListener('hashchange', sync);
   }, []);
 
-  // тонкая полоса прогресса в шапке: лист «разворачивается» по мере чтения
+  /* Тонкая полоса прогресса в шапке: лист «разворачивается» по мере чтения.
+     Двигаем её напрямую через ref, а не через состояние React. Раньше здесь
+     стоял setState на каждое событие прокрутки - и вся страница целиком
+     перерисовывалась десятки раз в секунду. Из-за этого главный поток был
+     занят, а нажатия на кнопки отрабатывали с большой задержкой. */
   useEffect(() => {
-    const onScroll = () => {
+    let raf = 0;
+    const apply = () => {
+      raf = 0;
       const h = document.documentElement;
       const max = h.scrollHeight - h.clientHeight;
-      setProg(max > 0 ? Math.min(1, h.scrollTop / max) : 0);
+      const p = max > 0 ? Math.min(1, h.scrollTop / max) : 0;
+      if (progBar.current) progBar.current.style.transform = `scaleX(${p})`;
     };
-    onScroll();
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(apply); };
+    apply();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener('resize', onScroll, { passive: true });
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
   }, []);
 
   const slug = hash.startsWith(ROOT + '/project/') ? hash.split('/project/')[1] : null;
@@ -977,7 +1020,7 @@ export default function OsnovaBuild() {
           <a href="#contacts" onClick={(e) => jump(e, 'contacts')} className={`${btn} px-6 py-3 text-white hidden sm:inline-flex hover:-translate-y-[2px]`} style={{ background: CLAY }}>Смета бесплатно</a>
         </div>
         <div className="h-[2px]" style={{ background: ink(0.08) }}>
-          <div className="h-full origin-left" style={{ background: CLAY, transform: `scaleX(${prog})`, transition: 'transform .1s linear' }} />
+          <div ref={progBar} className="h-full origin-left" style={{ background: CLAY, transform: 'scaleX(0)' }} />
         </div>
       </header>
 
@@ -1057,7 +1100,7 @@ export default function OsnovaBuild() {
                       <div className="flex justify-between px-4 py-2.5 font-mono text-[9.5px] uppercase tracking-[0.16em]" style={{ borderBottom: `1px solid ${ink(0.14)}`, color: ink(0.42) }}>
                         <span>{p.index}</span><span>{p.tech}</span>
                       </div>
-                      <DemoPlaceholder label={`Фасад · ${p.name}`} tone={CLAY} ratio="4/3" icon="building" dark={false} bg="transparent" />
+                      <DemoPhoto src={`/demo/osnova-${p.slug}.jpg`} label={`Фасад · ${p.name}`} tone={CLAY} ratio="4/3" icon="building" dark={false} bg="transparent" />
                       <div className="p-5">
                         <h3 className="font-archivo-black text-[21px] uppercase tracking-[-0.02em] mb-3">{p.name}</h3>
                         <div className="flex flex-wrap gap-x-2 gap-y-1 font-mono text-[10.5px] mb-4" style={{ color: ink(0.45) }}>
@@ -1206,7 +1249,7 @@ export default function OsnovaBuild() {
                   return (
                     <Up key={f.q} delay={i * 0.04}>
                       <div style={{ borderTop: `1px solid ${ink(0.16)}` }}>
-                        <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
+                        <button type="button" onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
                           <span className="flex items-baseline gap-4">
                             <span className="font-mono text-[10px] shrink-0" style={{ color: CLAY }}>{String(i + 1).padStart(2, '0')}</span>
                             <span className="font-archivo-black text-[17px] md:text-[21px] uppercase tracking-[-0.015em]">{f.q}</span>
@@ -1247,7 +1290,7 @@ export default function OsnovaBuild() {
               </p>
               <div className="mt-9 flex flex-wrap gap-2.5">
                 {techs.map((t) => (
-                  <button
+                  <button type="button"
                     key={t} onClick={() => setTech(t)}
                     className="px-5 py-2.5 font-mono text-[10.5px] font-bold uppercase tracking-[0.14em] transition-colors"
                     style={{
@@ -1275,7 +1318,7 @@ export default function OsnovaBuild() {
                     <div className="flex justify-between px-6 py-3 font-mono text-[9.5px] uppercase tracking-[0.18em]" style={{ borderBottom: `1px solid ${ink(0.14)}`, color: ink(0.42) }}>
                       <span>{p.index}</span><span>{p.tech}</span><span>масштаб 1:100</span>
                     </div>
-                    <DemoPlaceholder label={`Фото · дом «${p.name}»`} tone={CLAY} ratio="16/9" icon="building" dark={false} bg="transparent" />
+                    <DemoPhoto src={`/demo/osnova-${p.slug}.jpg`} label={`Фото · дом «${p.name}»`} tone={CLAY} ratio="16/9" icon="building" dark={false} bg="transparent" />
                     <div className="p-7">
                       <h3 className="font-archivo-black text-[27px] uppercase tracking-[-0.025em] mb-3">Дом «{p.name}»</h3>
                       <p className="text-[14px] leading-[1.7] mb-6" style={{ color: ink(0.55) }}>{p.lead}</p>
@@ -1519,7 +1562,7 @@ export default function OsnovaBuild() {
                 <div className="p-8 md:p-10" style={{ border: `1px solid ${ink(0.22)}`, background: PAPER }}>
                   <div className="flex flex-wrap gap-2.5 mb-9">
                     {packages.map((p, i) => (
-                      <button
+                      <button type="button"
                         key={p.name} onClick={() => setPkg(i)}
                         className="px-5 py-3 font-mono text-[10.5px] font-bold uppercase tracking-[0.14em] transition-colors"
                         style={{

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import DemoPlaceholder from '../components/DemoPlaceholder';
+import DemoPhoto from '../components/DemoPhoto';
 import { DonutStat, StatBars } from '../components/DemoCharts';
 
 /* FLEUR — салон красоты и косметология.
@@ -27,6 +28,48 @@ function Reveal({ children, className = '', delay = 0, style }: { children: Reac
 const INK = '#2A2422';
 const ROSE = '#B4796B';
 const PAPER = '#F6F1EA';
+
+/* Приём этого шаблона: подбор ухода по типу кожи.
+
+   В красоте человек приходит не за «услугами», а с конкретной жалобой,
+   и обычный прайс на это не отвечает. Здесь он отмечает своё состояние
+   и сразу видит, с чего начинают именно в таком случае - это снимает
+   главный страх «мне навяжут лишнее» и приводит на приём подготовленным.
+
+   Ничего не обещаем и не диагностируем: показываем, с чего начинается
+   разговор с косметологом. */
+const skinTypes = [
+  {
+    id: 'dry', t: 'Сухая, стянутость', hint: 'После умывания хочется сразу нанести крем',
+    start: 'Увлажняющий протокол и мягкий пилинг',
+    course: 'Биоревитализация курсом, обычно 3 процедуры',
+    avoid: 'Агрессивные чистки и спиртовые тоники',
+  },
+  {
+    id: 'oily', t: 'Жирная, расширенные поры', hint: 'К середине дня появляется блеск',
+    start: 'Комбинированная чистка и себорегулирующий уход',
+    course: 'Химический пилинг, курс из 4 процедур с интервалом',
+    avoid: 'Пересушивание: оно усиливает выработку себума',
+  },
+  {
+    id: 'combo', t: 'Комбинированная', hint: 'Лоб и нос жирнее, щёки суше',
+    start: 'Зональный уход: разные составы на разные участки',
+    course: 'Ультразвуковая чистка и микротоки',
+    avoid: 'Один и тот же уход на всё лицо',
+  },
+  {
+    id: 'sensitive', t: 'Чувствительная, краснеет', hint: 'Реагирует на холод, косметику, стресс',
+    start: 'Успокаивающий протокол без механического воздействия',
+    course: 'Мягкая биоревитализация после снятия воспаления',
+    avoid: 'Скрабы, распаривание, RF в острой фазе',
+  },
+  {
+    id: 'age', t: 'Возрастные изменения', hint: 'Овал поплыл, появились заломы',
+    start: 'Консультация врача и разметка зон',
+    course: 'RF-лифтинг курсом, при показаниях - инъекции',
+    avoid: 'Начинать с инъекций до оценки состояния кожи',
+  },
+];
 
 const navLinks = [
   { name: 'Услуги', href: 'services' },
@@ -71,6 +114,63 @@ const faqs = [
   { q: 'Что с гигиеной инструмента?', a: 'Одноразовое всё, что может быть одноразовым. Остальное проходит трёхступенчатую обработку и автоклав. Индикаторы стерильности показываем по просьбе.' },
   { q: 'Сколько ждать записи?', a: 'К эстетисту — обычно два-три дня. К врачу-косметологу и колористу — до недели. Срочные окна появляются каждый день, о них пишем в Telegram.' },
 ];
+
+function SkinPicker() {
+  const [id, setId] = useState(skinTypes[0].id);
+  const cur = skinTypes.find((s) => s.id === id) || skinTypes[0];
+  const rows: [string, string, string][] = [
+    ['С чего начинаем', cur.start, ROSE],
+    ['Что обычно дальше', cur.course, INK],
+    ['Чего избегаем', cur.avoid, 'rgba(42,36,34,0.5)'],
+  ];
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-8 lg:gap-14 items-start">
+      <div className="flex flex-col gap-2.5">
+        {skinTypes.map((s) => {
+          const on = s.id === id;
+          return (
+            <button
+              key={s.id} type="button" onClick={() => setId(s.id)} aria-pressed={on}
+              className="text-left px-5 py-4 transition-all duration-300"
+              style={{
+                background: on ? INK : 'transparent',
+                color: on ? PAPER : INK,
+                border: `1px solid ${on ? INK : 'rgba(42,36,34,0.16)'}`,
+              }}
+            >
+              <span className="block text-[15px]">{s.t}</span>
+              <span
+                className="block text-[12.5px] mt-1 leading-snug"
+                style={{ color: on ? 'rgba(246,241,234,0.6)' : 'rgba(42,36,34,0.45)' }}
+              >
+                {s.hint}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="p-7 md:p-10" style={{ background: '#EFE7DD' }}>
+        <div className="text-[11px] uppercase tracking-[0.28em] mb-6" style={{ color: ROSE }}>{cur.t}</div>
+        {rows.map(([label, text, color], i) => (
+          <div key={label} className={i ? 'pt-6 mt-6' : ''} style={i ? { borderTop: '1px solid rgba(42,36,34,0.12)' } : undefined}>
+            <div className="text-[11px] uppercase tracking-[0.16em] mb-2.5" style={{ color: 'rgba(42,36,34,0.4)' }}>{label}</div>
+            <div className="font-cormorant text-[22px] md:text-[27px] leading-[1.3]" style={{ color }}>{text}</div>
+          </div>
+        ))}
+        <a
+          href="#booking"
+          onClick={(e) => { e.preventDefault(); document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' }); }}
+          className="inline-block mt-9 px-8 py-4 text-[11px] uppercase tracking-[0.16em] transition-transform hover:-translate-y-[2px]"
+          style={{ background: ROSE, color: PAPER }}
+        >
+          Записаться на консультацию
+        </a>
+      </div>
+    </div>
+  );
+}
 
 export default function FleurBeauty() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -164,6 +264,22 @@ export default function FleurBeauty() {
         </div>
       </section>
 
+      {/* ПОДБОР ПО ТИПУ КОЖИ */}
+      <section className="px-6 md:px-8 py-20 md:py-28 border-t" style={{ borderColor: 'rgba(42,36,34,0.1)' }}>
+        <div className="max-w-[1280px] mx-auto">
+          <Reveal className="mb-12 max-w-[46ch]">
+            <div className="text-[11px] uppercase tracking-[0.3em] mb-5" style={{ color: ROSE }}>Подбор</div>
+            <h2 className="font-cormorant text-[38px] md:text-[54px] leading-[1.05]">С чего начнём именно у вас</h2>
+            <p className="mt-6 text-[15.5px] leading-[1.8]" style={{ color: 'rgba(42,36,34,0.6)' }}>
+              Отметьте, что ближе к вашему состоянию. Покажем, с чего обычно начинают
+              и чего в этом случае лучше избегать. Это не диагноз - разговор всё равно
+              начнётся с осмотра.
+            </p>
+          </Reveal>
+          <SkinPicker />
+        </div>
+      </section>
+
       {/* PROCESS */}
       <section className="px-6 md:px-8 py-20 md:py-28" style={{ background: '#EFE7DD' }}>
         <div className="max-w-[1280px] mx-auto">
@@ -193,7 +309,7 @@ export default function FleurBeauty() {
             {masters.map((m, i) => (
               <Reveal key={m.n} delay={i * 0.07}>
                 <div className="mb-5 rounded-[3px] overflow-hidden">
-                  <DemoPlaceholder label="Портрет мастера" tone={ROSE} ratio="3/4" icon="person" dark={false} />
+                  <DemoPhoto src={`/demo/fleur-master-${i + 1}.jpg`} label="Портрет мастера" tone={ROSE} ratio="3/4" icon="person" dark={false} />
                 </div>
                 <div className="text-[11px] uppercase tracking-[0.18em] mb-2" style={{ color: ROSE }}>{m.r} · {m.exp}</div>
                 <h3 className="font-cormorant text-[24px] mb-2.5">{m.n}</h3>
@@ -209,7 +325,7 @@ export default function FleurBeauty() {
         <div className="max-w-[1000px] mx-auto">
           <Reveal className="flex gap-2.5 mb-12 flex-wrap justify-center">
             {reviews.map((r, i) => (
-              <button key={r.n} onClick={() => setTab(i)} className="px-5 py-2.5 rounded-full text-[11px] uppercase tracking-[0.14em] transition-colors border"
+              <button type="button" key={r.n} onClick={() => setTab(i)} className="px-5 py-2.5 rounded-full text-[11px] uppercase tracking-[0.14em] transition-colors border"
                 style={{ borderColor: tab === i ? ROSE : 'rgba(42,36,34,0.16)', background: tab === i ? ROSE : 'transparent', color: tab === i ? '#fff' : 'rgba(42,36,34,0.55)' }}>
                 {r.s}
               </button>
@@ -240,7 +356,7 @@ export default function FleurBeauty() {
               const open = openFaq === i;
               return (
                 <Reveal key={f.q} delay={i * 0.04} className="border-b" style={{ borderColor: 'rgba(42,36,34,0.14)' }}>
-                  <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
+                  <button type="button" onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
                     <span className="font-cormorant text-[20px] md:text-[23px]">{f.q}</span>
                     <span className="text-[22px] shrink-0" style={{ color: ROSE }}>{open ? '−' : '+'}</span>
                   </button>

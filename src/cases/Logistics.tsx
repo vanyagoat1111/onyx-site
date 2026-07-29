@@ -60,6 +60,23 @@ const process = [
   { step: '04', title: 'Точная сдача груза адресату', desc: 'Своевременная доставка, приёмка по актам, передача закрывающих документов.' },
 ];
 
+/* Плечи от московского хаба. Цифры условные и подписаны как ориентир:
+   в демо нельзя показывать точные тарифы, но можно показать, что расчёт
+   вообще существует и считается за секунду, а не «пришлите заявку». */
+const routes = [
+  { to: 'Санкт-Петербург', km: 710, days: '1–2' },
+  { to: 'Казань', km: 820, days: '1–2' },
+  { to: 'Екатеринбург', km: 1790, days: '2–3' },
+  { to: 'Новосибирск', km: 3350, days: '4–5' },
+  { to: 'Владивосток', km: 9020, days: '11–14' },
+];
+
+const cargoKinds = [
+  { k: 'Паллеты', mult: 1, note: 'Стандартная тарная отгрузка' },
+  { k: 'Негабарит', mult: 1.6, note: 'Требуется согласование маршрута' },
+  { k: 'Температурный режим', mult: 1.35, note: 'Рефрижератор с записью температуры' },
+];
+
 const cities = [
   { name: 'Москва', highlight: false },
   { name: 'Санкт-Петербург', highlight: false },
@@ -83,6 +100,97 @@ const guarantees = [
   { title: 'Прозрачный документооборот', desc: 'ТТН, счета-фактуры и акты передаются в электронном виде через личный кабинет клиента.' },
   { title: 'Материальная ответственность', desc: '100% ответственность перевозчика за сохранность груза на всех этапах маршрута.' },
 ].map((g, i) => ({ ...g, num: i + 1 }));
+
+function RouteCalc() {
+  const [r, setR] = useState(0);
+  const [k, setK] = useState(0);
+  const [tons, setTons] = useState(10);
+
+  const route = routes[r];
+  const kind = cargoKinds[k];
+  // ставка за тонно-километр, дальше округляем: точную цену даёт логист
+  const price = Math.round((route.km * tons * 3.2 * kind.mult) / 500) * 500;
+
+  const cell = 'px-4 py-3 text-[13px] font-bold border transition-colors cursor-pointer';
+  const on = { background: '#2F6FED', borderColor: '#2F6FED', color: '#fff' };
+  const off = { background: '#0A0F26', borderColor: '#232B54', color: '#8B95BD' };
+
+  return (
+    <section id="calc" className="py-20 md:py-[110px] px-6 md:px-8 border-t border-white/[0.06] scroll-mt-20">
+      <div className="max-w-[1400px] mx-auto">
+        <Reveal className="mb-10">
+          <div className="flex items-center gap-3 text-[#4E8CFF] font-bold uppercase tracking-[0.1em] text-[13px] mb-4">
+            <span className="w-7 h-0.5 bg-[#4E8CFF]" />Расчёт
+          </div>
+          <h2 className="font-sora text-3xl md:text-[42px] font-extrabold uppercase leading-[1.15]">
+            Сколько и <span className="text-[#4E8CFF]">когда</span>
+          </h2>
+          <p className="text-[#B4BEDB] text-[15px] font-light leading-[1.75] mt-5 max-w-[56ch]">
+            Ориентир по ставке и сроку за пару секунд, без заявки и звонка.
+            Точную цену подтверждает логист после уточнения габаритов и адресов.
+          </p>
+        </Reveal>
+
+        <Reveal style={{ clipPath: CLIP_INV }} className="bg-[#0A0F26] border border-[#232B54] p-7 md:p-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10">
+            <div>
+              <div className="text-[#8B95BD] text-[11px] font-bold uppercase tracking-[0.12em] mb-3">Направление из Москвы</div>
+              <div className="flex flex-wrap gap-2 mb-8">
+                {routes.map((x, i) => (
+                  <button key={x.to} type="button" onClick={() => setR(i)} style={{ clipPath: CLIP, ...(i === r ? on : off) }} className={cell}>
+                    {x.to}
+                  </button>
+                ))}
+              </div>
+
+              <div className="text-[#8B95BD] text-[11px] font-bold uppercase tracking-[0.12em] mb-3">Тип груза</div>
+              <div className="flex flex-wrap gap-2 mb-8">
+                {cargoKinds.map((x, i) => (
+                  <button key={x.k} type="button" onClick={() => setK(i)} style={{ clipPath: CLIP, ...(i === k ? on : off) }} className={cell}>
+                    {x.k}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex justify-between items-baseline mb-3">
+                <span className="text-[#8B95BD] text-[11px] font-bold uppercase tracking-[0.12em]">Вес партии</span>
+                <span className="font-sora text-2xl font-extrabold">{tons} т</span>
+              </div>
+              <input
+                type="range" min={1} max={20} step={1} value={tons}
+                onChange={(e) => setTons(Number(e.target.value))}
+                className="w-full cursor-pointer" aria-label="Вес партии в тоннах"
+                style={{ accentColor: '#2F6FED' }}
+              />
+              <div className="text-[#8B95BD] text-[12px] mt-3 leading-[1.6]">{kind.note}</div>
+            </div>
+
+            <div className="flex flex-col justify-center gap-6 lg:pl-10 lg:border-l border-[#232B54]">
+              {[
+                ['Плечо', `${route.km.toLocaleString('ru-RU')} км`],
+                ['Срок в пути', `${route.days} суток`],
+                ['Ориентир по ставке', `от ${price.toLocaleString('ru-RU')} ₽`],
+              ].map(([l, v], i) => (
+                <div key={l}>
+                  <div className="text-[#8B95BD] text-[11px] font-bold uppercase tracking-[0.12em] mb-2">{l}</div>
+                  <div className="font-sora text-[30px] md:text-[38px] font-extrabold leading-none" style={{ color: i === 2 ? '#4E8CFF' : '#fff' }}>{v}</div>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
+                style={{ clipPath: CLIP }}
+                className="mt-2 bg-[#2F6FED] text-white px-7 py-4 text-[13px] font-bold uppercase tracking-[0.08em] cursor-pointer transition-all hover:-translate-y-0.5"
+              >
+                Подтвердить ставку у логиста
+              </button>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
 
 export default function Logistics() {
   const [submitted, setSubmitted] = useState(false);
@@ -114,7 +222,7 @@ export default function Logistics() {
               <div className="text-[10px] text-[#8B95BD]">Бесплатный звонок по РФ</div>
               <div className="text-sm font-bold">8 (800) 500-00-00</div>
             </div>
-            <button onClick={(e: any) => scrollTo(e, 'geography')} style={{ clipPath: CLIP }} className="hidden sm:block bg-[#2F6FED] text-white px-6.5 py-3.5 text-xs font-bold uppercase tracking-[0.08em] cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-10px_rgba(78,140,255,0.5)]">Расчёт стоимости</button>
+            <button type="button" onClick={(e: any) => scrollTo(e, 'geography')} style={{ clipPath: CLIP }} className="hidden sm:block bg-[#2F6FED] text-white px-6.5 py-3.5 text-xs font-bold uppercase tracking-[0.08em] cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-10px_rgba(78,140,255,0.5)]">Расчёт стоимости</button>
           </div>
         </div>
       </header>
@@ -145,8 +253,8 @@ export default function Logistics() {
               Собственный автопарк из 230 единиц техники, современные кросс-доки полного цикла и 100% материальная ответственность по договору.
             </motion.p>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.3, ease: EASE }} className="flex gap-4 flex-wrap">
-              <button style={{ clipPath: CLIP }} className="bg-[#2F6FED] border border-[#4E8CFF]/50 text-white px-7.5 py-4.5 text-[13px] font-bold uppercase tracking-[0.08em] cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-10px_rgba(78,140,255,0.5)]">Рассчитать ставку</button>
-              <button style={{ clipPath: CLIP }} className="bg-[#131A3D] border border-[#232B54] text-white px-7.5 py-4.5 text-[13px] font-bold uppercase tracking-[0.08em] cursor-pointer">Скачать презентацию</button>
+              <button onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })} type="button" style={{ clipPath: CLIP }} className="bg-[#2F6FED] border border-[#4E8CFF]/50 text-white px-7.5 py-4.5 text-[13px] font-bold uppercase tracking-[0.08em] cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-10px_rgba(78,140,255,0.5)]">Рассчитать ставку</button>
+              <button onClick={() => document.getElementById('advantages')?.scrollIntoView({ behavior: 'smooth' })} type="button" style={{ clipPath: CLIP }} className="bg-[#131A3D] border border-[#232B54] text-white px-7.5 py-4.5 text-[13px] font-bold uppercase tracking-[0.08em] cursor-pointer">Скачать презентацию</button>
             </motion.div>
           </div>
 
@@ -171,7 +279,7 @@ export default function Logistics() {
                   <input type="number" placeholder="0" className="w-full bg-[#0A0F26] border border-[#232B54] px-4 py-3.5 text-white text-sm outline-none placeholder:text-white/30" />
                 </div>
               </div>
-              <button style={{ clipPath: CLIP }} className="w-full bg-[#2F6FED] border border-[#4E8CFF]/50 text-white py-4 text-[13px] font-bold uppercase tracking-[0.08em] cursor-pointer mt-2 transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-10px_rgba(78,140,255,0.5)]">Узнать стоимость</button>
+              <button type="button" style={{ clipPath: CLIP }} className="w-full bg-[#2F6FED] border border-[#4E8CFF]/50 text-white py-4 text-[13px] font-bold uppercase tracking-[0.08em] cursor-pointer mt-2 transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-10px_rgba(78,140,255,0.5)]">Узнать стоимость</button>
             </div>
           </Reveal>
         </div>
@@ -264,6 +372,12 @@ export default function Logistics() {
       </section>
 
       {/* GEOGRAPHY */}
+      {/* ПРИЁМ ШАБЛОНА: расчёт маршрута и срока.
+          В логистике человек звонит с одним вопросом - «сколько и когда».
+          Пока он не получил ответ, всё остальное на сайте ему безразлично,
+          поэтому расчёт стоит выше рассказа про парк и терминалы. */}
+      <RouteCalc />
+
       <section id="geography" className="py-20 md:py-[120px] px-6 md:px-8 bg-[#131A3D] border-t border-white/[0.06] scroll-mt-20">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-16 items-center">
           <Reveal>
@@ -377,11 +491,11 @@ export default function Logistics() {
           <div>
             <h4 className="text-sm font-extrabold uppercase mb-5">Компетенции</h4>
             <div className="flex flex-col gap-3 text-[13px]">
-              <a href="#" className="text-[#8B95BD] hover:text-white transition-colors">FTL Магистральные перевозки</a>
-              <a href="#" className="text-[#8B95BD] hover:text-white transition-colors">Сборные грузы LTL</a>
-              <a href="#" className="text-[#8B95BD] hover:text-white transition-colors">Транспортировка негабарита</a>
-              <a href="#" className="text-[#8B95BD] hover:text-white transition-colors">Ответхранение (Склад А-класса)</a>
-              <a href="#" className="text-[#8B95BD] hover:text-white transition-colors">Таможенный консалтинг</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD] hover:text-white transition-colors">FTL Магистральные перевозки</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD] hover:text-white transition-colors">Сборные грузы LTL</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD] hover:text-white transition-colors">Транспортировка негабарита</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD] hover:text-white transition-colors">Ответхранение (Склад А-класса)</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD] hover:text-white transition-colors">Таможенный консалтинг</a>
             </div>
           </div>
           <div>
@@ -396,9 +510,9 @@ export default function Logistics() {
         <div className="max-w-[1400px] mx-auto border-t border-[#232B54] pt-7 flex justify-between gap-4 flex-wrap text-xs text-[#8B95BD]">
           <span>© 2026 Prime Logistics. Все права сохранены.</span>
           <div className="flex gap-5">
-            <a href="#" className="text-[#8B95BD]">Документация</a>
-            <a href="#" className="text-[#8B95BD]">Договор оферты</a>
-            <a href="#" className="text-[#8B95BD]">Политика обработки ПД</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD]">Документация</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD]">Договор оферты</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD]">Политика обработки ПД</a>
           </div>
         </div>
       </footer>

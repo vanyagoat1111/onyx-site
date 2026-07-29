@@ -57,6 +57,20 @@ const winRates = [
   { label: 'Недвижимость и строительство', pct: 89 },
 ];
 
+/* Приём этого шаблона: оценка перспектив до звонка.
+
+   В юридических услугах человек не звонит, пока не понимает двух вещей:
+   есть ли у него шанс и во сколько это обойдётся. Пока обе цифры скрыты,
+   он обходит десять сайтов и не оставляет заявку ни на одном.
+   Здесь он выбирает тип спора и сумму - и видит ориентир, построенный
+   на той же статистике, что показана ниже в блоке результатов. */
+const disputeKinds = [
+  { k: 'Корпоративный спор', rate: 96, base: 0.09, min: 180000, note: 'Чаще всего решается до суда, если начать рано' },
+  { k: 'Банкротство и субсидиарка', rate: 91, base: 0.07, min: 250000, note: 'Срок от девяти месяцев, работа идёт этапами' },
+  { k: 'Арбитраж и налоги', rate: 94, base: 0.08, min: 150000, note: 'Досудебная стадия часто снимает половину требований' },
+  { k: 'Недвижимость и стройка', rate: 89, base: 0.06, min: 120000, note: 'Многое решает экспертиза, её закладываем сразу' },
+];
+
 const practices = [
   'Корпоративное право и M&A',
   'Разрешение споров и Арбитраж',
@@ -141,6 +155,88 @@ function WinRateRings() {
   );
 }
 
+function CaseEstimator() {
+  const [i, setI] = useState(0);
+  const [mln, setMln] = useState(25);
+  const d = disputeKinds[i];
+  const GOLD = '#C9A263';
+
+  const sum = mln * 1_000_000;
+  const fee = Math.max(d.min, Math.round((sum * d.base) / 10000) * 10000);
+
+  return (
+    <section className="py-20 md:py-28 px-6 md:px-8 border-t border-white/[0.07]">
+      <div className="max-w-[1180px] mx-auto">
+        <div className="mb-10 max-w-[54ch]">
+          <div className="font-manrope text-[11px] uppercase tracking-[0.28em] mb-4" style={{ color: GOLD }}>Оценка</div>
+          <h2 className="text-[34px] md:text-[50px] leading-[1.08] text-white mb-5">Есть ли перспектива</h2>
+          <p className="font-manrope text-[14.5px] leading-[1.8] text-slate-400">
+            Выберите тип спора и сумму требований - покажем нашу статистику по этой
+            категории и порядок гонорара. Это ориентир: окончательную оценку
+            партнёр даёт после изучения документов.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-12 items-start">
+          <div>
+            <div className="font-manrope text-[11px] uppercase tracking-[0.16em] text-slate-500 mb-3">Категория спора</div>
+            <div className="flex flex-col gap-2 mb-9">
+              {disputeKinds.map((x, k) => (
+                <button
+                  key={x.k} type="button" onClick={() => setI(k)} aria-pressed={k === i}
+                  className="font-manrope text-left px-5 py-4 text-[14px] border transition-colors cursor-pointer"
+                  style={{
+                    background: k === i ? 'rgba(201,162,99,0.12)' : 'transparent',
+                    borderColor: k === i ? GOLD : 'rgba(255,255,255,0.1)',
+                    color: k === i ? '#fff' : '#94a3b8',
+                  }}
+                >
+                  {x.k}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex justify-between items-baseline mb-3">
+              <span className="font-manrope text-[11px] uppercase tracking-[0.16em] text-slate-500">Сумма требований</span>
+              <span className="text-[26px] text-white">{mln} млн ₽</span>
+            </div>
+            <input
+              type="range" min={1} max={300} step={1} value={mln}
+              onChange={(e) => setMln(Number(e.target.value))}
+              className="w-full cursor-pointer" aria-label="Сумма требований, млн рублей"
+              style={{ accentColor: GOLD }}
+            />
+          </div>
+
+          <div className="border border-white/10 p-8 md:p-10" style={{ background: 'rgba(255,255,255,0.02)' }}>
+            <div className="font-manrope text-[11px] uppercase tracking-[0.16em] text-slate-500 mb-3">Наша статистика по категории</div>
+            <div className="flex items-baseline gap-3 mb-2">
+              <span className="text-[54px] leading-none" style={{ color: GOLD }}>{d.rate}%</span>
+              <span className="font-manrope text-[13px] text-slate-400">дел в нашу пользу</span>
+            </div>
+            <div className="h-[4px] bg-white/10 mb-8">
+              <div className="h-full transition-[width] duration-500" style={{ background: GOLD, width: `${d.rate}%` }} />
+            </div>
+
+            <div className="font-manrope text-[11px] uppercase tracking-[0.16em] text-slate-500 mb-3">Порядок гонорара</div>
+            <div className="text-[34px] text-white leading-none mb-3">от {fee.toLocaleString('ru-RU')} ₽</div>
+            <p className="font-manrope text-[13.5px] leading-[1.7] text-slate-400 mb-8">{d.note}</p>
+
+            <button
+              type="button"
+              onClick={() => document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' })}
+              className="font-manrope w-full px-7 py-4 text-[12px] font-bold uppercase tracking-[0.12em] text-[#0A1023] cursor-pointer transition-transform hover:-translate-y-[2px]"
+              style={{ background: GOLD }}
+            >
+              Обсудить с партнёром
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function LawFirm() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [submitted, setSubmitted] = useState(false);
@@ -167,7 +263,7 @@ export default function LawFirm() {
               <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="text-xs uppercase tracking-[0.1em] text-slate-300 hover:text-[#C9A263] transition-colors">{l.name}</a>
             ))}
           </nav>
-          <button onClick={(e: any) => scrollTo(e, 'contacts')} className="hidden sm:block font-manrope bg-[#C9A263] text-[#0A1023] px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em] transition-all hover:bg-[#B08B53] hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">Консультация</button>
+          <button type="button" onClick={(e: any) => scrollTo(e, 'contacts')} className="hidden sm:block font-manrope bg-[#C9A263] text-[#0A1023] px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em] transition-all hover:bg-[#B08B53] hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">Консультация</button>
         </div>
       </header>
 
@@ -294,6 +390,8 @@ export default function LawFirm() {
       </section>
 
       {/* PRACTICES */}
+      <CaseEstimator />
+
       <section id="practice" className="py-20 md:py-28 px-6 md:px-8 scroll-mt-20">
         <div className="max-w-[1360px] mx-auto">
           <Reveal className="text-center mb-14 md:mb-16">
@@ -444,7 +542,7 @@ export default function LawFirm() {
               const open = openFaq === i;
               return (
                 <Reveal key={faq.q} delay={i * 0.05} className="bg-[#131D3B] border px-7 md:px-8 py-6.5 transition-colors duration-300" style={{ borderColor: open ? '#C9A263' : '#2A365C' }}>
-                  <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center bg-transparent border-none cursor-pointer text-left text-white">
+                  <button type="button" onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center bg-transparent border-none cursor-pointer text-left text-white">
                     <span className="text-lg md:text-xl font-medium pr-5">{faq.q}</span>
                     <span className="text-[#C9A263] text-xl shrink-0">{open ? '−' : '+'}</span>
                   </button>
@@ -480,8 +578,8 @@ export default function LawFirm() {
           <div>
             <h4 className="font-manrope text-white text-[11px] uppercase tracking-[0.15em] font-bold mb-5">Информация</h4>
             <div className="font-manrope flex flex-col gap-3 text-[13px]">
-              <a href="#" className="text-slate-400 hover:text-white transition-colors">Политика конфиденциальности</a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors">Правовая оговорка</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400 hover:text-white transition-colors">Политика конфиденциальности</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400 hover:text-white transition-colors">Правовая оговорка</a>
             </div>
           </div>
         </div>

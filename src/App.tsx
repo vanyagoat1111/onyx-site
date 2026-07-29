@@ -64,7 +64,7 @@ export default function App() {
   if (currentRoute === '#case/logistics') return <CaseEditorWrapper><Logistics /></CaseEditorWrapper>;
   if (currentRoute === '#case/lawfirm') return <CaseEditorWrapper><LawFirm /></CaseEditorWrapper>;
   if (currentRoute === '#case/realestate') return <CaseEditorWrapper><RealEstate /></CaseEditorWrapper>;
-  if (currentRoute === '#case/artel') return <CaseEditorWrapper><ArtelInteriors /></CaseEditorWrapper>;
+  if (currentRoute.startsWith('#case/artel')) return <CaseEditorWrapper><ArtelInteriors /></CaseEditorWrapper>;
   if (currentRoute.startsWith('#case/construction')) return <CaseEditorWrapper><OsnovaBuild /></CaseEditorWrapper>;
   if (currentRoute === '#case/beauty') return <CaseEditorWrapper><FleurBeauty /></CaseEditorWrapper>;
   if (currentRoute === '#case/auto') return <CaseEditorWrapper><ApexDetailing /></CaseEditorWrapper>;

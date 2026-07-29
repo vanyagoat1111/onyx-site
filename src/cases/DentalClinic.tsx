@@ -67,12 +67,43 @@ const clinicStatsData = [
   { value: 99, suffix: '%', label: 'Лечения без боли' },
 ];
 
+/* Приём этого шаблона: путь пациента по шагам.
+   В стоматологии главный барьер - не цена, а неизвестность: человек
+   не понимает, сколько раз придётся приехать, что будет больно и когда
+   всё закончится. Развёрнутый шаг снимает ровно эти вопросы, поэтому
+   у каждого этапа есть срок, длительность визита и честная строка
+   «что вы почувствуете». */
 const journeyData = [
-  { title: 'Консультация', desc: 'Осмотр и обсуждение целей лечения' },
-  { title: 'Диагностика', desc: '3D КТ и цифровое сканирование' },
-  { title: 'План лечения', desc: 'Фиксированная смета и сроки' },
-  { title: 'Лечение', desc: 'Работа профильных специалистов' },
-  { title: 'Наблюдение', desc: 'Контроль результата и гарантия' },
+  {
+    title: 'Консультация', desc: 'Осмотр и обсуждение целей лечения',
+    when: 'День 1', dur: '30–40 минут',
+    detail: 'Смотрим состояние, спрашиваем, что беспокоит и чего хочется в итоге. Ничего не лечим в этот визит и ни к чему не склоняем.',
+    feel: 'Ничего не почувствуете: только осмотр и разговор.',
+  },
+  {
+    title: 'Диагностика', desc: '3D КТ и цифровое сканирование',
+    when: 'День 1–2', dur: '20 минут',
+    detail: 'Компьютерная томография и сканирование прикуса. Снимки остаются у вас и работают в любой другой клинике.',
+    feel: 'Безболезненно. Нужно посидеть неподвижно пару минут.',
+  },
+  {
+    title: 'План лечения', desc: 'Фиксированная смета и сроки',
+    when: 'День 3–5', dur: '40 минут',
+    detail: 'Показываем варианты с ценами и сроками, объясняем разницу. Смета фиксируется договором и не меняется по ходу.',
+    feel: 'Самый спокойный визит: решаете вы, без давления.',
+  },
+  {
+    title: 'Лечение', desc: 'Работа профильных специалистов',
+    when: 'по плану', dur: 'от 1 до 8 визитов',
+    detail: 'Каждый этап ведёт врач своего профиля. Перед началом согласовываем обезболивание, во время работы можно поднять руку и всё остановится.',
+    feel: 'Под анестезией. Если почувствуете дискомфорт, добавим.',
+  },
+  {
+    title: 'Наблюдение', desc: 'Контроль результата и гарантия',
+    when: 'через 1, 6 и 12 мес.', dur: '20 минут',
+    detail: 'Проверяем, как всё прижилось. Осмотры по гарантии бесплатные, напоминаем о них сами.',
+    feel: 'Обычный осмотр, чаще всего без вмешательства.',
+  },
 ].map((j, i) => ({ ...j, num: String(i + 1).padStart(2, '0') }));
 
 const services = [
@@ -121,6 +152,89 @@ const reviewsData = [
   { name: 'Екатерина С.', initial: 'Е', text: 'Лучшая клиника в Москве! Лечу зубы только здесь. Никакой боли, всегда чисто, красиво и уютно. Рекомендую всем друзьям.' },
 ];
 
+function PatientJourney() {
+  const [i, setI] = useState(0);
+  const cur = journeyData[i];
+  const GRAD = 'linear-gradient(135deg,#0891B2,#22D3EE)';
+
+  return (
+    <Reveal>
+      <div className="relative">
+        <div className="hidden md:block absolute top-[27px] left-[10%] right-[10%] h-[3px] rounded bg-slate-200" />
+        <div
+          className="hidden md:block absolute top-[27px] left-[10%] h-[3px] rounded transition-[width] duration-500"
+          style={{ background: GRAD, width: `${(i / (journeyData.length - 1)) * 80}%` }}
+        />
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
+          {journeyData.map((j, k) => {
+            const on = k === i;
+            const past = k < i;
+            return (
+              <button
+                key={j.num} type="button" onClick={() => setI(k)} aria-pressed={on}
+                className="text-center group"
+              >
+                <div
+                  className="w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg mx-auto mb-4 relative z-10 transition-all duration-300"
+                  style={{
+                    background: on || past ? GRAD : '#fff',
+                    color: on || past ? '#fff' : '#94A3B8',
+                    border: on || past ? 'none' : '2px solid #E2E8F0',
+                    transform: on ? 'scale(1.1)' : 'scale(1)',
+                    boxShadow: on ? '0 14px 30px -8px rgba(8,145,178,0.5)' : 'none',
+                  }}
+                >
+                  {j.num}
+                </div>
+                <h4 className={`text-sm font-bold mb-1.5 transition-colors ${on ? 'text-[#0891B2]' : 'text-slate-800'}`}>{j.title}</h4>
+                <p className="text-xs text-slate-500 leading-[1.5]">{j.when}</p>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="mt-10 bg-white rounded-2xl border border-slate-200 p-7 md:p-9 shadow-[0_18px_44px_-24px_rgba(15,42,58,0.28)]">
+        <div className="flex flex-wrap items-baseline justify-between gap-3 mb-4">
+          <h3 className="font-spectral text-[22px] md:text-[27px] font-semibold text-slate-900">{cur.title}</h3>
+          <span className="text-[12px] font-semibold px-3 py-1.5 rounded-full" style={{ background: 'rgba(8,145,178,0.1)', color: '#0891B2' }}>
+            {cur.when} · {cur.dur}
+          </span>
+        </div>
+        <p className="text-[14.5px] leading-[1.8] text-slate-600 max-w-[68ch]">{cur.detail}</p>
+        <div className="mt-6 pt-5 border-t border-slate-100 flex items-start gap-3">
+          <span className="shrink-0 mt-[3px] w-2 h-2 rounded-full" style={{ background: '#22D3EE' }} />
+          <p className="text-[14px] leading-[1.7] text-slate-700">
+            <span className="font-semibold">Что почувствуете: </span>{cur.feel}
+          </p>
+        </div>
+        <div className="mt-7 flex flex-wrap gap-3">
+          <button
+            type="button" onClick={() => setI(Math.max(0, i - 1))} disabled={i === 0}
+            className="px-5 py-2.5 rounded-lg text-[13px] border border-slate-200 text-slate-600 disabled:opacity-35 hover:border-slate-400 transition-colors"
+          >
+            ← Назад
+          </button>
+          <button
+            type="button" onClick={() => setI(Math.min(journeyData.length - 1, i + 1))} disabled={i === journeyData.length - 1}
+            className="px-5 py-2.5 rounded-lg text-[13px] border border-slate-200 text-slate-600 disabled:opacity-35 hover:border-slate-400 transition-colors"
+          >
+            Дальше →
+          </button>
+          <button
+            type="button"
+            onClick={() => document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' })}
+            className="px-6 py-2.5 rounded-lg text-[13px] font-semibold text-white transition-transform hover:-translate-y-[2px]"
+            style={{ background: GRAD }}
+          >
+            Записаться на консультацию
+          </button>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
 export default function DentalClinic() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [submitted, setSubmitted] = useState(false);
@@ -157,7 +271,7 @@ export default function DentalClinic() {
               <div className="text-sm font-bold text-slate-800">+7 (495) 123-45-67</div>
               <div className="text-[11px] text-slate-500">Ежедневно 09:00 – 21:00</div>
             </div>
-            <button onClick={(e: any) => scrollTo(e, 'contacts')} style={{ background: 'linear-gradient(135deg,#0891B2,#0E7490)', boxShadow: '0 10px 24px -8px rgba(8,145,178,0.45)' }} className="text-white px-6.5 py-3 rounded-full text-sm font-bold border-none cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_34px_-10px_rgba(8,145,178,0.45)]">Записаться</button>
+            <button type="button" onClick={(e: any) => scrollTo(e, 'contacts')} style={{ background: 'linear-gradient(135deg,#0891B2,#0E7490)', boxShadow: '0 10px 24px -8px rgba(8,145,178,0.45)' }} className="text-white px-6.5 py-3 rounded-full text-sm font-bold border-none cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_34px_-10px_rgba(8,145,178,0.45)]">Записаться</button>
           </div>
         </div>
       </header>
@@ -172,8 +286,8 @@ export default function DentalClinic() {
             </h1>
             <p className="text-base sm:text-[17px] text-slate-600 leading-[1.65] max-w-[480px] mb-8.5">Безболезненное лечение, прецизионная имплантация и цифровая эстетика. Вернём уверенность в вашей улыбке за один визит.</p>
             <div className="flex gap-4 flex-wrap">
-              <button onClick={(e: any) => scrollTo(e, 'contacts')} style={{ background: 'linear-gradient(135deg,#0891B2,#0E7490)', boxShadow: '0 12px 28px -8px rgba(8,145,178,0.4)' }} className="text-white px-8 py-4.5 rounded-full text-[15px] font-bold border-none cursor-pointer transition-all hover:-translate-y-0.5">Записаться на приём</button>
-              <button onClick={(e: any) => scrollTo(e, 'services')} className="bg-white text-slate-800 px-8 py-4.5 rounded-full text-[15px] font-bold border border-slate-200 cursor-pointer transition-colors hover:bg-[#F0F9FF]">Прайс-лист</button>
+              <button type="button" onClick={(e: any) => scrollTo(e, 'contacts')} style={{ background: 'linear-gradient(135deg,#0891B2,#0E7490)', boxShadow: '0 12px 28px -8px rgba(8,145,178,0.4)' }} className="text-white px-8 py-4.5 rounded-full text-[15px] font-bold border-none cursor-pointer transition-all hover:-translate-y-0.5">Записаться на приём</button>
+              <button type="button" onClick={(e: any) => scrollTo(e, 'services')} className="bg-white text-slate-800 px-8 py-4.5 rounded-full text-[15px] font-bold border border-slate-200 cursor-pointer transition-colors hover:bg-[#F0F9FF]">Прайс-лист</button>
             </div>
           </div>
           <div className="relative">
@@ -288,22 +402,14 @@ export default function DentalClinic() {
       {/* TREATMENT JOURNEY */}
       <section className="py-20 md:py-28 px-6 md:px-8 bg-[#F8FAFC]">
         <div className="max-w-[1280px] mx-auto">
-          <Reveal className="text-center max-w-[640px] mx-auto mb-16 md:mb-[72px]">
+          <Reveal className="text-center max-w-[660px] mx-auto mb-14 md:mb-[60px]">
             <h2 className="font-spectral text-3xl md:text-[38px] font-semibold text-slate-900 mb-4">Путь пациента в DentalArt</h2>
-            <p className="text-slate-500 text-[15px]">От первичной консультации до идеальной улыбки — под контролем на каждом этапе.</p>
+            <p className="text-slate-500 text-[15px]">
+              Нажмите на этап - расскажем, сколько это займёт и что вы почувствуете.
+              Обычно именно это и хочется узнать до записи.
+            </p>
           </Reveal>
-          <Reveal className="relative">
-            <div className="hidden md:block absolute top-[27px] left-[6%] right-[6%] h-[3px] rounded" style={{ background: 'linear-gradient(90deg,#0891B2,#22D3EE)' }} />
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
-              {journeyData.map((j) => (
-                <div key={j.num} className="text-center">
-                  <div style={{ background: 'linear-gradient(135deg,#0891B2,#22D3EE)', boxShadow: '0 12px 26px -8px rgba(8,145,178,0.45)' }} className="w-14 h-14 rounded-full text-white flex items-center justify-center font-bold text-lg mx-auto mb-5 relative z-10">{j.num}</div>
-                  <h4 className="text-sm font-bold text-slate-800 mb-2">{j.title}</h4>
-                  <p className="text-xs text-slate-500 leading-[1.5]">{j.desc}</p>
-                </div>
-              ))}
-            </div>
-          </Reveal>
+          <PatientJourney />
         </div>
       </section>
 
@@ -319,7 +425,7 @@ export default function DentalClinic() {
               const open = openFaq === i;
               return (
                 <Reveal key={faq.q} delay={i * 0.05} className="rounded-[20px] border border-slate-100 transition-colors duration-300" style={{ background: open ? '#F0F9FF' : '#F8FAFC' }}>
-                  <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center px-6.5 py-5.5 bg-transparent border-none cursor-pointer text-left">
+                  <button type="button" onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center px-6.5 py-5.5 bg-transparent border-none cursor-pointer text-left">
                     <span className="text-base font-bold text-slate-800 pr-4">{faq.q}</span>
                     <span className="text-[#0891B2] text-xl shrink-0">{open ? '−' : '+'}</span>
                   </button>
@@ -385,9 +491,9 @@ export default function DentalClinic() {
           <div>
             <h4 className="text-white font-bold text-sm mb-4.5">Услуги</h4>
             <div className="flex flex-col gap-2.5 text-[13px]">
-              <a href="#" className="text-slate-400 hover:text-white transition-colors">Имплантация</a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors">Виниры</a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors">Отбеливание</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400 hover:text-white transition-colors">Имплантация</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400 hover:text-white transition-colors">Виниры</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400 hover:text-white transition-colors">Отбеливание</a>
             </div>
           </div>
           <div>
@@ -410,8 +516,8 @@ export default function DentalClinic() {
         <div className="max-w-[1280px] mx-auto pt-7 border-t border-slate-800 flex justify-between gap-4 flex-wrap text-[11px]">
           <span>© 2026 DentalArt Clinic. Все права защищены. Лицензия № ЛО-77-01-000000.</span>
           <div className="flex gap-5">
-            <a href="#" className="text-slate-400">Политика конфиденциальности</a>
-            <a href="#" className="text-slate-400">Договор оферты</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400">Политика конфиденциальности</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400">Договор оферты</a>
           </div>
         </div>
       </footer>

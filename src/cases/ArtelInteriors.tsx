@@ -442,7 +442,7 @@ export default function ArtelInteriors() {
             <a href="#contact" onClick={(e) => jump(e, 'contact')} className={`${btnBase} px-6 py-3 hidden sm:inline-flex`} style={{ background: SAGE, color: BG }}>
               Бесплатный замер
             </a>
-            <button
+            <button type="button"
               onClick={() => setMenu((v) => !v)}
               className="md:hidden w-10 h-10 grid place-items-center"
               style={{ border: `1px solid ${iv(0.18)}` }}
@@ -703,7 +703,7 @@ export default function ArtelInteriors() {
 
                 <div className="flex justify-center gap-3 mt-10">
                   {reviews.map((r, i) => (
-                    <button
+                    <button type="button"
                       key={r.name} onClick={() => setReviewIdx(i)}
                       aria-label={`Отзыв ${i + 1}`}
                       className="h-[3px] transition-all duration-300"
@@ -784,7 +784,7 @@ export default function ArtelInteriors() {
                   return (
                     <Up key={f.q} delay={i * 0.04}>
                       <div style={{ borderTop: `1px solid ${iv(0.12)}` }}>
-                        <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-7 text-left">
+                        <button type="button" onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-7 text-left">
                           <span className="font-bodoni text-[19px] md:text-[24px] leading-snug">{f.q}</span>
                           <span
                             className="shrink-0 w-9 h-9 rounded-full grid place-items-center text-[17px] transition-transform duration-300"
@@ -822,7 +822,7 @@ export default function ArtelInteriors() {
               </p>
               <div className="mt-10 flex flex-wrap gap-2.5">
                 {types.map((t) => (
-                  <button
+                  <button type="button"
                     key={t} onClick={() => setFilter(t)}
                     className="px-6 py-2.5 font-jost text-[11px] uppercase tracking-[0.2em] transition-colors"
                     style={{

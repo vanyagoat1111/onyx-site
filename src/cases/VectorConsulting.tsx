@@ -167,6 +167,104 @@ const faqs = [
   { q: 'Кто будет вести мою компанию?', a: 'Конкретный человек, вы знаете его имя и телефон. Есть замещающий на время отпуска, он в курсе вашей специфики — передача дел происходит письменно.' },
 ];
 
+/* Приём этого шаблона: расчёт под свою компанию.
+
+   В бухгалтерском аутсорсе три колонки с ценами не работают: владелец
+   не понимает, в какую он попадает, и уходит «подумать». Три ползунка
+   отвечают на это за десять секунд и заодно показывают, из чего цена
+   складывается, - это снимает подозрение, что ценник взят с потолка. */
+function FeeCalc() {
+  const [ops, setOps] = useState(120);
+  const [staff, setStaff] = useState(12);
+  const [ved, setVed] = useState(false);
+
+  // ставки условные и подписаны как ориентир: точную цену даёт партнёр
+  const base = 6000;
+  const fee = Math.round((base + ops * 95 + staff * 900) * (ved ? 1.45 : 1) / 500) * 500;
+  const plan = ved || ops > 200 || staff > 20 ? 'Полный' : ops > 30 || staff > 3 ? 'Рабочий' : 'Микро';
+
+  const rows: [string, string][] = [
+    ['Базовое ведение', `${base.toLocaleString('ru-RU')} ₽`],
+    ['Операции, ' + ops + ' шт.', `${(ops * 95).toLocaleString('ru-RU')} ₽`],
+    ['Зарплата, ' + staff + ' чел.', `${(staff * 900).toLocaleString('ru-RU')} ₽`],
+    ['ВЭД и валютный контроль', ved ? '+45%' : 'не нужен'],
+  ];
+
+  return (
+    <section className="px-6 md:px-8 py-20 md:py-28" style={{ borderTop: `1px solid ${INK}14` }}>
+      <div className="max-w-[1180px] mx-auto">
+        <div className="mb-10 max-w-[54ch]">
+          <div className="font-mono text-[11px] uppercase tracking-[0.24em] mb-4" style={{ color: BLUE }}>Расчёт</div>
+          <h2 className="text-[32px] md:text-[46px] leading-[1.08] font-semibold tracking-[-0.02em]">Сколько это будет у вас</h2>
+          <p className="text-[15px] leading-[1.8] mt-5" style={{ color: `${INK}99` }}>
+            Три вопроса вместо заявки. Покажем ориентир и из чего он складывается -
+            чтобы вы могли построчно сравнить нас с текущим бухгалтером.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-12 items-start">
+          <div className="p-7 md:p-9" style={{ background: '#fff', border: `1px solid ${INK}1A` }}>
+            <div className="flex justify-between items-baseline mb-3">
+              <span className="font-mono text-[10.5px] uppercase tracking-[0.14em]" style={{ color: `${INK}80` }}>Операций в месяц</span>
+              <span className="text-[24px] font-semibold">{ops}</span>
+            </div>
+            <input type="range" min={10} max={500} step={10} value={ops} onChange={(e) => setOps(Number(e.target.value))}
+                   className="w-full cursor-pointer mb-8" aria-label="Операций в месяц" style={{ accentColor: BLUE }} />
+
+            <div className="flex justify-between items-baseline mb-3">
+              <span className="font-mono text-[10.5px] uppercase tracking-[0.14em]" style={{ color: `${INK}80` }}>Сотрудников на зарплате</span>
+              <span className="text-[24px] font-semibold">{staff}</span>
+            </div>
+            <input type="range" min={0} max={80} step={1} value={staff} onChange={(e) => setStaff(Number(e.target.value))}
+                   className="w-full cursor-pointer mb-8" aria-label="Сотрудников на зарплате" style={{ accentColor: BLUE }} />
+
+            <button
+              type="button" onClick={() => setVed(!ved)} aria-pressed={ved}
+              className="w-full flex items-center justify-between px-5 py-4 text-left transition-colors"
+              style={{ border: `1px solid ${ved ? BLUE : INK + '22'}`, background: ved ? `${BLUE}0F` : 'transparent' }}
+            >
+              <span className="text-[14.5px]">Есть ВЭД и валютные операции</span>
+              <span className="w-10 h-6 rounded-full relative transition-colors shrink-0" style={{ background: ved ? BLUE : `${INK}22` }}>
+                <span className="absolute top-1 w-4 h-4 rounded-full bg-white transition-all" style={{ left: ved ? 22 : 4 }} />
+              </span>
+            </button>
+          </div>
+
+          <div className="p-7 md:p-9" style={{ background: INK, color: PAPER }}>
+            <div className="font-mono text-[10.5px] uppercase tracking-[0.14em] mb-3" style={{ color: `${PAPER}66` }}>Ориентир в месяц</div>
+            <div className="text-[42px] md:text-[54px] leading-none font-semibold mb-2">{fee.toLocaleString('ru-RU')} ₽</div>
+            <div className="font-mono text-[11px] uppercase tracking-[0.14em] mb-8" style={{ color: BLUE === '#2F5DA8' ? '#8FB0E8' : BLUE }}>
+              подходит тариф «{plan}»
+            </div>
+
+            <div className="flex flex-col">
+              {rows.map(([l, v]) => (
+                <div key={l} className="flex justify-between items-baseline gap-4 py-3" style={{ borderTop: `1px solid ${PAPER}1A` }}>
+                  <span className="text-[13.5px]" style={{ color: `${PAPER}99` }}>{l}</span>
+                  <span className="text-[14px] whitespace-nowrap">{v}</span>
+                </div>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              className="mt-8 w-full px-7 py-4 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-white transition-transform hover:-translate-y-[2px]"
+              style={{ background: BLUE }}
+            >
+              Уточнить у партнёра
+            </button>
+            <p className="text-[12px] leading-[1.6] mt-4" style={{ color: `${PAPER}66` }}>
+              Это ориентир по типовым параметрам. Точную цену называем после
+              короткой диагностики учёта - она бесплатная.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function VectorConsulting() {
   const [hash, setHash] = useState(() => (typeof window !== 'undefined' ? window.location.hash : ROOT));
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -492,6 +590,8 @@ export default function VectorConsulting() {
             </div>
           </section>
 
+          <FeeCalc />
+
           <section id="prices" className="px-6 md:px-8 py-20 md:py-24 scroll-mt-20">
             <div className="max-w-[1240px] mx-auto">
               <Reveal className="mb-12"><h2 className="font-bold text-[32px] md:text-[44px] tracking-[-0.025em] leading-[1.08]">Тарифы на обслуживание</h2></Reveal>
@@ -531,7 +631,7 @@ export default function VectorConsulting() {
                   const open = openFaq === i;
                   return (
                     <Reveal key={f.q} delay={i * 0.04} className="border-b" style={{ borderColor: dim(0.14) }}>
-                      <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
+                      <button type="button" onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
                         <span className="font-semibold text-[17px] md:text-[19px]">{f.q}</span>
                         <span className="text-[22px] shrink-0" style={{ color: BLUE }}>{open ? '−' : '+'}</span>
                       </button>

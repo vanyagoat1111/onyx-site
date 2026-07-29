@@ -66,6 +66,46 @@ const weekLoad = [
   { day: 'ВС', pct: 68, color: '#F97316' },
 ];
 
+/* Приём этого шаблона: подбор по цели.
+   В клуб приходят не за «абонементом», а за конкретным результатом,
+   и три одинаковые колонки с ценами на этот вопрос не отвечают.
+   Здесь человек называет цель и сразу видит, сколько раз в неделю
+   ходить, к кому и какой тариф под это подходит. */
+const goals = [
+  {
+    g: 'Сбросить вес',
+    freq: '3–4 раза в неделю',
+    plan: 'Безлимит',
+    coach: 'Алексей Соколов',
+    mix: ['Силовая база — 2 раза', 'Кардио или бассейн — 1–2 раза', 'Замер состава тела раз в месяц'],
+    real: 'Первые изменения в зеркале — через 6–8 недель, а не через две.',
+  },
+  {
+    g: 'Набрать массу',
+    freq: '4 раза в неделю',
+    plan: 'VIP',
+    coach: 'Алексей Соколов',
+    mix: ['Силовые сплиты — 4 раза', 'Кардио минимально', 'Разбор питания с тренером'],
+    real: 'Без изменений в еде зал даст в лучшем случае половину результата.',
+  },
+  {
+    g: 'Убрать боли в спине',
+    freq: '2–3 раза в неделю',
+    plan: 'Утро',
+    coach: 'Елена Реброва',
+    mix: ['Йога и стретчинг — 2 раза', 'Бассейн — 1 раз', 'Первые 4 занятия персонально'],
+    real: 'Начинаем только после заключения врача, если боль острая.',
+  },
+  {
+    g: 'Снять стресс',
+    freq: '2–3 раза в неделю',
+    plan: 'Безлимит',
+    coach: 'Дмитрий Котов',
+    mix: ['Бокс или единоборства — 2 раза', 'Бассейн и SPA — свободно', 'Групповые программы по настроению'],
+    real: 'Это самая устойчивая мотивация: сюда возвращаются годами.',
+  },
+];
+
 const plans = [
   { name: 'Утро', price: '45 000', period: 'год', features: ['Доступ: 07:00 – 16:00', 'Тренажёрный зал', 'Бассейн и SPA (утром)', '1 вводная тренировка'], popular: false, borderColor: '#262626', bg: 'rgba(23,23,23,0.5)', btnBg: '#262626' },
   { name: 'Безлимит', price: '75 000', period: 'год', features: ['Круглосуточный доступ 24/7', 'Тренажёрный зал', 'Бассейн и SPA без ограничений', 'Групповые программы', 'Гостевые визиты: 5 шт', 'Заморозка: 45 дней'], popular: true, borderColor: '#EF4444', bg: 'linear-gradient(to bottom, rgba(127,29,29,0.2), rgba(23,23,23,0.5))', btnBg: '#DC2626' },
@@ -96,6 +136,82 @@ function Skew({ children, className = '', style }: { children: React.ReactNode; 
   );
 }
 
+function GoalPicker() {
+  const [i, setI] = useState(0);
+  const g = goals[i];
+  const RED = '#DC2626';
+
+  return (
+    <section className="py-20 md:py-28 px-6 md:px-8 border-t border-neutral-900">
+      <div className="max-w-[1280px] mx-auto">
+        <Reveal className="mb-10 max-w-[52ch]">
+          <div className="text-[11px] font-bold uppercase tracking-[0.24em] mb-4" style={{ color: RED }}>Подбор</div>
+          <h2 className="text-3xl md:text-[42px] font-black uppercase leading-[1.05] mb-5">
+            <Skew>С чем вы пришли</Skew>
+          </h2>
+          <p className="text-neutral-400 text-[15px] leading-[1.75]">
+            Выберите цель - покажем, сколько раз в неделю ходить, к кому идти
+            и какой абонемент под это подходит. Без «возьмите годовой, там разберётесь».
+          </p>
+        </Reveal>
+
+        <div className="flex flex-wrap gap-2.5 mb-9">
+          {goals.map((x, k) => (
+            <button
+              key={x.g} type="button" onClick={() => setI(k)} aria-pressed={k === i}
+              className="px-5 py-3 text-[12px] font-bold uppercase tracking-[0.08em] border transition-colors cursor-pointer"
+              style={{
+                background: k === i ? RED : 'transparent',
+                borderColor: k === i ? RED : '#333',
+                color: k === i ? '#fff' : '#a3a3a3',
+              }}
+            >
+              {x.g}
+            </button>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-6">
+          <div className="border border-neutral-800 bg-neutral-900/50 p-7 md:p-9">
+            <div className="flex flex-wrap gap-x-10 gap-y-5 mb-7 pb-7 border-b border-neutral-800">
+              {[['Частота', g.freq], ['Абонемент', g.plan], ['Тренер', g.coach]].map(([l, v], k) => (
+                <div key={l}>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.16em] text-neutral-500 mb-2">{l}</div>
+                  <div className="text-[17px] font-bold" style={k === 1 ? { color: RED } : undefined}>{v}</div>
+                </div>
+              ))}
+            </div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.16em] text-neutral-500 mb-4">Как выглядит неделя</div>
+            <div className="flex flex-col gap-3">
+              {g.mix.map((m) => (
+                <div key={m} className="flex gap-3 text-[14.5px] text-neutral-300 leading-[1.6]">
+                  <span className="shrink-0 mt-[9px] w-[6px] h-[6px]" style={{ background: RED }} />
+                  {m}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="border border-neutral-800 p-7 md:p-9 flex flex-col justify-between" style={{ background: 'linear-gradient(to bottom, rgba(127,29,29,0.16), rgba(23,23,23,0.5))' }}>
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-[0.16em] mb-4" style={{ color: RED }}>Честно о сроках</div>
+              <p className="text-[16px] leading-[1.7] text-neutral-200">{g.real}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' })}
+              className="mt-8 w-full text-white px-7 py-4 text-[12px] font-bold uppercase tracking-[0.1em] cursor-pointer transition-transform hover:-translate-y-[2px]"
+              style={{ background: RED }}
+            >
+              <Skew>Записаться на вводную</Skew>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function FitnessClub() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [submitted, setSubmitted] = useState(false);
@@ -123,7 +239,7 @@ export default function FitnessClub() {
               <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="text-xs font-bold uppercase tracking-[0.12em] text-neutral-400 hover:text-white transition-colors">{l.name}</a>
             ))}
           </nav>
-          <button className="hidden sm:block bg-[#DC2626] text-white px-4 md:px-5.5 py-3 text-[11px] font-bold uppercase tracking-[0.1em] shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_34px_rgba(220,38,38,0.6)] transition-shadow cursor-pointer">
+          <button onClick={() => document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' })} type="button" className="hidden sm:block bg-[#DC2626] text-white px-4 md:px-5.5 py-3 text-[11px] font-bold uppercase tracking-[0.1em] shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_34px_rgba(220,38,38,0.6)] transition-shadow cursor-pointer">
             <Skew>Стать резидентом</Skew>
           </button>
         </div>
@@ -158,8 +274,8 @@ export default function FitnessClub() {
             </h1>
             <p className="text-neutral-400 text-[17px] max-w-[440px] leading-[1.6] mb-9">Премиальное фитнес-пространство для тех, кто не ищет оправданий. 2000 м² инновационного оборудования и атмосфера, заряженная на результат.</p>
             <div className="flex gap-4 flex-wrap">
-              <button className="bg-[#DC2626] border border-[#DC2626] text-white px-8 py-4.5 text-[13px] font-bold uppercase tracking-[0.1em] shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] transition-shadow cursor-pointer"><Skew>Стать резидентом</Skew></button>
-              <button onClick={(e: any) => scrollTo(e, 'schedule')} className="bg-transparent border border-neutral-700 text-white px-8 py-4.5 text-[13px] font-bold uppercase tracking-[0.1em] hover:border-neutral-500 transition-colors cursor-pointer"><Skew>Расписание</Skew></button>
+              <button onClick={() => document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' })} type="button" className="bg-[#DC2626] border border-[#DC2626] text-white px-8 py-4.5 text-[13px] font-bold uppercase tracking-[0.1em] shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] transition-shadow cursor-pointer"><Skew>Стать резидентом</Skew></button>
+              <button type="button" onClick={(e: any) => scrollTo(e, 'schedule')} className="bg-transparent border border-neutral-700 text-white px-8 py-4.5 text-[13px] font-bold uppercase tracking-[0.1em] hover:border-neutral-500 transition-colors cursor-pointer"><Skew>Расписание</Skew></button>
             </div>
           </div>
 
@@ -266,6 +382,8 @@ export default function FitnessClub() {
       </section>
 
       {/* PRICING */}
+      <GoalPicker />
+
       <section id="rates" className="py-20 md:py-28 px-6 md:px-8 scroll-mt-20">
         <div className="max-w-[1360px] mx-auto">
           <Reveal className="flex justify-between items-end gap-6 flex-wrap mb-14 md:mb-16">
@@ -293,7 +411,7 @@ export default function FitnessClub() {
                     </li>
                   ))}
                 </ul>
-                <button className="w-full py-4 font-bold uppercase tracking-[0.1em] text-[13px] border-none cursor-pointer text-white" style={{ background: plan.btnBg }}><Skew>Оформить карту</Skew></button>
+                <button type="button" className="w-full py-4 font-bold uppercase tracking-[0.1em] text-[13px] border-none cursor-pointer text-white" style={{ background: plan.btnBg }}><Skew>Оформить карту</Skew></button>
               </Reveal>
             ))}
           </div>
@@ -307,7 +425,7 @@ export default function FitnessClub() {
             <h2 className="font-black uppercase text-3xl md:text-[44px]">Расписание</h2>
             <div className="flex gap-1 p-1 bg-[#171717] border border-[#262626]">
               {['Сегодня', 'Завтра', 'Неделя'].map((t) => (
-                <button key={t} onClick={() => setScheduleTab(t)} className="px-5 py-2.5 font-bold text-[11px] uppercase tracking-[0.1em] border-none cursor-pointer transition-colors" style={{ background: scheduleTab === t ? '#DC2626' : 'none', color: scheduleTab === t ? '#fff' : '#A3A3A3' }}>{t}</button>
+                <button type="button" key={t} onClick={() => setScheduleTab(t)} className="px-5 py-2.5 font-bold text-[11px] uppercase tracking-[0.1em] border-none cursor-pointer transition-colors" style={{ background: scheduleTab === t ? '#DC2626' : 'none', color: scheduleTab === t ? '#fff' : '#A3A3A3' }}>{t}</button>
               ))}
             </div>
           </Reveal>
@@ -327,7 +445,7 @@ export default function FitnessClub() {
                     <div className="text-[13px] font-bold uppercase tracking-[0.06em] text-neutral-300">{s.trainer}</div>
                     <div className="text-[10px] text-neutral-500 mt-0.5">Тренер</div>
                   </div>
-                  <button className="px-5 md:px-6.5 py-3 border border-[#DC2626] bg-transparent text-[#EF4444] font-bold text-[11px] uppercase tracking-[0.1em] cursor-pointer hover:bg-[#DC2626] hover:text-white transition-colors"><Skew>Записаться</Skew></button>
+                  <button type="button" className="px-5 md:px-6.5 py-3 border border-[#DC2626] bg-transparent text-[#EF4444] font-bold text-[11px] uppercase tracking-[0.1em] cursor-pointer hover:bg-[#DC2626] hover:text-white transition-colors"><Skew>Записаться</Skew></button>
                 </div>
               </Reveal>
             ))}
@@ -347,7 +465,7 @@ export default function FitnessClub() {
               const open = openFaq === i;
               return (
                 <Reveal key={faq.q} delay={i * 0.04} className="bg-[#171717] border px-6 md:px-7.5" style={{ borderColor: open ? 'rgba(239,68,68,0.5)' : '#262626' }}>
-                  <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center py-5.5 bg-transparent border-none cursor-pointer text-left text-white">
+                  <button type="button" onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center py-5.5 bg-transparent border-none cursor-pointer text-left text-white">
                     <span className="font-bold uppercase tracking-[0.03em] text-sm md:text-base">{faq.q}</span>
                     <span className="text-[#DC2626] ml-4 shrink-0 text-2xl">{open ? '−' : '+'}</span>
                   </button>
@@ -392,7 +510,7 @@ export default function FitnessClub() {
           <div>
             <h4 className="text-white font-extrabold uppercase text-[13px] mb-4 border-b border-[#262626] pb-2.5">Клуб</h4>
             <div className="flex flex-col gap-3 text-[13px]">
-              <a href="#" className="text-neutral-400 hover:text-white transition-colors">О нас</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-neutral-400 hover:text-white transition-colors">О нас</a>
               <a href="#rates" onClick={(e) => scrollTo(e, 'rates')} className="text-neutral-400 hover:text-white transition-colors">Карты</a>
               <a href="#schedule" onClick={(e) => scrollTo(e, 'schedule')} className="text-neutral-400 hover:text-white transition-colors">Расписание</a>
             </div>
@@ -400,9 +518,9 @@ export default function FitnessClub() {
           <div>
             <h4 className="text-white font-extrabold uppercase text-[13px] mb-4 border-b border-[#262626] pb-2.5">Услуги</h4>
             <div className="flex flex-col gap-3 text-[13px]">
-              <a href="#" className="text-neutral-400 hover:text-white transition-colors">Кроссфит</a>
-              <a href="#" className="text-neutral-400 hover:text-white transition-colors">Боевые искусства</a>
-              <a href="#" className="text-neutral-400 hover:text-white transition-colors">Групповые занятия</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-neutral-400 hover:text-white transition-colors">Кроссфит</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-neutral-400 hover:text-white transition-colors">Боевые искусства</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-neutral-400 hover:text-white transition-colors">Групповые занятия</a>
             </div>
           </div>
           <div>
@@ -417,8 +535,8 @@ export default function FitnessClub() {
         <div className="max-w-[1360px] mx-auto border-t border-[#171717] pt-7 flex justify-between gap-4 flex-wrap text-[11px] font-mono text-neutral-600">
           <span>© 2026 IRONCORE. Все права защищены.</span>
           <div className="flex gap-5">
-            <a href="#" className="text-neutral-600">Политика конфиденциальности</a>
-            <a href="#" className="text-neutral-600">Оферта</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="text-neutral-600">Политика конфиденциальности</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="text-neutral-600">Оферта</a>
           </div>
         </div>
       </footer>

@@ -84,6 +84,112 @@ const weekGrid = [
   { day: 'СБ', slots: ['11:00 · A0 Начальный', '13:00 · B2 Работа'] },
 ];
 
+/* ═══════════ ДОРОЖКА КУРСА ═══════════
+
+   Приём этого шаблона. У школ обычно висит список месяцев, который никто
+   не читает, - а родителю важно понять, за что он платит девять месяцев
+   и в какой момент увидит результат.
+
+   Здесь месяцы стоят на дорожке, и при выборе видно не только тему,
+   но и сколько аудиторных часов уже позади из ста тридцати шести.
+   Цифры не выдуманы: они складываются из тех же часов, что в таблице
+   ниже, поэтому сходятся с обещанием на первом экране. */
+
+function CourseTrack() {
+  const [i, setI] = useState(0);
+  const hoursOf = (m: { hours: string }) => parseInt(m.hours, 10) || 0;
+  const total = courseModules.reduce((s, m) => s + hoursOf(m), 0);
+  const done = courseModules.slice(0, i + 1).reduce((s, m) => s + hoursOf(m), 0);
+  const cur = courseModules[i];
+  const pct = Math.round((done / total) * 100);
+
+  return (
+    <div>
+      {/* дорожка: на узком экране прокручивается вбок, чтобы месяцы не слиплись */}
+      <div className="relative overflow-x-auto no-scrollbar pb-2 -mx-1 px-1">
+        <div className="relative min-w-[620px] pt-2 pb-1">
+          <div className="absolute left-0 right-0 top-[15px] h-[2px] bg-white/12" />
+          <div
+            className="absolute left-0 top-[15px] h-[2px] transition-[width] duration-500"
+            style={{ background: MARK, width: `${((i + 0.5) / courseModules.length) * 100}%` }}
+          />
+          <div className="relative flex">
+            {courseModules.map((m, k) => {
+              const on = k === i;
+              const past = k < i;
+              return (
+                <button
+                  key={m.m} type="button" onClick={() => setI(k)}
+                  aria-pressed={on}
+                  className="flex-1 flex flex-col items-center gap-3 group"
+                >
+                  <span
+                    className="w-[14px] h-[14px] rounded-full transition-all duration-300"
+                    style={{
+                      background: on || past ? MARK : '#2A3352',
+                      transform: on ? 'scale(1.5)' : 'scale(1)',
+                      boxShadow: on ? `0 0 0 5px ${MARK}26` : 'none',
+                    }}
+                  />
+                  <span
+                    className="font-mono text-[10px] uppercase tracking-[0.1em] whitespace-nowrap transition-colors"
+                    style={{ color: on ? MARK : 'rgba(234,238,247,0.4)' }}
+                  >
+                    {m.m}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* карточка выбранного месяца */}
+      <div className="mt-8 p-6 md:p-8 rounded-xl border border-white/10" style={{ background: '#18203A' }}>
+        <div className="flex flex-wrap items-baseline justify-between gap-4 mb-4">
+          <h3 className="font-outfit font-bold text-[20px] md:text-[26px] tracking-tight">{cur.t}</h3>
+          <span className="font-mono text-[11px] uppercase tracking-[0.12em] px-3 py-1.5 rounded-md" style={{ background: `${MARK}1F`, color: MARK }}>
+            {cur.hours} в этом месяце
+          </span>
+        </div>
+        <p className="text-[14.5px] leading-[1.8] text-white/60 max-w-[64ch]">{cur.d}</p>
+
+        <div className="mt-7 pt-6 border-t border-white/10">
+          <div className="flex items-baseline justify-between gap-4 mb-2.5">
+            <span className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-white/40">
+              Пройдено к концу месяца
+            </span>
+            <span className="font-mono text-[13px]" style={{ color: MARK }}>
+              {done} из {total} ч · {pct}%
+            </span>
+          </div>
+          <div className="h-[6px] rounded-full bg-white/10 overflow-hidden">
+            <div
+              className="h-full rounded-full transition-[width] duration-500"
+              style={{ background: MARK, width: `${pct}%` }}
+            />
+          </div>
+        </div>
+
+        <div className="mt-6 flex gap-3">
+          <button
+            type="button" onClick={() => setI(Math.max(0, i - 1))} disabled={i === 0}
+            className="px-4 py-2.5 rounded-lg text-[12px] border border-white/15 disabled:opacity-30 hover:border-white/35 transition-colors"
+          >
+            ← Назад
+          </button>
+          <button
+            type="button" onClick={() => setI(Math.min(courseModules.length - 1, i + 1))} disabled={i === courseModules.length - 1}
+            className="px-4 py-2.5 rounded-lg text-[12px] border border-white/15 disabled:opacity-30 hover:border-white/35 transition-colors"
+          >
+            Дальше →
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function MethodSchool() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [sent, setSent] = useState(false);
@@ -109,7 +215,10 @@ export default function MethodSchool() {
   };
 
   return (
-    <div className="relative min-h-screen font-outfit selection:bg-[#F2C14E]/35 overflow-x-clip" style={{ background: BG, color: '#EAEEF7' }}>
+    /* Пара шрифтов, а не один на весь сайт: Outfit держит заголовки,
+       Jakarta - читаемый текст, JetBrains - цифры и подписи как в тетради.
+       Один шрифт на всём сайте - первый признак, что макет не продуман. */
+    <div className="relative min-h-screen font-jakarta selection:bg-[#F2C14E]/35 overflow-x-clip" style={{ background: BG, color: '#EAEEF7' }}>
       <header className="sticky top-0 z-50 backdrop-blur-xl border-b border-white/10" style={{ background: 'rgba(20,26,46,0.9)' }}>
         <div className="max-w-[1280px] mx-auto px-6 md:px-8 py-4 flex justify-between items-center pl-20 md:pl-24">
           <div className="font-bold tracking-[0.2em] text-[17px]">METHOD<span style={{ color: MARK }}>.</span></div>
@@ -135,7 +244,7 @@ export default function MethodSchool() {
                 ← На главную
               </a>
               <div className="text-[11px] uppercase tracking-[0.3em] mb-6" style={{ color: MARK }}>Английский с нуля · A0 → A2</div>
-              <h1 className="font-bold leading-[1.06] tracking-[-0.02em] max-w-[18ch]" style={{ fontSize: 'clamp(34px,5.4vw,64px)' }}>
+              <h1 className="font-outfit font-bold leading-[1.06] tracking-[-0.02em] max-w-[18ch]" style={{ fontSize: 'clamp(34px,5.4vw,64px)' }}>
                 Девять месяцев<br />по неделям
               </h1>
               <p className="mt-7 max-w-[54ch] text-white/50 text-[16.5px] leading-[1.75]">
@@ -155,27 +264,20 @@ export default function MethodSchool() {
 
           <section className="px-6 md:px-8 py-16 md:py-20">
             <div className="max-w-[1000px] mx-auto">
-              <Reveal className="mb-10"><h2 className="font-bold text-2xl md:text-[32px] tracking-tight">Помесячный план</h2></Reveal>
-              <div className="flex flex-col">
-                {courseModules.map((m, i) => (
-                  <Reveal key={m.m} delay={i * 0.03}
-                          className="grid grid-cols-[80px_1fr_auto] gap-5 md:gap-8 items-start py-6 border-b border-white/10">
-                    <div className="text-[12px] uppercase tracking-[0.1em] pt-1" style={{ color: MARK }}>{m.m}</div>
-                    <div>
-                      <h3 className="font-bold text-[16.5px] mb-2">{m.t}</h3>
-                      <p className="text-[13.5px] text-white/45 leading-[1.7]">{m.d}</p>
-                    </div>
-                    <div className="text-[12px] text-white/30 pt-1 whitespace-nowrap">{m.hours}</div>
-                  </Reveal>
-                ))}
-              </div>
+              <Reveal className="mb-10">
+                <h2 className="font-outfit font-bold text-2xl md:text-[32px] tracking-tight">Помесячный план</h2>
+                <p className="text-[14px] text-white/45 mt-3 max-w-[52ch] leading-[1.7]">
+                  Нажмите на месяц - покажем, что проходим и сколько часов к этому моменту уже позади.
+                </p>
+              </Reveal>
+              <CourseTrack />
             </div>
           </section>
 
           <section className="px-6 md:px-8 py-16 md:py-20 border-y border-white/10" style={{ background: '#18203A' }}>
             <div className="max-w-[1000px] mx-auto">
               <Reveal className="mb-10">
-                <h2 className="font-bold text-2xl md:text-[32px] tracking-tight mb-3">Расписание на неделю</h2>
+                <h2 className="font-outfit font-bold text-2xl md:text-[32px] tracking-tight mb-3">Расписание на неделю</h2>
                 <p className="text-white/45 text-[14.5px]">Актуально на текущий набор. Онлайн-группы идут в те же слоты.</p>
               </Reveal>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px" style={{ background: 'rgba(255,255,255,0.1)' }}>
@@ -195,7 +297,7 @@ export default function MethodSchool() {
 
           <section className="px-6 md:px-8 py-16 md:py-24">
             <Reveal className="max-w-[720px] mx-auto text-center">
-              <h2 className="font-bold tracking-tight leading-[1.1] mb-5" style={{ fontSize: 'clamp(26px,4vw,42px)' }}>
+              <h2 className="font-outfit font-bold tracking-tight leading-[1.1] mb-5" style={{ fontSize: 'clamp(26px,4vw,42px)' }}>
                 Записаться в эту группу
               </h2>
               <p className="text-white/45 text-[15px] mb-9">Ближайший набор стартует через две недели. Осталось три места.</p>
@@ -213,7 +315,7 @@ export default function MethodSchool() {
         <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(234,238,247,.8) 1px,transparent 1px),linear-gradient(90deg,rgba(234,238,247,.8) 1px,transparent 1px)', backgroundSize: '26px 26px' }} />
         <div className="max-w-[1280px] mx-auto relative">
           <div className="text-[11px] uppercase tracking-[0.3em] mb-8" style={{ color: MARK }}>Языковой центр · Новосибирск</div>
-          <h1 className="font-bold leading-[1.02] tracking-[-0.02em] max-w-[17ch]" style={{ fontSize: 'clamp(40px,6.6vw,82px)' }}>
+          <h1 className="font-outfit font-bold leading-[1.02] tracking-[-0.02em] max-w-[17ch]" style={{ fontSize: 'clamp(40px,6.6vw,82px)' }}>
             Учим так, чтобы вы{' '}
             <span className="relative inline-block">
               <span className="relative z-10">заговорили</span>
@@ -246,7 +348,7 @@ export default function MethodSchool() {
         <div className="max-w-[1280px] mx-auto mt-16 pt-14 border-t border-white/10 grid grid-cols-1 lg:grid-cols-[1.25fr_0.75fr] gap-14 items-center">
           <div>
             <Reveal className="mb-8">
-              <h3 className="font-bold text-[26px] md:text-[32px] tracking-[-0.02em] mb-3">Средний балл ЕГЭ у наших выпускников</h3>
+              <h3 className="font-outfit font-bold text-[26px] md:text-[32px] tracking-[-0.02em] mb-3">Средний балл ЕГЭ у наших выпускников</h3>
               <p className="text-white/45 text-[14px] leading-[1.75] max-w-[52ch]">
                 Тёмные столбцы — средний балл по региону, жёлтые — наши группы.
                 Считаем по всем, кто дошёл до экзамена, а не по лучшим.
@@ -276,7 +378,7 @@ export default function MethodSchool() {
       <section id="programs" className="px-6 md:px-8 py-20 md:py-28 scroll-mt-20">
         <div className="max-w-[1280px] mx-auto">
           <Reveal className="flex flex-wrap items-end justify-between gap-6 mb-12">
-            <h2 className="font-bold text-3xl md:text-[42px] tracking-tight">Программы</h2>
+            <h2 className="font-outfit font-bold text-3xl md:text-[42px] tracking-tight">Программы</h2>
             <p className="max-w-[38ch] text-sm text-white/45">Каждая группа набирается под уровень, а не под расписание преподавателя.</p>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -286,7 +388,7 @@ export default function MethodSchool() {
                   <div className="flex items-center gap-2 mb-4">
                     <span className="px-2.5 py-1 rounded text-[10px] font-semibold uppercase tracking-[0.1em]" style={{ background: 'rgba(242,193,78,0.15)', color: MARK }}>{p.lvl}</span>
                   </div>
-                  <h3 className="font-bold text-[19px] mb-3">{p.t}</h3>
+                  <h3 className="font-outfit font-bold text-[19px] mb-3">{p.t}</h3>
                   <p className="text-[13.5px] text-white/45 leading-[1.7] mb-6 flex-1">{p.d}</p>
                   <div className="flex gap-5 text-[12px] text-white/35 pt-5 border-t border-white/10 items-center">
                     <span>{p.len}</span><span>{p.grp}</span>
@@ -307,13 +409,13 @@ export default function MethodSchool() {
         <div className="max-w-[1280px] mx-auto">
           <Reveal className="mb-14 max-w-[44ch]">
             <div className="text-[11px] uppercase tracking-[0.26em] mb-4" style={{ color: MARK }}>Как начинается учёба</div>
-            <h2 className="font-bold text-3xl md:text-[42px] tracking-tight leading-[1.1]">Четыре шага до первого занятия</h2>
+            <h2 className="font-outfit font-bold text-3xl md:text-[42px] tracking-tight leading-[1.1]">Четыре шага до первого занятия</h2>
           </Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {how.map((h, i) => (
               <Reveal key={h.n} delay={i * 0.07}>
                 <div className="w-11 h-11 rounded-lg flex items-center justify-center font-bold text-[18px] mb-5" style={{ background: MARK, color: BG }}>{h.n}</div>
-                <h3 className="font-bold text-[16px] mb-3">{h.t}</h3>
+                <h3 className="font-outfit font-bold text-[16px] mb-3">{h.t}</h3>
                 <p className="text-[13.5px] text-white/45 leading-[1.75]">{h.d}</p>
               </Reveal>
             ))}
@@ -324,7 +426,7 @@ export default function MethodSchool() {
       {/* TEACHERS */}
       <section className="px-6 md:px-8 py-20 md:py-28">
         <div className="max-w-[1280px] mx-auto">
-          <Reveal className="mb-12"><h2 className="font-bold text-3xl md:text-[42px] tracking-tight">Преподаватели</h2></Reveal>
+          <Reveal className="mb-12"><h2 className="font-outfit font-bold text-3xl md:text-[42px] tracking-tight">Преподаватели</h2></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {teachers.map((t, i) => (
               <Reveal key={t.n} delay={i * 0.08}>
@@ -332,7 +434,7 @@ export default function MethodSchool() {
                   <div className="w-14 h-14 rounded-full mb-5 flex items-center justify-center font-bold text-[17px]" style={{ background: 'rgba(242,193,78,0.16)', color: MARK }}>
                     {t.n.split(' ').map((x) => x[0]).join('')}
                   </div>
-                  <h3 className="font-bold text-[17px] mb-1.5">{t.n}</h3>
+                  <h3 className="font-outfit font-bold text-[17px] mb-1.5">{t.n}</h3>
                   <div className="text-[12px] mb-4" style={{ color: MARK }}>{t.r} · {t.exp}</div>
                   <p className="text-[13.5px] text-white/45 leading-[1.7]">{t.note}</p>
                 </div>
@@ -345,13 +447,13 @@ export default function MethodSchool() {
       {/* FAQ */}
       <section className="px-6 md:px-8 py-20 md:py-28 border-t border-white/10" style={{ background: '#18203A' }}>
         <div className="max-w-[860px] mx-auto">
-          <Reveal className="mb-12"><h2 className="font-bold text-3xl md:text-[42px] tracking-tight">Вопросы родителей и студентов</h2></Reveal>
+          <Reveal className="mb-12"><h2 className="font-outfit font-bold text-3xl md:text-[42px] tracking-tight">Вопросы родителей и студентов</h2></Reveal>
           <div className="flex flex-col gap-3">
             {faqs.map((f, i) => {
               const open = openFaq === i;
               return (
                 <Reveal key={f.q} delay={i * 0.04} className="rounded-xl border px-6" style={{ borderColor: open ? 'rgba(242,193,78,0.45)' : 'rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.02)' }}>
-                  <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-5 text-left">
+                  <button type="button" onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-5 text-left">
                     <span className="font-semibold text-[15px] md:text-[16px]">{f.q}</span>
                     <span className="text-[22px] shrink-0" style={{ color: MARK }}>{open ? '−' : '+'}</span>
                   </button>
@@ -372,7 +474,7 @@ export default function MethodSchool() {
       {/* TRIAL */}
       <section id="trial" className="px-6 md:px-8 py-20 md:py-28 scroll-mt-20">
         <Reveal className="max-w-[780px] mx-auto text-center">
-          <h2 className="font-bold tracking-tight leading-[1.08] mb-5" style={{ fontSize: 'clamp(30px,4.6vw,50px)' }}>
+          <h2 className="font-outfit font-bold tracking-tight leading-[1.08] mb-5" style={{ fontSize: 'clamp(30px,4.6vw,50px)' }}>
             Приходите на пробное — оно бесплатное
           </h2>
           <p className="text-white/45 text-[15px] mb-10 max-w-[50ch] mx-auto">

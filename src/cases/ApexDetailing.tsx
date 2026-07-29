@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { StatBars, DonutStat } from '../components/DemoCharts';
+import { seg, setVar, useViewport, useScrollTrack } from '../lib/scene';
 
 /* APEX — автосервис и детейлинг.
    Визуальный язык: сервисная карта. Графит, кислотно-зелёный акцент,
@@ -84,6 +85,281 @@ const faqs = [
   { q: 'Есть ли очередь?', a: 'На ТО и диагностику обычно записываем на следующий день. На детейлинг — за неделю, потому что бокс занимается под один автомобиль целиком.' },
 ];
 
+/* ═══════════ ПЕРВЫЙ ЭКРАН: МАШИНА МОЕТСЯ ПО ПРОКРУТКЕ ═══════════
+
+   Тот же приём, что на «Основе»: липкий трек, прокрутка гонит прогресс.
+   Но здесь работаем не с рисунком, а с настоящей фотографией - в детейлинге
+   продаётся именно разница на реальном металле, нарисованная машина
+   в этой нише выглядит как отговорка.
+
+   Фотография одна, лежит в двух слоях с разными фильтрами: нижний -
+   вымытый и поляризованный, верхний - тусклый и запылённый. Прокрутка
+   сдвигает границу между ними, как будто по кузову идёт мойка.
+   Дальше проходит блик полировки и появляются капли, которые кузов
+   отталкивает - это и есть то, за что платят за керамику.             */
+
+const WASH_STAGES: { at: number; name: string; note: string }[] = [
+  { at: 0.00, name: 'Приехала', note: 'Дорожная плёнка, разводы, матовый лак' },
+  { at: 0.09, name: 'Мойка', note: 'Двухфазная, бесконтактная' },
+  { at: 0.33, name: 'Химчистка салона', note: 'Экстракция, кожа, пластик, озон' },
+  { at: 0.53, name: 'Полировка', note: 'Убираем риски и голограммы' },
+  { at: 0.69, name: 'Керамика', note: 'Вода перестаёт держаться' },
+  { at: 0.88, name: 'Готово', note: 'Замер толщины ЛКП до и после' },
+];
+
+/* Полный путь автомобиля: въехала грязной, помылась, вычистили салон,
+   отполировали, покрыли керамикой и выехала из кадра.
+
+   Камера подъезжает к стеклу на химчистке и отъезжает обратно на полировке -
+   так видно, что салон это отдельная работа, а не «помыли и всё».
+   Всё на одной фотографии: масштаб, сдвиг и фильтры. Никаких вторых
+   картинок, потому что каждая лишняя - это секунда загрузки на телефоне. */
+function writeWash(el: HTMLElement, p: number) {
+  const arrive = seg(p, 0.00, 0.08);   // машина докатывается в кадр
+  const wash = seg(p, 0.07, 0.34);     // граница чистого идёт по кузову
+  const cabin = seg(p, 0.32, 0.54);    // салон становится чистым
+  const gloss = seg(p, 0.52, 0.72);    // блик полировки проходит по капоту
+  const beads = seg(p, 0.68, 0.88);    // капли выступают и скатываются
+  const fin = seg(p, 0.84, 0.96);      // цвет добирает глубину
+  const leave = seg(p, 0.91, 1.00);    // выезжает из кадра
+
+  setVar(el, '--wash', wash);
+  setVar(el, '--washPct', wash * 100);
+  // пыль уходит чуть раньше линии: так чище читается направление движения
+  setVar(el, '--dust', 1 - seg(p, 0.06, 0.28));
+  setVar(el, '--cabin', 1 - cabin);
+  setVar(el, '--gloss', gloss);
+  setVar(el, '--glossPos', -30 + gloss * 160);
+  setVar(el, '--beads', beads < 0.5 ? beads * 2 : (1 - beads) * 2);
+  setVar(el, '--fin', fin);
+  setVar(el, '--leave', leave);
+
+  // камера: наезд на салон и возврат
+  const focus = cabin < 0.5 ? cabin * 2 : (1 - cabin) * 2;
+  setVar(el, '--zoom', 1 + focus * 0.28);
+  // въезд слева и выезд вправо считаем одной величиной сдвига
+  setVar(el, '--driveX', -16 * (1 - arrive) + 52 * leave);
+
+  // линия мойки видна только пока идёт мойка
+  setVar(el, '--line', wash > 0.004 && wash < 0.996 ? 1 : 0);
+}
+
+function WashScene({
+  onBook, onPrices, marks,
+}: { onBook: (e: React.MouseEvent<HTMLAnchorElement>) => void; onPrices: (e: React.MouseEvent<HTMLAnchorElement>) => void; marks: string[] }) {
+  const { vh, mobile, calm, short, tiny } = useViewport(64);
+  const scene = useRef<HTMLDivElement | null>(null);
+  const bar = useRef<HTMLDivElement | null>(null);
+  const stageRef = useRef(0);
+  const [stage, setStage] = useState(0);
+
+  const { track, pane } = useScrollTrack((p) => {
+    const el = scene.current;
+    if (!el) return;
+    writeWash(el, p);
+    if (bar.current) bar.current.style.transform = `scaleX(${p})`;
+    let s = 0;
+    for (let i = 0; i < WASH_STAGES.length; i++) if (p >= WASH_STAGES[i].at) s = i;
+    if (s !== stageRef.current) { stageRef.current = s; setStage(s); }
+  }, !calm);
+
+  const cur = WASH_STAGES[stage];
+  const live = !calm && vh > 0;
+  const trackH = live ? Math.round(vh * (mobile ? 2.0 : 3.2)) : undefined;
+
+  return (
+    <div ref={track} className="relative" style={{ height: trackH }}>
+      <div ref={pane} className="sticky top-0 h-[100svh] overflow-hidden" style={{ height: vh || undefined }}>
+
+        {/* ── фотография в двух состояниях ── */}
+        <div
+          ref={scene}
+          className="absolute inset-0"
+          style={{
+            // значения по умолчанию - готовая машина в кадре: если скрипт
+            // не выполнится, посетитель увидит нормальный первый экран,
+            // а не грязный кузов и не пустую сцену
+            '--wash': '1', '--washPct': '100', '--dust': '0', '--cabin': '0',
+            '--gloss': '1', '--glossPos': '130', '--beads': '0',
+            '--fin': '1', '--line': '0', '--leave': '0',
+            '--zoom': '1', '--driveX': '0',
+          } as React.CSSProperties}
+        >
+          {/* всё, что относится к машине, ездит и приближается вместе */}
+          <div
+            className="absolute inset-0"
+            style={{
+              transform: 'translateX(calc(var(--driveX) * 1%)) scale(var(--zoom))',
+              transformOrigin: '46% 46%',
+              opacity: 'calc(1 - var(--leave) * 0.72)',
+              willChange: 'transform',
+            }}
+          >
+            {/* вымытая: глубина цвета, контраст, холодный свет */}
+            <img
+              src="/hero-auto.jpg" alt="" aria-hidden="true"
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ filter: 'saturate(calc(1.05 + var(--fin) * 0.25)) contrast(calc(1.06 + var(--fin) * 0.1)) brightness(1.04)' }}
+            />
+
+            {/* грязная: та же фотография, тусклая и пыльная. Уезжает вправо */}
+            <div className="absolute inset-0" style={{ clipPath: 'inset(0 0 0 calc(var(--washPct) * 1%))' }}>
+              <img
+                src="/hero-auto.jpg" alt="" aria-hidden="true"
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ filter: 'saturate(0.28) brightness(0.6) contrast(0.88)' }}
+              />
+              {/* дорожная плёнка поверх кузова */}
+              <div className="absolute inset-0" style={{ background: 'rgba(122,104,74,0.42)', mixBlendMode: 'multiply' }} />
+              {/* пыль и разводы: рисуем градиентами, чтобы ничего не грузить */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  opacity: 'var(--dust)',
+                  backgroundImage:
+                    'radial-gradient(circle at 18% 34%, rgba(214,198,168,0.30) 0 2px, transparent 3px),' +
+                    'radial-gradient(circle at 62% 21%, rgba(214,198,168,0.22) 0 3px, transparent 4px),' +
+                    'radial-gradient(circle at 41% 72%, rgba(214,198,168,0.26) 0 2px, transparent 3px),' +
+                    'radial-gradient(circle at 83% 58%, rgba(214,198,168,0.20) 0 3px, transparent 4px),' +
+                    'repeating-linear-gradient(101deg, rgba(196,178,142,0.10) 0 2px, transparent 2px 34px)',
+                  backgroundSize: '190px 150px, 240px 200px, 170px 220px, 260px 180px, auto',
+                }}
+              />
+            </div>
+
+            {/* салон: за стеклом темно и пыльно, пока не дошли до химчистки */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                opacity: 'var(--cabin)',
+                background:
+                  'radial-gradient(38% 26% at 46% 42%, rgba(28,24,18,0.78) 0%, rgba(28,24,18,0.42) 58%, transparent 100%)',
+              }}
+            />
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                opacity: 'calc(var(--cabin) * 0.8)',
+                background:
+                  'radial-gradient(36% 24% at 46% 42%, rgba(190,170,132,0.22) 0 1.5px, transparent 2px)',
+                backgroundSize: '26px 22px',
+              }}
+            />
+
+            {/* линия мойки: узкая световая полоса на границе */}
+            <div
+              className="absolute top-0 bottom-0 pointer-events-none"
+              style={{
+                left: 'calc(var(--washPct) * 1%)',
+                width: 3,
+                transform: 'translateX(-1.5px)',
+                opacity: 'var(--line)',
+                background: LIME,
+                boxShadow: `0 0 26px 8px ${LIME}66`,
+              }}
+            />
+
+            {/* блик полировки: уходит по кузову один раз */}
+            <div
+              className="absolute inset-y-0 pointer-events-none"
+              style={{
+                left: 'calc(var(--glossPos) * 1%)',
+                width: '26%',
+                transform: 'skewX(-14deg)',
+                opacity: 'calc(var(--gloss) * (1 - var(--gloss)) * 3.4)',
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)',
+              }}
+            />
+
+            {/* капли, которые кузов отталкивает */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                opacity: 'var(--beads)',
+                backgroundImage:
+                  'radial-gradient(circle at 30% 40%, rgba(255,255,255,0.55) 0 1.5px, rgba(255,255,255,0.12) 2px, transparent 3px),' +
+                  'radial-gradient(circle at 70% 65%, rgba(255,255,255,0.45) 0 2px, rgba(255,255,255,0.10) 3px, transparent 4px),' +
+                  'radial-gradient(circle at 52% 22%, rgba(255,255,255,0.40) 0 1.5px, transparent 3px)',
+                backgroundSize: '120px 96px, 160px 130px, 96px 110px',
+              }}
+            />
+          </div>
+
+          {/* рамка бокса остаётся на месте, когда машина уезжает */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ opacity: 'var(--leave)', background: `radial-gradient(70% 60% at 50% 60%, transparent, ${CARBON} 92%)` }}
+          />
+
+          {/* затемнение под текст */}
+          <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(94deg, rgba(12,13,12,.94) 0%, rgba(12,13,12,.78) 44%, rgba(12,13,12,.30) 100%)` }} />
+          <div className="absolute inset-x-0 bottom-0 h-40 pointer-events-none" style={{ background: `linear-gradient(to top, ${CARBON}, transparent)` }} />
+        </div>
+
+        {/* ── текст поверх ── */}
+        <div className="relative h-full max-w-[1320px] mx-auto px-6 md:px-8 flex flex-col justify-center" style={{ paddingTop: 78, paddingBottom: (mobile ? 64 : 0) + 24 }}>
+          <div className="font-mono text-[9.5px] md:text-[11px] uppercase tracking-[0.26em] mb-5 md:mb-8" style={{ color: LIME }}>
+            Екатеринбург · сервис и детейлинг
+          </div>
+          <h1 className="font-black leading-[0.94] tracking-[-0.03em]" style={{ fontSize: tiny ? 'clamp(24px,6.6vw,30px)' : short ? 'clamp(30px,7.4vw,38px)' : 'clamp(42px,7.6vw,96px)' }}>
+            Смета до работ.<br />
+            <span style={{ color: LIME }}>Фото</span> после каждой.
+          </h1>
+          {!short && (
+            <p className="mt-8 max-w-[50ch] text-white/55 text-[17px] leading-[1.7]">
+              Нормо-час фиксированный, старые детали отдаём, гарантия год.
+              Так работает сервис, в который возвращаются, а не заезжают один раз.
+            </p>
+          )}
+          <div className="mt-5 md:mt-10 flex flex-wrap gap-2.5 md:gap-4">
+            <a href="#booking" onClick={onBook} className="px-6 md:px-8 py-3.5 md:py-4 font-mono text-[10.5px] md:text-[12px] uppercase tracking-[0.14em] text-[#0C0D0C] transition-transform hover:-translate-y-[2px]" style={{ background: LIME }}>
+              Записаться на диагностику
+            </a>
+            <a href="#prices" onClick={onPrices} className="px-6 md:px-8 py-3.5 md:py-4 font-mono text-[10.5px] md:text-[12px] uppercase tracking-[0.14em] border border-white/25 hover:border-white/50 transition-colors">
+              Прайс на работы
+            </a>
+          </div>
+
+          {!short && (
+            <div className="mt-12 flex flex-wrap gap-x-8 gap-y-3 items-center border-t border-white/10 pt-7">
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">Работаем с</span>
+              {marks.map((m) => (
+                <span key={m} className="font-mono text-[12px] uppercase tracking-[0.12em] text-white/45">{m}</span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* ── этап и прогресс ── */}
+        {live && (
+          <div className="absolute inset-x-0 bottom-0 px-6 md:px-8" style={{ paddingBottom: mobile ? 72 : 22 }}>
+            <div className="max-w-[1320px] mx-auto">
+              <div className="flex items-baseline justify-between gap-4 mb-2">
+                <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.18em] flex items-baseline gap-2">
+                  <span style={{ color: LIME }}>{String(stage + 1).padStart(2, '0')}</span>
+                  <span className="text-white/85">{cur.name}</span>
+                </span>
+                {!tiny && (
+                  <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.14em] text-white/35 text-right truncate">{cur.note}</span>
+                )}
+              </div>
+              <div className="h-[3px] bg-white/12">
+                <div ref={bar} className="h-full origin-left" style={{ background: LIME, transform: 'scaleX(0)' }} />
+              </div>
+              {stage === 0 && (
+                <div className="mt-3 font-mono text-[9.5px] uppercase tracking-[0.22em] text-white/40 flex items-center gap-2">
+                  Листайте — весь путь от въезда до выдачи
+                  <span className="inline-block w-[9px] h-[9px] border-b border-r rotate-45" style={{ borderColor: LIME }} />
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function ApexDetailing() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [sent, setSent] = useState(false);
@@ -116,42 +392,12 @@ export default function ApexDetailing() {
         </div>
       </header>
 
-      {/* HERO */}
-      <section className="relative px-6 md:px-8 pt-16 md:pt-24 pb-16 overflow-hidden">
-        <img src="/hero-auto.jpg" alt="" aria-hidden="true"
-             className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none opacity-70" />
-        <div className="absolute inset-0 pointer-events-none"
-             style={{ background: 'linear-gradient(95deg,rgba(12,13,12,.96) 0%,rgba(12,13,12,.82) 46%,rgba(12,13,12,.35) 100%)' }} />
-        <div className="absolute inset-0 pointer-events-none opacity-[0.5]" style={{ background: 'radial-gradient(900px 460px at 78% 0%, rgba(196,248,42,0.10), transparent 62%)' }} />
-        <div className="max-w-[1320px] mx-auto relative">
-          <div className="font-mono text-[11px] uppercase tracking-[0.28em] mb-8" style={{ color: LIME }}>
-            Екатеринбург · сервис и детейлинг
-          </div>
-          <h1 className="font-black leading-[0.94] tracking-[-0.03em]" style={{ fontSize: 'clamp(42px,7.6vw,96px)' }}>
-            Смета до работ.<br />
-            <span style={{ color: LIME }}>Фото</span> после каждой.
-          </h1>
-          <p className="mt-8 max-w-[50ch] text-white/50 text-[17px] leading-[1.7]">
-            Нормо-час фиксированный, старые детали отдаём, гарантия год.
-            Так работает сервис, в который возвращаются, а не заезжают один раз.
-          </p>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <a href="#booking" onClick={(e) => scrollTo(e, 'booking')} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.14em] text-[#0C0D0C]" style={{ background: LIME }}>
-              Записаться на диагностику
-            </a>
-            <a href="#prices" onClick={(e) => scrollTo(e, 'prices')} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.14em] border border-white/20 hover:border-white/45 transition-colors">
-              Прайс на работы
-            </a>
-          </div>
-
-          <Reveal className="mt-14 flex flex-wrap gap-x-8 gap-y-3 items-center border-t border-white/10 pt-8">
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">Работаем с</span>
-            {marks.map((m) => (
-              <span key={m} className="font-mono text-[12px] uppercase tracking-[0.12em] text-white/45">{m}</span>
-            ))}
-          </Reveal>
-        </div>
-      </section>
+      {/* HERO: машина моется по мере прокрутки */}
+      <WashScene
+        marks={marks}
+        onBook={(e) => scrollTo(e, 'booking')}
+        onPrices={(e) => scrollTo(e, 'prices')}
+      />
 
       {/* SERVICES */}
       <section id="services" className="px-6 md:px-8 py-20 md:py-28 border-y border-white/10 scroll-mt-20" style={{ background: '#111311' }}>
@@ -160,7 +406,7 @@ export default function ApexDetailing() {
             <h2 className="font-black text-3xl md:text-[42px] tracking-tight">Что делаем</h2>
             <div className="flex gap-2">
               {([['all', 'Всё'], ['DT', 'Детейлинг'], ['SV', 'Сервис']] as const).map(([k, l]) => (
-                <button key={k} onClick={() => setCat(k)} className="px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] border transition-colors"
+                <button type="button" key={k} onClick={() => setCat(k)} className="px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] border transition-colors"
                   style={{ borderColor: cat === k ? LIME : 'rgba(255,255,255,0.15)', background: cat === k ? LIME : 'transparent', color: cat === k ? CARBON : 'rgba(255,255,255,0.5)' }}>
                   {l}
                 </button>
@@ -198,7 +444,7 @@ export default function ApexDetailing() {
             </div>
             <div className="flex flex-wrap gap-2.5">
               {CLASSES.map((c, i) => (
-                <button key={c.k} onClick={() => setCls(i)} className="px-5 py-3 font-mono text-[11px] uppercase tracking-[0.12em] border transition-colors"
+                <button type="button" key={c.k} onClick={() => setCls(i)} className="px-5 py-3 font-mono text-[11px] uppercase tracking-[0.12em] border transition-colors"
                   style={{ borderColor: cls === i ? LIME : 'rgba(255,255,255,0.16)', background: cls === i ? LIME : 'transparent', color: cls === i ? CARBON : 'rgba(255,255,255,0.55)' }}>
                   {c.k}
                 </button>
@@ -313,7 +559,7 @@ export default function ApexDetailing() {
               const open = openFaq === i;
               return (
                 <Reveal key={f.q} delay={i * 0.04} className="border-b border-white/10">
-                  <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
+                  <button type="button" onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
                     <span className="font-bold text-[15px] md:text-[17px]">{f.q}</span>
                     <span className="text-2xl shrink-0" style={{ color: LIME }}>{open ? '−' : '+'}</span>
                   </button>

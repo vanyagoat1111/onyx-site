@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import DemoPlaceholder from '../components/DemoPlaceholder';
+import DemoPhoto from '../components/DemoPhoto';
 import { PlanMap, ColumnChart, StatBars } from '../components/DemoCharts';
 
 /* TAIGA — база отдыха. ТРИ СТРАНИЦЫ: главная, домик подробно, территория.
@@ -144,7 +145,7 @@ export default function TaigaRetreat() {
                     <a href="#booking" onClick={(e) => jump(e, 'booking')} className="px-8 py-4 rounded-full text-[12px] uppercase tracking-[0.15em]" style={{ background: MOSS, color: BG }}>Забронировать</a>
                   </div>
                 </div>
-                <DemoPlaceholder label={`Фото домика «${current.n}»`} tone={MOSS} ratio="4/5" icon="interior" className="rounded-[3px]" />
+                <DemoPhoto src={`/demo/taiga-house-${houses.indexOf(current) + 1}.jpg`} label={`Фото домика «${current.n}»`} tone={MOSS} ratio="4/5" icon="interior" className="rounded-[3px]" />
               </div>
             </div>
           </section>
@@ -232,7 +233,7 @@ export default function TaigaRetreat() {
                 const open = openArea === i;
                 return (
                   <Reveal key={a.t} delay={i * 0.04} className="border-b border-white/10">
-                    <button onClick={() => setOpenArea(open ? null : i)} className="w-full grid grid-cols-[auto_1fr_auto] gap-6 items-baseline py-7 text-left">
+                    <button type="button" onClick={() => setOpenArea(open ? null : i)} className="w-full grid grid-cols-[auto_1fr_auto] gap-6 items-baseline py-7 text-left">
                       <span className="font-mono text-[12px]" style={{ color: MOSS }}>{String(i + 1).padStart(2, '0')}</span>
                       <span>
                         <span className="font-spectral text-[24px] md:text-[30px] block mb-2">{a.t}</span>
@@ -245,7 +246,7 @@ export default function TaigaRetreat() {
                         <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.32, ease: EASE }} className="overflow-hidden">
                           <div className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-8 pb-9">
                             <p className="text-[14.5px] text-white/50 leading-[1.85] max-w-[58ch]">{a.more}</p>
-                            <DemoPlaceholder label={`Фото · ${a.t}`} tone={MOSS} ratio="16/9" icon="photo" />
+                            <DemoPhoto src={`/demo/taiga-area-${i + 1}.jpg`} label={`Фото · ${a.t}`} tone={MOSS} ratio="16/9" icon="photo" />
                           </div>
                         </motion.div>
                       )}
@@ -308,7 +309,7 @@ export default function TaigaRetreat() {
                   <Reveal key={h.id} delay={i * 0.08}>
                     <a href={`${ROOT}/house/${h.id}`} onClick={(e) => go(e, `${ROOT}/house/${h.id}`)}
                        className="h-full flex flex-col border border-white/10 hover:border-[#7E9B6E]/50 transition-colors duration-500 group">
-                      <DemoPlaceholder label={`Фото домика «${h.n}»`} tone={MOSS} ratio="4/3" icon="interior" />
+                      <DemoPhoto src={`/demo/taiga-house-${i + 1}.jpg`} label={`Фото домика «${h.n}»`} tone={MOSS} ratio="4/3" icon="interior" />
                       <div className="p-7 flex flex-col flex-1">
                         <h3 className="font-spectral text-[27px] mb-2">{h.n}</h3>
                         <div className="text-[11px] uppercase tracking-[0.14em] text-white/35 mb-4">{h.cap} · {h.area}</div>
@@ -381,7 +382,7 @@ export default function TaigaRetreat() {
               <Reveal className="border border-white/12 p-8 md:p-10">
                 <div className="flex flex-wrap gap-2.5 mb-9">
                   {houses.map((h, i) => (
-                    <button key={h.id} onClick={() => setHouse(i)} className="px-5 py-3 rounded-full text-[11px] uppercase tracking-[0.14em] border transition-colors"
+                    <button type="button" key={h.id} onClick={() => setHouse(i)} className="px-5 py-3 rounded-full text-[11px] uppercase tracking-[0.14em] border transition-colors"
                       style={{ borderColor: house === i ? MOSS : 'rgba(255,255,255,0.16)', background: house === i ? MOSS : 'transparent', color: house === i ? BG : 'rgba(230,234,226,0.55)' }}>
                       {h.n}
                     </button>
@@ -411,7 +412,7 @@ export default function TaigaRetreat() {
                   const open = openFaq === i;
                   return (
                     <Reveal key={f.q} delay={i * 0.04} className="border-b border-white/10">
-                      <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
+                      <button type="button" onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
                         <span className="font-spectral text-[20px] md:text-[23px]">{f.q}</span>
                         <span className="text-[22px] shrink-0" style={{ color: MOSS }}>{open ? '−' : '+'}</span>
                       </button>

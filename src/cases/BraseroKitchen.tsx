@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import DemoPlaceholder from '../components/DemoPlaceholder';
+import DemoPhoto from '../components/DemoPhoto';
 import { ColumnChart, DonutStat } from '../components/DemoCharts';
 
 /* BRASERO — ресторан на углях. ТРИ СТРАНИЦЫ: главная, полное меню, банкеты.
@@ -198,12 +199,12 @@ export default function BraseroKitchen() {
           <div className="sticky top-[57px] z-40 backdrop-blur-xl border-y border-white/10 px-6 md:px-8 py-4" style={{ background: 'rgba(24,20,20,0.94)' }}>
             <div className="max-w-[1000px] mx-auto flex flex-wrap gap-2.5 items-center justify-center">
               {categories.map((c) => (
-                <button key={c} onClick={() => setCat(c)} className="px-4 py-2.5 rounded-full text-[11px] uppercase tracking-[0.13em] border transition-colors"
+                <button type="button" key={c} onClick={() => setCat(c)} className="px-4 py-2.5 rounded-full text-[11px] uppercase tracking-[0.13em] border transition-colors"
                   style={{ borderColor: cat === c ? EMBER : 'rgba(255,255,255,0.14)', background: cat === c ? EMBER : 'transparent', color: cat === c ? '#131010' : 'rgba(239,227,210,0.55)' }}>
                   {c}
                 </button>
               ))}
-              <button onClick={() => setVegOnly(!vegOnly)} className="px-4 py-2.5 rounded-full text-[11px] uppercase tracking-[0.13em] border transition-colors ml-1"
+              <button type="button" onClick={() => setVegOnly(!vegOnly)} className="px-4 py-2.5 rounded-full text-[11px] uppercase tracking-[0.13em] border transition-colors ml-1"
                 style={{ borderColor: vegOnly ? '#8FAE6B' : 'rgba(255,255,255,0.14)', background: vegOnly ? '#8FAE6B' : 'transparent', color: vegOnly ? '#131010' : 'rgba(239,227,210,0.5)' }}>
                 Только вег
               </button>
@@ -244,7 +245,7 @@ export default function BraseroKitchen() {
                     в тот же день и фиксируем цену — она не вырастет к дате.
                   </p>
                 </div>
-                <DemoPlaceholder label="Фото · накрытый банкетный стол" tone={EMBER} ratio="4/3" icon="interior" />
+                <DemoPhoto src="/demo/brasero-banquet.jpg" label="Фото · накрытый банкетный стол" tone={EMBER} ratio="4/3" icon="interior" />
               </div>
             </div>
           </section>
@@ -293,7 +294,7 @@ export default function BraseroKitchen() {
               <Reveal className="border border-white/12 p-8 md:p-10">
                 <div className="flex flex-wrap gap-2.5 mb-9">
                   {banquetSets.map((s, i) => (
-                    <button key={s.n} onClick={() => setSetIdx(i)} className="px-5 py-3 rounded-full text-[11px] uppercase tracking-[0.13em] border transition-colors"
+                    <button type="button" key={s.n} onClick={() => setSetIdx(i)} className="px-5 py-3 rounded-full text-[11px] uppercase tracking-[0.13em] border transition-colors"
                       style={{ borderColor: setIdx === i ? EMBER : 'rgba(255,255,255,0.16)', background: setIdx === i ? EMBER : 'transparent', color: setIdx === i ? '#131010' : 'rgba(239,227,210,0.55)' }}>
                       {s.n}
                     </button>
@@ -338,7 +339,7 @@ export default function BraseroKitchen() {
                   const open = openBq === i;
                   return (
                     <Reveal key={f.q} delay={i * 0.04} className="border-b border-white/10">
-                      <button onClick={() => setOpenBq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
+                      <button type="button" onClick={() => setOpenBq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
                         <span className="font-bodoni text-[20px] md:text-[23px]">{f.q}</span>
                         <span className="text-[22px] shrink-0" style={{ color: EMBER }}>{open ? '−' : '+'}</span>
                       </button>
@@ -387,7 +388,7 @@ export default function BraseroKitchen() {
                 <h2 className="font-bodoni text-[38px] md:text-[54px] leading-none mb-8">Что заказывают</h2>
                 <div className="flex flex-wrap justify-center gap-2.5">
                   {teaser.map((c) => (
-                    <button key={c} onClick={() => setCat(c)} className="px-5 py-2.5 rounded-full text-[11px] uppercase tracking-[0.14em] border transition-colors"
+                    <button type="button" key={c} onClick={() => setCat(c)} className="px-5 py-2.5 rounded-full text-[11px] uppercase tracking-[0.14em] border transition-colors"
                       style={{ borderColor: cat === c ? EMBER : 'rgba(255,255,255,0.14)', background: cat === c ? EMBER : 'transparent', color: cat === c ? '#131010' : 'rgba(239,227,210,0.55)' }}>
                       {c}
                     </button>
@@ -416,7 +417,7 @@ export default function BraseroKitchen() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {hall.map((h, i) => (
                   <Reveal key={h.t} delay={i * 0.08} className="border border-white/10">
-                    <DemoPlaceholder label={`Фото · ${h.t}`} tone={EMBER} ratio="4/3" icon="interior" />
+                    <DemoPhoto src={`/demo/brasero-hall-${i + 1}.jpg`} label={`Фото · ${h.t}`} tone={EMBER} ratio="4/3" icon="interior" />
                     <div className="p-7">
                       <div className="flex items-baseline justify-between gap-3 mb-3">
                         <h3 className="font-bodoni text-[26px]">{h.t}</h3>
@@ -481,7 +482,7 @@ export default function BraseroKitchen() {
                   const open = openFaq === i;
                   return (
                     <Reveal key={f.q} delay={i * 0.04} className="border-b border-white/10">
-                      <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
+                      <button type="button" onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
                         <span className="font-bodoni text-[20px] md:text-[23px]">{f.q}</span>
                         <span className="text-[22px] shrink-0" style={{ color: EMBER }}>{open ? '−' : '+'}</span>
                       </button>

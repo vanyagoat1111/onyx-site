@@ -27,6 +27,17 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
   const [perspective, setPerspective] = useState(false);
   const [wireframe, setWireframe] = useState(false);
 
+  /* Фильтр вешаем на страницу ТОЛЬКО когда посетитель реально что-то покрутил.
+     Раньше правило стояло всегда, даже при нулевых значениях - а любой
+     непустой filter превращает весь демо-сайт в один слой, который браузер
+     перерисовывает целиком при каждом изменении на странице. На демо
+     с анимацией это забивало главный поток: клики по «Вернуться» и
+     кнопкам внутри сайта вставали в очередь и срабатывали с задержкой.
+     Значения по умолчанию - нейтральные, так что видимая картинка не меняется. */
+  const fxOn =
+    hue !== 0 || brightness !== 100 || contrast !== 100 ||
+    saturate !== 100 || grayscale !== 0 || sepia !== 0 || invert;
+
   useEffect(() => {
     const timer = setTimeout(() => setShowTooltip(false), 5000);
     return () => clearTimeout(timer);
@@ -203,9 +214,18 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
       </div>
 
       <style>{`
+        ${fxOn ? `
         .case-preview-container {
            filter: hue-rotate(${hue}deg) brightness(${brightness}%) contrast(${contrast}%) saturate(${saturate}%) grayscale(${grayscale}%) sepia(${sepia}%) ${invert ? 'invert(1) hue-rotate(180deg)' : ''};
         }
+        ` : `
+        /* Без фильтра сюда нужен свой containing block, иначе элементы
+           с position: fixed внутри демо (зерно на фоне, плавающие плашки)
+           вылезали бы за рамку телефона и накрывали панель редактора.
+           translateZ дешевле фильтра: браузер только компонует слой,
+           а не прогоняет всю страницу через фильтр на каждую перерисовку. */
+        .case-preview-container { transform: translateZ(0); }
+        `}
 
         ${invert ? `
           .case-preview-container img, .case-preview-container video {

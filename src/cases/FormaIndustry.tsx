@@ -125,6 +125,109 @@ const materials: [string, string][] = [
   ['Оцинкованная сталь', 'лист 0,5–3 мм, полимерное покрытие по запросу'],
 ];
 
+/* Приём этого шаблона: схема линии с этапами.
+
+   Снабженец выбирает завод не по красивым словам, а по предсказуемости:
+   ему важно знать, на каком этапе заказ и что он получит на руки.
+   Линия с контрольными точками отвечает на это буквально - и заодно
+   показывает, что производство управляемое, а не «когда сделаем, тогда». */
+const flowOut = [
+  'Заключение технолога об изготовимости',
+  'Смета с разбивкой по металлу, работе и покрытию',
+  'Согласованный образец и подписанный эталон',
+  'Доступ к статусу партии по этапам',
+  'Протокол ОТК с замерами',
+  'Паспорт изделия и сертификаты на металл',
+];
+
+function ProductionLine() {
+  const [i, setI] = useState(0);
+  const f = flow[i];
+
+  return (
+    <div>
+      {/* линия с контрольными точками */}
+      <div className="overflow-x-auto no-scrollbar pb-2 -mx-1 px-1">
+        <div className="relative min-w-[640px] pt-1">
+          <div className="absolute left-0 right-0 top-[13px] h-[2px] bg-white/12" />
+          <div
+            className="absolute left-0 top-[13px] h-[2px] transition-[width] duration-500"
+            style={{ background: STEEL, width: `${((i + 0.5) / flow.length) * 100}%` }}
+          />
+          <div className="relative flex">
+            {flow.map((x, k) => {
+              const on = k === i;
+              const past = k < i;
+              return (
+                <button
+                  key={x.n} type="button" onClick={() => setI(k)} aria-pressed={on}
+                  className="flex-1 flex flex-col items-center gap-3"
+                >
+                  <span
+                    className="w-3 h-3 rotate-45 transition-all duration-300"
+                    style={{
+                      background: on || past ? STEEL : '#2A3340',
+                      transform: on ? 'rotate(45deg) scale(1.6)' : 'rotate(45deg)',
+                      boxShadow: on ? `0 0 0 5px ${STEEL}26` : 'none',
+                    }}
+                  />
+                  <span
+                    className="font-mono text-[10px] tracking-[0.16em] transition-colors"
+                    style={{ color: on ? STEEL : 'rgba(255,255,255,0.35)' }}
+                  >
+                    {x.n}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-8 border border-white/10 p-7 md:p-9" style={{ background: '#121722' }}>
+        <div className="flex flex-wrap items-baseline justify-between gap-4 mb-4">
+          <h3 className="font-bold text-[21px] md:text-[26px] tracking-tight">{f.t}</h3>
+          <span className="font-mono text-[10.5px] uppercase tracking-[0.14em]" style={{ color: STEEL }}>
+            точка {f.n} из {String(flow.length).padStart(2, '0')}
+          </span>
+        </div>
+        <p className="text-[14.5px] text-white/55 leading-[1.8] max-w-[66ch]">{f.d}</p>
+
+        <div className="mt-7 pt-6 border-t border-white/10">
+          <div className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/35 mb-3">Что вы получаете на этой точке</div>
+          <div className="flex gap-3 items-start">
+            <span className="shrink-0 mt-[7px] w-[6px] h-[6px]" style={{ background: STEEL }} />
+            <span className="text-[15px] text-white/85">{flowOut[i]}</span>
+          </div>
+        </div>
+
+        <div className="mt-7 flex flex-wrap gap-3">
+          <button
+            type="button" onClick={() => setI(Math.max(0, i - 1))} disabled={i === 0}
+            className="px-5 py-2.5 text-[12px] border border-white/15 disabled:opacity-30 hover:border-white/40 transition-colors"
+          >
+            ← Назад
+          </button>
+          <button
+            type="button" onClick={() => setI(Math.min(flow.length - 1, i + 1))} disabled={i === flow.length - 1}
+            className="px-5 py-2.5 text-[12px] border border-white/15 disabled:opacity-30 hover:border-white/40 transition-colors"
+          >
+            Дальше →
+          </button>
+          <button
+            type="button"
+            onClick={() => document.getElementById('request')?.scrollIntoView({ behavior: 'smooth' })}
+            className="px-6 py-2.5 text-[12px] font-bold uppercase tracking-[0.1em] text-[#0E1116] transition-transform hover:-translate-y-[2px]"
+            style={{ background: STEEL }}
+          >
+            Прислать чертёж
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function FormaIndustry() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [sent, setSent] = useState(false);
@@ -306,19 +409,15 @@ export default function FormaIndustry() {
       {/* FLOW */}
       <section id="production" className="px-6 md:px-8 py-20 md:py-28 scroll-mt-20">
         <div className="max-w-[1320px] mx-auto">
-          <Reveal className="mb-14 max-w-[46ch]">
+          <Reveal className="mb-12 max-w-[52ch]">
             <div className="font-mono text-[11px] uppercase tracking-[0.24em] mb-4" style={{ color: STEEL }}>Маршрут заказа</div>
             <h2 className="font-extrabold text-3xl md:text-[40px] tracking-tight leading-[1.08]">От чертежа до отгрузки — шесть контрольных точек</h2>
+            <p className="text-[14.5px] text-white/45 leading-[1.75] mt-5">
+              Нажмите на точку - покажем, что происходит и что вы получаете на выходе.
+              Ровно так снабженец видит статус заказа у себя.
+            </p>
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {flow.map((f, i) => (
-              <Reveal key={f.n} delay={(i % 3) * 0.06} className="border border-white/10 p-7 hover:border-[#5B8BB5]/50 transition-colors duration-400">
-                <div className="font-mono text-[11px] tracking-[0.2em] mb-5" style={{ color: STEEL }}>{f.n}</div>
-                <h3 className="font-bold text-[16px] mb-3">{f.t}</h3>
-                <p className="text-[13.5px] text-white/45 leading-[1.7]">{f.d}</p>
-              </Reveal>
-            ))}
-          </div>
+          <ProductionLine />
         </div>
       </section>
 
@@ -386,7 +485,7 @@ export default function FormaIndustry() {
               const open = openFaq === i;
               return (
                 <Reveal key={f.q} delay={i * 0.04} className="border-b border-white/10">
-                  <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
+                  <button type="button" onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center gap-6 py-6 text-left">
                     <span className="font-bold text-[15px] md:text-[17px]">{f.q}</span>
                     <span className="text-2xl shrink-0" style={{ color: STEEL }}>{open ? '−' : '+'}</span>
                   </button>

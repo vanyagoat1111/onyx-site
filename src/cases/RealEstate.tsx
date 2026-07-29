@@ -30,6 +30,19 @@ const navLinks = [
   { name: 'Доверие', href: 'trust' },
 ];
 
+/* Пентхаус 320 м² из карточки ниже, разложенный по комнатам.
+   Сумма площадей сходится с заявленной: 320 м². */
+const PLAN_ROOMS: { id: string; n: string; area: number; d: string; x: number; y: number; w: number; h: number }[] = [
+  { id: 'liv', n: 'Гостиная', area: 74, d: 'Панорама на три стороны, выход на террасу', x: 24, y: 24, w: 214, h: 150 },
+  { id: 'kit', n: 'Кухня-столовая', area: 46, d: 'Остров, вынос коммуникаций согласован', x: 246, y: 24, w: 138, h: 150 },
+  { id: 'ter', n: 'Терраса', area: 58, d: 'Обогрев пола, подготовка под озеленение', x: 392, y: 24, w: 124, h: 150 },
+  { id: 'mas', n: 'Спальня хозяев', area: 42, d: 'Гардеробная и своя ванная', x: 24, y: 182, w: 158, h: 128 },
+  { id: 'bd2', n: 'Спальня 2', area: 26, d: 'Своя ванная комната', x: 190, y: 182, w: 106, h: 128 },
+  { id: 'bd3', n: 'Спальня 3', area: 26, d: 'Своя ванная комната', x: 304, y: 182, w: 106, h: 128 },
+  { id: 'bd4', n: 'Спальня 4', area: 22, d: 'Гостевая, рядом санузел', x: 418, y: 182, w: 98, h: 128 },
+  { id: 'aux', n: 'Холл и техпомещения', area: 26, d: 'Прачечная, кладовые, серверная', x: 24, y: 318, w: 492, h: 58 },
+];
+
 const properties = [
   { title: 'Пентхаус с панорамной террасой', location: 'Москва Сити, Башня Федерация', specs: '320 м² • 4 спальни • 5 ванных', price: '$ 5,200,000', img: building1, badge: true, offset: false },
   { title: 'Резиденция у залива', location: 'Крестовский остров', specs: '650 м² • 5 спален • причал', price: '$ 8,500,000', img: building2, badge: false, offset: true },
@@ -75,6 +88,98 @@ const faqsData = [
   { q: 'Какие гарантии конфиденциальности вы предоставляете?', a: 'Перед началом любого обсуждения мы подписываем строгий NDA. Информация о клиентах не передаётся третьим лицам, а показы организуются в индивидуальном закрытом формате.' },
 ];
 
+function FloorPlan() {
+  const [id, setId] = useState<string | null>(null);
+  const cur = PLAN_ROOMS.find((r) => r.id === id) || null;
+  const total = PLAN_ROOMS.reduce((s, r) => s + r.area, 0);
+  const GOLD = '#C9A263';
+
+  return (
+    <section className="py-20 md:py-[100px] px-6 md:px-9 border-t border-white/5">
+      <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-[1.25fr_0.75fr] gap-12 lg:gap-16 items-center">
+        <Reveal>
+          <div className="uppercase tracking-[0.3em] text-[10px] mb-5" style={{ color: GOLD }}>План</div>
+          <h2 className="font-cormorant text-white text-[34px] md:text-[52px] leading-[1.08] mb-4">
+            Пентхаус изнутри
+          </h2>
+          <p className="text-[15px] leading-[1.8] mb-8 max-w-[46ch]">
+            Наведите или нажмите на помещение - покажем площадь и что в нём предусмотрено.
+            Итого {total} м², как в карточке ниже.
+          </p>
+
+          <svg viewBox="0 0 540 400" className="w-full h-auto" role="img" aria-label="План пентхауса по комнатам">
+            <rect x="18" y="18" width="504" height="364" fill="none" stroke="rgba(255,255,255,0.16)" strokeWidth="2" />
+            {PLAN_ROOMS.map((r) => {
+              const on = r.id === id;
+              return (
+                <g
+                  key={r.id}
+                  onMouseEnter={() => setId(r.id)}
+                  onFocus={() => setId(r.id)}
+                  onClick={() => setId(r.id)}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`${r.n}, ${r.area} метров`}
+                  style={{ cursor: 'pointer', outline: 'none' }}
+                >
+                  <rect
+                    x={r.x} y={r.y} width={r.w} height={r.h}
+                    fill={on ? `${GOLD}33` : 'rgba(255,255,255,0.035)'}
+                    stroke={on ? GOLD : 'rgba(255,255,255,0.16)'}
+                    strokeWidth={on ? 2 : 1}
+                    style={{ transition: 'fill .25s, stroke .25s' }}
+                  />
+                  <text
+                    x={r.x + r.w / 2} y={r.y + r.h / 2 - 4} textAnchor="middle"
+                    fontSize="12" fill={on ? '#fff' : 'rgba(255,255,255,0.62)'}
+                    fontFamily="Jost, sans-serif"
+                  >
+                    {r.n}
+                  </text>
+                  <text
+                    x={r.x + r.w / 2} y={r.y + r.h / 2 + 15} textAnchor="middle"
+                    fontSize="11" fill={on ? GOLD : 'rgba(255,255,255,0.35)'}
+                    fontFamily="Jost, sans-serif"
+                  >
+                    {r.area} м²
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
+        </Reveal>
+
+        <Reveal>
+          <div className="border border-white/10 p-8 md:p-10 bg-[#0A0A0A]">
+            {cur ? (
+              <>
+                <div className="uppercase tracking-[0.26em] text-[10px] mb-4" style={{ color: GOLD }}>{cur.n}</div>
+                <div className="font-cormorant text-white text-[44px] leading-none mb-5">{cur.area} м²</div>
+                <p className="text-[14.5px] leading-[1.8]">{cur.d}</p>
+              </>
+            ) : (
+              <>
+                <div className="uppercase tracking-[0.26em] text-[10px] mb-4" style={{ color: GOLD }}>Всего</div>
+                <div className="font-cormorant text-white text-[44px] leading-none mb-5">{total} м²</div>
+                <p className="text-[14.5px] leading-[1.8]">
+                  Выберите помещение на плане, чтобы увидеть площадь и что в нём предусмотрено.
+                </p>
+              </>
+            )}
+            <button
+              type="button"
+              onClick={() => document.getElementById('experts')?.scrollIntoView({ behavior: 'smooth' })}
+              className="mt-8 w-full bg-white text-[#080808] font-semibold uppercase tracking-[0.2em] text-[10px] px-7 py-4 cursor-pointer transition-all hover:bg-[#B08B53] hover:text-white"
+            >
+              Записаться на просмотр
+            </button>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 export default function RealEstate() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [submitted, setSubmitted] = useState(false);
@@ -104,7 +209,7 @@ export default function RealEstate() {
               </a>
             ))}
           </nav>
-          <button onClick={(e: any) => scrollTo(e, 'properties')} className="hidden sm:block bg-transparent border border-white/20 text-white px-7 py-3 text-[10px] uppercase tracking-[0.2em] cursor-pointer transition-all hover:bg-white hover:text-[#080808]">Связаться</button>
+          <button type="button" onClick={(e: any) => scrollTo(e, 'properties')} className="hidden sm:block bg-transparent border border-white/20 text-white px-7 py-3 text-[10px] uppercase tracking-[0.2em] cursor-pointer transition-all hover:bg-white hover:text-[#080808]">Связаться</button>
         </div>
       </header>
 
@@ -140,12 +245,18 @@ export default function RealEstate() {
               <option className="bg-[#111]">От $10 млн</option>
               <option className="bg-[#111]">По запросу</option>
             </select>
-            <button className="bg-white text-[#080808] font-semibold uppercase tracking-[0.2em] text-[10px] px-7 py-4 border-none cursor-pointer transition-all hover:bg-[#B08B53] hover:text-white hover:-translate-y-0.5">Поиск</button>
+            <button onClick={() => document.getElementById('properties')?.scrollIntoView({ behavior: 'smooth' })} type="button" className="bg-white text-[#080808] font-semibold uppercase tracking-[0.2em] text-[10px] px-7 py-4 border-none cursor-pointer transition-all hover:bg-[#B08B53] hover:text-white hover:-translate-y-0.5">Поиск</button>
           </div>
         </div>
       </section>
 
       {/* PROPERTIES */}
+      {/* ПРИЁМ ШАБЛОНА: план квартиры с подсветкой комнат.
+          Цифра «320 м²» ни о чём не говорит, пока человек не увидел,
+          как эти метры разложены. План отвечает на вопрос, который иначе
+          задают на просмотре, - и до просмотра доходят подготовленными. */}
+      <FloorPlan />
+
       <section id="properties" className="py-20 md:py-[100px] px-6 md:px-9 bg-[#0A0A0A] border-t border-white/5 scroll-mt-20">
         <div className="max-w-[1400px] mx-auto">
           <Reveal className="flex justify-between items-end gap-8 flex-wrap mb-16 md:mb-[72px]">
@@ -153,7 +264,7 @@ export default function RealEstate() {
               <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Коллекция</div>
               <h2 className="font-cormorant text-3xl md:text-[52px] text-white font-medium tracking-[0.02em]">Эксклюзивные предложения</h2>
             </div>
-            <a href="#" className="uppercase tracking-[0.2em] text-[10px] text-white/60 border border-white/20 px-7.5 py-3.5 transition-all hover:bg-white hover:text-[#080808]">Посмотреть все объекты</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="uppercase tracking-[0.2em] text-[10px] text-white/60 border border-white/20 px-7.5 py-3.5 transition-all hover:bg-white hover:text-[#080808]">Посмотреть все объекты</a>
           </Reveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-14">
@@ -303,7 +414,7 @@ export default function RealEstate() {
               const open = openFaq === i;
               return (
                 <Reveal key={faq.q} delay={i * 0.05} className="bg-[#111] border px-6 md:px-8 transition-colors duration-300" style={{ borderColor: open ? 'rgba(201,162,99,0.5)' : 'rgba(255,255,255,0.1)' }}>
-                  <button onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center py-6 bg-transparent border-none cursor-pointer text-left text-white">
+                  <button type="button" onClick={() => setOpenFaq(open ? null : i)} className="w-full flex justify-between items-center py-6 bg-transparent border-none cursor-pointer text-left text-white">
                     <span className="font-cormorant text-lg md:text-xl tracking-[0.02em] pr-5">{faq.q}</span>
                     <span className="text-white/50 text-xl shrink-0">{open ? '−' : '+'}</span>
                   </button>
@@ -374,8 +485,8 @@ export default function RealEstate() {
         <div className="max-w-[1400px] mx-auto border-t border-white/5 pt-7 flex justify-between gap-4 flex-wrap text-[10px] uppercase tracking-[0.2em] text-white/30">
           <span>© 2026 Vanguard Estates. Все права защищены.</span>
           <div className="flex gap-7">
-            <a href="#" className="text-white/30">Конфиденциальность</a>
-            <a href="#" className="text-white/30">Оферта</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="text-white/30">Конфиденциальность</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="text-white/30">Оферта</a>
           </div>
         </div>
       </footer>
