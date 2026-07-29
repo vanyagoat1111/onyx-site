@@ -92,19 +92,16 @@ const faqs = [
    По умолчанию - статичный экран на кадре цеха. Он честно работает:
    атмосфера, читаемый заголовок, две кнопки, марки внизу.
 
-   Если в public/demo появится apex-car.jpg - включается сцена работ,
-   которой управляет прокрутка: по кузову проходит мойка, камера наезжает
-   на салон, идёт блик полировки, выступают капли керамики, и машина
-   уезжает из кадра.
-
-   Машина красива с первого кадра и такой остаётся. Грязного старта здесь
-   намеренно нет: сцена показывает работы поверх уже хорошего автомобиля,
-   а не превращение плохого в хороший. Первый экран - витрина, и он обязан
-   выглядеть законченным в момент загрузки, до любой прокрутки.
+   Если в public/demo появится apex-car.jpg - включается сцена мойки,
+   которой управляет прокрутка: машина стоит матовой от дорожной плёнки,
+   по кузову идёт линия мойки и за ней возвращается глубокий чёрный,
+   камера подходит к стеклу на химчистке, проходит блик полировки,
+   выступают капли керамики, и машина уезжает из кадра.
 
    Кадр нужен такой, где КУЗОВ занимает основную часть площади и освещён.
-   На атмосферном снимке цеха машина - тёмный силуэт, и никакие эффекты
-   на нём не читаются.
+   На атмосферном снимке цеха машина - тёмный силуэт, разницы «грязная
+   и чистая» на нём физически не видно: мыть визуально нечего.
+   Механизм от плохого кадра не спасает.
 
    Что нужно на фото: машина боком или в три четверти, кузов от края
    до края кадра, ровный свет, желательно светлый фон бокса.            */
@@ -112,27 +109,24 @@ const faqs = [
 const CAR_PHOTO = '/demo/apex-car.jpg';
 
 const WASH_STAGES: { at: number; name: string; note: string }[] = [
-  { at: 0.00, name: 'Приёмка', note: 'Замер толщины ЛКП, осмотр под лампой' },
-  { at: 0.20, name: 'Оптика', note: 'Полировка фар и защита плёнкой' },
-  { at: 0.36, name: 'Диски', note: 'Снятие, мойка изнутри, керамика на диск' },
-  { at: 0.56, name: 'Салон', note: 'Экстракция, кожа, пластик, озон' },
-  { at: 0.74, name: 'Кузов', note: 'Полировка в три этапа и керамика' },
-  { at: 0.90, name: 'Выдача', note: 'Фотоотчёт по этапам и гарантийный талон' },
+  { at: 0.00, name: 'Приехала', note: 'Дорожная плёнка, разводы, матовый лак' },
+  { at: 0.10, name: 'Мойка', note: 'Двухфазная, бесконтактная' },
+  { at: 0.34, name: 'Химчистка салона', note: 'Экстракция, кожа, пластик, озон' },
+  { at: 0.54, name: 'Полировка', note: 'Убираем риски и голограммы' },
+  { at: 0.70, name: 'Керамика', note: 'Вода перестаёт держаться' },
+  { at: 0.88, name: 'Готово', note: 'Замер толщины ЛКП до и после' },
 ];
 
-/* Точки, по которым едет камера: доля прокрутки, координаты цели в процентах
-   от кадра и приближение. Между точками идёт плавная интерполяция.
+/* Точки камеры: доля прокрутки, цель в процентах от кадра и приближение.
 
-   Так это работает у самих детейлеров в их роликах: общий план, потом наезд
-   на конкретный узел, по которому идёт работа. Каждая остановка привязана
-   к реальной услуге из прайса, а не к красивому месту на фотографии. */
+   Здесь камера почти не гуляет. Её задача одна - подойти к боковому стеклу
+   на химчистке салона и отойти обратно, чтобы было видно: салон это
+   отдельная работа, а не «помыли кузов и всё». Всё остальное время
+   машина в общем плане, потому что главное здесь - разница на лаке. */
 const CAM: { at: number; x: number; y: number; s: number }[] = [
-  { at: 0.00, x: 50, y: 50, s: 1.00 },   // общий план
-  { at: 0.20, x: 24, y: 58, s: 1.80 },   // передок: решётка и фары
-  { at: 0.36, x: 41, y: 70, s: 2.05 },   // колесо и диск
-  { at: 0.56, x: 57, y: 36, s: 1.90 },   // боковое стекло и салон
-  { at: 0.74, x: 74, y: 52, s: 1.80 },   // крыло и корма
-  { at: 0.90, x: 50, y: 50, s: 1.04 },   // возврат на общий план
+  { at: 0.00, x: 50, y: 50, s: 1.00 },
+  { at: 0.44, x: 57, y: 36, s: 1.52 },
+  { at: 0.86, x: 50, y: 50, s: 1.03 },
 ];
 
 /* Плавный переход между точками камеры. Возвращает цель и приближение.
@@ -150,6 +144,8 @@ function camAt(p: number) {
   }
   const span = b.at - a.at;
   const t = span <= 0 ? 1 : seg(p, a.at, b.at);
+
+
   return {
     x: a.x + (b.x - a.x) * t,
     y: a.y + (b.y - a.y) * t,
@@ -167,11 +163,12 @@ function camAt(p: number) {
    картинок, потому что каждая лишняя - это секунда загрузки на телефоне. */
 function writeWash(el: HTMLElement, p: number) {
   const cam = camAt(p);
-  const cabin = seg(p, 0.50, 0.66);    // салон проясняется на своей остановке
-  const gloss = seg(p, 0.70, 0.88);    // блик полировки идёт по кузову
-  const beads = seg(p, 0.78, 0.92);    // капли керамики выступают и скатываются
-  const fin = seg(p, 0.08, 0.86);      // лак набирает глубину по всему пути
-  const leave = seg(p, 0.93, 1.00);    // выезжает из кадра
+  const wash = seg(p, 0.00, 0.34);     // граница чистого идёт по кузову
+  const cabin = seg(p, 0.34, 0.54);    // салон проясняется
+  const gloss = seg(p, 0.52, 0.72);    // блик полировки идёт по лаку
+  const beads = seg(p, 0.68, 0.88);    // капли керамики выступают и скатываются
+  const fin = seg(p, 0.82, 0.96);      // лак добирает глубину
+  const leave = seg(p, 0.92, 1.00);    // выезжает из кадра
 
   const st = el.style;
   /* Готовые строки, а не расчёт внутри transform: в CSS одно неверное
@@ -181,6 +178,10 @@ function writeWash(el: HTMLElement, p: number) {
   st.setProperty('--camX', `${(50 - cam.x).toFixed(2)}%`);
   st.setProperty('--camY', `${(50 - cam.y).toFixed(2)}%`);
 
+  st.setProperty('--washL', `${(wash * 100).toFixed(2)}%`);
+  st.setProperty('--clipDirty', `inset(0 0 0 ${(wash * 100).toFixed(2)}%)`);
+  // пыль сходит чуть раньше линии: так читается направление движения
+  setVar(el, '--dust', 1 - seg(p, 0.00, 0.26));
   setVar(el, '--cabin', 1 - cabin);
   setVar(el, '--gloss', gloss);
   st.setProperty('--glossL', `${(-30 + gloss * 160).toFixed(2)}%`);
@@ -189,8 +190,10 @@ function writeWash(el: HTMLElement, p: number) {
   setVar(el, '--leave', leave);
   st.setProperty('--driveT', `${(58 * leave).toFixed(2)}%`);
 
-  // рамка наводки видна только когда камера действительно приближена
-  setVar(el, '--aim', cam.s > 1.25 ? Math.min(1, (cam.s - 1.25) * 3) : 0);
+  // световая полоса видна только пока идёт мойка
+  setVar(el, '--line', wash > 0.004 && wash < 0.996 ? 1 : 0);
+  // рамка наводки - только когда камера действительно подошла
+  setVar(el, '--aim', cam.s > 1.2 ? Math.min(1, (cam.s - 1.2) * 3) : 0);
 }
 function WashScene({
   src, onBook, onPrices, marks,
@@ -200,8 +203,13 @@ function WashScene({
   const bar = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef(0);
   const [stage, setStage] = useState(0);
+  /* Доля прокрутки в ref: круговой облёт читает её каждый кадр сам,
+     без состояния React - иначе страница перерисовывалась бы на каждый
+     кадр вращения. */
+  const prog = useRef(0);
 
   const { track, pane } = useScrollTrack((p) => {
+    prog.current = p;
     const el = scene.current;
     if (!el) return;
     writeWash(el, p);
@@ -211,7 +219,7 @@ function WashScene({
     if (s !== stageRef.current) { stageRef.current = s; setStage(s); }
   }, !calm);
 
-  const cur = WASH_STAGES[stage];
+  const cur = WASH_STAGES[Math.min(stage, WASH_STAGES.length - 1)];
   const live = !calm && vh > 0;
   const trackH = live ? Math.round(vh * (mobile ? 2.1 : 3.2)) : undefined;
 
@@ -219,7 +227,8 @@ function WashScene({
      посетитель увидит нормальный первый экран, а не матовый кузов и не пустоту. */
   const defaults = {
     '--camS': '1', '--camX': '0%', '--camY': '0%',
-    '--cabin': '0', '--gloss': '1', '--glossL': '130%', '--beads': '0',
+    '--washL': '100%', '--clipDirty': 'inset(0 0 0 100%)',
+    '--dust': '0', '--line': '0', '--cabin': '0', '--gloss': '1', '--glossL': '130%', '--beads': '0',
     '--fin': '1', '--leave': '0', '--driveT': '0%', '--aim': '0',
   } as React.CSSProperties;
 
@@ -250,13 +259,63 @@ function WashScene({
           willChange: 'transform',
         }}
       >
-        {/* вымытая: глубокий чёрный, резкие блики */}
+        {/* Вымытая: глубокий чёрный, резкие блики */}
         <img
           src={src} alt="" aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover"
           style={{
             objectPosition: mobile ? '58% 50%' : 'center',
             filter: 'contrast(calc(1.06 + var(--fin) * 0.12)) saturate(calc(1 + var(--fin) * 0.1)) brightness(calc(0.98 - var(--fin) * 0.03))',
+          }}
+        />
+
+        {/* Матовая: тот же кадр с поднятым чёрным. Уходит вправо за линией мойки.
+
+            Физика для чёрного глянца обратная привычной: грязь его не темнит,
+            а поднимает чёрный до матово-серого и убивает блики. Поэтому
+            «грязная» - это низкий контраст и подсветка, а «чистая» - глубокий
+            чёрный и резкие отражения. Сделать наоборот - кузов уйдёт
+            в темноту, и разницы видно не будет. */}
+        <div className="absolute inset-0" style={{ clipPath: 'var(--clipDirty)' }}>
+          <img
+            src={src} alt="" aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{
+              objectPosition: mobile ? '58% 50%' : 'center',
+              filter: 'contrast(0.6) brightness(1.22) saturate(0.68)',
+            }}
+          />
+          <div className="absolute inset-0" style={{ background: 'rgba(150,134,104,0.3)', mixBlendMode: 'screen' }} />
+          <div
+            className="absolute inset-0"
+            style={{
+              opacity: 'var(--dust)',
+              backgroundImage:
+                'radial-gradient(circle at 18% 34%, rgba(226,214,190,0.3) 0 2px, transparent 3px),' +
+                'radial-gradient(circle at 62% 21%, rgba(226,214,190,0.24) 0 3px, transparent 4px),' +
+                'radial-gradient(circle at 41% 72%, rgba(226,214,190,0.26) 0 2px, transparent 3px),' +
+                'repeating-linear-gradient(101deg, rgba(214,198,168,0.12) 0 2px, transparent 2px 30px)',
+              backgroundSize: '190px 150px, 240px 200px, 170px 220px, auto',
+            }}
+          />
+        </div>
+
+        {/* Линия мойки: световая полоса и намёк на воду за ней */}
+        <div
+          className="absolute top-0 bottom-0 pointer-events-none"
+          style={{
+            left: 'var(--washL)', width: 130, marginLeft: -130,
+            opacity: 'var(--line)',
+            background: `linear-gradient(90deg, transparent, ${LIME}1F 70%, ${LIME}59)`,
+          }}
+        />
+        <div
+          className="absolute top-0 bottom-0 pointer-events-none"
+          style={{
+            left: 'var(--washL)', width: 3, transform: 'translateX(-1.5px)',
+            opacity: 'var(--line)',
+            background: LIME,
+            boxShadow: `0 0 30px 10px ${LIME}66`,
           }}
         />
 
