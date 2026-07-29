@@ -166,3 +166,36 @@ html, body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ── Сайт, который собирается сам: приём первого экрана ─────────────
+   Заголовок обещает «сайт вы увидите раньше, чем заплатите». Приём это
+   обещание показывает: в рамке браузера блоки встают по очереди, потом
+   набирают цвет и превращаются в готовую страницу.
+
+   Всё на CSS с задержками, без прокрутки и без JS. Базовое состояние
+   элементов - КОНЕЧНОЕ: тогда при выключенных анимациях человек видит
+   собранный сайт, а не пустую рамку. */
+@keyframes onyx-block {
+  from { opacity: 0; transform: translateY(10px) scaleY(0.72); }
+  60%  { opacity: 1; }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes onyx-fill {
+  from { background-color: rgba(242, 240, 233, 0.07); }
+  to   { background-color: var(--fill, rgba(242, 240, 233, 0.07)); }
+}
+@keyframes onyx-caret {
+  0%, 45%  { opacity: 1; }
+  50%, 95% { opacity: 0; }
+  100%     { opacity: 1; }
+}
+.onyx-b {
+  animation: onyx-block .55s cubic-bezier(.22,1,.36,1) both,
+             onyx-fill .9s ease-out both;
+  transform-origin: top;
+}
+.onyx-caret { animation: onyx-caret 1.1s steps(1) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .onyx-b, .onyx-caret { animation: none !important; }
+}

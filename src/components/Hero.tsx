@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Rocket, Star, MousePointerClick, LayoutGrid } from 'lucide-react';
+import { LayoutGrid } from 'lucide-react';
 import { Button } from './ui';
 import { BOT_AUDIT_LINK } from '../lib/leads';
 import LeadFormModal from './LeadFormModal';
@@ -34,7 +34,7 @@ export default function Hero() {
               притягивает тех, у кого нет денег, и производство работает вхолостую.
               «Увидите раньше, чем заплатите» цепляет тех, кто уже обжигался
               на предоплате, - а это платёжеспособные люди. */}
-          <h1 className="font-display font-bold text-[2.1rem] sm:text-5xl lg:text-[3.6rem] xl:text-[4.2rem] leading-[1.06] tracking-tight text-white mb-8">
+          <h1 className="font-display font-bold text-[2.3rem] sm:text-[3.4rem] lg:text-[4.1rem] xl:text-[4.9rem] leading-[1.02] tracking-tight text-white mb-8">
             {['Сайт вы увидите', 'раньше, чем'].map((line, i) => (
               <span key={i} className="block overflow-hidden">
                 <motion.span
@@ -107,7 +107,20 @@ export default function Hero() {
           </motion.button>
         </div>
 
-        {/* Infographic: как устроена модель ONYX */}
+        {/* ═══ ПРИЁМ ПЕРВОГО ЭКРАНА: сайт собирается сам ═══
+
+            Здесь была стеклянная карточка со статистикой - самый
+            распространённый паттерн студийных сайтов, то есть ровно
+            середина распределения.
+
+            Заголовок обещает «сайт вы увидите раньше, чем заплатите».
+            Приём это обещание показывает буквально: в рамке браузера блоки
+            встают по очереди, набирают цвет и превращаются в готовую
+            страницу. Цифры остались, но ушли под рамку - факты нужны,
+            а три строки с иконками дублировали текст слева, их убрал.
+
+            Анимация на CSS с задержками: никакой прокрутки, никакого JS,
+            только opacity и transform - то есть бесплатно для видеокарты. */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -115,54 +128,88 @@ export default function Hero() {
           className="hidden lg:block relative"
         >
           <div className="absolute -inset-8 rounded-full bg-cobalt/[0.06] blur-[100px] pointer-events-none" />
-          <div className="relative rounded-[28px] border border-white/[0.09] bg-ink-2/60 backdrop-blur-sm p-7 xl:p-8 overflow-hidden">
-            <div className="absolute inset-0 dot-grid opacity-40 [mask-image:radial-gradient(ellipse_at_top_right,black,transparent_70%)] pointer-events-none" />
 
-            <div className="relative flex items-center gap-3 mb-7">
-              <MousePointerClick className="w-4 h-4 text-cobalt-soft" />
-              <span className="font-mono text-[11px] tracking-[0.25em] uppercase text-fog">Как устроена модель ONYX</span>
+          <div className="relative rounded-[20px] border border-white/[0.09] bg-ink-2/70 backdrop-blur-sm overflow-hidden shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
+            {/* шапка браузера */}
+            <div className="flex items-center gap-2.5 px-4 py-3 border-b border-white/[0.07] bg-ink/50">
+              <span className="flex gap-1.5">
+                {['#ff5f57', '#febc2e', '#28c840'].map((c) => (
+                  <span key={c} className="w-2.5 h-2.5 rounded-full" style={{ background: c, opacity: 0.75 }} />
+                ))}
+              </span>
+              <span className="flex-1 mx-2 rounded-md bg-white/[0.05] px-3 py-1 font-mono text-[10px] text-fog/80 flex items-center gap-1">
+                вашбизнес.ru
+                <span className="onyx-caret inline-block w-[1px] h-3 bg-cobalt-soft align-middle" />
+              </span>
+              <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-cobalt-soft">превью</span>
             </div>
 
-            <div className="relative grid grid-cols-2 gap-3 mb-6">
-              {[
-                { value: '0 ₽', label: 'Стоимость разработки' },
-                { value: '2 мин', label: 'Разбор сайта в боте' },
-                { value: '2–3 дня', label: 'До первой версии сайта' },
-                { value: '150+', label: 'Запущенных сайтов' },
-              ].map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.65 + i * 0.08, ease }}
-                  className="rounded-2xl border border-white/[0.07] bg-ink/50 p-4"
-                >
-                  <div className="font-display font-bold text-2xl xl:text-[1.75rem] text-white tracking-tight">{stat.value}</div>
-                  <div className="text-[11px] font-body text-fog leading-snug mt-1.5">{stat.label}</div>
-                </motion.div>
-              ))}
+            {/* сама страница: блоки встают по очереди и набирают цвет */}
+            <div className="p-5 space-y-2.5" style={{ background: 'rgba(10,10,13,0.55)' }}>
+              {/* шапка сайта */}
+              <div className="flex items-center gap-2">
+                <div className="onyx-b h-3 w-14 rounded-[3px]" style={{ ['--fill' as string]: 'rgba(78,124,255,0.75)', animationDelay: '.15s, .95s' }} />
+                <div className="flex-1" />
+                {[0, 1, 2].map((i) => (
+                  <div key={i} className="onyx-b h-2 w-9 rounded-[3px]" style={{ ['--fill' as string]: 'rgba(242,240,233,0.22)', animationDelay: `${0.22 + i * 0.05}s, ${1.02 + i * 0.05}s` }} />
+                ))}
+              </div>
+
+              {/* первый экран сайта */}
+              <div className="onyx-b h-5 w-3/4 rounded-[4px]" style={{ ['--fill' as string]: 'rgba(242,240,233,0.5)', animationDelay: '.42s, 1.2s' }} />
+              <div className="onyx-b h-5 w-1/2 rounded-[4px]" style={{ ['--fill' as string]: 'rgba(242,240,233,0.5)', animationDelay: '.5s, 1.26s' }} />
+              <div className="onyx-b h-2.5 w-2/3 rounded-[3px]" style={{ ['--fill' as string]: 'rgba(242,240,233,0.16)', animationDelay: '.6s, 1.34s' }} />
+              <div className="flex gap-2 pt-1">
+                <div className="onyx-b h-7 w-28 rounded-lg" style={{ ['--fill' as string]: 'rgba(78,124,255,0.9)', animationDelay: '.7s, 1.42s' }} />
+                <div className="onyx-b h-7 w-24 rounded-lg border border-white/10" style={{ ['--fill' as string]: 'rgba(242,240,233,0.06)', animationDelay: '.78s, 1.48s' }} />
+              </div>
+
+              {/* карточки услуг */}
+              <div className="grid grid-cols-3 gap-2 pt-2">
+                {[0, 1, 2].map((i) => (
+                  <div key={i} className="onyx-b rounded-lg p-2.5 space-y-1.5" style={{ ['--fill' as string]: 'rgba(242,240,233,0.05)', animationDelay: `${0.92 + i * 0.09}s, ${1.6 + i * 0.09}s` }}>
+                    <div className="h-6 rounded" style={{ background: 'rgba(78,124,255,0.16)' }} />
+                    <div className="h-1.5 w-4/5 rounded" style={{ background: 'rgba(242,240,233,0.2)' }} />
+                    <div className="h-1.5 w-3/5 rounded" style={{ background: 'rgba(242,240,233,0.1)' }} />
+                  </div>
+                ))}
+              </div>
+
+              {/* форма заявки: то, ради чего сайт вообще делают */}
+              <div className="onyx-b rounded-lg p-3 flex items-center gap-2 mt-2" style={{ ['--fill' as string]: 'rgba(78,124,255,0.08)', animationDelay: '1.24s, 1.9s' }}>
+                <div className="flex-1 h-5 rounded" style={{ background: 'rgba(242,240,233,0.08)' }} />
+                <div className="h-5 w-20 rounded" style={{ background: 'rgba(78,124,255,0.85)' }} />
+              </div>
             </div>
 
-            <div className="relative space-y-3 pt-6 border-t border-white/[0.07]">
-              {[
-                { icon: MousePointerClick, text: 'Разбор и план — бесплатно, без обязательств' },
-                { icon: Rocket, text: 'Показываем сайт, вы утверждаете направление' },
-                { icon: Star, text: 'Запускаем на домене и подключаем заявки' },
-              ].map((row, i) => (
-                <motion.div
-                  key={row.text}
-                  initial={{ opacity: 0, x: 12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.95 + i * 0.1, ease }}
-                  className="flex items-center gap-3"
-                >
-                  <span className="w-8 h-8 rounded-full bg-cobalt/10 border border-cobalt/25 flex items-center justify-center shrink-0">
-                    <row.icon className="w-3.5 h-3.5 text-cobalt-soft" />
-                  </span>
-                  <span className="text-[13px] font-body text-bone/85 leading-snug">{row.text}</span>
-                </motion.div>
-              ))}
+            {/* подпись под превью */}
+            <div className="px-5 py-3.5 border-t border-white/[0.07] flex items-center justify-between gap-3 bg-ink/40">
+              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-fog/70">
+                Так вы видите сайт до оплаты
+              </span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-cobalt-soft">0 ₽ за разработку</span>
             </div>
+          </div>
+
+          {/* факты: остались, но ушли под рамку и стали компактнее */}
+          <div className="mt-5 grid grid-cols-4 gap-px rounded-2xl overflow-hidden border border-white/[0.07]">
+            {[
+              { value: '0 ₽', label: 'разработка' },
+              { value: '2 мин', label: 'разбор в боте' },
+              { value: '2–3 дня', label: 'до первой версии' },
+              { value: '150+', label: 'сайтов запущено' },
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 1.5 + i * 0.07, ease }}
+                className="bg-ink-2/60 px-3 py-3.5"
+              >
+                <div className="font-display font-bold text-[1.15rem] xl:text-[1.3rem] text-white tracking-tight leading-none">{stat.value}</div>
+                <div className="text-[10px] font-mono uppercase tracking-[0.1em] text-fog/70 leading-snug mt-1.5">{stat.label}</div>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
         </div>
