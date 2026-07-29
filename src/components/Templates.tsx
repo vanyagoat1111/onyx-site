@@ -232,10 +232,10 @@ export default function Templates() {
   });
 
   return (
-    <Container id="templates" className="relative border-t border-white/[0.06] scroll-mt-20">
+    <Container id="templates" pad="air" className="relative border-t border-white/[0.06] scroll-mt-20">
       <SpaceTransition active={warp} label={warpLabel} onDone={onWarpDone} />
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 md:mb-20">
-        <SectionTitle index="05" subtitle="Шаблоны и готовые решения" className="!mb-0 max-w-3xl">
+        <SectionTitle index="05" size="loud" glow={true} subtitle="Шаблоны и готовые решения" className="!mb-0 max-w-3xl">
           Живые демо в 3D-галерее — листайте и заходите внутрь
         </SectionTitle>
         <span className="hidden md:block font-mono text-xs text-fog whitespace-nowrap pb-3">({n}) проектов</span>
@@ -282,15 +282,38 @@ export default function Templates() {
                     </div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-transparent" style={{ backgroundImage: 'linear-gradient(to top, rgba(10,10,13,0.85), transparent 55%)' }} />
-                  <span className="absolute top-5 left-5 rounded-full bg-ink/70 backdrop-blur-md border border-white/15 text-bone/90 text-[10px] font-mono tracking-wider uppercase px-3.5 py-1.5">
+                  {/* Акцент помечает только карточку в фокусе.
+
+                      До этого в галерее кобальт встречался четыре раза на всю
+                      секцию - то есть в самом убедительном месте сайта акцента
+                      не было вовсе, и глаз не понимал, по какой карточке
+                      кликать. Теперь цвет делает работу: он показывает, что
+                      активно сейчас, а не украшает всё подряд. */}
+                  <span
+                    className="absolute top-5 left-5 rounded-full backdrop-blur-md text-[10px] font-mono tracking-wider uppercase px-3.5 py-1.5 transition-colors duration-500"
+                    style={card.isCenter
+                      ? { background: 'rgba(78,124,255,0.16)', border: '1px solid rgba(78,124,255,0.5)', color: '#8aa6ff' }
+                      : { background: 'rgba(10,10,13,0.7)', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(242,240,233,0.9)' }}
+                  >
                     {card.category}
                   </span>
-                  <span className="absolute top-5 right-5 w-11 h-11 rounded-full bg-ink/70 backdrop-blur-md border border-white/15 flex items-center justify-center text-bone">
+                  <span
+                    className="absolute top-5 right-5 w-11 h-11 rounded-full backdrop-blur-md flex items-center justify-center transition-all duration-500"
+                    style={card.isCenter
+                      ? { background: '#4e7cff', border: '1px solid #4e7cff', color: '#fff', boxShadow: '0 8px 26px rgba(78,124,255,0.45)' }
+                      : { background: 'rgba(10,10,13,0.7)', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(242,240,233,0.85)' }}
+                  >
                     <ArrowUpRight className="w-4.5 h-4.5" />
                   </span>
                   <div className="absolute left-6 right-6 bottom-5">
                     <h3 className="font-display font-semibold text-xl md:text-2xl text-white mb-1.5">{card.name}</h3>
                     <p className="font-body text-[13px] text-fog">{card.result}</p>
+                    {card.isCenter && (
+                      <span className="mt-2.5 inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-cobalt-soft">
+                        Открыть демо
+                        <span className="inline-block w-[7px] h-[7px] border-b border-r rotate-[-45deg] border-cobalt-soft" />
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>

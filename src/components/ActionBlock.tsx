@@ -12,7 +12,7 @@ const steps = [
 
 export default function ActionBlock() {
   return (
-    <Container className="relative border-t border-white/[0.06]">
+    <Container pad="tight" className="relative border-t border-white/[0.06]">
       <div className="grid lg:grid-cols-2 gap-14 lg:gap-24 items-start">
         <div className="lg:sticky lg:top-28">
           <SectionTitle index="03" subtitle="План действий" className="!mb-8">

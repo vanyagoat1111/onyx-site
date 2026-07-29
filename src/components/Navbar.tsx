@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ArrowUpRight, LayoutGrid, ScanSearch } from 'lucide-react';
 import { BOT_LINK, BOT_AUDIT_LINK } from '../lib/leads';
@@ -24,11 +24,41 @@ const scrollTo = (href: string) => {
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const progress = useRef<HTMLDivElement | null>(null);
 
+  /* Полоса прочитанного и состояние шапки считаются в одном месте.
+
+     Полосу двигаем напрямую через ref, а не через состояние React: иначе
+     вся страница перерисовывалась бы десятки раз в секунду при прокрутке.
+     Состояние меняем только когда шапка реально переключается - один раз
+     на пересечении сорока пикселей, а не на каждом событии.
+
+     Обработчик один и обёрнут в requestAnimationFrame: на кадр приходится
+     не больше одного пересчёта, сколько бы событий ни прислал браузер. */
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    let raf = 0;
+    let wasScrolled = false;
+
+    const apply = () => {
+      raf = 0;
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const p = max > 0 ? Math.min(1, h.scrollTop / max) : 0;
+      if (progress.current) progress.current.style.transform = `scaleX(${p})`;
+
+      const now = h.scrollTop > 40;
+      if (now !== wasScrolled) { wasScrolled = now; setScrolled(now); }
+    };
+
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(apply); };
+    apply();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
   }, []);
 
   return (
@@ -89,6 +119,20 @@ export default function Navbar() {
               {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
           </div>
+        </div>
+
+        {/* Полоса прочитанного.
+
+            Стоит внизу шапки, а не отдельным элементом сверху: шапка меняет
+            высоту при прокрутке, и полоса, живущая своей жизнью, на этом
+            переходе дёргалась бы. Тонкая - две точки: это ориентир, а не
+            элемент интерфейса, привлекать к себе внимание ей не нужно. */}
+        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/[0.07]">
+          <div
+            ref={progress}
+            className="h-full origin-left bg-cobalt"
+            style={{ transform: 'scaleX(0)' }}
+          />
         </div>
       </nav>
 

@@ -45,8 +45,8 @@ const facts = [
 
 export default function Consultation() {
   return (
-    <Container id="consultation" className="relative border-t border-white/[0.06]">
-      <SectionTitle index="04" subtitle="Главный шаг" className="max-w-4xl">
+    <Container id="consultation" pad="air" className="relative border-t border-white/[0.06]">
+      <SectionTitle index="04" size="loud" glow={true} subtitle="Главный шаг" className="max-w-4xl">
         Бесплатная консультация «План сайта под ваш бизнес»
       </SectionTitle>
 

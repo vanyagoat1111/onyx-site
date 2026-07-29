@@ -18,7 +18,7 @@ const sources = [
 
 export default function Problem() {
   return (
-    <Container id="problem" className="relative border-t border-white/[0.06]">
+    <Container id="problem" pad="tight" className="relative border-t border-white/[0.06]">
       <SectionTitle index="01" subtitle="Зачем бизнесу сайт" className="max-w-4xl">
         Вы теряете клиентов, если бизнесу негде вызвать доверие
       </SectionTitle>

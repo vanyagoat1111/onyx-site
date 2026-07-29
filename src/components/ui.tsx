@@ -26,20 +26,61 @@ export const Eyebrow = ({ index, children, className = '' }: { index?: string, c
   </div>
 );
 
-export const SectionTitle = ({ children, subtitle, index, className = '' }: { children: React.ReactNode, subtitle?: string, index?: string, className?: string }) => (
-  <div className={`mb-12 md:mb-16 relative ${className}`}>
-    {subtitle && <Eyebrow index={index}>{subtitle}</Eyebrow>}
-    <h2 className="heading-glow font-display font-semibold text-[1.7rem] sm:text-4xl lg:text-5xl leading-[1.12] tracking-tight [text-wrap:balance]">
-      {children}
-    </h2>
-  </div>
-);
+/* Заголовок секции с тремя громкостями.
 
-export const Container = ({ children, className = '', id }: { children: React.ReactNode, className?: string, id?: string }) => (
-  <section id={id} className={`py-20 md:py-28 px-5 sm:px-6 md:px-12 w-full max-w-[1440px] mx-auto ${className}`}>
-    {children}
-  </section>
-);
+   Раньше размер был один на всю страницу, и заголовок FAQ звучал так же
+   громко, как заголовок галереи работ. Когда всё главное - главного нет.
+   Теперь `loud` для двух секций, которые продают, `soft` для служебных,
+   обычный для остальных.
+
+   Свечение тоже перестало быть автоматическим. Кобальтовая тень на каждом
+   заголовке подряд превращается из акцента в шум, поэтому теперь его надо
+   просить осознанно - и только там, где заголовок реально самый громкий
+   на экране. */
+export const SectionTitle = ({
+  children, subtitle, index, className = '',
+  size = 'md', align = 'left', glow = false,
+}: {
+  children: React.ReactNode, subtitle?: string, index?: string, className?: string,
+  size?: 'loud' | 'md' | 'soft', align?: 'left' | 'center', glow?: boolean,
+}) => {
+  const sizes = {
+    loud: 'text-[2.1rem] sm:text-5xl lg:text-[3.9rem] leading-[1.04]',
+    md: 'text-[1.7rem] sm:text-4xl lg:text-5xl leading-[1.12]',
+    soft: 'text-[1.5rem] sm:text-3xl lg:text-[2.4rem] leading-[1.15]',
+  };
+  return (
+    <div className={`${size === 'loud' ? 'mb-14 md:mb-20' : 'mb-12 md:mb-16'} relative ${align === 'center' ? 'text-center' : ''} ${className}`}>
+      {subtitle && <Eyebrow index={index} className={align === 'center' ? 'justify-center' : ''}>{subtitle}</Eyebrow>}
+      <h2 className={`${glow ? 'heading-glow' : 'text-white'} font-display font-semibold tracking-tight [text-wrap:balance] ${sizes[size]} ${align === 'center' ? 'mx-auto max-w-[22ch]' : ''}`}>
+        {children}
+      </h2>
+    </div>
+  );
+};
+
+/* Обёртка секции с тремя плотностями.
+
+   Одинаковые отступы у всех секций подряд - это ровный монотонный ритм,
+   в котором страница читается как единый список. Разная плотность даёт
+   странице дыхание: `air` работает как пауза перед важным, `tight`
+   поджимает связующие блоки, которые не должны занимать целый экран. */
+export const Container = ({
+  children, className = '', id, pad = 'md',
+}: {
+  children: React.ReactNode, className?: string, id?: string, pad?: 'tight' | 'md' | 'air',
+}) => {
+  const pads = {
+    tight: 'py-14 md:py-20',
+    md: 'py-20 md:py-28',
+    air: 'py-28 md:py-40',
+  };
+  return (
+    <section id={id} className={`${pads[pad]} px-5 sm:px-6 md:px-12 w-full max-w-[1440px] mx-auto ${className}`}>
+      {children}
+    </section>
+  );
+};
 
 export const Reveal = ({ children, delay = 0, className = '', y = 28 }: { children: React.ReactNode, delay?: number, className?: string, y?: number }) => (
   <motion.div

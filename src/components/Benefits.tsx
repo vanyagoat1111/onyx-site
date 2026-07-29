@@ -17,7 +17,7 @@ const compare = [
 
 export default function Benefits() {
   return (
-    <Container className="relative border-t border-white/[0.06]">
+    <Container pad="md" className="relative border-t border-white/[0.06]">
       <div className="absolute top-0 right-0 w-[40vw] h-[40vw] rounded-full bg-cobalt/[0.05] blur-[120px] pointer-events-none" />
 
       <SectionTitle index="02" subtitle="Бизнес-модель" className="max-w-4xl relative z-10">
