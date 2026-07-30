@@ -125,7 +125,6 @@ function assembled(el: HTMLElement) {
   el.style.setProperty('--intro-fit', '1');
   el.style.setProperty('--intro-fit-y', '0px');
   el.style.setProperty('--intro-stars', '0');
-  el.style.setProperty('--intro-invite', '0');
   el.style.setProperty('--intro-pane', 'auto');
 }
 
@@ -141,28 +140,9 @@ export default function IntroAssembly({ children }: { children: React.ReactNode 
      дважды за жизнь страницы, не на каждом кадре. */
   const [heroH, setHeroH] = useState(0);
 
-  /* Самосборка, если человек не листает.
-
-     Первый экран по замыслу пустой - и это работает ровно до того момента,
-     пока человек понимает, что от него хотят. Партнёр открыл ссылку,
-     увидел чёрный экран и решил, что сайт не грузится. Не он один: для
-     того, кто пришёл по ссылке из мессенджера, пустой экран - это
-     сломанный сайт, а не приём. Подсказка внизу мелкая, на телефоне её
-     ещё и панель браузера перекрывает.
-
-     Поэтому у сцены теперь есть предел терпения. Две секунды без единого
-     касания - и страница собирается сама, после чего ведёт себя как
-     обычная: трек убирается, прокрутка идёт насквозь. Если человек листает,
-     ничего не меняется, сцена работает как задумана.
-
-     Так пустого экрана не увидит никто, а замысел сохраняется для тех,
-     кто в него всё-таки попадает. */
-  const [gaveUp, setGaveUp] = useState(false);
-
   const chromeH = mobile ? CHROME_H.m : CHROME_H.d;
   const footH = mobile ? FOOT_H.m : FOOT_H.d;
   const live = !calm && vh > 0;
-  const scene = live && !gaveUp;   // сцена ещё ведёт экран
 
   /* Липкий слой равен окну, а если первый экран выше - ему. */
   const paneH = Math.max(vh, heroH);
@@ -178,17 +158,13 @@ export default function IntroAssembly({ children }: { children: React.ReactNode 
   const sceneLen = mobile ? 1.5 : 2.6;
   const trackH = Math.round(paneH + vh * sceneLen);
 
-  const paint = (p: number) => {
+  const { track, pane } = useScrollTrack((p) => {
     const root = document.documentElement;
 
     for (const [name, a, b] of STEPS) setVar(root, name, seg(p, a, b));
 
     /* Искры принадлежат пустому экрану и гаснут раньше заголовка. */
     setVar(root, '--intro-stars', 1 - seg(p, 0.08, 0.38));
-
-    /* Приглашение уходит сразу, как только сборка тронулась: дальше
-       человек уже понял правило, и напоминание только мешает. */
-    setVar(root, '--intro-invite', 1 - seg(p, 0.005, 0.06));
 
     /* Рамка уходит последней: пока она есть, читается «это ещё превью»,
        когда растворилась - «это готовый сайт». */
@@ -214,48 +190,9 @@ export default function IntroAssembly({ children }: { children: React.ReactNode 
     let i = 0;
     for (let k = 0; k < CAPTIONS.length; k++) if (p >= CAPTIONS[k].at) i = k;
     if (i !== capRef.current) { capRef.current = i; setCap(i); }
-  };
+  }, live);
 
-  const paintRef = useRef(paint);
-  paintRef.current = paint;
 
-  const { track, pane } = useScrollTrack(paint, scene);
-
-  useEffect(() => {
-    if (!scene) return;
-    let idle = 0, raf = 0;
-    /* Событие scroll засчитывается только вместе с реальным сдвигом.
-
-       Браузер иногда шлёт scroll на нулевой позиции - при восстановлении
-       прокрутки, при фокусе, при смене высоты окна с исчезающей адресной
-       строкой. Если верить ему на слово, защита снимется сама собой,
-       и партнёр снова упрётся в чёрный экран. Намерение - это колесо,
-       касание, клавиша или прокрутка, которая куда-то привела. */
-    const wake = ['wheel', 'touchstart', 'keydown', 'pointerdown', 'scroll'];
-    const engaged = (e: Event) => {
-      if (e.type === 'scroll' && window.scrollY <= 4) return;
-      window.clearTimeout(idle);
-      off();
-    };
-    const off = () => wake.forEach((n) => window.removeEventListener(n, engaged));
-    wake.forEach((n) => window.addEventListener(n, engaged, { passive: true }));
-
-    idle = window.setTimeout(() => {
-      off();
-      // Человек уже листает - сцена в его руках, не вмешиваемся.
-      if (window.scrollY > 4) return;
-      const t0 = performance.now();
-      const tick = (now: number) => {
-        const x = Math.min(1, (now - t0) / 1500);
-        paintRef.current(1 - Math.pow(1 - x, 3));   // тот же выкат, что у прокрутки
-        if (x < 1) raf = requestAnimationFrame(tick);
-        else setGaveUp(true);
-      };
-      raf = requestAnimationFrame(tick);
-    }, 2000);
-
-    return () => { window.clearTimeout(idle); off(); if (raf) cancelAnimationFrame(raf); };
-  }, [scene]);
 
   /* Уход со страницы. Если человек нажал «Смотреть шаблон» на середине
      сборки, компонент размонтируется, а переменные остались бы на 0.3 -
@@ -266,9 +203,9 @@ export default function IntroAssembly({ children }: { children: React.ReactNode 
      растянуться на всю её и фон не обрывался швом посреди страницы.
      Пишется при изменении высоты, а не на каждом кадре: это раскладка. */
   useEffect(() => {
-    if (!scene) return;
+    if (!live) return;
     document.documentElement.style.setProperty('--intro-pane', `${paneH}px`);
-  }, [scene, paneH]);
+  }, [live, paneH]);
 
   /* Измерение первого экрана.
 
@@ -287,7 +224,7 @@ export default function IntroAssembly({ children }: { children: React.ReactNode 
      поэтому сбрасывать масштаб перед измерением не нужно и цикла не
      возникает: высота Hero не зависит от высоты слоя. */
   useEffect(() => {
-    if (!scene) return;
+    if (!live) return;
     const root = document.documentElement;
     const el = pane.current?.querySelector('[data-intro-fit]') as HTMLElement | null;
     if (!el) return;
@@ -319,13 +256,13 @@ export default function IntroAssembly({ children }: { children: React.ReactNode 
       root.style.setProperty('--intro-fit', '1');
       root.style.setProperty('--intro-fit-y', '0px');
     };
-  }, [scene, vh, footH, pane]);
+  }, [live, vh, footH, pane]);
 
   /* Просили меньше движения - отдаём готовую страницу и не держим экран.
      Это не урезанная версия: вступление здесь украшение, а не носитель
      смысла, весь текст и все действия на месте. Тот же путь работает на
      первом кадре, пока высота окна ещё не измерена. */
-  if (!scene) {
+  if (!live) {
     if (typeof document !== 'undefined') assembled(document.documentElement);
     return <>{children}</>;
   }
@@ -375,30 +312,6 @@ export default function IntroAssembly({ children }: { children: React.ReactNode 
               </svg>
             </span>
           ))}
-        </div>
-
-        {/* ── приглашение пролистать ──
-
-            Раньше на эту роль работала строчка внизу экрана: десятый кегль,
-            серый по чёрному, у самого края. На телефоне её перекрывает
-            панель браузера. Человек видел чёрный экран и уходил.
-
-            Теперь приглашение стоит по центру, читается с первого взгляда
-            и объясняет правило одной фразой. Гаснет от первого же движения
-            прокрутки, так что мешать оно не успевает. */}
-        <div
-          className="absolute inset-x-0 top-0 z-20 flex flex-col items-center justify-center px-6 pointer-events-none text-center"
-          style={{ height: vh, opacity: 'var(--intro-invite, 0)' }}
-        >
-          <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.28em] text-cobalt-soft mb-4">
-            Пустая страница
-          </span>
-          <span className="font-display font-medium text-bone/90 text-[clamp(1.15rem,4.6vw,1.7rem)] leading-snug max-w-[19ch]">
-            {mobile ? 'Листайте - сайт соберётся' : 'Листайте вниз - сайт соберётся у вас на глазах'}
-          </span>
-          <span className="mt-6 flex flex-col items-center gap-1.5" aria-hidden="true">
-            <span className="w-[9px] h-[9px] border-b-2 border-r-2 rotate-45 border-cobalt-soft animate-bounce" />
-          </span>
         </div>
 
         {/* ── окно браузера ──
