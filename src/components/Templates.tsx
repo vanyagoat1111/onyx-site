@@ -32,7 +32,7 @@ const cases: {
     url: '#case/artel',
     problem: 'Нет площадки, отражающей премиальный уровень услуг.',
     result: 'Имидж-сайт с портфолио, процессом и заявками.',
-    previewImg: '/case6.1.png',
+    previewImg: '/case6.1.jpg',
   },
   {
     name: 'DentalArt',
@@ -40,7 +40,7 @@ const cases: {
     url: '#case/dental',
     problem: 'Устаревший сайт, нет доверия, мало заявок.',
     result: 'Врачи, услуги с ценами и онлайн-запись с рекламы.',
-    previewImg: '/case1.1.png',
+    previewImg: '/case1.1.jpg',
   },
   {
     name: 'Iron Core',
@@ -48,7 +48,7 @@ const cases: {
     url: '#case/fitness',
     problem: 'Сайт не продаёт абонементы.',
     result: 'Направления, тренеры, абонементы и пробное занятие.',
-    previewImg: '/case2.1.png',
+    previewImg: '/case2.1.jpg',
   },
   {
     name: 'Prime Logistics',
@@ -56,7 +56,7 @@ const cases: {
     url: '#case/logistics',
     problem: 'Нет заявок с сайта.',
     result: 'Калькулятор плеча и срока, короткие формы заявки.',
-    previewImg: '/case3.1.png',
+    previewImg: '/case3.1.jpg',
   },
   {
     name: 'Egorov & Partners',
@@ -64,7 +64,7 @@ const cases: {
     url: '#case/lawfirm',
     problem: 'Низкое доверие клиентов.',
     result: 'Практика, кейсы с результатом и запись на консультацию.',
-    previewImg: '/case4.1.png',
+    previewImg: '/case4.1.jpg',
   },
   {
     name: 'Vanguard Estates',
@@ -72,7 +72,7 @@ const cases: {
     url: '#case/realestate',
     problem: 'Сложно продавать объекты через сайт.',
     result: 'Каталог с фильтрами и подбором объекта в два клика.',
-    previewImg: '/case5.1.png',
+    previewImg: '/case5.1.jpg',
   },
   {
     name: 'Osnova',
@@ -401,12 +401,30 @@ export default function Templates() {
                 className="rounded-[26px] overflow-hidden border bg-[#101015]"
                 style={{ borderColor: card.style.borderColor as string, boxShadow: card.style.boxShadow as string }}
               >
+                {/* Обложки не декодируются, пока карточка не нужна.
+
+                    Раньше все четырнадцать разворачивались в память сразу при
+                    заходе на главную. В сети это 2,5 мегабайта, но распакованный
+                    битмап весит иначе: обложки лежали в 2000 точек шириной при
+                    показе в 400, и вместе занимали 84 мегабайта. У WebKit есть
+                    предел памяти на вкладку, а у встроенного браузера Telegram
+                    он ещё жёстче - страница просто не открывалась. На настольном
+                    компьютере такого предела нет, поэтому там всё выглядело
+                    исправным.
+
+                    lazy откладывает загрузку до подхода к экрану, async снимает
+                    декодирование с главного потока, width и height резервируют
+                    место и не дают вёрстке прыгать. */}
                 <div className="relative aspect-[16/10] overflow-hidden">
                   {card.previewImg ? (
                     <img
                       src={card.previewImg}
                       alt={`Кейс: ${card.name}`}
                       draggable={false}
+                      loading="lazy"
+                      decoding="async"
+                      width={1000}
+                      height={620}
                       className="w-full h-full object-cover object-top"
                     />
                   ) : (
