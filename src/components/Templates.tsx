@@ -287,6 +287,35 @@ export default function Templates() {
     window.addEventListener('touchcancel', end);
   };
 
+  /* Обложки подгружаются заранее, по подходу к секции.
+
+     Сначала здесь стоял loading="lazy" - и он не сработал. Галерея лежит
+     внутри Reveal, обёртки с появлением по прокрутке, которая стартует
+     с нулевой прозрачностью. Chrome отложенные картинки в невидимом
+     поддереве не запрашивает вовсе. Загрузка начиналась только после того,
+     как Reveal доводил прозрачность до единицы, то есть уже когда человек
+     смотрит на блок: несколько секунд пустых рамок в самом продающем месте
+     сайта.
+
+     Свой наблюдатель висит на секции - обычном блочном элементе, вне
+     трёхмерной сцены и вне анимации. Запас в 800 точек означает, что
+     к моменту, когда галерея доедет до экрана, обложки уже на месте.
+     До этого момента запросов нет вовсе, и память чистая. */
+  const [near, setNear] = useState(false);
+  useEffect(() => {
+    if (near) return;
+    const el = document.getElementById('templates');
+    // Нет элемента или нет наблюдателя - показываем сразу: пустая галерея
+    // хуже лишнего трафика.
+    if (!el || typeof IntersectionObserver === 'undefined') { setNear(true); return; }
+    const io = new IntersectionObserver(
+      (es) => { if (es.some((e) => e.isIntersecting)) { setNear(true); io.disconnect(); } },
+      { rootMargin: '800px 0px' },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [near]);
+
   const suppressClick = useRef(0);
 
   /* Горизонтальное колесо и тачпад. На ноутбуке двумя пальцами вбок -
@@ -401,7 +430,7 @@ export default function Templates() {
                 className="rounded-[26px] overflow-hidden border bg-[#101015]"
                 style={{ borderColor: card.style.borderColor as string, boxShadow: card.style.boxShadow as string }}
               >
-                {/* Обложки не декодируются, пока карточка не нужна.
+                {/* Обложки не грузятся, пока галерея далеко.
 
                     Раньше все четырнадцать разворачивались в память сразу при
                     заходе на главную. В сети это 2,5 мегабайта, но распакованный
@@ -412,16 +441,15 @@ export default function Templates() {
                     компьютере такого предела нет, поэтому там всё выглядело
                     исправным.
 
-                    lazy откладывает загрузку до подхода к экрану, async снимает
-                    декодирование с главного потока, width и height резервируют
-                    место и не дают вёрстке прыгать. */}
+                    Адрес подставляется только когда секция подошла на 800 точек.
+                    async снимает декодирование с главного потока, width и height
+                    резервируют место, чтобы вёрстка не прыгала при появлении. */}
                 <div className="relative aspect-[16/10] overflow-hidden">
                   {card.previewImg ? (
                     <img
-                      src={card.previewImg}
+                      src={near ? card.previewImg : undefined}
                       alt={`Кейс: ${card.name}`}
                       draggable={false}
-                      loading="lazy"
                       decoding="async"
                       width={1000}
                       height={620}
