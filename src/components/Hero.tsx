@@ -39,7 +39,13 @@ export default function Hero() {
   const [formOpen, setFormOpen] = useState(false);
 
   return (
-    <section id="home" className="relative flex flex-col overflow-hidden">
+    /* `overflow-hidden` стоит НЕ здесь, а на обёртке ниже. Это не мелочь:
+       обёртка центруется по вертикали сдвигом вниз, её высота в раскладке
+       при этом не меняется, - и клип на секции срезал бы всё, что вышло
+       за её нижнюю границу. На широком экране это ровно половина кнопок.
+       Клип нужен только чтобы засветы фона не вылезали за пределы экрана
+       и не давали горизонтальной прокрутки, а они лежат внутри обёртки. */
+    <section id="home" className="relative flex flex-col">
       {/* ═══ Первый экран теперь обязан быть первым экраном ═══
 
           Раньше высота бралась от содержимого: на ноутбуке 1366×768
@@ -68,7 +74,7 @@ export default function Hero() {
           position: fixed, и окно поехало бы вместе с первым экраном. */}
       <div
         data-intro-fit
-        className="relative pt-[clamp(3.5rem,9vh,6rem)] pb-[clamp(1.5rem,4vh,4rem)]"
+        className="relative overflow-hidden pt-[clamp(3.5rem,9vh,6rem)] pb-[clamp(1.5rem,4vh,4rem)]"
         style={{
           transform: 'translateY(var(--intro-fit-y, 0px)) scale(var(--intro-fit, 1))',
           transformOrigin: 'top center',
