@@ -272,11 +272,40 @@ export default function FitnessClub() {
               <motion.span animate={{ opacity: [1, 0.4, 1], scale: [1, 0.75, 1] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }} className="w-2 h-2 rounded-full bg-[#EF4444] inline-block" />
               Новый уровень
             </div>
-            <h1 className="font-black uppercase leading-[0.95] text-[42px] sm:text-[56px] md:text-[76px] mb-7 tracking-tight">
-              Не предел,<br />
-              <span style={{ background: 'linear-gradient(90deg,#DC2626,#F97316)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>а старт</span>
+            {/* ── Первый экран переписан на продление, а не на пафос ──
+
+                Было: «Не предел, а старт» и «Премиальное фитнес-
+                пространство для тех, кто не ищет оправданий. 2000 м²
+                инновационного оборудования и атмосфера, заряженная
+                на результат».
+
+                Три отдельные проблемы.
+
+                «Кто не ищет оправданий» обвиняет человека раньше, чем
+                он что-то купил. Тот, кто не ходил в зал два года, читает
+                это как «ты и есть оправдание» - и закрывает вкладку.
+
+                «Инновационное оборудование» и «атмосфера, заряженная
+                на результат» - слова, за которыми ничего не стоит.
+                Их можно поставить на сайт любого зала страны.
+
+                И главное: заголовок не отвечает на страх ниши. Человек
+                боится не того, что зал недостаточно премиальный. Он
+                боится, что купит абонемент и бросит через месяц - как
+                в прошлый раз.
+
+                Стало: клуб продаёт то, что удерживает, а не то, что
+                продаёт. Цифра 87% взята из показателей этого же
+                шаблона - не выдумана, сходится с блоком ниже.
+                Градиент на тексте убран: он стоит на каждом втором
+                сайте зала, а контраст даёт само начертание. */}
+            <h1 className="font-black uppercase leading-[0.95] text-[38px] sm:text-[52px] md:text-[70px] mb-7 tracking-tight">
+              Абонемент продать легко.<br />
+              <span className="text-[#EF4444]">Сложнее — чтобы его продлили</span>
             </h1>
-            <p className="text-neutral-400 text-[17px] max-w-[440px] leading-[1.6] mb-9">Премиальное фитнес-пространство для тех, кто не ищет оправданий. 2000 м² инновационного оборудования и атмосфера, заряженная на результат.</p>
+            <p className="text-neutral-400 text-[17px] max-w-[460px] leading-[1.6] mb-9">
+              87% наших резидентов продлевают карту повторно. Не из-за площади в 2000 м², а потому что на первой неделе тренер составляет план под вашу цель и вы видите, куда идёте.
+            </p>
             <div className="flex gap-4 flex-wrap">
               <button onClick={() => document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' })} type="button" className="bg-[#DC2626] border border-[#DC2626] text-white px-8 py-4.5 text-[13px] font-bold uppercase tracking-[0.1em] shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] transition-shadow cursor-pointer active:brightness-95 active:duration-75"><Skew>Стать резидентом</Skew></button>
               <button type="button" onClick={(e: any) => scrollTo(e, 'schedule')} className="bg-transparent border border-neutral-700 text-white px-8 py-4.5 text-[13px] font-bold uppercase tracking-[0.1em] hover:border-neutral-500 transition-colors cursor-pointer active:brightness-95 active:duration-75"><Skew>Расписание</Skew></button>

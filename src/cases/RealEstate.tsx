@@ -226,9 +226,33 @@ export default function RealEstate() {
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom,#080808 0%,rgba(8,8,8,0.2) 24%,rgba(8,8,8,0.15) 72%,#080808 100%)' }} />
 
         <div className="relative z-[2] max-w-[1100px] w-full">
-          <div className="text-[10px] text-[#C9A263] uppercase tracking-[0.4em] font-semibold mb-9">Бутик элитной недвижимости</div>
-          <h1 className="font-cormorant text-[42px] sm:text-[60px] md:text-[86px] text-white leading-[1.05] mb-8 font-medium">Исключительная <i className="font-light opacity-90">недвижимость</i> для искушённых</h1>
-          <p className="text-base sm:text-lg text-white/80 font-light max-w-[640px] mx-auto mb-14 leading-[1.7]">Коллекция лучших пентхаусов, вилл и исторических особняков в самых престижных локациях. Искусство жить стильно.</p>
+          {/* ── Первый экран переписан на выбор, а не на восхищение ──
+
+              Было: «Исключительная недвижимость для искушённых» и ниже
+              «Искусство жить стильно». Набор слов, который ничего не
+              сообщает: ни что за объекты, ни где, ни за сколько.
+              «Искушённые» вдобавок делает читателя виноватым - он должен
+              сначала доказать себе, что достоин.
+
+              В этой нише человек не выбирает настроение. Он ищет объект
+              по параметрам и боится одного: что его будут водить кругами,
+              показывать не то и тянуть с ценой. Поэтому первый экран
+              обещает сузить выбор, а не восхитить.
+
+              Курсив оставлен - Cormorant в двух начертаниях рядом и есть
+              приём этого шаблона, но теперь он выделяет действие, ради
+              которого человек пришёл, а не эпитет.
+
+              Цифры в заголовке нет намеренно. Первая версия начиналась
+              с «Из четырёхсот объектов» - но 400 в этом шаблоне это
+              «активных клиентов», а не объектов. Число выглядело
+              убедительно и было неправдой: ровно та ошибка, за которую
+              мы сами советуем обходить подрядчика стороной. Показателей
+              по числу объектов в шаблоне нет, поэтому и в заголовке
+              их нет. */}
+          <div className="text-[10px] text-[#C9A263] uppercase tracking-[0.4em] font-semibold mb-9">Бутик элитной недвижимости · Москва</div>
+          <h1 className="font-cormorant text-[42px] sm:text-[60px] md:text-[86px] text-white leading-[1.05] mb-8 font-medium">Покажем три объекта <i className="font-light opacity-90">ваших</i>, а не весь каталог</h1>
+          <p className="text-base sm:text-lg text-white/80 font-light max-w-[640px] mx-auto mb-14 leading-[1.7]">Пентхаусы, виллы и исторические особняки в центре. Задайте параметры - подберём то, что подходит по бюджету, метражу и виду из окна, и не станем возить по остальному.</p>
 
           <div className="bg-[#111]/80 backdrop-blur-xl border border-white/10 p-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 max-w-[900px] mx-auto" style={{ boxShadow: '0 40px 90px -30px rgba(0,0,0,0.7)' }}>
             <select className="font-jost bg-transparent text-white/60 border border-white/[0.08] px-5.5 py-4 text-sm outline-none cursor-pointer">

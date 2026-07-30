@@ -284,21 +284,109 @@ export default function DentalClinic() {
       <section className="relative py-16 md:py-24 px-6 md:px-8 pb-20 md:pb-24 overflow-hidden" style={{ background: 'linear-gradient(to bottom,#F0F9FF,#FFFFFF)' }}>
         <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-14 items-center">
           <div>
-            <span className="inline-block px-4.5 py-2 rounded-full text-[11px] font-bold uppercase tracking-[0.1em] mb-7" style={{ background: 'rgba(8,145,178,0.1)', color: '#0369A1' }}>Премиальная стоматология в Москве</span>
-            <h1 className="font-spectral text-[36px] sm:text-[48px] md:text-[64px] leading-[1.06] font-semibold text-slate-900 mb-6.5">
-              Здоровая улыбка с гарантией <span style={{ background: 'linear-gradient(120deg,#0891B2,#22D3EE)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent', fontStyle: 'italic' }}>экспертов</span>
+            {/* ── Первый экран переписан под страх, а не под улыбку ──
+
+                Было: «Здоровая улыбка с гарантией экспертов», акцентное
+                слово - градиентным курсивом. Три проблемы разом.
+
+                Заголовок подходил любой клинике страны: подставь другое
+                название - ничего не изменится. Это верный признак, что
+                он ни о чём.
+
+                Градиентный текст с курсивом - приём, который стоит на
+                каждом втором медицинском сайте. Он не читается как
+                премиальность, он читается как шаблон.
+
+                И главное: человек перед стоматологией думает не про
+                улыбку. Он думает «будет больно» и «разведут на лишнее».
+                Первый экран, который говорит про улыбку, отвечает не на
+                тот вопрос - и человек уходит читать отзывы к конкурентам.
+
+                Стало: заголовок называет страх и снимает его. Акцент -
+                не цветом, а начертанием: Spectral в обычном и полужирном
+                рядом даёт контраст сильнее градиента и не выглядит
+                нарядно там, где нарядно неуместно.
+
+                «За один визит» убрано: это обещание результата, которое
+                нельзя гарантировать, - тот самый пункт, за который мы
+                сами советуем обходить подрядчика стороной. */}
+            <span className="inline-flex items-center gap-2.5 px-4.5 py-2 rounded-full text-[11px] font-bold uppercase tracking-[0.1em] mb-7" style={{ background: 'rgba(8,145,178,0.1)', color: '#0369A1' }}>
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#0891B2' }} />
+              Стоматология в Москве · с 2009 года
+            </span>
+            <h1 className="font-spectral text-[34px] sm:text-[46px] md:text-[60px] leading-[1.05] text-slate-900 mb-6.5 [text-wrap:balance]">
+              <span className="font-normal">Вы будете знать цену и план</span><br />
+              <span className="font-semibold">до того, как сядете в кресло</span>
             </h1>
-            <p className="text-base sm:text-[17px] text-slate-600 leading-[1.65] max-w-[480px] mb-8.5">Безболезненное лечение, прецизионная имплантация и цифровая эстетика. Вернём уверенность в вашей улыбке за один визит.</p>
+            <p className="text-base sm:text-[17px] text-slate-600 leading-[1.65] max-w-[490px] mb-8.5">
+              Сначала осмотр и снимок, потом смета с фиксированной суммой. Ни одна процедура не начинается, пока вы её не согласовали, - и ничего не добавляется по ходу.
+            </p>
             <div className="flex gap-4 flex-wrap">
               <button type="button" onClick={(e: any) => scrollTo(e, 'contacts')} style={{ background: 'linear-gradient(135deg,#0891B2,#0E7490)', boxShadow: '0 12px 28px -8px rgba(8,145,178,0.4)' }} className="text-white px-8 py-4.5 rounded-full text-[15px] font-bold border-none cursor-pointer transition-all hover:-translate-y-0.5 active:scale-[0.97] active:duration-75">Записаться на приём</button>
               <button type="button" onClick={(e: any) => scrollTo(e, 'services')} className="bg-white text-slate-800 px-8 py-4.5 rounded-full text-[15px] font-bold border border-slate-200 cursor-pointer transition-colors hover:bg-[#F0F9FF] active:scale-[0.97] active:duration-75">Прайс-лист</button>
+            </div>
+
+            {/* Микроподписи: три факта, которые снимают остаток недоверия.
+                В файле их было три штуки на пятьсот строк - мелкий текст
+                рядом с блоками и создаёт ощущение редакторской работы,
+                без него страница выглядит собранной наспех. */}
+            <div className="mt-9 flex flex-wrap gap-x-7 gap-y-2.5">
+              {[
+                ['01', 'Смета фиксируется договором'],
+                ['02', 'Снимок и осмотр — 0 ₽'],
+                ['03', 'Гарантия на работу 3 года'],
+              ].map(([n, t]) => (
+                <span key={n} className="flex items-baseline gap-2 text-[12px] text-slate-500">
+                  <span className="font-mono text-[10px] tracking-[0.16em]" style={{ color: '#0891B2' }}>{n}</span>
+                  {t}
+                </span>
+              ))}
             </div>
           </div>
           <div className="relative">
             <div className="absolute -top-10 -right-10 w-[110%] h-[110%] z-0" style={{ background: 'radial-gradient(circle,rgba(34,211,238,0.25),transparent 70%)', filter: 'blur(50px)' }} />
             <div className="relative z-10 h-[320px] sm:h-[400px] md:h-[480px] rounded-[32px] overflow-hidden" style={{ boxShadow: '0 40px 90px -24px rgba(8,145,178,0.35)' }}>
-              <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=1000&q=80" alt="Клиника DentalArt" className="w-full h-full object-cover" />
-              <div className="absolute inset-0" style={{ background: 'linear-gradient(to top,rgba(3,54,73,0.25),transparent 50%)' }} />
+              <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=1000&q=80" alt="Клиника DentalArt" className="w-full h-full object-cover" loading="lazy" />
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(to top,rgba(3,54,73,0.55),transparent 55%)' }} />
+            </div>
+
+            {/* ── Композиция с нарушением ──
+
+                Карточка выходит за границу фотографии и за сетку колонки.
+                Ровные две колонки читаются как макет из конструктора;
+                один элемент, который их нарушает, делает страницу
+                спроектированной.
+
+                Но нарушение здесь не ради приёма. Внутри - главный ответ
+                на страх, с которым человек и пришёл: сколько это займёт
+                и что он почувствует. Это тот же приём ниши, который
+                раскрыт ниже на всю страницу, вынесенный на первый экран
+                одним фрагментом - чтобы не надо было доскроливать.
+
+                На телефоне нарушение снимается: там всё в одну колонку,
+                и вылезающий за край блок превратился бы в горизонтальную
+                прокрутку, а не в приём. */}
+            <div className="relative z-20 mt-6 lg:mt-0 lg:absolute lg:-bottom-9 lg:-left-14 lg:w-[330px] rounded-[26px] bg-white p-6"
+                 style={{ boxShadow: '0 26px 60px -18px rgba(8,50,73,0.28)', border: '1px solid rgba(8,145,178,0.14)' }}>
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] mb-4" style={{ color: '#0891B2' }}>
+                Первый визит
+              </p>
+              {[
+                ['Осмотр и снимок', '25 минут', 'Неприятно не будет: врач только смотрит'],
+                ['Разбор снимка', '15 минут', 'Показываем на экране, что видим и почему'],
+                ['Смета и план', '20 минут', 'Уходите с суммой на руках. Решаете дома'],
+              ].map(([step, time, feel], i) => (
+                <div key={step} className={i < 2 ? 'pb-4 mb-4 border-b border-slate-100' : ''}>
+                  <div className="flex items-baseline justify-between gap-3 mb-1">
+                    <span className="text-[14.5px] font-semibold text-slate-800">{step}</span>
+                    <span className="font-mono text-[11px] shrink-0" style={{ color: '#0891B2' }}>{time}</span>
+                  </div>
+                  <p className="text-[12.5px] text-slate-500 leading-snug">{feel}</p>
+                </div>
+              ))}
+              <p className="mt-4 pt-4 border-t border-slate-100 text-[12px] text-slate-500">
+                Всего <span className="font-semibold text-slate-700">час</span>. Лечение в этот день не начинаем.
+              </p>
             </div>
           </div>
         </div>
