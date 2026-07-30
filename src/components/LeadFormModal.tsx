@@ -48,7 +48,7 @@ export default function LeadFormModal({ open, onClose }: { open: boolean; onClos
             <div className="relative">
               <LeadForm
                 heading="Начинаем разработку вашего сайта"
-                subtitle="Оставьте имя и телефон — покажем план сайта и подготовим бесплатный чек-лист по запуску."
+                subtitle="Оставьте имя и телефон - покажем план сайта и подготовим бесплатный чек-лист по запуску."
                 submitLabel="Начать разработку"
               />
             </div>

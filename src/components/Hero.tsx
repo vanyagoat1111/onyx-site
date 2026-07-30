@@ -171,7 +171,7 @@ export default function Hero() {
                 с остальным, но пол стоит на 14 и 13 пикселях: ниже это уже
                 не «компактно», а «мелко и не читается». */}
             <p className="text-base md:text-[clamp(0.875rem,2.3vh,1.125rem)] font-body text-bone/90 leading-relaxed">
-              Начинаем не с прайса, а с разбора. Смотрим ваш сайт или нишу, показываем, что мешает получать заявки, и составляем план — какой сайт нужен именно вашему бизнесу.
+              Начинаем не с прайса, а с разбора. Смотрим ваш сайт или нишу, показываем, что мешает получать заявки, и составляем план - какой сайт нужен именно вашему бизнесу.
             </p>
             <p className="text-[15px] md:text-[clamp(0.8125rem,2vh,0.9375rem)] font-body text-fog leading-relaxed">
               Разбор и план бесплатны и ни к чему не обязывают. Разработка стоит 0 ₽: вы платите только за запуск, размещение и дополнительные функции, если они нужны.
@@ -200,7 +200,7 @@ export default function Hero() {
               <Button variant="outline" className="min-h-[56px] px-9" onClick={() => setFormOpen(true)}>
                 Сайта пока нет
               </Button>
-              <span className="text-[11px] text-fog/70 text-center font-mono tracking-wide max-w-[280px] mx-auto">Оставьте номер — разберём нишу и покажем, каким должен быть первый сайт.</span>
+              <span className="text-[11px] text-fog/70 text-center font-mono tracking-wide max-w-[280px] mx-auto">Оставьте номер - разберём нишу и покажем, каким должен быть первый сайт.</span>
             </div>
           </motion.div>
 

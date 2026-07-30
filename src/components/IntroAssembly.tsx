@@ -377,7 +377,7 @@ export default function IntroAssembly({ children }: { children: React.ReactNode 
                   читается не как приём, а как сломанный сайт - и человек
                   уходит, ничего не пролистав. */}
               <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-fog/70 flex items-center gap-2 shrink-0">
-                <span className="hidden sm:inline">Листайте — сайт соберётся</span>
+                <span className="hidden sm:inline">Листайте - сайт соберётся</span>
                 <span className="sm:hidden">Листайте вверх</span>
                 <span className="inline-block w-[7px] h-[7px] border-b border-r rotate-45 border-cobalt-soft animate-bounce" />
               </span>

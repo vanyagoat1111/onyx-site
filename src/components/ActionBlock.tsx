@@ -6,10 +6,10 @@ import { BOT_LINK, BOT_AUDIT_LINK, BOT_CHECKLIST_LINK } from '../lib/leads';
 const steps = [
   // Разбор сайта делает бот, это секунды. Две минуты - про созвон,
   // они остались во втором шаге, где им и место.
-  { title: 'Разбор за 5 секунд', desc: 'Даёте адрес сайта — бот показывает, что мешает получать заявки. Если сайта нет, разбираем нишу.' },
+  { title: 'Разбор за 5 секунд', desc: 'Даёте адрес сайта - бот показывает, что мешает получать заявки. Если сайта нет, разбираем нишу.' },
   { title: 'Бесплатная консультация', desc: 'Созваниваемся и составляем план сайта под ваш бизнес: структура, блоки, что показать первым.' },
   { title: 'Показываем превью', desc: 'Собираем предварительную версию. Смотрите вживую и говорите, что поправить.' },
-  { title: 'Запускаем сайт', desc: 'На вашем домене, без оплаты разработки — платите только за запуск и работу.' },
+  { title: 'Запускаем сайт', desc: 'На вашем домене, без оплаты разработки - платите только за запуск и работу.' },
 ];
 
 export default function ActionBlock() {
@@ -18,7 +18,7 @@ export default function ActionBlock() {
       <div className="grid lg:grid-cols-2 gap-14 lg:gap-24 items-start">
         <div className="lg:sticky lg:top-28">
           <SectionTitle index="03" subtitle="План действий" className="!mb-8">
-            Сначала разбор, потом план. Цена — в самом конце
+            Сначала разбор, потом план. Цена - в самом конце
           </SectionTitle>
 
           <Reveal className="space-y-5 text-[15px] md:text-base font-body text-fog leading-relaxed mb-10">
@@ -40,14 +40,14 @@ export default function ActionBlock() {
                   <ScanSearch className="w-5 h-5 text-cobalt-soft" />
                 </div>
                 <p className="text-sm font-body text-bone/85 leading-relaxed">
-                  Начните с разбора: дайте адрес сайта — покажем, что мешает получать заявки, и предложим план. Бесплатно.
+                  Начните с разбора: дайте адрес сайта - покажем, что мешает получать заявки, и предложим план. Бесплатно.
                 </p>
               </div>
               <Button className="w-full min-h-[54px] mb-3" onClick={() => window.open(BOT_AUDIT_LINK, '_blank')}>
                 Бесплатный аудит сайта <ArrowUpRight className="w-4 h-4" />
               </Button>
               <Button variant="outline" className="w-full min-h-[54px] mb-3" onClick={() => window.open(BOT_LINK, '_blank')}>
-                Сайта пока нет — разобрать нишу
+                Сайта пока нет - разобрать нишу
               </Button>
               <button
                 onClick={() => window.open(BOT_CHECKLIST_LINK, '_blank')}

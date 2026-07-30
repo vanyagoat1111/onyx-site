@@ -68,7 +68,7 @@ export default function CaseEditorWrapper({ children }: { children: React.ReactN
     } ${invert ? 'bg-slate-900' : ''}`}>
       <DemoCloseButton />
 
-      {/* Demo disclaimer: кейсы — демонстрационные шаблоны с условными данными (38-ФЗ).
+      {/* Demo disclaimer: кейсы - демонстрационные шаблоны с условными данными (38-ФЗ).
           На мобильном уводим вниз, чтобы не перекрывать шапку демо-сайта. */}
       <div className="fixed z-[100] pointer-events-none bottom-5 left-4 right-24 md:bottom-auto md:top-6 md:left-1/2 md:right-auto md:-translate-x-1/2 md:max-w-[92vw]">
         <div className="pointer-events-auto rounded-full bg-slate-950/85 backdrop-blur-md border border-white/15 text-white/90 text-[10px] sm:text-[11px] font-medium tracking-wide px-3.5 py-1.5 shadow-lg text-center overflow-hidden text-ellipsis whitespace-nowrap">

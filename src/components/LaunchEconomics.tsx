@@ -51,9 +51,9 @@ export default function LaunchEconomics() {
               </div>
 
               <div className="space-y-6">
-                <CostBar label="Обычная студия — разработка" value="60 000–150 000 ₽" width="100%" delay={0.1} danger />
-                <CostBar label="ONYX — разработка" value="0 ₽" width="2.5%" accent delay={0.3} />
-                <CostBar label="ONYX — запуск под ключ" value="от 8 990 ₽" width="9%" accent delay={0.45} />
+                <CostBar label="Обычная студия - разработка" value="60 000–150 000 ₽" width="100%" delay={0.1} danger />
+                <CostBar label="ONYX - разработка" value="0 ₽" width="2.5%" accent delay={0.3} />
+                <CostBar label="ONYX - запуск под ключ" value="от 8 990 ₽" width="9%" accent delay={0.45} />
               </div>
 
               <div className="mt-8 flex items-center gap-3 rounded-2xl bg-cobalt/[0.08] border border-cobalt/20 px-4 py-3">
@@ -74,7 +74,7 @@ export default function LaunchEconomics() {
             <div className="relative">
               <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-cobalt-soft">Что вы платите</span>
               <h3 className="heading-glow font-display font-semibold text-xl md:text-2xl leading-tight tracking-tight mt-4 mb-8 [text-wrap:balance]">
-                Прозрачно: разработка — 0 ₽, остальное по мере необходимости
+                Прозрачно: разработка - 0 ₽, остальное по мере необходимости
               </h3>
             </div>
 

@@ -4,6 +4,25 @@ import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import SpaceTransition from './SpaceTransition';
 
 const cases: {
+/* Поле `result` описывает, ЧТО внутри шаблона, а не какой результат он
+   принёс. Так было не всегда: на пяти карточках стояли обещания вроде
+   «До +40% к конверсии» и «Рост вовлечённости и заявок».
+
+   Это надо было убрать по трём причинам, и каждой хватило бы отдельно.
+
+   Демо придуманные - мы сами пишем об этом в витрине: «названия и цифры
+   на демо придуманы». Значит и результата у них не было, измерять было
+   нечего, и цифра взята из воздуха.
+
+   Второе: обещание роста без подтверждения - это как раз то, за что
+   в чек-листе мы советуем обходить студию стороной. Нельзя учить клиента
+   не верить таким обещаниям и давать их на той же странице.
+
+   Третье: по 38-ФЗ утверждение об эффективности надо уметь подтвердить.
+   Наш же юридический аудит это и отметил.
+
+   Описание состава работает не хуже: «калькулятор плеча и срока» человек
+   проверит на демо через десять секунд, а «+40% к конверсии» - никогда. */
   name: string; category: string; url: string; problem: string; result: string;
   previewImg?: string; tone?: string[];
 }[] = [
@@ -20,7 +39,7 @@ const cases: {
     category: 'Медицина',
     url: '#case/dental',
     problem: 'Устаревший сайт, нет доверия, мало заявок.',
-    result: 'До +40% к конверсии, рост записей с рекламы.',
+    result: 'Врачи, услуги с ценами и онлайн-запись с рекламы.',
     previewImg: '/case1.1.png',
   },
   {
@@ -28,7 +47,7 @@ const cases: {
     category: 'Спорт',
     url: '#case/fitness',
     problem: 'Сайт не продаёт абонементы.',
-    result: 'Рост вовлечённости и заявок.',
+    result: 'Направления, тренеры, абонементы и пробное занятие.',
     previewImg: '/case2.1.png',
   },
   {
@@ -36,7 +55,7 @@ const cases: {
     category: 'B2B',
     url: '#case/logistics',
     problem: 'Нет заявок с сайта.',
-    result: 'Калькулятор и формы упростили получение заявок.',
+    result: 'Калькулятор плеча и срока, короткие формы заявки.',
     previewImg: '/case3.1.png',
   },
   {
@@ -44,7 +63,7 @@ const cases: {
     category: 'Право',
     url: '#case/lawfirm',
     problem: 'Низкое доверие клиентов.',
-    result: 'Рост обращений через форму.',
+    result: 'Практика, кейсы с результатом и запись на консультацию.',
     previewImg: '/case4.1.png',
   },
   {
@@ -52,7 +71,7 @@ const cases: {
     category: 'Элитная недвижимость',
     url: '#case/realestate',
     problem: 'Сложно продавать объекты через сайт.',
-    result: 'Интуитивный поиск, больше целевых обращений.',
+    result: 'Каталог с фильтрами и подбором объекта в два клика.',
     previewImg: '/case5.1.png',
   },
   {
@@ -236,7 +255,7 @@ export default function Templates() {
       <SpaceTransition active={warp} label={warpLabel} onDone={onWarpDone} />
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 md:mb-20">
         <SectionTitle index="05" size="loud" glow={true} subtitle="Шаблоны и готовые решения" className="!mb-0 max-w-3xl">
-          Живые демо в 3D-галерее — листайте и заходите внутрь
+          Живые демо в 3D-галерее - листайте и заходите внутрь
         </SectionTitle>
         <span className="hidden md:block font-mono text-xs text-fog whitespace-nowrap pb-3">({n}) проектов</span>
       </div>
@@ -354,7 +373,7 @@ export default function Templates() {
       </div>
 
       <p className="text-center mt-6 font-mono text-[11px] tracking-[0.2em] uppercase text-fog">
-        Клик по центральной карточке — переход в демо через гиперпрыжок
+        Клик по центральной карточке - переход в демо через гиперпрыжок
       </p>
     </Container>
   );
