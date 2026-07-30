@@ -43,7 +43,9 @@ const services = [
   { title: 'Негабаритные проекты', mono: 'НГ', desc: 'Перевозка спецтехники и крупногабаритного оборудования, спецразрешения, тралы до 120т.' },
   { title: 'Рефрижераторные перевозки', mono: 'РФ', desc: 'Строгое поддержание температурного режима от -25°C до +25°C, термописцы и онлайн контроль.' },
   { title: 'Мультимодальные решения', mono: 'ММ', desc: 'Комбинирование авто, ж/д и морского транспорта в едином логистическом окне.' },
-  { title: 'Таможенное оформление', mono: 'ТО', desc: 'Услуги таможенного брокера по РФ, прохождение очистки за 24 часа без задержек.' },
+  // «За 24 часа без задержек» - обещание, которое зависит не от нас,
+  // а от таможни. Оставляем срок как типичный, а не как гарантию.
+  { title: 'Таможенное оформление', mono: 'ТО', desc: 'Услуги таможенного брокера по РФ. Обычный срок очистки - сутки, документы готовим заранее.' },
 ];
 
 const fleet = [
@@ -249,12 +251,33 @@ export default function Logistics() {
               <span className="w-2 h-2 bg-[#4E8CFF] shrink-0" style={{ boxShadow: '0 0 10px rgba(78,140,255,0.8)' }} />
               <span className="text-xs font-bold uppercase tracking-[0.1em] text-[#7DABFF]">Международная логистика 3PL</span>
             </motion.div>
+            {/* ── Первый экран ведёт к калькулятору, а не к обещанию ──
+
+                Было: «Доставка грузов без задержек и скрытых платежей».
+                Два изъяна.
+
+                «Без задержек» - абсолютное обещание в отрасли, где задержки
+                бывают у всех: погода, границы, поломка. Обещание, которое
+                нельзя выдержать, работает один раз, а потом против тебя.
+
+                И оно не пользуется главным козырем шаблона. Приём здесь -
+                калькулятор ставки и срока, то есть ровно то, за чем человек
+                и пришёл: «сколько и когда». Пока эти две цифры скрыты, он
+                обходит десять сайтов и не оставляет заявку ни на одном.
+
+                Стало: заголовок обещает не идеальную перевозку, а цифры
+                без звонка - и сразу ведёт к калькулятору. Это выполнимо,
+                проверяемо тут же на странице и отличает от конкурентов,
+                у которых везде «рассчитаем индивидуально».
+
+                Градиент на тексте убран: он стоял на акцентной строке и
+                читался как украшение. Плотный цвет держит фразу лучше. */}
             <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1, ease: EASE }} className="font-sora text-[32px] sm:text-[42px] md:text-[62px] leading-[1.08] font-extrabold uppercase mb-6.5">
-              Доставка грузов<br />
-              <span style={{ background: 'linear-gradient(90deg,#4E8CFF,#22D3EE)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>без задержек и скрытых платежей</span>
+              Ставку и срок<br />
+              <span className="text-[#4E8CFF]">увидите до звонка</span>
             </motion.h1>
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.2, ease: EASE }} className="text-[#B4BEDB] text-base font-light max-w-[520px] leading-[1.7] mb-9">
-              Собственный автопарк из 230 единиц техники, современные кросс-доки полного цикла и 100% материальная ответственность по договору.
+              Выберите направление и тоннаж - калькулятор ниже даст ориентир за пару секунд. Собственный автопарк из 230 единиц и материальная ответственность по договору.
             </motion.p>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.3, ease: EASE }} className="flex gap-4 flex-wrap">
               <button onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })} type="button" style={{ clipPath: CLIP }} className="bg-[#2F6FED] border border-[#4E8CFF]/50 text-white px-7.5 py-4.5 text-[13px] font-bold uppercase tracking-[0.08em] cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-10px_rgba(78,140,255,0.5)] active:brightness-95 active:duration-75">Рассчитать ставку</button>
