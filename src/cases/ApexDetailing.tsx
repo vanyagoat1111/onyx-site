@@ -424,8 +424,33 @@ function WashScene({
              картинка. Портретный экран обрежет края - поэтому для телефона
              свой кадр, снятый ближе к машине. */
           <>
-            {car}
-            <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(to top, ${CARBON} 4%, rgba(12,13,12,.9) 30%, rgba(12,13,12,.35) 58%, rgba(12,13,12,.55) 100%)` }} />
+            {/* ── Телефон: машина сверху, текст под ней ──
+
+                Было: полноэкранный кадр и текст ПОВЕРХ него, а под текстом
+                шторка почти в черноту на нижние тридцать процентов экрана.
+                На бумаге это обложка журнала. На деле кузов тёмный, шторка
+                тёмная - машина пропадала, а подзаголовок на 60% белого
+                поверх фото читался с трудом.
+
+                И главное: вся сцена мойки происходила там, где показать её
+                было нечем. Смысл приёма - что человек видит, как машину
+                отмывают. Если машины не видно, приёма нет.
+
+                Стало: кадр держит верхнюю половину экрана и ничем не
+                затемняется - там и идёт мойка, там её видно. Текст живёт
+                ниже, на сплошном фоне, где контраст не зависит от того,
+                что оказалось под буквами.
+
+                Это то же решение, что во вступительной сцене на главной:
+                на узком экране не повторять десктоп, а перестроить. */}
+            <div className="absolute inset-x-0 top-0 overflow-hidden" style={{ height: '52%' }}>
+              {car}
+              {/* Мягкий переход к фону: жёсткая граница фото читается
+                  как вставленная картинка, а не как часть страницы. */}
+              <div className="absolute inset-x-0 bottom-0 h-24 pointer-events-none"
+                   style={{ background: `linear-gradient(to bottom, transparent, ${CARBON})` }} />
+            </div>
+            <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(to top, ${CARBON} 46%, transparent 52%, rgba(12,13,12,.35) 58%, rgba(12,13,12,.55) 100%)` }} />
 
             <div className="relative h-full flex flex-col justify-end px-6" style={{ paddingTop: 66, paddingBottom: 104 }}>
               <div className="font-mono text-[9px] uppercase tracking-[0.24em] mb-3" style={{ color: LIME }}>
@@ -435,8 +460,11 @@ function WashScene({
                 Смета до работ.<br />
                 <span style={{ color: LIME }}>Фото</span> после каждой.
               </h1>
+              {/* На сплошном фоне 60% белого читалось тускло, а это единственное
+                  место, где сказано, что человек получит: фиксированный нормо-час,
+                  старые детали, гарантия. */}
               {!tiny && (
-                <p className="mt-4 text-white/60 text-[13.5px] leading-[1.6] max-w-[34ch]">
+                <p className="mt-4 text-white/80 text-[13.5px] leading-[1.6] max-w-[34ch]">
                   Нормо-час фиксированный, старые детали отдаём, гарантия год.
                 </p>
               )}
