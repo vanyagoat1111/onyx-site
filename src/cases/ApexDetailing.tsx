@@ -260,7 +260,7 @@ function WashScene({
           /* Сначала выезд, потом приближение, потом сдвиг цели в центр.
              CSS применяет справа налево, поэтому порядок именно такой. */
           transform: 'translateX(var(--driveT)) scale(var(--camS)) translate(var(--camX), var(--camY))',
-          opacity: 'calc(1 - var(--leave) * 0.8)',
+          opacity: 'calc(1 - var(--leave, 0) * 0.8)',
           willChange: 'transform',
         }}
       >
@@ -300,7 +300,7 @@ function WashScene({
           {!lowPower && <div
             className="absolute inset-0"
             style={{
-              opacity: 'var(--dust)',
+              opacity: 'var(--dust, 0)',
               backgroundImage:
                 'radial-gradient(circle at 18% 34%, rgba(226,214,190,0.3) 0 2px, transparent 3px),' +
                 'radial-gradient(circle at 62% 21%, rgba(226,214,190,0.24) 0 3px, transparent 4px),' +
@@ -317,7 +317,7 @@ function WashScene({
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            opacity: 'calc(var(--fin) * 0.4)',
+            opacity: 'calc(var(--fin, 1) * 0.4)',
             background: 'radial-gradient(120% 100% at 55% 45%, rgba(0,0,0,0.55), rgba(0,0,0,0.15))',
             mixBlendMode: 'multiply',
           }}
@@ -328,7 +328,7 @@ function WashScene({
           className="absolute top-0 bottom-0 pointer-events-none"
           style={{
             left: 'var(--washL)', width: 130, marginLeft: -130,
-            opacity: 'var(--line)',
+            opacity: 'var(--line, 0)',
             background: `linear-gradient(90deg, transparent, ${LIME}1F 70%, ${LIME}59)`,
           }}
         />
@@ -336,7 +336,7 @@ function WashScene({
           className="absolute top-0 bottom-0 pointer-events-none"
           style={{
             left: 'var(--washL)', width: 3, transform: 'translateX(-1.5px)',
-            opacity: 'var(--line)',
+            opacity: 'var(--line, 0)',
             background: LIME,
             boxShadow: `0 0 30px 10px ${LIME}66`,
           }}
@@ -347,7 +347,7 @@ function WashScene({
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            opacity: 'var(--cabin)',
+            opacity: 'var(--cabin, 1)',
             background: 'radial-gradient(26% 20% at 57% 36%, rgba(206,194,172,0.55) 0%, rgba(206,194,172,0.22) 58%, transparent 100%)',
           }}
         />
@@ -359,7 +359,7 @@ function WashScene({
           style={{
             left: 'var(--glossL)', width: '22%',
             transform: 'skewX(-14deg)',
-            opacity: 'calc(var(--gloss) * (1 - var(--gloss)) * 3.6)',
+            opacity: 'calc(var(--gloss, 1) * (1 - var(--gloss, 1)) * 3.6)',
             background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.72), transparent)',
           }}
         />
@@ -368,7 +368,7 @@ function WashScene({
         {!lowPower && <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            opacity: 'var(--beads)',
+            opacity: 'var(--beads, 1)',
             backgroundImage:
               'radial-gradient(circle at 30% 42%, rgba(255,255,255,0.6) 0 1.5px, rgba(255,255,255,0.14) 2px, transparent 3px),' +
               'radial-gradient(circle at 70% 62%, rgba(255,255,255,0.5) 0 2px, rgba(255,255,255,0.12) 3px, transparent 4px),' +
@@ -387,7 +387,7 @@ function WashScene({
           не едет и не масштабируется. */}
       <div
         className="absolute inset-0 pointer-events-none grid place-items-center"
-        style={{ opacity: 'calc(var(--aim) * (1 - var(--leave)))' }}
+        style={{ opacity: 'calc(var(--aim, 0) * (1 - var(--leave, 0)))' }}
       >
         <div className="relative" style={{ width: 'min(46vw, 520px)', aspectRatio: '4/3' }}>
           {[
@@ -406,7 +406,7 @@ function WashScene({
       {/* пустой бокс остаётся, когда машина уехала */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ opacity: 'var(--leave)', background: `radial-gradient(70% 60% at 52% 62%, transparent, ${CARBON} 92%)` }}
+        style={{ opacity: 'var(--leave, 0)', background: `radial-gradient(70% 60% at 52% 62%, transparent, ${CARBON} 92%)` }}
       />
     </div>
   );
