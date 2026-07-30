@@ -265,11 +265,24 @@ function WashScene({
         }}
       >
         {/* Вымытая: глубокий чёрный, резкие блики */}
+        {/* На телефоне кадр показывается целиком, а не обрезается.
+
+            object-cover заполняет коробку и срезает бока - на узком экране
+            от машины оставался кусок кузова без переда и без задка. Смотреть
+            там не на что, а вся сцена мойки построена на том, что человек
+            видит автомобиль.
+
+            object-contain вписывает кадр полностью: виден весь силуэт,
+            от бампера до бампера. Полосы сверху и снизу не мешают - под
+            изображением тот же графит, что и у страницы, стыка не видно.
+
+            На компьютере остаётся cover: там коробка широкая, обрезаются
+            только пустые края бокса, а не сама машина. */}
         <img
           src={mobile ? CAR_PHOTO_SM : src} alt="" aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover"
+          className={`absolute inset-0 w-full h-full ${mobile ? 'object-contain' : 'object-cover'}`}
           style={{
-            objectPosition: mobile ? '54% 52%' : 'center',
+            objectPosition: 'center',
             /* Фильтр постоянный, а не считаемый через var на каждом кадре.
                Анимированный filter заставляет браузер прогонять всю
                полноэкранную картинку через фильтр заново каждый кадр -
@@ -290,9 +303,9 @@ function WashScene({
         <div className="absolute inset-0" style={{ clipPath: 'var(--clipDirty)' }}>
           <img
             src={mobile ? CAR_PHOTO_SM : src} alt="" aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover"
+            className={`absolute inset-0 w-full h-full ${mobile ? 'object-contain' : 'object-cover'}`}
             style={{
-              objectPosition: mobile ? '54% 52%' : 'center',
+              objectPosition: 'center',
               filter: 'contrast(0.6) brightness(1.22) saturate(0.68)',
             }}
           />
