@@ -33,7 +33,7 @@ const channels = [
   {
     key: 'bot',
     label: 'Бесплатный аудит',
-    note: 'Разбор сайта за 2 минуты',
+    note: 'Разбор сайта за 5 секунд',
     href: `${BOT_LINK}?start=audit`,
     icon: MessageCircle,
     color: '#4E7CFF',

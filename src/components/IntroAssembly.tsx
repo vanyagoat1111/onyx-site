@@ -125,6 +125,7 @@ function assembled(el: HTMLElement) {
   el.style.setProperty('--intro-fit', '1');
   el.style.setProperty('--intro-fit-y', '0px');
   el.style.setProperty('--intro-stars', '0');
+  el.style.setProperty('--intro-pane', 'auto');
 }
 
 export default function IntroAssembly({ children }: { children: React.ReactNode }) {
@@ -195,6 +196,14 @@ export default function IntroAssembly({ children }: { children: React.ReactNode 
      сборки, компонент размонтируется, а переменные остались бы на 0.3 -
      и на странице шаблона навигация висела бы полупрозрачной. */
   useEffect(() => () => assembled(document.documentElement), []);
+
+  /* Высота закреплённого экрана - в переменную, чтобы первый экран мог
+     растянуться на всю её и фон не обрывался швом посреди страницы.
+     Пишется при изменении высоты, а не на каждом кадре: это раскладка. */
+  useEffect(() => {
+    if (!live) return;
+    document.documentElement.style.setProperty('--intro-pane', `${paneH}px`);
+  }, [live, paneH]);
 
   /* Измерение первого экрана.
 

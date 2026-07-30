@@ -39,13 +39,41 @@ export default function Hero() {
   const [formOpen, setFormOpen] = useState(false);
 
   return (
-    /* `overflow-hidden` стоит НЕ здесь, а на обёртке ниже. Это не мелочь:
-       обёртка центруется по вертикали сдвигом вниз, её высота в раскладке
-       при этом не меняется, - и клип на секции срезал бы всё, что вышло
-       за её нижнюю границу. На широком экране это ровно половина кнопок.
-       Клип нужен только чтобы засветы фона не вылезали за пределы экрана
-       и не давали горизонтальной прокрутки, а они лежат внутри обёртки. */
-    <section id="home" className="relative flex flex-col">
+    /* Секция тянется на всю высоту закреплённого экрана.
+
+       Без этого получалась чёрная полоса внизу: содержимое центруется
+       сдвигом вниз, коробка кончается там, где кончается текст, а фон
+       с засветами обрезан по этой коробке - и под ней оставался ровный
+       чёрный прямоугольник с видимым швом. Теперь высоту задаёт вступление
+       через --intro-pane, фон занимает весь экран, и шва нет.
+
+       Значение по умолчанию - auto: без вступления секция снова обычной
+       высоты по содержимому. */
+    <section
+      id="home"
+      className="relative flex flex-col"
+      style={{ minHeight: 'var(--intro-pane, auto)' }}
+    >
+      {/* Атмосфера вынесена из масштабируемой обёртки и лежит на всю секцию.
+          Внутри обёртки она обрезалась бы по коробке текста, а засветы -
+          это свет на весь экран, у них не должно быть границы.
+          `overflow-hidden` здесь: без него засвет шириной 65vw со сдвигом
+          влево даёт горизонтальную прокрутку. */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          className="absolute inset-0 dot-grid [mask-image:radial-gradient(ellipse_70%_60%_at_30%_20%,black,transparent)]"
+          style={{ opacity: 'var(--intro-decor, 1)' }}
+        />
+        <div
+          className="absolute -top-[30%] -left-[15%] w-[65vw] h-[65vw] rounded-full bg-cobalt/[0.09] blur-[140px]"
+          style={{ opacity: 'var(--intro-bg, 1)' }}
+        />
+        <div
+          className="absolute top-[10%] right-[-20%] w-[45vw] h-[45vw] rounded-full bg-cobalt/[0.05] blur-[120px]"
+          style={{ opacity: 'var(--intro-bg, 1)' }}
+        />
+      </div>
+
       {/* ═══ Первый экран теперь обязан быть первым экраном ═══
 
           Раньше высота бралась от содержимого: на ноутбуке 1366×768
@@ -74,26 +102,12 @@ export default function Hero() {
           position: fixed, и окно поехало бы вместе с первым экраном. */}
       <div
         data-intro-fit
-        className="relative overflow-hidden pt-[clamp(3.5rem,9vh,6rem)] pb-[clamp(1.5rem,4vh,4rem)]"
+        className="relative pt-[clamp(3.5rem,9vh,6rem)] pb-[clamp(1.5rem,4vh,4rem)]"
         style={{
           transform: 'translateY(var(--intro-fit-y, 0px)) scale(var(--intro-fit, 1))',
           transformOrigin: 'top center',
         }}
       >
-      {/* Атмосфера: один источник света, ничего лишнего */}
-      <div
-        className="absolute inset-0 dot-grid [mask-image:radial-gradient(ellipse_70%_60%_at_30%_20%,black,transparent)] pointer-events-none"
-        style={{ opacity: 'var(--intro-decor, 1)' }}
-      />
-      <div
-        className="absolute -top-[30%] -left-[15%] w-[65vw] h-[65vw] rounded-full bg-cobalt/[0.09] blur-[140px] pointer-events-none"
-        style={{ opacity: 'var(--intro-bg, 1)' }}
-      />
-      <div
-        className="absolute top-[10%] right-[-20%] w-[45vw] h-[45vw] rounded-full bg-cobalt/[0.05] blur-[120px] pointer-events-none"
-        style={{ opacity: 'var(--intro-bg, 1)' }}
-      />
-
       <div className="relative z-10 max-w-[1440px] w-full mx-auto px-5 sm:px-6 md:px-12">
         <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 xl:gap-20 items-center">
         <div className="max-w-3xl">
@@ -177,7 +191,10 @@ export default function Hero() {
               <Button className="min-h-[56px] px-9" onClick={() => window.open(BOT_AUDIT_LINK, '_blank')}>
                 Бесплатный аудит сайта
               </Button>
-              <span className="text-[11px] text-fog/70 text-center font-mono tracking-wide max-w-[280px] mx-auto">Разбор за 2 минуты. Нужен только адрес сайта.</span>
+              {/* Цифра здесь и цифра в инфографике справа - это одна и та же
+                  цифра. Она стоят в двадцати пикселях друг от друга, и «за
+                  2 минуты» рядом с «5 секунд» читается как небрежность. */}
+              <span className="text-[11px] text-fog/70 text-center font-mono tracking-wide max-w-[280px] mx-auto">Разбор за 5 секунд. Нужен только адрес сайта.</span>
             </div>
             <div className="flex flex-col gap-2">
               <Button variant="outline" className="min-h-[56px] px-9" onClick={() => setFormOpen(true)}>
@@ -292,7 +309,7 @@ export default function Hero() {
           <div className="mt-5 grid grid-cols-4 gap-px rounded-2xl overflow-hidden border border-white/[0.07]">
             {[
               { value: '0 ₽', label: 'разработка' },
-              { value: '2 мин', label: 'разбор в боте' },
+              { value: '5 секунд', label: 'разбор в боте' },
               { value: '2–3 дня', label: 'до первой версии' },
               { value: '150+', label: 'сайтов запущено' },
             ].map((stat, i) => (
