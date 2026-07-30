@@ -190,65 +190,181 @@ export default function Templates() {
     }
   };
 
+  /* ═══ ЛИСТАНИЕ ═══
+
+     Было так: палец двигался, а галерея стояла. Она ждала, пока сдвиг
+     перевалит за шестьдесят точек, и только тогда одним прыжком меняла
+     карточку. Между началом жеста и реакцией - пустота, и человек в этот
+     момент думает, что элемент неживой.
+
+     Стало так: колода едет за пальцем непрерывно, а на отпускании
+     доводится до ближайшей карточки. Быстрый короткий флик тоже считается
+     переключением - по скорости, а не по пройденному расстоянию. */
+
+  const [drag, setDrag] = useState(0);          // сдвиг в долях карточки
+  const [dragging, setDragging] = useState(false);
+  const dragRef = useRef(0);
+  const gapRef = useRef(1);
+
+  /* Положение пересчитывается не чаще одного раза за кадр.
+
+     touchmove на многих телефонах приходит чаще, чем экран успевает
+     обновиться - до ста двадцати событий в секунду. Каждое из них
+     перерисовывало бы колоду заново, и часть этой работы уходила бы
+     впустую: кадр всё равно один. rAF собирает лишние события в одно
+     обновление и отдаёт его ровно тогда, когда браузер готов рисовать. */
+  const frame = useRef(0);
+  const queueDrag = (v: number) => {
+    dragRef.current = v;
+    if (frame.current) return;
+    frame.current = requestAnimationFrame(() => {
+      frame.current = 0;
+      setDrag(dragRef.current);
+    });
+  };
+  useEffect(() => () => { if (frame.current) cancelAnimationFrame(frame.current); }, []);
+
   const onDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    if (warp) return;
     const point = 'touches' in e ? e.touches[0] : (e as React.MouseEvent);
     const startX = point.clientX;
-    let moved = false;
+    const startY = point.clientY;
+    const startT = Date.now();
+    let axis: 'x' | 'y' | null = null;
+    setDragging(true);
+
     const move = (ev: MouseEvent | TouchEvent) => {
-      const p = 'touches' in ev ? ev.touches[0] : ev;
-      const dx = p.clientX - startX;
-      if (Math.abs(dx) > 60 && !moved) {
-        moved = true;
-        if (dx < 0) next(); else prev();
-        end();
+      const pt = 'touches' in ev ? ev.touches[0] : ev;
+      const dx = pt.clientX - startX;
+      const dy = pt.clientY - startY;
+
+      /* Направление жеста определяется один раз, по первым точкам.
+
+         Без этого вертикальная прокрутка страницы пальцем поверх галереи
+         дёргала бы карточки вбок. touch-action: pan-y отдаёт вертикаль
+         браузеру, но горизонтальную составляющую мы всё равно получаем. */
+      if (axis === null) {
+        if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+        axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+        if (axis === 'y') { end(); return; }
       }
+      const frac = dx / gapRef.current;
+      /* Сопротивление на краях не нужно - колода закольцована,
+         но ограничение бережёт от рывка при резком жесте. */
+      const clamped = Math.max(-2.2, Math.min(2.2, frac));
+      queueDrag(clamped);
     };
+
     const end = () => {
       window.removeEventListener('mousemove', move as any);
       window.removeEventListener('mouseup', end);
       window.removeEventListener('touchmove', move as any);
       window.removeEventListener('touchend', end);
+      window.removeEventListener('touchcancel', end);
+
+      const d = dragRef.current;
+      const ms = Math.max(1, Date.now() - startT);
+      const speed = Math.abs(d) / ms;          // карточек в миллисекунду
+
+      /* Два условия, любого хватает: увели больше трети карточки
+         или сделали быстрый флик. Второе - то, чего не хватало:
+         короткий резкий смах раньше просто не засчитывался. */
+      let step = 0;
+      if (Math.abs(d) > 0.34 || speed > 0.0016) step = -Math.sign(d) * Math.max(1, Math.round(Math.abs(d)));
+
+      if (Math.abs(d) > 0.04) suppressClick.current = Date.now();
+      if (frame.current) { cancelAnimationFrame(frame.current); frame.current = 0; }
+      dragRef.current = 0;
+      setDrag(0);
+      setDragging(false);
+      if (step) setActive((a) => (((a + step) % n) + n) % n);
     };
+
     window.addEventListener('mousemove', move as any);
     window.addEventListener('mouseup', end);
     window.addEventListener('touchmove', move as any, { passive: true });
     window.addEventListener('touchend', end);
+    window.addEventListener('touchcancel', end);
+  };
+
+  const suppressClick = useRef(0);
+
+  /* Горизонтальное колесо и тачпад. На ноутбуке двумя пальцами вбок -
+     привычный жест для такой галереи, а раньше он не работал вовсе. */
+  const wheelLock = useRef(0);
+  const onWheel = (e: React.WheelEvent) => {
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;   // вертикаль отдаём странице
+    const now = Date.now();
+    if (now - wheelLock.current < 320) return;
+    if (Math.abs(e.deltaX) < 18) return;
+    wheelLock.current = now;
+    if (e.deltaX > 0) next(); else prev();
   };
 
   const isMobile = vw < 760;
   const gap = Math.min(300, vw * (isMobile ? 0.44 : 0.24));
   const depth = isMobile ? 180 : 260;
   const sideScale = isMobile ? 0.82 : 0.9;
+  const sideOpacity = isMobile ? 0.3 : 0.55;
   const maxVisible = isMobile ? 1 : 2;
   const stageHeight = isMobile ? 'min(72vh, 460px)' : '560px';
+  gapRef.current = gap;
 
   const deck = cases.map((c, i) => {
     let off = i - active;
     if (off > n / 2) off -= n;
     if (off < -n / 2) off += n;
-    const abs = Math.abs(off);
-    const isCenter = off === 0;
-    const tx = off * gap;
-    const rot = off === 0 ? 0 : off > 0 ? -32 : 32;
-    const tz = -abs * depth;
-    const scale = isCenter ? 1 : sideScale;
+
+    /* Позиция теперь дробная: целое смещение плюс текущий сдвиг пальца.
+       Все величины считаются от неё, поэтому карточка не перескакивает
+       из состояния в состояние, а переходит непрерывно. */
+    const pos = off + drag;
+    const abs = Math.abs(pos);
+    const t = Math.min(abs, 1);                 // 0 в центре, 1 и дальше по краям
+    const isCenter = Math.abs(off) === 0;
+
+    /* Дальние карточки не рисуются вовсе.
+
+       Раньше в разметке всегда висели все четырнадцать: с нулевой
+       прозрачностью, но с теми же трёхмерными преобразованиями и тенью
+       в девяносто точек размытия. Браузер честно пересчитывал каждую
+       на каждом кадре. Видно от силы пять - остальные девять были
+       чистой нагрузкой. */
+    if (abs > maxVisible + 1.2) return null;
+
     return {
       ...c,
       idx: i,
       isCenter,
-      hidden: abs > maxVisible,
+      veil: t * 0.42,
       style: {
-        transform: `translate(-50%,-50%) translateX(${tx}px) translateZ(${tz}px) rotateY(${rot}deg) scale(${scale})`,
-        opacity: abs > maxVisible ? 0 : isCenter ? 1 : isMobile ? 0.3 : 0.55,
-        zIndex: 100 - abs,
-        filter: isCenter ? 'none' : 'brightness(0.6)',
+        transform: `translate(-50%,-50%) translateX(${pos * gap}px) translateZ(${-abs * depth}px) rotateY(${-Math.max(-1, Math.min(1, pos)) * 32}deg) scale(${1 - t * (1 - sideScale)})`,
+        opacity: abs > maxVisible ? Math.max(0, 1 - (abs - maxVisible) / 1.2) * sideOpacity : 1 - t * (1 - sideOpacity),
+        zIndex: 1000 - Math.round(abs * 10),   // дробный порядок: слои не перещёлкиваются посреди жеста
         borderColor: isCenter ? 'rgba(78,124,255,0.4)' : 'rgba(242,240,233,0.08)',
         boxShadow: isCenter
           ? '0 40px 90px rgba(0,0,0,0.6), 0 0 0 1px rgba(78,124,255,0.15)'
           : '0 20px 50px rgba(0,0,0,0.5)',
       },
     };
-  });
+  }).filter(Boolean) as (typeof cases[number] & { idx: number; isCenter: boolean; veil: number; style: React.CSSProperties })[];
+
+  /* Переход выключается на время жеста.
+
+     Иначе получается гонка: палец задаёт новое положение каждый кадр,
+     а анимация в это же время тянет карточку к предыдущему. Колода едет
+     с задержкой и как будто вязнет. Пока палец на экране - положение
+     ставится напрямую, после отпускания включается доводка.
+
+     В списке свойств нет filter. Затемнение боковых карточек раньше
+     делалось через brightness, а это заставляет браузер перерисовывать
+     весь слой на каждом кадре - для четырнадцати карточек с тенью
+     в девяносто точек размытия. Теперь сверху лежит полупрозрачная
+     плашка: она живёт на композиторе, то есть без перерисовки. */
+  const cardMove = dragging
+    ? 'none'
+    : 'transform 520ms cubic-bezier(0.22,1,0.36,1), opacity 520ms cubic-bezier(0.22,1,0.36,1)';
+  const cardFade = dragging ? 'none' : 'opacity 520ms cubic-bezier(0.22,1,0.36,1)';
 
   return (
     <Container id="templates" pad="air" className="relative border-t border-white/[0.06] scroll-mt-20">
@@ -266,13 +382,20 @@ export default function Templates() {
           style={{ height: stageHeight, touchAction: 'pan-y' }}
           onMouseDown={onDragStart}
           onTouchStart={onDragStart}
+          onWheel={onWheel}
         >
           {deck.map((card) => (
             <div
               key={card.idx}
-              className="absolute top-1/2 left-1/2 w-[min(640px,86vw)] [transform-style:preserve-3d] transition-[transform,opacity,filter] duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] cursor-pointer"
-              style={card.style}
-              onClick={() => (card.isCenter ? launchWarp(card.name, card.url) : go(card.idx))}
+              className="absolute top-1/2 left-1/2 w-[min(640px,86vw)] [transform-style:preserve-3d] cursor-pointer will-change-transform"
+              style={{
+                ...card.style,
+                transition: cardMove,
+              }}
+              onClick={() => {
+                if (Date.now() - suppressClick.current < 250) return;
+                card.isCenter ? launchWarp(card.name, card.url) : go(card.idx);
+              }}
             >
               <div
                 className="rounded-[26px] overflow-hidden border bg-[#101015]"
@@ -301,6 +424,10 @@ export default function Templates() {
                     </div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-transparent" style={{ backgroundImage: 'linear-gradient(to top, rgba(10,10,13,0.85), transparent 55%)' }} />
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{ background: '#05060a', opacity: card.veil, transition: cardFade }}
+                  />
                   {/* Акцент помечает только карточку в фокусе.
 
                       До этого в галерее кобальт встречался четыре раза на всю
