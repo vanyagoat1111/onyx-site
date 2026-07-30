@@ -174,13 +174,13 @@ function CourseTrack() {
         <div className="mt-6 flex gap-3">
           <button
             type="button" onClick={() => setI(Math.max(0, i - 1))} disabled={i === 0}
-            className="px-4 py-2.5 rounded-lg text-[12px] border border-white/15 disabled:opacity-30 hover:border-white/35 transition-colors"
+            className="px-4 py-2.5 rounded-lg text-[12px] border border-white/15 disabled:opacity-30 hover:border-white/35 transition-colors active:scale-[0.97] active:duration-75"
           >
             ← Назад
           </button>
           <button
             type="button" onClick={() => setI(Math.min(courseModules.length - 1, i + 1))} disabled={i === courseModules.length - 1}
-            className="px-4 py-2.5 rounded-lg text-[12px] border border-white/15 disabled:opacity-30 hover:border-white/35 transition-colors"
+            className="px-4 py-2.5 rounded-lg text-[12px] border border-white/15 disabled:opacity-30 hover:border-white/35 transition-colors active:scale-[0.97] active:duration-75"
           >
             Дальше →
           </button>
@@ -217,14 +217,17 @@ export default function MethodSchool() {
   return (
     /* Пара шрифтов, а не один на весь сайт: Outfit держит заголовки,
        Jakarta - читаемый текст, JetBrains - цифры и подписи как в тетради.
-       Один шрифт на всём сайте - первый признак, что макет не продуман. */
-    <div className="relative min-h-screen font-jakarta selection:bg-[#F2C14E]/35 overflow-x-clip" style={{ background: BG, color: '#EAEEF7' }}>
+       Один шрифт на всём сайте - первый признак, что макет не продуман.
+
+       Фактура tex-ruled - тетрадная линовка. Плоская заливка читается
+       как заготовка: глазу не за что зацепиться. */
+    <div className="relative min-h-screen font-jakarta selection:bg-[#F2C14E]/35 overflow-x-clip tex-ruled" style={{ background: BG, color: '#EAEEF7' }}>
       <header className="sticky top-0 z-50 backdrop-blur-xl border-b border-white/10" style={{ background: 'rgba(20,26,46,0.9)' }}>
         <div className="max-w-[1280px] mx-auto px-6 md:px-8 py-4 flex justify-between items-center pl-20 md:pl-24">
           <div className="font-bold tracking-[0.2em] text-[17px]">METHOD<span style={{ color: MARK }}>.</span></div>
           <nav className="hidden md:flex gap-8 items-center">
             {navLinks.map((l) => (
-              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="text-[12px] uppercase tracking-[0.14em] text-white/45 hover:text-white transition-colors">{l.name}</a>
+              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="text-[12px] uppercase tracking-[0.14em] text-white/45 hover:text-white transition-colors active:brightness-95 active:duration-75">{l.name}</a>
             ))}
             <a href="#case/education/program" onClick={(e) => go(e, '#case/education/program')}
                className="text-[12px] uppercase tracking-[0.14em] transition-colors"
@@ -240,7 +243,7 @@ export default function MethodSchool() {
           <section className="px-6 md:px-8 pt-14 md:pt-20 pb-12 border-b border-white/10">
             <div className="max-w-[1000px] mx-auto">
               <a href="#case/education" onClick={(e) => go(e, '#case/education')}
-                 className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.14em] text-white/40 hover:text-white transition-colors mb-9">
+                 className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.14em] text-white/40 hover:text-white transition-colors mb-9 active:brightness-95 active:duration-75">
                 ← На главную
               </a>
               <div className="text-[11px] uppercase tracking-[0.3em] mb-6" style={{ color: MARK }}>Английский с нуля · A0 → A2</div>
@@ -328,7 +331,7 @@ export default function MethodSchool() {
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <a href="#trial" onClick={(e) => scrollTo(e, 'trial')} className="px-8 py-4 rounded-lg text-[13px] font-semibold uppercase tracking-[0.1em]" style={{ background: MARK, color: BG }}>Бесплатный пробный урок</a>
-            <a href="#programs" onClick={(e) => scrollTo(e, 'programs')} className="px-8 py-4 rounded-lg text-[13px] font-semibold uppercase tracking-[0.1em] border border-white/20 hover:border-white/45 transition-colors">Программы</a>
+            <a href="#programs" onClick={(e) => scrollTo(e, 'programs')} className="px-8 py-4 rounded-lg text-[13px] font-semibold uppercase tracking-[0.1em] border border-white/20 hover:border-white/45 transition-colors active:scale-[0.97] active:duration-75">Программы</a>
           </div>
         </div>
       </section>

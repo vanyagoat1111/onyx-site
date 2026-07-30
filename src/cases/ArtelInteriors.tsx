@@ -1143,9 +1143,9 @@ export default function ArtelInteriors() {
           <div>
             <h4 className={LABEL} style={{ color: iv(0.35) }}>Разделы</h4>
             <div className="flex flex-col gap-3 text-[13.5px] mt-5" style={{ color: iv(0.6) }}>
-              <a href={ROOT + '/works'} onClick={(e) => go(e, ROOT + '/works')} className="hover:text-white transition-colors">Портфолио</a>
-              <a href={ROOT + '/services'} onClick={(e) => go(e, ROOT + '/services')} className="hover:text-white transition-colors">Услуги и цены</a>
-              <a href="#process" onClick={(e) => jump(e, 'process')} className="hover:text-white transition-colors">Процесс работы</a>
+              <a href={ROOT + '/works'} onClick={(e) => go(e, ROOT + '/works')} className="hover:text-white transition-colors active:brightness-95 active:duration-75">Портфолио</a>
+              <a href={ROOT + '/services'} onClick={(e) => go(e, ROOT + '/services')} className="hover:text-white transition-colors active:brightness-95 active:duration-75">Услуги и цены</a>
+              <a href="#process" onClick={(e) => jump(e, 'process')} className="hover:text-white transition-colors active:brightness-95 active:duration-75">Процесс работы</a>
             </div>
           </div>
           <div>

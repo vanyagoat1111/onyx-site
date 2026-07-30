@@ -204,20 +204,20 @@ function ProductionLine() {
         <div className="mt-7 flex flex-wrap gap-3">
           <button
             type="button" onClick={() => setI(Math.max(0, i - 1))} disabled={i === 0}
-            className="px-5 py-2.5 text-[12px] border border-white/15 disabled:opacity-30 hover:border-white/40 transition-colors"
+            className="px-5 py-2.5 text-[12px] border border-white/15 disabled:opacity-30 hover:border-white/40 transition-colors active:brightness-95 active:duration-75"
           >
             ← Назад
           </button>
           <button
             type="button" onClick={() => setI(Math.min(flow.length - 1, i + 1))} disabled={i === flow.length - 1}
-            className="px-5 py-2.5 text-[12px] border border-white/15 disabled:opacity-30 hover:border-white/40 transition-colors"
+            className="px-5 py-2.5 text-[12px] border border-white/15 disabled:opacity-30 hover:border-white/40 transition-colors active:brightness-95 active:duration-75"
           >
             Дальше →
           </button>
           <button
             type="button"
             onClick={() => document.getElementById('request')?.scrollIntoView({ behavior: 'smooth' })}
-            className="px-6 py-2.5 text-[12px] font-bold uppercase tracking-[0.1em] text-[#0E1116] transition-transform hover:-translate-y-[2px]"
+            className="px-6 py-2.5 text-[12px] font-bold uppercase tracking-[0.1em] text-[#0E1116] transition-transform hover:-translate-y-[2px] active:brightness-95 active:duration-75"
             style={{ background: STEEL }}
           >
             Прислать чертёж
@@ -258,7 +258,7 @@ export default function FormaIndustry() {
           <a href={ROOT} onClick={(e) => go(e, ROOT)} className="font-extrabold tracking-[0.24em] text-[17px]">FORMA</a>
           <nav className="hidden md:flex gap-8 items-center">
             {navLinks.map((l) => (
-              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/45 hover:text-white transition-colors">{l.name}</a>
+              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/45 hover:text-white transition-colors active:brightness-95 active:duration-75">{l.name}</a>
             ))}
             <a href={ROOT + '/equipment'} onClick={(e) => go(e, ROOT + '/equipment')} className="font-mono text-[11px] uppercase tracking-[0.14em] transition-colors"
                style={{ color: page === 'equipment' ? STEEL : 'rgba(255,255,255,0.45)' }}>Оборудование</a>
@@ -272,7 +272,7 @@ export default function FormaIndustry() {
         <>
           <section className="px-6 md:px-8 pt-14 md:pt-20 pb-12">
             <div className="max-w-[1100px] mx-auto">
-              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block font-mono text-[11px] uppercase tracking-[0.14em] text-white/40 hover:text-white transition-colors mb-9">← На главную</a>
+              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block font-mono text-[11px] uppercase tracking-[0.14em] text-white/40 hover:text-white transition-colors mb-9 active:brightness-95 active:duration-75">← На главную</a>
               <div className="font-mono text-[11px] uppercase tracking-[0.28em] mb-6" style={{ color: STEEL }}>Парк станков · допуски · материалы</div>
               <h1 className="font-extrabold leading-[0.98] tracking-[-0.03em] max-w-[16ch]" style={{ fontSize: 'clamp(36px,6vw,74px)' }}>
                 Оборудование<br /><span style={{ color: STEEL }}>и допуски</span>
@@ -365,7 +365,7 @@ export default function FormaIndustry() {
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <a href="#request" onClick={(e) => scrollTo(e, 'request')} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.13em] text-[#0E1116]" style={{ background: STEEL }}>Получить расчёт</a>
-            <a href="#capacity" onClick={(e) => scrollTo(e, 'capacity')} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.13em] border border-white/20 hover:border-white/45 transition-colors">Парк оборудования</a>
+            <a href="#capacity" onClick={(e) => scrollTo(e, 'capacity')} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.13em] border border-white/20 hover:border-white/45 transition-colors active:brightness-95 active:duration-75">Парк оборудования</a>
           </div>
 
           <Reveal className="mt-16 grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
@@ -399,7 +399,7 @@ export default function FormaIndustry() {
           </div>
           <Reveal className="mt-12">
             <a href={ROOT + '/equipment'} onClick={(e) => go(e, ROOT + '/equipment')}
-               className="inline-block px-8 py-4 font-mono text-[11px] uppercase tracking-[0.12em] border border-white/20 hover:border-white/45 transition-colors">
+               className="inline-block px-8 py-4 font-mono text-[11px] uppercase tracking-[0.12em] border border-white/20 hover:border-white/45 transition-colors active:brightness-95 active:duration-75">
               Весь парк станков и допуски →
             </a>
           </Reveal>

@@ -180,7 +180,7 @@ function RouteCalc() {
                 type="button"
                 onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
                 style={{ clipPath: CLIP }}
-                className="mt-2 bg-[#2F6FED] text-white px-7 py-4 text-[13px] font-bold uppercase tracking-[0.08em] cursor-pointer transition-all hover:-translate-y-0.5"
+                className="mt-2 bg-[#2F6FED] text-white px-7 py-4 text-[13px] font-bold uppercase tracking-[0.08em] cursor-pointer transition-all hover:-translate-y-0.5 active:brightness-95 active:duration-75"
               >
                 Подтвердить ставку у логиста
               </button>
@@ -206,15 +206,19 @@ export default function Logistics() {
     setTimeout(() => setSubmitted(false), 5000);
   };
 
+  /* Фактура tex-corrugated - гофрокартон: коробка, груз.
+
+     Плоская заливка читается как заготовка: глазу не за что зацепиться. */
+
   return (
-    <div className="relative min-h-screen bg-[#0A0F26] text-white font-manrope selection:bg-[#4E8CFF]/30 selection:text-white overflow-x-clip">
+    <div className="relative min-h-screen bg-[#0A0F26] text-white font-manrope selection:bg-[#4E8CFF]/30 selection:text-white overflow-x-clip tex-corrugated">
       {/* HEADER */}
       <header className="sticky top-0 z-50 bg-[#0A0F26]/85 backdrop-blur-md border-b border-white/[0.06]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-8 py-5 flex justify-between items-center pl-20 md:pl-24">
           <div className="font-sora text-base sm:text-lg md:text-xl font-extrabold tracking-tight whitespace-nowrap">PRIME<span className="text-[#4E8CFF]">LOGISTICS</span></div>
           <nav className="hidden lg:flex gap-7">
             {navLinks.map((l) => (
-              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="text-xs font-bold uppercase tracking-[0.1em] text-[#B4BEDB] hover:text-white transition-colors">{l.name}</a>
+              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="text-xs font-bold uppercase tracking-[0.1em] text-[#B4BEDB] hover:text-white transition-colors active:brightness-95 active:duration-75">{l.name}</a>
             ))}
           </nav>
           <div className="flex items-center gap-5">
@@ -222,7 +226,7 @@ export default function Logistics() {
               <div className="text-[10px] text-[#8B95BD]">Бесплатный звонок по РФ</div>
               <div className="text-sm font-bold">8 (800) 500-00-00</div>
             </div>
-            <button type="button" onClick={(e: any) => scrollTo(e, 'geography')} style={{ clipPath: CLIP }} className="hidden sm:block bg-[#2F6FED] text-white px-6.5 py-3.5 text-xs font-bold uppercase tracking-[0.08em] cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-10px_rgba(78,140,255,0.5)]">Расчёт стоимости</button>
+            <button type="button" onClick={(e: any) => scrollTo(e, 'geography')} style={{ clipPath: CLIP }} className="hidden sm:block bg-[#2F6FED] text-white px-6.5 py-3.5 text-xs font-bold uppercase tracking-[0.08em] cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-10px_rgba(78,140,255,0.5)] active:brightness-95 active:duration-75">Расчёт стоимости</button>
           </div>
         </div>
       </header>
@@ -253,7 +257,7 @@ export default function Logistics() {
               Собственный автопарк из 230 единиц техники, современные кросс-доки полного цикла и 100% материальная ответственность по договору.
             </motion.p>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.3, ease: EASE }} className="flex gap-4 flex-wrap">
-              <button onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })} type="button" style={{ clipPath: CLIP }} className="bg-[#2F6FED] border border-[#4E8CFF]/50 text-white px-7.5 py-4.5 text-[13px] font-bold uppercase tracking-[0.08em] cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-10px_rgba(78,140,255,0.5)]">Рассчитать ставку</button>
+              <button onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })} type="button" style={{ clipPath: CLIP }} className="bg-[#2F6FED] border border-[#4E8CFF]/50 text-white px-7.5 py-4.5 text-[13px] font-bold uppercase tracking-[0.08em] cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-10px_rgba(78,140,255,0.5)] active:brightness-95 active:duration-75">Рассчитать ставку</button>
               <button onClick={() => document.getElementById('advantages')?.scrollIntoView({ behavior: 'smooth' })} type="button" style={{ clipPath: CLIP }} className="bg-[#131A3D] border border-[#232B54] text-white px-7.5 py-4.5 text-[13px] font-bold uppercase tracking-[0.08em] cursor-pointer">Скачать презентацию</button>
             </motion.div>
           </div>
@@ -279,7 +283,7 @@ export default function Logistics() {
                   <input type="number" placeholder="0" className="w-full bg-[#0A0F26] border border-[#232B54] px-4 py-3.5 text-white text-sm outline-none placeholder:text-white/30" />
                 </div>
               </div>
-              <button type="button" style={{ clipPath: CLIP }} className="w-full bg-[#2F6FED] border border-[#4E8CFF]/50 text-white py-4 text-[13px] font-bold uppercase tracking-[0.08em] cursor-pointer mt-2 transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-10px_rgba(78,140,255,0.5)]">Узнать стоимость</button>
+              <button type="button" style={{ clipPath: CLIP }} className="w-full bg-[#2F6FED] border border-[#4E8CFF]/50 text-white py-4 text-[13px] font-bold uppercase tracking-[0.08em] cursor-pointer mt-2 transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-10px_rgba(78,140,255,0.5)] active:brightness-95 active:duration-75">Узнать стоимость</button>
             </div>
           </Reveal>
         </div>
@@ -491,11 +495,11 @@ export default function Logistics() {
           <div>
             <h4 className="text-sm font-extrabold uppercase mb-5">Компетенции</h4>
             <div className="flex flex-col gap-3 text-[13px]">
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD] hover:text-white transition-colors">FTL Магистральные перевозки</a>
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD] hover:text-white transition-colors">Сборные грузы LTL</a>
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD] hover:text-white transition-colors">Транспортировка негабарита</a>
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD] hover:text-white transition-colors">Ответхранение (Склад А-класса)</a>
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD] hover:text-white transition-colors">Таможенный консалтинг</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD] hover:text-white transition-colors active:brightness-95 active:duration-75">FTL Магистральные перевозки</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD] hover:text-white transition-colors active:brightness-95 active:duration-75">Сборные грузы LTL</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD] hover:text-white transition-colors active:brightness-95 active:duration-75">Транспортировка негабарита</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD] hover:text-white transition-colors active:brightness-95 active:duration-75">Ответхранение (Склад А-класса)</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-[#8B95BD] hover:text-white transition-colors active:brightness-95 active:duration-75">Таможенный консалтинг</a>
             </div>
           </div>
           <div>

@@ -24,6 +24,28 @@
     <meta property="twitter:description" content="Собираем сайт, показываем вживую. Понравится - оплачиваете запуск. Нет - расходимся, вы ничего не должны." />
     <meta property="twitter:image" content="https://onyx-web.ru/og-image.jpg" />
 
+    <!-- Шрифты.
+
+         Раньше они подключались через @import внутри index.css. Браузер
+         узнаёт о таком запросе только после того, как скачает и разберёт
+         саму таблицу стилей - получается последовательная очередь вместо
+         параллельной загрузки, и первый показ ждёт всех.
+
+         Здесь два запроса. Первый - пять семейств, нужных главной,
+         грузится обычной ссылкой. Второй - двенадцать семейств, которые
+         живут только внутри демо-шаблонов; он объявлен для печати, поэтому
+         не блокирует показ, а после загрузки переключается на экран.
+         Человек, открывший главную, больше не качает шрифты четырнадцати
+         чужих сайтов.
+
+         preconnect стоит до ссылок: рукопожатие с сервером шрифтов
+         начинается сразу, а не после разбора первой из них. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400;1,6..96,500&family=Archivo:wght@300;400;500;600;700&family=Spectral:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Archivo+Black&family=Sora:wght@400;500;600;700;800&family=Jost:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400;1,6..96,500&family=Archivo:wght@300;400;500;600;700&family=Spectral:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Archivo+Black&family=Sora:wght@400;500;600;700;800&family=Jost:wght@300;400;500;600;700&display=swap" /></noscript>
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <title>Сайт вы увидите раньше, чем заплатите | ONYX WEB</title>

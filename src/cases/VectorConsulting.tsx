@@ -249,7 +249,7 @@ function FeeCalc() {
             <button
               type="button"
               onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-              className="mt-8 w-full px-7 py-4 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-white transition-transform hover:-translate-y-[2px]"
+              className="mt-8 w-full px-7 py-4 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-white transition-transform hover:-translate-y-[2px] active:brightness-95 active:duration-75"
               style={{ background: BLUE }}
             >
               Уточнить у партнёра
@@ -289,8 +289,12 @@ export default function VectorConsulting() {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  /* Фактура tex-graph - миллиметровка: расчёт, схема.
+
+     Плоская заливка читается как заготовка: глазу не за что зацепиться. */
+
   return (
-    <div className="relative min-h-screen font-montserrat selection:bg-[#2F5DA8]/25 overflow-x-clip" style={{ background: PAPER, color: INK }}>
+    <div className="relative min-h-screen font-montserrat selection:bg-[#2F5DA8]/25 overflow-x-clip tex-graph" style={{ background: PAPER, color: INK }}>
       <header className="sticky top-0 z-50 backdrop-blur-xl border-b" style={{ background: 'rgba(244,245,243,0.9)', borderColor: dim(0.1) }}>
         <div className="max-w-[1240px] mx-auto px-6 md:px-8 py-4 flex justify-between items-center pl-20 md:pl-24">
           <a href={ROOT} onClick={(e) => go(e, ROOT)} className="font-bold tracking-[0.2em] text-[16px]">VECTOR</a>
@@ -309,7 +313,7 @@ export default function VectorConsulting() {
         <>
           <section className="px-6 md:px-8 pt-14 md:pt-20 pb-14">
             <div className="max-w-[1240px] mx-auto">
-              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block text-[12px] uppercase tracking-[0.13em] mb-9 transition-colors hover:text-[#14181D]" style={{ color: dim(0.4) }}>← Все услуги</a>
+              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block text-[12px] uppercase tracking-[0.13em] mb-9 transition-colors hover:text-[#14181D] active:brightness-95 active:duration-75" style={{ color: dim(0.4) }}>← Все услуги</a>
               <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-14 items-start">
                 <div>
                   <div className="text-[11px] uppercase tracking-[0.26em] mb-6" style={{ color: BLUE }}>Услуга · {current.tag}</div>
@@ -372,11 +376,11 @@ export default function VectorConsulting() {
               <span className="text-[12px] uppercase tracking-[0.13em] mr-2" style={{ color: dim(0.4) }}>Другие услуги:</span>
               {services.filter((s) => s.slug !== current.slug).map((s) => (
                 <a key={s.slug} href={`${ROOT}/service/${s.slug}`} onClick={(e) => go(e, `${ROOT}/service/${s.slug}`)}
-                   className="px-6 py-3.5 border text-[13px] transition-colors hover:border-[#2F5DA8]" style={{ borderColor: dim(0.18) }}>
+                   className="px-6 py-3.5 border text-[13px] transition-colors hover:border-[#2F5DA8] active:brightness-95 active:duration-75" style={{ borderColor: dim(0.18) }}>
                   {s.t} →
                 </a>
               ))}
-              <a href={ROOT + '/cases'} onClick={(e) => go(e, ROOT + '/cases')} className="px-6 py-3.5 border text-[13px] transition-colors hover:border-[#2F5DA8]" style={{ borderColor: dim(0.18) }}>Кейсы →</a>
+              <a href={ROOT + '/cases'} onClick={(e) => go(e, ROOT + '/cases')} className="px-6 py-3.5 border text-[13px] transition-colors hover:border-[#2F5DA8] active:brightness-95 active:duration-75" style={{ borderColor: dim(0.18) }}>Кейсы →</a>
             </div>
           </section>
         </>
@@ -503,7 +507,7 @@ export default function VectorConsulting() {
                 {services.map((s, i) => (
                   <Reveal key={s.slug} delay={i * 0.07}>
                     <a href={`${ROOT}/service/${s.slug}`} onClick={(e) => go(e, `${ROOT}/service/${s.slug}`)}
-                       className="h-full flex flex-col p-7 border transition-colors duration-300 hover:border-[#2F5DA8] group" style={{ borderColor: dim(0.14), background: '#fff' }}>
+                       className="h-full flex flex-col p-7 border transition-colors duration-300 hover:border-[#2F5DA8] group active:brightness-95 active:duration-75" style={{ borderColor: dim(0.14), background: '#fff' }}>
                       <h3 className="font-bold text-[20px] mb-3 tracking-[-0.01em]">{s.t}</h3>
                       <p className="text-[13.5px] leading-[1.7] flex-1 mb-6" style={{ color: dim(0.55) }}>{s.d}</p>
                       <div className="flex items-baseline justify-between gap-3 pt-4 border-t" style={{ borderColor: dim(0.1) }}>
@@ -677,9 +681,9 @@ export default function VectorConsulting() {
             <h4 className="text-[10px] uppercase tracking-[0.16em] mb-4" style={{ color: dim(0.35) }}>Услуги</h4>
             <div className="flex flex-col gap-3 text-[13px]" style={{ color: dim(0.55) }}>
               {services.map((s) => (
-                <a key={s.slug} href={`${ROOT}/service/${s.slug}`} onClick={(e) => go(e, `${ROOT}/service/${s.slug}`)} className="hover:text-[#14181D] transition-colors">{s.t}</a>
+                <a key={s.slug} href={`${ROOT}/service/${s.slug}`} onClick={(e) => go(e, `${ROOT}/service/${s.slug}`)} className="hover:text-[#14181D] transition-colors active:brightness-95 active:duration-75">{s.t}</a>
               ))}
-              <a href={ROOT + '/cases'} onClick={(e) => go(e, ROOT + '/cases')} className="hover:text-[#14181D] transition-colors">Кейсы</a>
+              <a href={ROOT + '/cases'} onClick={(e) => go(e, ROOT + '/cases')} className="hover:text-[#14181D] transition-colors active:brightness-95 active:duration-75">Кейсы</a>
             </div>
           </div>
           <div>

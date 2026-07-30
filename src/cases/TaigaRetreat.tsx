@@ -109,15 +109,19 @@ export default function TaigaRetreat() {
     { name: 'Бронь', to: ROOT, anchor: 'booking' },
   ];
 
+  /* Фактура tex-wood - годовые кольца дерева: сруб, лес.
+
+     Плоская заливка читается как заготовка: глазу не за что зацепиться. */
+
   return (
-    <div className="relative min-h-screen font-jost selection:bg-[#7E9B6E]/30 overflow-x-clip" style={{ background: BG, color: '#E6EAE2' }}>
+    <div className="relative min-h-screen font-jost selection:bg-[#7E9B6E]/30 overflow-x-clip tex-wood" style={{ background: BG, color: '#E6EAE2' }}>
       <header className="sticky top-0 z-50 backdrop-blur-xl border-b border-white/10" style={{ background: 'rgba(16,20,16,0.88)' }}>
         <div className="max-w-[1280px] mx-auto px-6 md:px-8 py-5 flex justify-between items-center pl-20 md:pl-24">
           <a href={ROOT} onClick={(e) => go(e, ROOT)} className="font-spectral text-[23px] tracking-[0.2em] uppercase">Taiga</a>
           <nav className="hidden md:flex gap-9 items-center">
             {navLinks.map((l) => (
               l.anchor
-                ? <a key={l.name} href={`#${l.anchor}`} onClick={(e) => jump(e, l.anchor!)} className="text-[12px] uppercase tracking-[0.16em] text-white/45 hover:text-white transition-colors">{l.name}</a>
+                ? <a key={l.name} href={`#${l.anchor}`} onClick={(e) => jump(e, l.anchor!)} className="text-[12px] uppercase tracking-[0.16em] text-white/45 hover:text-white transition-colors active:brightness-95 active:duration-75">{l.name}</a>
                 : <a key={l.name} href={l.to} onClick={(e) => go(e, l.to)} className="text-[12px] uppercase tracking-[0.16em] transition-colors"
                      style={{ color: page === 'area' ? MOSS : 'rgba(255,255,255,0.45)' }}>{l.name}</a>
             ))}
@@ -131,7 +135,7 @@ export default function TaigaRetreat() {
         <>
           <section className="px-6 md:px-8 pt-14 md:pt-20 pb-14">
             <div className="max-w-[1180px] mx-auto">
-              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block text-[12px] uppercase tracking-[0.16em] text-white/40 hover:text-white transition-colors mb-10">← Все домики</a>
+              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block text-[12px] uppercase tracking-[0.16em] text-white/40 hover:text-white transition-colors mb-10 active:brightness-95 active:duration-75">← Все домики</a>
               <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-12 items-start">
                 <div>
                   <div className="text-[11px] uppercase tracking-[0.3em] mb-6" style={{ color: MOSS }}>{current.cap} · {current.area}</div>
@@ -180,7 +184,7 @@ export default function TaigaRetreat() {
               <Reveal className="mt-14 flex flex-wrap gap-4">
                 {houses.filter((h) => h.id !== current.id).map((h) => (
                   <a key={h.id} href={`${ROOT}/house/${h.id}`} onClick={(e) => go(e, `${ROOT}/house/${h.id}`)}
-                     className="px-6 py-4 rounded-full border border-white/15 hover:border-white/40 transition-colors text-[13px]">
+                     className="px-6 py-4 rounded-full border border-white/15 hover:border-white/40 transition-colors text-[13px] active:scale-[0.97] active:duration-75">
                     Посмотреть «{h.n}» →
                   </a>
                 ))}
@@ -195,7 +199,7 @@ export default function TaigaRetreat() {
         <>
           <section className="px-6 md:px-8 pt-14 md:pt-20 pb-12">
             <div className="max-w-[1180px] mx-auto">
-              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block text-[12px] uppercase tracking-[0.16em] text-white/40 hover:text-white transition-colors mb-10">← На главную</a>
+              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block text-[12px] uppercase tracking-[0.16em] text-white/40 hover:text-white transition-colors mb-10 active:brightness-95 active:duration-75">← На главную</a>
               <div className="text-[11px] uppercase tracking-[0.3em] mb-6" style={{ color: MOSS }}>Двенадцать гектаров</div>
               <h1 className="font-spectral leading-[1] max-w-[14ch]" style={{ fontSize: 'clamp(40px,6.4vw,78px)' }}>Территория</h1>
               <p className="mt-8 max-w-[54ch] text-white/50 text-[17px] leading-[1.8]">
@@ -264,7 +268,7 @@ export default function TaigaRetreat() {
                 <div className="flex flex-wrap justify-center gap-4">
                   {houses.map((h) => (
                     <a key={h.id} href={`${ROOT}/house/${h.id}`} onClick={(e) => go(e, `${ROOT}/house/${h.id}`)}
-                       className="px-7 py-4 rounded-full border border-white/15 hover:border-white/40 transition-colors text-[13px]">
+                       className="px-7 py-4 rounded-full border border-white/15 hover:border-white/40 transition-colors text-[13px] active:scale-[0.97] active:duration-75">
                       {h.n} · {h.price} ₽
                     </a>
                   ))}
@@ -293,7 +297,7 @@ export default function TaigaRetreat() {
               </p>
               <div className="mt-11 flex flex-wrap gap-4">
                 <a href="#booking" onClick={(e) => jump(e, 'booking')} className="px-8 py-4 rounded-full text-[12px] uppercase tracking-[0.15em]" style={{ background: MOSS, color: BG }}>Проверить даты</a>
-                <a href={ROOT + '/area'} onClick={(e) => go(e, ROOT + '/area')} className="px-8 py-4 rounded-full text-[12px] uppercase tracking-[0.15em] border border-white/20 hover:border-white/45 transition-colors">Территория</a>
+                <a href={ROOT + '/area'} onClick={(e) => go(e, ROOT + '/area')} className="px-8 py-4 rounded-full text-[12px] uppercase tracking-[0.15em] border border-white/20 hover:border-white/45 transition-colors active:scale-[0.97] active:duration-75">Территория</a>
               </div>
             </div>
           </section>
@@ -308,7 +312,7 @@ export default function TaigaRetreat() {
                 {houses.map((h, i) => (
                   <Reveal key={h.id} delay={i * 0.08}>
                     <a href={`${ROOT}/house/${h.id}`} onClick={(e) => go(e, `${ROOT}/house/${h.id}`)}
-                       className="h-full flex flex-col border border-white/10 hover:border-[#7E9B6E]/50 transition-colors duration-500 group">
+                       className="h-full flex flex-col border border-white/10 hover:border-[#7E9B6E]/50 transition-colors duration-500 group active:brightness-95 active:duration-75">
                       <DemoPhoto src={`/demo/taiga-house-${i + 1}.jpg`} label={`Фото домика «${h.n}»`} tone={MOSS} ratio="4/3" icon="interior" />
                       <div className="p-7 flex flex-col flex-1">
                         <h3 className="font-spectral text-[27px] mb-2">{h.n}</h3>
@@ -365,7 +369,7 @@ export default function TaigaRetreat() {
                       { label: 'От города с трансфером', value: 115, note: '4 000 ₽ в одну сторону' },
                       { label: 'От вокзала на электричке', value: 150, note: 'плюс такси от станции' },
                     ]} />
-                  <a href={ROOT + '/area'} onClick={(e) => go(e, ROOT + '/area')} className="inline-block mt-9 px-7 py-3.5 rounded-full border border-white/15 hover:border-white/40 transition-colors text-[12px] uppercase tracking-[0.15em]">
+                  <a href={ROOT + '/area'} onClick={(e) => go(e, ROOT + '/area')} className="inline-block mt-9 px-7 py-3.5 rounded-full border border-white/15 hover:border-white/40 transition-colors text-[12px] uppercase tracking-[0.15em] active:scale-[0.97] active:duration-75">
                     Схема территории
                   </a>
                 </div>
@@ -457,9 +461,9 @@ export default function TaigaRetreat() {
             <h4 className="text-[10px] uppercase tracking-[0.18em] text-white/30 mb-4">База</h4>
             <div className="flex flex-col gap-3 text-[13px] text-white/50">
               {houses.map((h) => (
-                <a key={h.id} href={`${ROOT}/house/${h.id}`} onClick={(e) => go(e, `${ROOT}/house/${h.id}`)} className="hover:text-white transition-colors">{h.n}</a>
+                <a key={h.id} href={`${ROOT}/house/${h.id}`} onClick={(e) => go(e, `${ROOT}/house/${h.id}`)} className="hover:text-white transition-colors active:brightness-95 active:duration-75">{h.n}</a>
               ))}
-              <a href={ROOT + '/area'} onClick={(e) => go(e, ROOT + '/area')} className="hover:text-white transition-colors">Территория</a>
+              <a href={ROOT + '/area'} onClick={(e) => go(e, ROOT + '/area')} className="hover:text-white transition-colors active:brightness-95 active:duration-75">Территория</a>
             </div>
           </div>
           <div>

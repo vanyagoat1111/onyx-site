@@ -473,10 +473,10 @@ function WashScene({
                   </p>
                 )}
                 <div className="mt-9 flex flex-wrap gap-3.5">
-                  <a href="#booking" onClick={onBook} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.14em] text-[#0C0D0C] transition-transform hover:-translate-y-[2px]" style={{ background: LIME }}>
+                  <a href="#booking" onClick={onBook} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.14em] text-[#0C0D0C] transition-transform hover:-translate-y-[2px] active:brightness-95 active:duration-75" style={{ background: LIME }}>
                     Записаться на диагностику
                   </a>
-                  <a href="#prices" onClick={onPrices} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.14em] border border-white/25 hover:border-white/50 transition-colors">
+                  <a href="#prices" onClick={onPrices} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.14em] border border-white/25 hover:border-white/50 transition-colors active:brightness-95 active:duration-75">
                     Прайс на работы
                   </a>
                 </div>
@@ -552,10 +552,10 @@ function StaticHero({ marks, onBook, onPrices }: HeroProps) {
           Так работает сервис, в который возвращаются, а не заезжают один раз.
         </p>
         <div className="mt-10 flex flex-wrap gap-4">
-          <a href="#booking" onClick={onBook} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.14em] text-[#0C0D0C] transition-transform hover:-translate-y-[2px]" style={{ background: LIME }}>
+          <a href="#booking" onClick={onBook} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.14em] text-[#0C0D0C] transition-transform hover:-translate-y-[2px] active:brightness-95 active:duration-75" style={{ background: LIME }}>
             Записаться на диагностику
           </a>
-          <a href="#prices" onClick={onPrices} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.14em] border border-white/25 hover:border-white/50 transition-colors">
+          <a href="#prices" onClick={onPrices} className="px-8 py-4 font-mono text-[12px] uppercase tracking-[0.14em] border border-white/25 hover:border-white/50 transition-colors active:brightness-95 active:duration-75">
             Прайс на работы
           </a>
         </div>
@@ -610,7 +610,7 @@ export default function ApexDetailing() {
           </div>
           <nav className="hidden md:flex gap-8">
             {navLinks.map((l) => (
-              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/45 hover:text-white transition-colors">{l.name}</a>
+              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/45 hover:text-white transition-colors active:brightness-95 active:duration-75">{l.name}</a>
             ))}
           </nav>
           <a href="#booking" onClick={(e) => scrollTo(e, 'booking')} className="hidden sm:inline-block px-5 py-3 font-mono text-[11px] uppercase tracking-[0.14em] text-[#0C0D0C]" style={{ background: LIME }}>

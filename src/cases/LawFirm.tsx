@@ -225,7 +225,7 @@ function CaseEstimator() {
             <button
               type="button"
               onClick={() => document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' })}
-              className="font-manrope w-full px-7 py-4 text-[12px] font-bold uppercase tracking-[0.12em] text-[#0A1023] cursor-pointer transition-transform hover:-translate-y-[2px]"
+              className="font-manrope w-full px-7 py-4 text-[12px] font-bold uppercase tracking-[0.12em] text-[#0A1023] cursor-pointer transition-transform hover:-translate-y-[2px] active:brightness-95 active:duration-75"
               style={{ background: GOLD }}
             >
               Обсудить с партнёром
@@ -252,18 +252,22 @@ export default function LawFirm() {
     setTimeout(() => setSubmitted(false), 5000);
   };
 
+  /* Фактура tex-paper - бумажное волокно: документ, дело, папка.
+
+     Плоская заливка читается как заготовка: глазу не за что зацепиться. */
+
   return (
-    <div className="relative min-h-screen bg-[#0A1023] text-slate-300 font-cormorant selection:bg-[#C9A263]/25 selection:text-white overflow-x-clip">
+    <div className="relative min-h-screen bg-[#0A1023] text-slate-300 font-cormorant selection:bg-[#C9A263]/25 selection:text-white overflow-x-clip tex-paper">
       {/* HEADER */}
       <header className="sticky top-0 z-50 bg-[#0A1023]/92 backdrop-blur-md border-b border-[#2A365C]">
         <div className="max-w-[1360px] mx-auto px-6 md:px-8 py-5 flex justify-between items-center pl-20 md:pl-24">
           <div className="font-manrope text-[13px] sm:text-lg md:text-xl font-extrabold uppercase tracking-[0.08em] sm:tracking-[0.15em] text-[#C9A263] whitespace-nowrap">Egorov <span className="text-white font-light">& Partners</span></div>
           <nav className="hidden lg:flex gap-7 font-manrope">
             {navLinks.map((l) => (
-              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="text-xs uppercase tracking-[0.1em] text-slate-300 hover:text-[#C9A263] transition-colors">{l.name}</a>
+              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="text-xs uppercase tracking-[0.1em] text-slate-300 hover:text-[#C9A263] transition-colors active:brightness-95 active:duration-75">{l.name}</a>
             ))}
           </nav>
-          <button type="button" onClick={(e: any) => scrollTo(e, 'contacts')} className="hidden sm:block font-manrope bg-[#C9A263] text-[#0A1023] px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em] transition-all hover:bg-[#B08B53] hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">Консультация</button>
+          <button type="button" onClick={(e: any) => scrollTo(e, 'contacts')} className="hidden sm:block font-manrope bg-[#C9A263] text-[#0A1023] px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em] transition-all hover:bg-[#B08B53] hover:-translate-y-0.5 cursor-pointer whitespace-nowrap active:brightness-95 active:duration-75">Консультация</button>
         </div>
       </header>
 
@@ -336,7 +340,7 @@ export default function LawFirm() {
                 </div>
                 <button
                   type="submit"
-                  className="font-manrope w-full bg-[#C9A263] text-[#0A1023] font-bold uppercase tracking-[0.12em] text-[11px] py-4 border-none cursor-pointer transition-all hover:bg-[#E8CB94] hover:-translate-y-0.5 hover:shadow-[0_14px_34px_-12px_rgba(201,162,99,0.6)]"
+                  className="font-manrope w-full bg-[#C9A263] text-[#0A1023] font-bold uppercase tracking-[0.12em] text-[11px] py-4 border-none cursor-pointer transition-all hover:bg-[#E8CB94] hover:-translate-y-0.5 hover:shadow-[0_14px_34px_-12px_rgba(201,162,99,0.6)] active:brightness-95 active:duration-75"
                 >
                   Записаться на консультацию
                 </button>
@@ -578,8 +582,8 @@ export default function LawFirm() {
           <div>
             <h4 className="font-manrope text-white text-[11px] uppercase tracking-[0.15em] font-bold mb-5">Информация</h4>
             <div className="font-manrope flex flex-col gap-3 text-[13px]">
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400 hover:text-white transition-colors">Политика конфиденциальности</a>
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400 hover:text-white transition-colors">Правовая оговорка</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400 hover:text-white transition-colors active:brightness-95 active:duration-75">Политика конфиденциальности</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400 hover:text-white transition-colors active:brightness-95 active:duration-75">Правовая оговорка</a>
             </div>
           </div>
         </div>

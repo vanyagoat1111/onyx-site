@@ -168,16 +168,18 @@ export default function BraseroKitchen() {
   const list = menu[cat].filter((d) => !vegOnly || d.veg);
   const bqTotal = (Number(banquetSets[setIdx].p.replace(/[^\d]/g, '')) * guests).toLocaleString('ru-RU');
 
+  /* Фактура tex-ember - тёплое зерно углей: огонь, гриль.
+     Плоская заливка читается как заготовка: глазу не за что зацепиться. */
   return (
-    <div className="relative min-h-screen font-manrope selection:bg-[#D4703A]/35 overflow-x-clip" style={{ background: '#131010', color: CREAM }}>
+    <div className="relative min-h-screen font-manrope selection:bg-[#D4703A]/35 overflow-x-clip tex-ember" style={{ background: '#131010', color: CREAM }}>
       <header className="sticky top-0 z-50 backdrop-blur-xl border-b border-white/10" style={{ background: 'rgba(19,16,16,0.9)' }}>
         <div className="max-w-[1280px] mx-auto px-6 md:px-8 py-4 flex justify-between items-center pl-20 md:pl-24">
           <a href={ROOT} onClick={(e) => go(e, ROOT)} className="font-bodoni text-[24px] tracking-[0.2em] uppercase">Brasero</a>
           <nav className="hidden md:flex gap-8 items-center">
             <a href={ROOT + '/menu'} onClick={(e) => go(e, ROOT + '/menu')} className="text-[12px] uppercase tracking-[0.16em] transition-colors" style={{ color: page === 'menu' ? EMBER : 'rgba(255,255,255,0.45)' }}>Меню</a>
-            <a href="#hall" onClick={(e) => jump(e, 'hall')} className="text-[12px] uppercase tracking-[0.16em] text-white/45 hover:text-white transition-colors">Зал</a>
+            <a href="#hall" onClick={(e) => jump(e, 'hall')} className="text-[12px] uppercase tracking-[0.16em] text-white/45 hover:text-white transition-colors active:brightness-95 active:duration-75">Зал</a>
             <a href={ROOT + '/banquet'} onClick={(e) => go(e, ROOT + '/banquet')} className="text-[12px] uppercase tracking-[0.16em] transition-colors" style={{ color: page === 'banquet' ? EMBER : 'rgba(255,255,255,0.45)' }}>Банкеты</a>
-            <a href="#delivery" onClick={(e) => jump(e, 'delivery')} className="text-[12px] uppercase tracking-[0.16em] text-white/45 hover:text-white transition-colors">Доставка</a>
+            <a href="#delivery" onClick={(e) => jump(e, 'delivery')} className="text-[12px] uppercase tracking-[0.16em] text-white/45 hover:text-white transition-colors active:brightness-95 active:duration-75">Доставка</a>
           </nav>
           <a href="#booking" onClick={(e) => jump(e, 'booking')} className="hidden sm:inline-block px-6 py-3 text-[11px] uppercase tracking-[0.16em] rounded-full" style={{ background: EMBER, color: '#131010' }}>Забронировать</a>
         </div>
@@ -188,7 +190,7 @@ export default function BraseroKitchen() {
         <>
           <section className="px-6 md:px-8 pt-14 md:pt-20 pb-10">
             <div className="max-w-[1000px] mx-auto">
-              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block text-[12px] uppercase tracking-[0.16em] text-white/40 hover:text-white transition-colors mb-9">← На главную</a>
+              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block text-[12px] uppercase tracking-[0.16em] text-white/40 hover:text-white transition-colors mb-9 active:brightness-95 active:duration-75">← На главную</a>
               <h1 className="font-bodoni leading-[0.98] text-center" style={{ fontSize: 'clamp(42px,7vw,88px)' }}>Меню</h1>
               <p className="mt-7 text-center text-white/45 text-[15.5px] max-w-[46ch] mx-auto leading-[1.75]">
                 Всё, что готовим. Зелёная точка — вегетарианское, метка «хит» — то, что заказывают чаще всего.
@@ -221,7 +223,7 @@ export default function BraseroKitchen() {
               </AnimatePresence>
               <Reveal className="mt-12 flex flex-wrap gap-4 justify-center">
                 <a href="#booking" onClick={(e) => jump(e, 'booking')} className="px-8 py-4 rounded-full text-[12px] uppercase tracking-[0.14em]" style={{ background: EMBER, color: '#131010' }}>Забронировать стол</a>
-                <a href={ROOT + '/banquet'} onClick={(e) => go(e, ROOT + '/banquet')} className="px-8 py-4 rounded-full text-[12px] uppercase tracking-[0.14em] border border-white/20 hover:border-white/45 transition-colors">Банкетные сеты</a>
+                <a href={ROOT + '/banquet'} onClick={(e) => go(e, ROOT + '/banquet')} className="px-8 py-4 rounded-full text-[12px] uppercase tracking-[0.14em] border border-white/20 hover:border-white/45 transition-colors active:scale-[0.97] active:duration-75">Банкетные сеты</a>
               </Reveal>
             </div>
           </section>
@@ -233,7 +235,7 @@ export default function BraseroKitchen() {
         <>
           <section className="px-6 md:px-8 pt-14 md:pt-20 pb-14">
             <div className="max-w-[1180px] mx-auto">
-              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block text-[12px] uppercase tracking-[0.16em] text-white/40 hover:text-white transition-colors mb-9">← На главную</a>
+              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block text-[12px] uppercase tracking-[0.16em] text-white/40 hover:text-white transition-colors mb-9 active:brightness-95 active:duration-75">← На главную</a>
               <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
                 <div>
                   <div className="text-[11px] uppercase tracking-[0.3em] mb-6" style={{ color: EMBER }}>Дни рождения · свадьбы · корпоративы</div>
@@ -377,7 +379,7 @@ export default function BraseroKitchen() {
               </p>
               <div className="mt-10 flex flex-wrap gap-4 justify-center">
                 <a href="#booking" onClick={(e) => jump(e, 'booking')} className="px-8 py-4 rounded-full text-[12px] uppercase tracking-[0.14em]" style={{ background: EMBER, color: '#131010' }}>Забронировать стол</a>
-                <a href={ROOT + '/menu'} onClick={(e) => go(e, ROOT + '/menu')} className="px-8 py-4 rounded-full text-[12px] uppercase tracking-[0.14em] border border-white/20 hover:border-white/45 transition-colors">Полное меню</a>
+                <a href={ROOT + '/menu'} onClick={(e) => go(e, ROOT + '/menu')} className="px-8 py-4 rounded-full text-[12px] uppercase tracking-[0.14em] border border-white/20 hover:border-white/45 transition-colors active:scale-[0.97] active:duration-75">Полное меню</a>
               </div>
             </div>
           </section>
@@ -401,7 +403,7 @@ export default function BraseroKitchen() {
                 </motion.div>
               </AnimatePresence>
               <Reveal className="mt-10 text-center">
-                <a href={ROOT + '/menu'} onClick={(e) => go(e, ROOT + '/menu')} className="inline-block px-8 py-4 rounded-full border border-white/20 hover:border-white/45 transition-colors text-[12px] uppercase tracking-[0.14em]">
+                <a href={ROOT + '/menu'} onClick={(e) => go(e, ROOT + '/menu')} className="inline-block px-8 py-4 rounded-full border border-white/20 hover:border-white/45 transition-colors text-[12px] uppercase tracking-[0.14em] active:scale-[0.97] active:duration-75">
                   Открыть полное меню
                 </a>
               </Reveal>
@@ -526,10 +528,10 @@ export default function BraseroKitchen() {
           <div>
             <h4 className="text-[10px] uppercase tracking-[0.18em] text-white/30 mb-4">Разделы</h4>
             <div className="flex flex-col gap-3 text-[13px] text-white/50">
-              <a href={ROOT + '/menu'} onClick={(e) => go(e, ROOT + '/menu')} className="hover:text-white transition-colors">Полное меню</a>
-              <a href={ROOT + '/banquet'} onClick={(e) => go(e, ROOT + '/banquet')} className="hover:text-white transition-colors">Банкеты</a>
-              <a href="#delivery" onClick={(e) => jump(e, 'delivery')} className="hover:text-white transition-colors">Доставка</a>
-              <a href="#hall" onClick={(e) => jump(e, 'hall')} className="hover:text-white transition-colors">Залы</a>
+              <a href={ROOT + '/menu'} onClick={(e) => go(e, ROOT + '/menu')} className="hover:text-white transition-colors active:brightness-95 active:duration-75">Полное меню</a>
+              <a href={ROOT + '/banquet'} onClick={(e) => go(e, ROOT + '/banquet')} className="hover:text-white transition-colors active:brightness-95 active:duration-75">Банкеты</a>
+              <a href="#delivery" onClick={(e) => jump(e, 'delivery')} className="hover:text-white transition-colors active:brightness-95 active:duration-75">Доставка</a>
+              <a href="#hall" onClick={(e) => jump(e, 'hall')} className="hover:text-white transition-colors active:brightness-95 active:duration-75">Залы</a>
             </div>
           </div>
           <div>

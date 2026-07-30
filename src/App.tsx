@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Problem from './components/Problem';
@@ -15,21 +15,31 @@ import ContactFab from './components/ContactFab';
 import CookieConsent from './components/CookieConsent';
 import IntroAssembly from './components/IntroAssembly';
 
-// Cases
-import DentalClinic from './cases/DentalClinic';
-import FitnessClub from './cases/FitnessClub';
-import Logistics from './cases/Logistics';
-import LawFirm from './cases/LawFirm';
-import RealEstate from './cases/RealEstate';
-import ArtelInteriors from './cases/ArtelInteriors';
-import OsnovaBuild from './cases/OsnovaBuild';
-import FleurBeauty from './cases/FleurBeauty';
-import ApexDetailing from './cases/ApexDetailing';
-import FormaIndustry from './cases/FormaIndustry';
-import BraseroKitchen from './cases/BraseroKitchen';
-import TaigaRetreat from './cases/TaigaRetreat';
-import MethodSchool from './cases/MethodSchool';
-import VectorConsulting from './cases/VectorConsulting';
+/* Демо-шаблоны грузятся по требованию, а не при заходе на главную.
+
+   Раньше все четырнадцать импортировались статически - 9800 строк и
+   692 КБ исходников попадали в главный бандл. Человек открывал главную
+   и скачивал четырнадцать чужих сайтов, из которых мог не посмотреть
+   ни одного. Именно это и было главной причиной долгой загрузки.
+
+   lazy() выносит каждый шаблон в отдельный кусок, который скачивается
+   в момент перехода на демо. Suspense ниже показывает заглушку на эту
+   долю секунды - без него React бросит исключение при первом же
+   отложенном рендере. */
+const DentalClinic = lazy(() => import('./cases/DentalClinic'));
+const FitnessClub = lazy(() => import('./cases/FitnessClub'));
+const Logistics = lazy(() => import('./cases/Logistics'));
+const LawFirm = lazy(() => import('./cases/LawFirm'));
+const RealEstate = lazy(() => import('./cases/RealEstate'));
+const ArtelInteriors = lazy(() => import('./cases/ArtelInteriors'));
+const OsnovaBuild = lazy(() => import('./cases/OsnovaBuild'));
+const FleurBeauty = lazy(() => import('./cases/FleurBeauty'));
+const ApexDetailing = lazy(() => import('./cases/ApexDetailing'));
+const FormaIndustry = lazy(() => import('./cases/FormaIndustry'));
+const BraseroKitchen = lazy(() => import('./cases/BraseroKitchen'));
+const TaigaRetreat = lazy(() => import('./cases/TaigaRetreat'));
+const MethodSchool = lazy(() => import('./cases/MethodSchool'));
+const VectorConsulting = lazy(() => import('./cases/VectorConsulting'));
 
 export default function App() {
   const [currentRoute, setCurrentRoute] = useState('');
@@ -60,20 +70,32 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  if (currentRoute === '#case/dental') return <CaseEditorWrapper><DentalClinic /></CaseEditorWrapper>;
-  if (currentRoute === '#case/fitness') return <CaseEditorWrapper><FitnessClub /></CaseEditorWrapper>;
-  if (currentRoute === '#case/logistics') return <CaseEditorWrapper><Logistics /></CaseEditorWrapper>;
-  if (currentRoute === '#case/lawfirm') return <CaseEditorWrapper><LawFirm /></CaseEditorWrapper>;
-  if (currentRoute === '#case/realestate') return <CaseEditorWrapper><RealEstate /></CaseEditorWrapper>;
-  if (currentRoute.startsWith('#case/artel')) return <CaseEditorWrapper><ArtelInteriors /></CaseEditorWrapper>;
-  if (currentRoute.startsWith('#case/construction')) return <CaseEditorWrapper><OsnovaBuild /></CaseEditorWrapper>;
-  if (currentRoute === '#case/beauty') return <CaseEditorWrapper><FleurBeauty /></CaseEditorWrapper>;
-  if (currentRoute === '#case/auto') return <CaseEditorWrapper><ApexDetailing /></CaseEditorWrapper>;
-  if (currentRoute.startsWith('#case/manufacturing')) return <CaseEditorWrapper><FormaIndustry /></CaseEditorWrapper>;
-  if (currentRoute.startsWith('#case/food')) return <CaseEditorWrapper><BraseroKitchen /></CaseEditorWrapper>;
-  if (currentRoute.startsWith('#case/hotel')) return <CaseEditorWrapper><TaigaRetreat /></CaseEditorWrapper>;
-  if (currentRoute.startsWith('#case/education')) return <CaseEditorWrapper><MethodSchool /></CaseEditorWrapper>;
-  if (currentRoute.startsWith('#case/b2b')) return <CaseEditorWrapper><VectorConsulting /></CaseEditorWrapper>;
+  /* Заглушка на время загрузки шаблона. Не «крутилка», а честная строка
+     в стилистике студии: пустой экран на долю секунды читается как сбой. */
+  const demo = (node: React.ReactNode) => (
+    <Suspense fallback={
+      <div className="min-h-screen bg-ink flex items-center justify-center">
+        <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-cobalt-soft">
+          Открываем пример…
+        </span>
+      </div>
+    }>{node}</Suspense>
+  );
+
+  if (currentRoute === '#case/dental') return demo(<CaseEditorWrapper><DentalClinic /></CaseEditorWrapper>);
+  if (currentRoute === '#case/fitness') return demo(<CaseEditorWrapper><FitnessClub /></CaseEditorWrapper>);
+  if (currentRoute === '#case/logistics') return demo(<CaseEditorWrapper><Logistics /></CaseEditorWrapper>);
+  if (currentRoute === '#case/lawfirm') return demo(<CaseEditorWrapper><LawFirm /></CaseEditorWrapper>);
+  if (currentRoute === '#case/realestate') return demo(<CaseEditorWrapper><RealEstate /></CaseEditorWrapper>);
+  if (currentRoute.startsWith('#case/artel')) return demo(<CaseEditorWrapper><ArtelInteriors /></CaseEditorWrapper>);
+  if (currentRoute.startsWith('#case/construction')) return demo(<CaseEditorWrapper><OsnovaBuild /></CaseEditorWrapper>);
+  if (currentRoute === '#case/beauty') return demo(<CaseEditorWrapper><FleurBeauty /></CaseEditorWrapper>);
+  if (currentRoute === '#case/auto') return demo(<CaseEditorWrapper><ApexDetailing /></CaseEditorWrapper>);
+  if (currentRoute.startsWith('#case/manufacturing')) return demo(<CaseEditorWrapper><FormaIndustry /></CaseEditorWrapper>);
+  if (currentRoute.startsWith('#case/food')) return demo(<CaseEditorWrapper><BraseroKitchen /></CaseEditorWrapper>);
+  if (currentRoute.startsWith('#case/hotel')) return demo(<CaseEditorWrapper><TaigaRetreat /></CaseEditorWrapper>);
+  if (currentRoute.startsWith('#case/education')) return demo(<CaseEditorWrapper><MethodSchool /></CaseEditorWrapper>);
+  if (currentRoute.startsWith('#case/b2b')) return demo(<CaseEditorWrapper><VectorConsulting /></CaseEditorWrapper>);
 
   return (
     <main className="bg-ink text-bone font-body selection:bg-cobalt selection:text-white w-full overflow-clip">

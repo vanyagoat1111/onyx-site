@@ -169,7 +169,7 @@ function FloorPlan() {
             <button
               type="button"
               onClick={() => document.getElementById('experts')?.scrollIntoView({ behavior: 'smooth' })}
-              className="mt-8 w-full bg-white text-[#080808] font-semibold uppercase tracking-[0.2em] text-[10px] px-7 py-4 cursor-pointer transition-all hover:bg-[#B08B53] hover:text-white"
+              className="mt-8 w-full bg-white text-[#080808] font-semibold uppercase tracking-[0.2em] text-[10px] px-7 py-4 cursor-pointer transition-all hover:bg-[#B08B53] hover:text-white active:brightness-95 active:duration-75"
             >
               Записаться на просмотр
             </button>
@@ -195,21 +195,25 @@ export default function RealEstate() {
     setTimeout(() => setSubmitted(false), 5000);
   };
 
+  /* Фактура tex-concrete - бетон и штукатурка: стройка, стена.
+
+     Плоская заливка читается как заготовка: глазу не за что зацепиться. */
+
   return (
-    <div className="relative min-h-screen bg-[#080808] text-neutral-400 font-jost selection:bg-[#C9A263]/25 selection:text-white overflow-x-clip">
+    <div className="relative min-h-screen bg-[#080808] text-neutral-400 font-jost selection:bg-[#C9A263]/25 selection:text-white overflow-x-clip tex-concrete">
       {/* HEADER */}
       <header className="sticky top-0 z-50 bg-[#080808]/85 backdrop-blur-md border-b border-white/[0.06]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-9 py-5.5 flex justify-between items-center pl-20 md:pl-24">
           <div className="font-cormorant text-base sm:text-xl md:text-2xl text-white tracking-[0.14em] sm:tracking-[0.2em] uppercase whitespace-nowrap">Vanguard <span className="opacity-50">Estates</span></div>
           <nav className="hidden lg:flex gap-9">
             {navLinks.map((l) => (
-              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="relative text-[10px] uppercase tracking-[0.2em] font-medium text-white/70 hover:text-white transition-colors group">
+              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="relative text-[10px] uppercase tracking-[0.2em] font-medium text-white/70 hover:text-white transition-colors group active:brightness-95 active:duration-75">
                 {l.name}
                 <span className="absolute left-0 right-full -bottom-1 h-px bg-[#C9A263] transition-all duration-300 group-hover:right-0" />
               </a>
             ))}
           </nav>
-          <button type="button" onClick={(e: any) => scrollTo(e, 'properties')} className="hidden sm:block bg-transparent border border-white/20 text-white px-7 py-3 text-[10px] uppercase tracking-[0.2em] cursor-pointer transition-all hover:bg-white hover:text-[#080808]">Связаться</button>
+          <button type="button" onClick={(e: any) => scrollTo(e, 'properties')} className="hidden sm:block bg-transparent border border-white/20 text-white px-7 py-3 text-[10px] uppercase tracking-[0.2em] cursor-pointer transition-all hover:bg-white hover:text-[#080808] active:brightness-95 active:duration-75">Связаться</button>
         </div>
       </header>
 
@@ -245,7 +249,7 @@ export default function RealEstate() {
               <option className="bg-[#111]">От $10 млн</option>
               <option className="bg-[#111]">По запросу</option>
             </select>
-            <button onClick={() => document.getElementById('properties')?.scrollIntoView({ behavior: 'smooth' })} type="button" className="bg-white text-[#080808] font-semibold uppercase tracking-[0.2em] text-[10px] px-7 py-4 border-none cursor-pointer transition-all hover:bg-[#B08B53] hover:text-white hover:-translate-y-0.5">Поиск</button>
+            <button onClick={() => document.getElementById('properties')?.scrollIntoView({ behavior: 'smooth' })} type="button" className="bg-white text-[#080808] font-semibold uppercase tracking-[0.2em] text-[10px] px-7 py-4 border-none cursor-pointer transition-all hover:bg-[#B08B53] hover:text-white hover:-translate-y-0.5 active:brightness-95 active:duration-75">Поиск</button>
           </div>
         </div>
       </section>
@@ -264,7 +268,7 @@ export default function RealEstate() {
               <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4">Коллекция</div>
               <h2 className="font-cormorant text-3xl md:text-[52px] text-white font-medium tracking-[0.02em]">Эксклюзивные предложения</h2>
             </div>
-            <a href="#" onClick={(e) => e.preventDefault()} className="uppercase tracking-[0.2em] text-[10px] text-white/60 border border-white/20 px-7.5 py-3.5 transition-all hover:bg-white hover:text-[#080808]">Посмотреть все объекты</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="uppercase tracking-[0.2em] text-[10px] text-white/60 border border-white/20 px-7.5 py-3.5 transition-all hover:bg-white hover:text-[#080808] active:brightness-95 active:duration-75">Посмотреть все объекты</a>
           </Reveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-14">
@@ -446,7 +450,7 @@ export default function RealEstate() {
               <input required type="text" placeholder="Имя" className="font-jost w-full bg-transparent border-0 border-b border-white/20 pb-3.5 text-white font-light text-sm outline-none placeholder:text-white/35" />
               <input required type="tel" placeholder="Телефон" className="font-jost w-full bg-transparent border-0 border-b border-white/20 pb-3.5 text-white font-light text-sm outline-none placeholder:text-white/35" />
               <input type="email" placeholder="Email" className="font-jost w-full bg-transparent border-0 border-b border-white/20 pb-3.5 text-white font-light text-sm outline-none placeholder:text-white/35" />
-              <button type="submit" className="w-full border border-white/30 bg-transparent text-white py-5 uppercase tracking-[0.2em] text-[10px] cursor-pointer mt-2 transition-all hover:bg-white hover:text-[#080808]">Отправить запрос</button>
+              <button type="submit" className="w-full border border-white/30 bg-transparent text-white py-5 uppercase tracking-[0.2em] text-[10px] cursor-pointer mt-2 transition-all hover:bg-white hover:text-[#080808] active:brightness-95 active:duration-75">Отправить запрос</button>
               {submitted && <p className="text-[#C9A263] text-xs font-light">Запрос отправлен. Управляющий партнёр свяжется с вами в течение часа.</p>}
             </form>
           </div>
@@ -476,9 +480,9 @@ export default function RealEstate() {
           <div>
             <h4 className="text-white uppercase tracking-[0.2em] text-[10px] mb-6.5 opacity-50">Навигация</h4>
             <div className="flex flex-col gap-3.5 font-light text-sm">
-              <a href="#properties" onClick={(e) => scrollTo(e, 'properties')} className="text-white/60 hover:text-white transition-colors">Каталог объектов</a>
-              <a href="#analytics" onClick={(e) => scrollTo(e, 'analytics')} className="text-white/60 hover:text-white transition-colors">Аналитика рынка</a>
-              <a href="#trust" onClick={(e) => scrollTo(e, 'trust')} className="text-white/60 hover:text-white transition-colors">Оценить актив</a>
+              <a href="#properties" onClick={(e) => scrollTo(e, 'properties')} className="text-white/60 hover:text-white transition-colors active:brightness-95 active:duration-75">Каталог объектов</a>
+              <a href="#analytics" onClick={(e) => scrollTo(e, 'analytics')} className="text-white/60 hover:text-white transition-colors active:brightness-95 active:duration-75">Аналитика рынка</a>
+              <a href="#trust" onClick={(e) => scrollTo(e, 'trust')} className="text-white/60 hover:text-white transition-colors active:brightness-95 active:duration-75">Оценить актив</a>
             </div>
           </div>
         </div>

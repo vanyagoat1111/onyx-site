@@ -200,7 +200,7 @@ function GoalPicker() {
             <button
               type="button"
               onClick={() => document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' })}
-              className="mt-8 w-full text-white px-7 py-4 text-[12px] font-bold uppercase tracking-[0.1em] cursor-pointer transition-transform hover:-translate-y-[2px]"
+              className="mt-8 w-full text-white px-7 py-4 text-[12px] font-bold uppercase tracking-[0.1em] cursor-pointer transition-transform hover:-translate-y-[2px] active:brightness-95 active:duration-75"
               style={{ background: RED }}
             >
               <Skew>Записаться на вводную</Skew>
@@ -228,18 +228,22 @@ export default function FitnessClub() {
     setTimeout(() => setSubmitted(false), 5000);
   };
 
+  /* Фактура tex-rubber - прорезиненное покрытие зала.
+
+     Плоская заливка читается как заготовка: глазу не за что зацепиться. */
+
   return (
-    <div className="relative min-h-screen bg-[#0A0A0A] text-white font-sport selection:bg-red-500/30 selection:text-white overflow-x-clip">
+    <div className="relative min-h-screen bg-[#0A0A0A] text-white font-sport selection:bg-red-500/30 selection:text-white overflow-x-clip tex-rubber">
       {/* HEADER */}
       <header className="sticky top-0 z-50 bg-[#0A0A0A]/85 backdrop-blur-xl border-b border-red-900/30">
         <div className="max-w-[1360px] mx-auto px-6 md:px-8 py-4 flex justify-between items-center pl-20 md:pl-24">
           <div className="font-black italic uppercase text-lg sm:text-xl md:text-2xl whitespace-nowrap">IRON<span className="text-[#DC2626]">CORE</span></div>
           <nav className="hidden md:flex gap-8">
             {navLinks.map((l) => (
-              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="text-xs font-bold uppercase tracking-[0.12em] text-neutral-400 hover:text-white transition-colors">{l.name}</a>
+              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="text-xs font-bold uppercase tracking-[0.12em] text-neutral-400 hover:text-white transition-colors active:brightness-95 active:duration-75">{l.name}</a>
             ))}
           </nav>
-          <button onClick={() => document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' })} type="button" className="hidden sm:block bg-[#DC2626] text-white px-4 md:px-5.5 py-3 text-[11px] font-bold uppercase tracking-[0.1em] shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_34px_rgba(220,38,38,0.6)] transition-shadow cursor-pointer">
+          <button onClick={() => document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' })} type="button" className="hidden sm:block bg-[#DC2626] text-white px-4 md:px-5.5 py-3 text-[11px] font-bold uppercase tracking-[0.1em] shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_34px_rgba(220,38,38,0.6)] transition-shadow cursor-pointer active:brightness-95 active:duration-75">
             <Skew>Стать резидентом</Skew>
           </button>
         </div>
@@ -274,8 +278,8 @@ export default function FitnessClub() {
             </h1>
             <p className="text-neutral-400 text-[17px] max-w-[440px] leading-[1.6] mb-9">Премиальное фитнес-пространство для тех, кто не ищет оправданий. 2000 м² инновационного оборудования и атмосфера, заряженная на результат.</p>
             <div className="flex gap-4 flex-wrap">
-              <button onClick={() => document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' })} type="button" className="bg-[#DC2626] border border-[#DC2626] text-white px-8 py-4.5 text-[13px] font-bold uppercase tracking-[0.1em] shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] transition-shadow cursor-pointer"><Skew>Стать резидентом</Skew></button>
-              <button type="button" onClick={(e: any) => scrollTo(e, 'schedule')} className="bg-transparent border border-neutral-700 text-white px-8 py-4.5 text-[13px] font-bold uppercase tracking-[0.1em] hover:border-neutral-500 transition-colors cursor-pointer"><Skew>Расписание</Skew></button>
+              <button onClick={() => document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' })} type="button" className="bg-[#DC2626] border border-[#DC2626] text-white px-8 py-4.5 text-[13px] font-bold uppercase tracking-[0.1em] shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] transition-shadow cursor-pointer active:brightness-95 active:duration-75"><Skew>Стать резидентом</Skew></button>
+              <button type="button" onClick={(e: any) => scrollTo(e, 'schedule')} className="bg-transparent border border-neutral-700 text-white px-8 py-4.5 text-[13px] font-bold uppercase tracking-[0.1em] hover:border-neutral-500 transition-colors cursor-pointer active:brightness-95 active:duration-75"><Skew>Расписание</Skew></button>
             </div>
           </div>
 
@@ -445,7 +449,7 @@ export default function FitnessClub() {
                     <div className="text-[13px] font-bold uppercase tracking-[0.06em] text-neutral-300">{s.trainer}</div>
                     <div className="text-[10px] text-neutral-500 mt-0.5">Тренер</div>
                   </div>
-                  <button type="button" className="px-5 md:px-6.5 py-3 border border-[#DC2626] bg-transparent text-[#EF4444] font-bold text-[11px] uppercase tracking-[0.1em] cursor-pointer hover:bg-[#DC2626] hover:text-white transition-colors"><Skew>Записаться</Skew></button>
+                  <button type="button" className="px-5 md:px-6.5 py-3 border border-[#DC2626] bg-transparent text-[#EF4444] font-bold text-[11px] uppercase tracking-[0.1em] cursor-pointer hover:bg-[#DC2626] hover:text-white transition-colors active:brightness-95 active:duration-75"><Skew>Записаться</Skew></button>
                 </div>
               </Reveal>
             ))}
@@ -489,7 +493,7 @@ export default function FitnessClub() {
           <h2 className="font-black uppercase text-3xl md:text-[42px] mb-9">Запишись на первую тренировку</h2>
           <form onSubmit={handleSubmit} className="flex gap-3.5 max-w-[600px] mx-auto flex-wrap">
             <input required type="tel" placeholder="+7 (___) ___-__-__" className="flex-1 min-w-[200px] bg-[#0A0A0A] border border-[#262626] px-5.5 py-4 text-white font-mono text-sm outline-none placeholder:text-white/35" />
-            <button type="submit" className="bg-[#DC2626] text-white px-8 py-4 font-extrabold uppercase tracking-[0.1em] text-[13px] cursor-pointer shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] transition-shadow"><Skew>Жду звонка</Skew></button>
+            <button type="submit" className="bg-[#DC2626] text-white px-8 py-4 font-extrabold uppercase tracking-[0.1em] text-[13px] cursor-pointer shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] transition-shadow active:brightness-95 active:duration-75"><Skew>Жду звонка</Skew></button>
           </form>
           {submitted && <p className="text-red-400 text-[13px] mt-4">Заявка отправлена. Мы позвоним вам в ближайшее время.</p>}
         </Reveal>
@@ -510,17 +514,17 @@ export default function FitnessClub() {
           <div>
             <h4 className="text-white font-extrabold uppercase text-[13px] mb-4 border-b border-[#262626] pb-2.5">Клуб</h4>
             <div className="flex flex-col gap-3 text-[13px]">
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-neutral-400 hover:text-white transition-colors">О нас</a>
-              <a href="#rates" onClick={(e) => scrollTo(e, 'rates')} className="text-neutral-400 hover:text-white transition-colors">Карты</a>
-              <a href="#schedule" onClick={(e) => scrollTo(e, 'schedule')} className="text-neutral-400 hover:text-white transition-colors">Расписание</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-neutral-400 hover:text-white transition-colors active:brightness-95 active:duration-75">О нас</a>
+              <a href="#rates" onClick={(e) => scrollTo(e, 'rates')} className="text-neutral-400 hover:text-white transition-colors active:brightness-95 active:duration-75">Карты</a>
+              <a href="#schedule" onClick={(e) => scrollTo(e, 'schedule')} className="text-neutral-400 hover:text-white transition-colors active:brightness-95 active:duration-75">Расписание</a>
             </div>
           </div>
           <div>
             <h4 className="text-white font-extrabold uppercase text-[13px] mb-4 border-b border-[#262626] pb-2.5">Услуги</h4>
             <div className="flex flex-col gap-3 text-[13px]">
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-neutral-400 hover:text-white transition-colors">Кроссфит</a>
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-neutral-400 hover:text-white transition-colors">Боевые искусства</a>
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-neutral-400 hover:text-white transition-colors">Групповые занятия</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-neutral-400 hover:text-white transition-colors active:brightness-95 active:duration-75">Кроссфит</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-neutral-400 hover:text-white transition-colors active:brightness-95 active:duration-75">Боевые искусства</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-neutral-400 hover:text-white transition-colors active:brightness-95 active:duration-75">Групповые занятия</a>
             </div>
           </div>
           <div>

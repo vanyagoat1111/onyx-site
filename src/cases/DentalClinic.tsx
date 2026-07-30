@@ -211,20 +211,20 @@ function PatientJourney() {
         <div className="mt-7 flex flex-wrap gap-3">
           <button
             type="button" onClick={() => setI(Math.max(0, i - 1))} disabled={i === 0}
-            className="px-5 py-2.5 rounded-lg text-[13px] border border-slate-200 text-slate-600 disabled:opacity-35 hover:border-slate-400 transition-colors"
+            className="px-5 py-2.5 rounded-lg text-[13px] border border-slate-200 text-slate-600 disabled:opacity-35 hover:border-slate-400 transition-colors active:scale-[0.97] active:duration-75"
           >
             ← Назад
           </button>
           <button
             type="button" onClick={() => setI(Math.min(journeyData.length - 1, i + 1))} disabled={i === journeyData.length - 1}
-            className="px-5 py-2.5 rounded-lg text-[13px] border border-slate-200 text-slate-600 disabled:opacity-35 hover:border-slate-400 transition-colors"
+            className="px-5 py-2.5 rounded-lg text-[13px] border border-slate-200 text-slate-600 disabled:opacity-35 hover:border-slate-400 transition-colors active:scale-[0.97] active:duration-75"
           >
             Дальше →
           </button>
           <button
             type="button"
             onClick={() => document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' })}
-            className="px-6 py-2.5 rounded-lg text-[13px] font-semibold text-white transition-transform hover:-translate-y-[2px]"
+            className="px-6 py-2.5 rounded-lg text-[13px] font-semibold text-white transition-transform hover:-translate-y-[2px] active:scale-[0.97] active:duration-75"
             style={{ background: GRAD }}
           >
             Записаться на консультацию
@@ -252,15 +252,19 @@ export default function DentalClinic() {
     setTimeout(() => setSubmitted(false), 5000);
   };
 
+  /* Фактура tex-clinic - мелкая стерильная сетка: чистота кабинета.
+
+     Плоская заливка читается как заготовка: глазу не за что зацепиться. */
+
   return (
-    <div className="relative min-h-screen bg-white text-slate-800 font-jakarta selection:bg-[#0891B2]/[0.18] selection:text-[#0F2A3A] overflow-x-clip">
+    <div className="relative min-h-screen bg-white text-slate-800 font-jakarta selection:bg-[#0891B2]/[0.18] selection:text-[#0F2A3A] overflow-x-clip tex-clinic">
       {/* HEADER */}
       <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-[#0891B2]/[0.12]">
         <div className="max-w-[1360px] mx-auto px-6 md:px-8 py-4.5 flex justify-between items-center pl-20 md:pl-24">
           <div className="font-spectral text-2xl font-semibold text-[#0C4A6E]">Dental<span className="text-[#0891B2]">Art</span></div>
           <nav className="hidden lg:flex gap-8">
             {navLinks.map((l) => (
-              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="relative text-sm font-medium text-slate-600 hover:text-[#0891B2] transition-colors group">
+              <a key={l.href} href={`#${l.href}`} onClick={(e) => scrollTo(e, l.href)} className="relative text-sm font-medium text-slate-600 hover:text-[#0891B2] transition-colors group active:brightness-95 active:duration-75">
                 {l.name}
                 <span className="absolute left-0 right-full -bottom-1 h-0.5 rounded-full transition-all duration-300 group-hover:right-0" style={{ background: 'linear-gradient(90deg,#0891B2,#22D3EE)' }} />
               </a>
@@ -271,7 +275,7 @@ export default function DentalClinic() {
               <div className="text-sm font-bold text-slate-800">+7 (495) 123-45-67</div>
               <div className="text-[11px] text-slate-500">Ежедневно 09:00 – 21:00</div>
             </div>
-            <button type="button" onClick={(e: any) => scrollTo(e, 'contacts')} style={{ background: 'linear-gradient(135deg,#0891B2,#0E7490)', boxShadow: '0 10px 24px -8px rgba(8,145,178,0.45)' }} className="text-white px-6.5 py-3 rounded-full text-sm font-bold border-none cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_34px_-10px_rgba(8,145,178,0.45)]">Записаться</button>
+            <button type="button" onClick={(e: any) => scrollTo(e, 'contacts')} style={{ background: 'linear-gradient(135deg,#0891B2,#0E7490)', boxShadow: '0 10px 24px -8px rgba(8,145,178,0.45)' }} className="text-white px-6.5 py-3 rounded-full text-sm font-bold border-none cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_34px_-10px_rgba(8,145,178,0.45)] active:scale-[0.97] active:duration-75">Записаться</button>
           </div>
         </div>
       </header>
@@ -286,8 +290,8 @@ export default function DentalClinic() {
             </h1>
             <p className="text-base sm:text-[17px] text-slate-600 leading-[1.65] max-w-[480px] mb-8.5">Безболезненное лечение, прецизионная имплантация и цифровая эстетика. Вернём уверенность в вашей улыбке за один визит.</p>
             <div className="flex gap-4 flex-wrap">
-              <button type="button" onClick={(e: any) => scrollTo(e, 'contacts')} style={{ background: 'linear-gradient(135deg,#0891B2,#0E7490)', boxShadow: '0 12px 28px -8px rgba(8,145,178,0.4)' }} className="text-white px-8 py-4.5 rounded-full text-[15px] font-bold border-none cursor-pointer transition-all hover:-translate-y-0.5">Записаться на приём</button>
-              <button type="button" onClick={(e: any) => scrollTo(e, 'services')} className="bg-white text-slate-800 px-8 py-4.5 rounded-full text-[15px] font-bold border border-slate-200 cursor-pointer transition-colors hover:bg-[#F0F9FF]">Прайс-лист</button>
+              <button type="button" onClick={(e: any) => scrollTo(e, 'contacts')} style={{ background: 'linear-gradient(135deg,#0891B2,#0E7490)', boxShadow: '0 12px 28px -8px rgba(8,145,178,0.4)' }} className="text-white px-8 py-4.5 rounded-full text-[15px] font-bold border-none cursor-pointer transition-all hover:-translate-y-0.5 active:scale-[0.97] active:duration-75">Записаться на приём</button>
+              <button type="button" onClick={(e: any) => scrollTo(e, 'services')} className="bg-white text-slate-800 px-8 py-4.5 rounded-full text-[15px] font-bold border border-slate-200 cursor-pointer transition-colors hover:bg-[#F0F9FF] active:scale-[0.97] active:duration-75">Прайс-лист</button>
             </div>
           </div>
           <div className="relative">
@@ -491,17 +495,17 @@ export default function DentalClinic() {
           <div>
             <h4 className="text-white font-bold text-sm mb-4.5">Услуги</h4>
             <div className="flex flex-col gap-2.5 text-[13px]">
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400 hover:text-white transition-colors">Имплантация</a>
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400 hover:text-white transition-colors">Виниры</a>
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400 hover:text-white transition-colors">Отбеливание</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400 hover:text-white transition-colors active:brightness-95 active:duration-75">Имплантация</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400 hover:text-white transition-colors active:brightness-95 active:duration-75">Виниры</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-slate-400 hover:text-white transition-colors active:brightness-95 active:duration-75">Отбеливание</a>
             </div>
           </div>
           <div>
             <h4 className="text-white font-bold text-sm mb-4.5">Клиника</h4>
             <div className="flex flex-col gap-2.5 text-[13px]">
-              <a href="#advantages" onClick={(e) => scrollTo(e, 'advantages')} className="text-slate-400 hover:text-white transition-colors">Преимущества</a>
-              <a href="#faq" onClick={(e) => scrollTo(e, 'faq')} className="text-slate-400 hover:text-white transition-colors">Частые вопросы</a>
-              <a href="#reviews" onClick={(e) => scrollTo(e, 'reviews')} className="text-slate-400 hover:text-white transition-colors">Отзывы</a>
+              <a href="#advantages" onClick={(e) => scrollTo(e, 'advantages')} className="text-slate-400 hover:text-white transition-colors active:brightness-95 active:duration-75">Преимущества</a>
+              <a href="#faq" onClick={(e) => scrollTo(e, 'faq')} className="text-slate-400 hover:text-white transition-colors active:brightness-95 active:duration-75">Частые вопросы</a>
+              <a href="#reviews" onClick={(e) => scrollTo(e, 'reviews')} className="text-slate-400 hover:text-white transition-colors active:brightness-95 active:duration-75">Отзывы</a>
             </div>
           </div>
           <div>

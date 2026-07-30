@@ -162,7 +162,7 @@ function SkinPicker() {
         <a
           href="#booking"
           onClick={(e) => { e.preventDefault(); document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' }); }}
-          className="inline-block mt-9 px-8 py-4 text-[11px] uppercase tracking-[0.16em] transition-transform hover:-translate-y-[2px]"
+          className="inline-block mt-9 px-8 py-4 text-[11px] uppercase tracking-[0.16em] transition-transform hover:-translate-y-[2px] active:brightness-95 active:duration-75"
           style={{ background: ROSE, color: PAPER }}
         >
           Записаться на консультацию
@@ -182,8 +182,12 @@ export default function FleurBeauty() {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  /* Фактура tex-silk - шёлковый отлив: уход, кожа.
+
+     Плоская заливка читается как заготовка: глазу не за что зацепиться. */
+
   return (
-    <div className="relative min-h-screen font-jost selection:bg-[#B4796B]/25 overflow-x-clip" style={{ background: PAPER, color: INK }}>
+    <div className="relative min-h-screen font-jost selection:bg-[#B4796B]/25 overflow-x-clip tex-silk" style={{ background: PAPER, color: INK }}>
       {/* HEADER */}
       <header className="sticky top-0 z-50 backdrop-blur-xl border-b" style={{ background: 'rgba(246,241,234,0.86)', borderColor: 'rgba(42,36,34,0.10)' }}>
         <div className="max-w-[1280px] mx-auto px-6 md:px-8 py-5 flex justify-between items-center pl-20 md:pl-24">

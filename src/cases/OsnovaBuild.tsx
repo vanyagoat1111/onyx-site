@@ -676,7 +676,7 @@ function BuildScene() {
               <a
                 href="#contacts"
                 onClick={(e) => { e.preventDefault(); document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' }); }}
-                className="inline-flex items-center justify-center font-mono text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.16em] px-6 lg:px-8 py-3.5 lg:py-4 text-white transition-transform duration-200 hover:-translate-y-[2px]"
+                className="inline-flex items-center justify-center font-mono text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.16em] px-6 lg:px-8 py-3.5 lg:py-4 text-white transition-transform duration-200 hover:-translate-y-[2px] active:brightness-95 active:duration-75"
                 style={{ background: INK }}
               >
                 Бесплатная смета
@@ -684,7 +684,7 @@ function BuildScene() {
               <a
                 href={ROOT + '/projects'}
                 onClick={(e) => { e.preventDefault(); window.location.hash = ROOT + '/projects'; window.scrollTo(0, 0); }}
-                className="inline-flex items-center justify-center font-mono text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.16em] px-6 lg:px-8 py-3.5 lg:py-4 transition-transform duration-200 hover:-translate-y-[2px]"
+                className="inline-flex items-center justify-center font-mono text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.16em] px-6 lg:px-8 py-3.5 lg:py-4 transition-transform duration-200 hover:-translate-y-[2px] active:brightness-95 active:duration-75"
                 style={{ border: `1.4px solid ${ink(0.3)}` }}
               >
                 Каталог проектов
@@ -1217,7 +1217,7 @@ export default function OsnovaBuild() {
                     <a
                       href={`${ROOT}/project/${p.slug}`}
                       onClick={(e) => go(e, `${ROOT}/project/${p.slug}`)}
-                      className="group block h-full transition-all duration-300 hover:-translate-y-1.5"
+                      className="group block h-full transition-all duration-300 hover:-translate-y-1.5 active:brightness-95 active:duration-75"
                       style={{ background: PAPER_HI, border: `1px solid ${ink(0.2)}` }}
                     >
                       <div className="flex justify-between px-4 py-2.5 font-mono text-[9.5px] uppercase tracking-[0.16em]" style={{ borderBottom: `1px solid ${ink(0.14)}`, color: ink(0.42) }}>
@@ -1421,7 +1421,7 @@ export default function OsnovaBuild() {
         <>
           <section className="px-6 md:px-8 pt-14 md:pt-20 pb-10">
             <div className="max-w-[1340px] mx-auto">
-              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block font-mono text-[11px] uppercase tracking-[0.18em] mb-9 opacity-55 hover:opacity-100 transition-opacity">← На главную</a>
+              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block font-mono text-[11px] uppercase tracking-[0.18em] mb-9 opacity-55 hover:opacity-100 transition-opacity active:brightness-95 active:duration-75">← На главную</a>
               <CutMark letter="А" label="Лист 1 из 1 · типовые решения" />
               <h1 className={`${H1} mt-6 max-w-[15ch]`} style={{ fontSize: 'clamp(40px,6.6vw,84px)' }}>
                 Каталог<br /><span style={{ color: CLAY }}>проектов</span>
@@ -1454,7 +1454,7 @@ export default function OsnovaBuild() {
                 <Up key={p.slug} delay={i * 0.06}>
                   <a
                     href={`${ROOT}/project/${p.slug}`} onClick={(e) => go(e, `${ROOT}/project/${p.slug}`)}
-                    className="group block h-full transition-all duration-300 hover:-translate-y-1.5"
+                    className="group block h-full transition-all duration-300 hover:-translate-y-1.5 active:brightness-95 active:duration-75"
                     style={{ background: PAPER_HI, border: `1px solid ${ink(0.2)}`, boxShadow: `6px 8px 0 ${ink(0.05)}` }}
                   >
                     <div className="flex justify-between px-6 py-3 font-mono text-[9.5px] uppercase tracking-[0.18em]" style={{ borderBottom: `1px solid ${ink(0.14)}`, color: ink(0.42) }}>
@@ -1490,7 +1490,7 @@ export default function OsnovaBuild() {
         <>
           <section className="px-6 md:px-8 pt-14 md:pt-20 pb-14">
             <div className="max-w-[1340px] mx-auto">
-              <a href={ROOT + '/projects'} onClick={(e) => go(e, ROOT + '/projects')} className="inline-block font-mono text-[11px] uppercase tracking-[0.18em] mb-9 opacity-55 hover:opacity-100 transition-opacity">← Все проекты</a>
+              <a href={ROOT + '/projects'} onClick={(e) => go(e, ROOT + '/projects')} className="inline-block font-mono text-[11px] uppercase tracking-[0.18em] mb-9 opacity-55 hover:opacity-100 transition-opacity active:brightness-95 active:duration-75">← Все проекты</a>
               <div className="grid grid-cols-1 lg:grid-cols-[1.02fr_0.98fr] gap-12 items-center">
                 <div>
                   <div className="font-mono text-[10px] uppercase tracking-[0.24em] mb-6" style={{ color: CLAY }}>
@@ -1578,7 +1578,7 @@ export default function OsnovaBuild() {
                   {projects.filter((p) => p.slug !== current.slug).map((p) => (
                     <a
                       key={p.slug} href={`${ROOT}/project/${p.slug}`} onClick={(e) => go(e, `${ROOT}/project/${p.slug}`)}
-                      className="px-6 py-4 text-[13.5px] transition-all hover:-translate-y-1"
+                      className="px-6 py-4 text-[13.5px] transition-all hover:-translate-y-1 active:brightness-95 active:duration-75"
                       style={{ border: `1px solid ${ink(0.22)}`, background: PAPER_HI }}
                     >
                       <span className="font-mono text-[10px] mr-2" style={{ color: CLAY }}>{p.index}</span>
@@ -1597,7 +1597,7 @@ export default function OsnovaBuild() {
         <>
           <section className="px-6 md:px-8 pt-14 md:pt-20 pb-12">
             <div className="max-w-[1120px] mx-auto">
-              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block font-mono text-[11px] uppercase tracking-[0.18em] mb-9 opacity-55 hover:opacity-100 transition-opacity">← На главную</a>
+              <a href={ROOT} onClick={(e) => go(e, ROOT)} className="inline-block font-mono text-[11px] uppercase tracking-[0.18em] mb-9 opacity-55 hover:opacity-100 transition-opacity active:brightness-95 active:duration-75">← На главную</a>
               <CutMark letter="Ц" label="Ведомость расценок" />
               <h1 className={`${H1} mt-6 max-w-[13ch]`} style={{ fontSize: 'clamp(40px,6.6vw,84px)' }}>
                 Прайс<br /><span style={{ color: CLAY }}>по работам</span>
@@ -1781,9 +1781,9 @@ export default function OsnovaBuild() {
           <div>
             <h4 className="font-mono text-[9.5px] uppercase tracking-[0.2em] mb-4" style={{ color: 'rgba(231,227,216,0.4)' }}>Разделы</h4>
             <div className="flex flex-col gap-3 text-[13px]" style={{ color: 'rgba(231,227,216,0.65)' }}>
-              <a href={ROOT + '/projects'} onClick={(e) => go(e, ROOT + '/projects')} className="hover:text-white transition-colors">Каталог проектов</a>
-              <a href={ROOT + '/prices'} onClick={(e) => go(e, ROOT + '/prices')} className="hover:text-white transition-colors">Прайс по работам</a>
-              <a href="#stages" onClick={(e) => jump(e, 'stages')} className="hover:text-white transition-colors">Этапы работ</a>
+              <a href={ROOT + '/projects'} onClick={(e) => go(e, ROOT + '/projects')} className="hover:text-white transition-colors active:brightness-95 active:duration-75">Каталог проектов</a>
+              <a href={ROOT + '/prices'} onClick={(e) => go(e, ROOT + '/prices')} className="hover:text-white transition-colors active:brightness-95 active:duration-75">Прайс по работам</a>
+              <a href="#stages" onClick={(e) => jump(e, 'stages')} className="hover:text-white transition-colors active:brightness-95 active:duration-75">Этапы работ</a>
             </div>
           </div>
           <div>

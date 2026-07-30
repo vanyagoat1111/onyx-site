@@ -1,4 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=Unbounded:wght@300;400;500;600;700;800;900&family=Golos+Text:wght@400;500;600;700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400;1,6..96,500&family=Archivo:wght@300;400;500;600;700&family=Spectral:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Archivo+Black&family=Sora:wght@400;500;600;700;800&family=Jost:wght@300;400;500;600;700&display=swap');
+/* Шрифты подключаются в index.html, а не здесь.
+
+   Раньше тут стоял @import с семнадцатью семействами. Два следствия,
+   и оба били по скорости первого показа.
+
+   Первое: @import внутри CSS браузер обнаруживает только ПОСЛЕ того,
+   как скачает и разберёт саму таблицу стилей. Получается последовательная
+   очередь вместо параллельной загрузки - стили ждут, шрифты ждут за ними,
+   страница ждёт всех.
+
+   Второе: из семнадцати семейств главной нужно пять. Остальные двенадцать
+   живут только внутри демо-шаблонов, и человек, открывший главную, качал
+   шрифты четырнадцати чужих сайтов.
+
+   Теперь в index.html два запроса: критический грузится обычной ссылкой,
+   остальные - неблокирующей, они догружаются к моменту, когда человек
+   действительно откроет демо. */
 @import "tailwindcss";
 
 @theme {
@@ -214,4 +230,92 @@ html, body {
 
 @media (prefers-reduced-motion: reduce) {
   .onyx-b, .onyx-caret, .onyx-star { animation: none !important; }
+}
+
+/* ── Фактуры демо-шаблонов ────────────────────────────────────────
+   Материал под смысл ниши, а не один шум на всё. Плоская заливка -
+   это то, чем отличается аккуратный сайт от дорогого: глазу не за что
+   зацепиться, и страница читается как заготовка.
+
+   Все фактуры нарисованы градиентами, без картинок: ничего не грузится,
+   масштабируется без потерь и весит ноль байт трафика.
+
+   Каждая - отдельный слой поверх фона, поэтому применяется к элементу,
+   у которого фон уже задан. Непрозрачность низкая намеренно: фактуру
+   надо чувствовать, а не видеть. Как только её замечаешь - она мешает. */
+
+/* Право: бумажное волокно. Документ, дело, папка. */
+.tex-paper {
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.014) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.010) 0 1px, transparent 1px 4px);
+}
+/* Медицина: мелкая стерильная сетка. Чистота кабинета. */
+.tex-clinic {
+  background-image:
+    linear-gradient(rgba(8,60,80,.030) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(8,60,80,.030) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+/* Ресторан: тёплое зерно углей. Огонь, гриль. */
+.tex-ember {
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(212,112,58,.055) 0 1px, transparent 2px),
+    radial-gradient(circle at 70% 65%, rgba(212,112,58,.040) 0 2px, transparent 3px),
+    radial-gradient(circle at 45% 85%, rgba(212,112,58,.030) 0 1px, transparent 2px);
+  background-size: 90px 90px, 140px 140px, 70px 70px;
+}
+/* База отдыха: годовые кольца дерева. Сруб, лес. */
+.tex-wood {
+  background-image:
+    repeating-linear-gradient(93deg,
+      rgba(126,155,110,.030) 0 2px, transparent 2px 9px,
+      rgba(126,155,110,.018) 9px 10px, transparent 10px 22px);
+}
+/* Спорт: диагональное прорезиненное покрытие зала. */
+.tex-rubber {
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,.016) 0 2px, transparent 2px 8px);
+}
+/* Образование: тетрадная линовка. */
+.tex-ruled {
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 27px, rgba(242,193,78,.055) 27px 28px);
+}
+/* Логистика: гофрокартон. Коробка, груз. */
+.tex-corrugated {
+  background-image:
+    repeating-linear-gradient(90deg,
+      rgba(78,140,255,.030) 0 1px, transparent 1px 6px,
+      rgba(78,140,255,.014) 6px 7px, transparent 7px 13px);
+}
+/* Недвижимость: бетон и штукатурка. Стройка, стена. */
+.tex-concrete {
+  background-image:
+    radial-gradient(circle at 12% 22%, rgba(255,255,255,.020) 0 3px, transparent 5px),
+    radial-gradient(circle at 63% 47%, rgba(255,255,255,.014) 0 5px, transparent 8px),
+    radial-gradient(circle at 88% 78%, rgba(255,255,255,.018) 0 4px, transparent 6px);
+  background-size: 160px 160px, 220px 220px, 190px 190px;
+}
+/* Услуги для бизнеса: миллиметровка. Расчёт, схема. */
+.tex-graph {
+  background-image:
+    linear-gradient(rgba(47,93,168,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(47,93,168,.045) 1px, transparent 1px),
+    linear-gradient(rgba(47,93,168,.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(47,93,168,.022) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+}
+/* Красота: шёлковый отлив. Уход, кожа. */
+.tex-silk {
+  background-image:
+    repeating-linear-gradient(112deg,
+      rgba(180,121,107,.030) 0 1px, transparent 1px 14px),
+    linear-gradient(160deg, rgba(180,121,107,.022), transparent 55%);
+}
+
+/* Фактура - украшение, а не смысл. Тем, кто просил меньше движения,
+   она не мешает, но и полосы на весь экран им ни к чему. */
+@media (prefers-reduced-motion: reduce) {
+  .tex-rubber, .tex-corrugated { background-image: none; }
 }
