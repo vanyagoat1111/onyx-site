@@ -346,7 +346,7 @@ export default function DentalClinic() {
           <div className="relative">
             <div className="absolute -top-10 -right-10 w-[110%] h-[110%] z-0" style={{ background: 'radial-gradient(circle,rgba(34,211,238,0.25),transparent 70%)', filter: 'blur(50px)' }} />
             <div className="relative z-10 h-[320px] sm:h-[400px] md:h-[480px] rounded-[32px] overflow-hidden" style={{ boxShadow: '0 40px 90px -24px rgba(8,145,178,0.35)' }}>
-              <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=1000&q=80" alt="Клиника DentalArt" className="w-full h-full object-cover" loading="lazy" />
+              <img src="/photos/u-1606811841689-23dfddce3e95-1000.jpg" alt="Клиника DentalArt" className="w-full h-full object-cover" loading="lazy" />
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to top,rgba(3,54,73,0.55),transparent 55%)' }} />
             </div>
 

@@ -8,7 +8,10 @@
     "build": "vite build && node scripts/prerender.js",
     "preview": "vite preview",
     "clean": "rm -rf dist",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "fonts": "node scripts/fetch-fonts.mjs",
+    "photos": "node scripts/fetch-photos.mjs",
+    "assets": "npm run fonts && npm run photos"
   },
   "dependencies": {
     "lucide-react": "^0.546.0",
