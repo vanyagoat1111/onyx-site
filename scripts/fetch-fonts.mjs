@@ -26,6 +26,13 @@ const OUT = path.resolve('public/fonts');
    это лишние килобайты, которые никто на нашем сайте не увидит. */
 const KEEP = new Set(['cyrillic', 'cyrillic-ext', 'latin', 'latin-ext']);
 
+/* Семейства главной страницы. Их правила идут в отдельный файл,
+   который подключается блокирующе - иначе заголовок мигнёт системным
+   шрифтом. Все остальные живут только в демо: держать их в блокирующем
+   файле значит заставить человека ждать лишние 56 килобайт до того,
+   как он увидит хоть что-то. */
+const CORE = new Set(['Unbounded', 'Golos Text', 'JetBrains Mono', 'Inter', 'Playfair Display']);
+
 /* Состав повторяет index.html. Первые пять - главная страница,
    остальные живут только в демо-шаблонах. */
 const FAMILIES = [
@@ -97,7 +104,7 @@ const имяФайла = (b) =>
 
 async function main() {
   await mkdir(OUT, { recursive: true });
-  const правила = [];
+  const ядро = [], демо = [];
   let скачано = 0, пропущено = 0, байт = 0;
 
   for (const spec of FAMILIES) {
@@ -125,7 +132,7 @@ async function main() {
         скачано++;
       }
 
-      правила.push(
+      (CORE.has(b.family) ? ядро : демо).push(
         '@font-face{'
         + `font-family:'${b.family}';`
         + `font-style:${b.style};`
@@ -144,14 +151,18 @@ async function main() {
     '/* Собрано скриптом scripts/fetch-fonts.mjs - руками не править.\n'
     + '   Шрифты лежат на нашем домене, потому что fonts.googleapis.com\n'
     + '   недоступен в России без VPN. */\n';
-  await writeFile(path.join(OUT, 'fonts.css'), шапка + правила.join('\n') + '\n');
+  await writeFile(path.join(OUT, 'fonts-core.css'),
+    шапка + ядро.join('\n') + '\n');
+  await writeFile(path.join(OUT, 'fonts-demo.css'),
+    шапка + демо.join('\n') + '\n');
 
   const всего = (await readdir(OUT)).filter((f) => f.endsWith('.woff2')).length;
   console.log(`\n  файлов в public/fonts: ${всего}`);
   console.log(`  скачано сейчас: ${скачано}, уже было: ${пропущено}`);
   console.log(`  добавлено: ${(байт / 1048576).toFixed(2)} МБ`);
-  console.log(`  правил в fonts.css: ${правила.length}`);
-  console.log('\n  Дальше: в index.html вместо ссылок на Google подключить /fonts/fonts.css');
+  console.log(`  правил: ядро ${ядро.length}, демо ${демо.length}`);
+  console.log('\n  В index.html: fonts-core.css обычной ссылкой,');
+  console.log('  fonts-demo.css с media=\"print\" onload - он НЕ должен блокировать.');
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });
