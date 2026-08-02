@@ -10,7 +10,7 @@ const addons = [
   },
   {
     title: 'Подключение CRM',
-    price: '9 990р',
+    price: '8 990р',
     desc: 'Битрикс24, amoCRM. Клиент -> Сайт -> CRM -> Менеджер.',
     action: 'Оплатить'
   },
