@@ -1,26 +1,34 @@
 import React from 'react';
 import {StrictMode} from 'react';
-import { hydrateRoot, createRoot } from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
 const rootElement = document.getElementById('root')!;
 
-// In dev mode, the root might only contain the <!--app-html--> comment.
-// We should only hydrate if there's actual rendered content (e.g. elements).
-const hasContent = rootElement.hasChildNodes() && rootElement.innerHTML.trim() !== '<!--app-html-->';
-
-if (hasContent) {
-  hydrateRoot(
-    rootElement,
-    <StrictMode>
-      <App />
-    </StrictMode>
-  );
-} else {
-  createRoot(rootElement).render(
-    <StrictMode>
-      <App />
-    </StrictMode>
-  );
-}
+/* Всегда createRoot, никогда hydrateRoot.
+ *
+ * В корне лежит первый экран, вшитый прямо в index.html: обычная
+ * разметка со стилями внутри страницы. Она нужна, чтобы человек видел
+ * предложение и рабочие кнопки сразу после HTML, не дожидаясь 455
+ * килобайт кода. Из России канал к хостингу фильтруется провайдерами,
+ * и это разница между «сайт открылся» и «сайт не грузится».
+ *
+ * Раньше здесь стояла развилка: есть содержимое в корне - гидратация.
+ * С вшитым экраном она бы и сработала, и сломала бы всё. Гидратация
+ * ожидает, что разметка в точности повторяет React-дерево; наша нарочно
+ * другая - упрощённая, на системных шрифтах. React обнаружил бы
+ * расхождение и в лучшем случае перерисовал с миганием, в худшем оставил
+ * пустой экран с ошибкой в консоли.
+ *
+ * createRoot просто заменяет содержимое корня на React-дерево. Вшитый
+ * экран живёт ровно до готовности кода и уступает место настоящему.
+ *
+ * Гидратация вернётся, если появится отрисовка на сервере: тогда
+ * разметка будет собрана из тех же компонентов и совпадёт.
+ */
+createRoot(rootElement).render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);

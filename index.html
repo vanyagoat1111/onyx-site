@@ -58,12 +58,71 @@
     <link rel="stylesheet" href="/fonts/fonts-core.css" />
     <link rel="stylesheet" href="/fonts/fonts-demo.css" media="print" onload="this.media='all'" />
 
+    <!-- ═══ ПЕРВЫЙ ЭКРАН ВШИТ В HTML ═══
+
+         Здесь лежит копия первого экрана обычной разметкой, со стилями
+         внутри страницы. Она видна СРАЗУ, как только доехал сам HTML -
+         тридцать пять килобайт.
+
+         Зачем. Сайт собран как одностраничное приложение: пока браузер
+         не скачал и не выполнил бандл, на экране пусто. До первого
+         осмысленного кадра нужно было 665 килобайт - разметка, стили
+         сборки, шрифты и 455 килобайт кода. Из России канал к нашему
+         хостингу фильтруется провайдерами, и эти секунды человек видел
+         белый или чёрный экран. Клиенты писали, что сайт не открывается.
+
+         Теперь так: HTML пришёл - человек уже читает предложение и может
+         нажать кнопку. Кнопки здесь настоящие ссылки, они работают даже
+         если код не доедет вовсе. Когда бандл догрузится, React отрисует
+         тот же экран поверх, и подмена не видна: разметка ниже повторяет
+         его один в один.
+
+         Шрифты тут системные. Ждать woff2 ради первого кадра нельзя -
+         это ещё один запрос в том же узком канале, а системный шрифт
+         есть у всех и рисуется мгновенно.
+
+         Важно при правках Hero.tsx: если меняется заголовок, подзаголовок
+         или подписи кнопок - поменять и здесь. Иначе в момент подмены
+         текст прыгнет. -->
+    <style>
+      :root { color-scheme: dark }
+      html,body { margin:0; background:#0a0a0d; color:#f2f0e9 }
+      #boot { font-family: system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+              max-width:1440px; margin:0 auto; padding:6rem 1.25rem 3rem }
+      #boot .tag { font-size:11px; letter-spacing:.28em; text-transform:uppercase;
+                   color:#8aa6ff; margin:0 0 1.25rem }
+      #boot h1 { font-size:clamp(1.9rem,7vw,4rem); line-height:1.05; margin:0 0 1.5rem;
+                 font-weight:800; letter-spacing:-.02em }
+      #boot h1 i { font-style:normal; color:#4e7cff }
+      #boot p { font-size:clamp(.95rem,2.2vw,1.05rem); line-height:1.6;
+                color:#a8a8b3; max-width:44ch; margin:0 0 1rem }
+      #boot .row { display:flex; flex-wrap:wrap; gap:.75rem; margin-top:2rem }
+      #boot a.btn { display:inline-block; padding:1rem 1.75rem; border-radius:999px;
+                    font-size:.95rem; font-weight:600; text-decoration:none;
+                    background:#4e7cff; color:#fff }
+      #boot a.alt { background:transparent; color:#f2f0e9; border:1px solid rgba(242,240,233,.25) }
+      #boot .note { font-size:11px; color:#6f7480; margin:.5rem 0 0 }
+    </style>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <title>Сайт вы увидите раньше, чем заплатите | ONYX WEB</title>
   </head>
   <body>
-    <div id="root"><!--app-html--></div>
+    <div id="root"><div id="boot">
+      <p class="tag">Веб-студия ONYX · сайты для бизнеса</p>
+      <h1>Сайт вы увидите<br>раньше, чем <i>заплатите.</i></h1>
+      <p>Начинаем не с прайса, а с разбора. Смотрим ваш сайт или нишу,
+         показываем, что мешает получать заявки, и составляем план -
+         какой сайт нужен именно вашему бизнесу.</p>
+      <p>Разбор и план бесплатны и ни к чему не обязывают. Разработка
+         стоит 0 ₽: вы платите только за запуск, размещение
+         и дополнительные функции, если они нужны.</p>
+      <div class="row">
+        <a class="btn" href="https://t.me/onyxwebsites_bot">Сайта нет - с чего начать</a>
+        <a class="btn alt" href="https://t.me/onyxwebsites_bot?start=audit">Сайт есть - разберите его</a>
+      </div>
+      <p class="note">Разработка 0 ₽ · запуск от 9 990 ₽ · первая версия за 2-3 дня</p>
+    </div></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
