@@ -25,6 +25,10 @@ import CookieConsent from './components/CookieConsent';
    в момент перехода на демо. Suspense ниже показывает заглушку на эту
    долю секунды - без него React бросит исключение при первом же
    отложенном рендере. */
+/* CRM - своё приложение для прозвона, живёт по адресу #crm.
+   Отдельным куском: клиентам она не нужна и в их загрузку не попадает. */
+const CrmApp = lazy(() => import('./crm/CrmApp'));
+
 const DentalClinic = lazy(() => import('./cases/DentalClinic'));
 const FitnessClub = lazy(() => import('./cases/FitnessClub'));
 const Logistics = lazy(() => import('./cases/Logistics'));
@@ -80,6 +84,18 @@ export default function App() {
       </div>
     }>{node}</Suspense>
   );
+
+  /* CRM - внутренний инструмент, поэтому идёт первой проверкой
+     и минует всё оформление сайта: свой экран, свои правила. */
+  if (currentRoute === '#crm') {
+    return (
+      <Suspense fallback={
+        <div className="min-h-screen bg-[#0a0a0d] flex items-center justify-center">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-fog">Открываю CRM…</span>
+        </div>
+      }><CrmApp /></Suspense>
+    );
+  }
 
   if (currentRoute === '#case/dental') return demo(<CaseEditorWrapper><DentalClinic /></CaseEditorWrapper>);
   if (currentRoute === '#case/fitness') return demo(<CaseEditorWrapper><FitnessClub /></CaseEditorWrapper>);
