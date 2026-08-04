@@ -96,12 +96,12 @@ export async function загрузитьЛиды() {
 
 export async function обновитьЛид(row: number, patch: Record<string, string>) {
   return запрос<{ ok: boolean; updated?: number; error?: string }>({
-    api: 'update', row: String(row), patch: JSON.stringify(patch),
+    api: 'update', row: String(row), who: кто(), patch: JSON.stringify(patch),
   });
 }
 
 export async function убратьЛид(row: number) {
-  return запрос<{ ok: boolean; error?: string }>({ api: 'archive', row: String(row) });
+  return запрос<{ ok: boolean; error?: string }>({ api: 'archive', row: String(row), who: кто() });
 }
 
 /* ─── Импорт выгрузки агентов ──────────────────────────────────────────
@@ -206,4 +206,56 @@ export function сегодня(): string {
   const d = new Date();
   const p = (n: number) => String(n).padStart(2, '0');
   return `${p(d.getDate())}.${p(d.getMonth() + 1)}.${d.getFullYear()}`;
+}
+
+
+/* ─── ИИ-чат ───────────────────────────────────────────────────────── */
+
+export type Реплика = { role: 'user' | 'assistant'; content: unknown };
+
+export type Предложение = {
+  строки: number[];
+  поля: Record<string, string>;
+  зачем: string;
+  лиды: { row: number; компания: string; статус: string }[];
+};
+
+/** Кто работает - подставляется в историю, чтобы было видно, кто звонил. */
+const ИМЯ = 'onyx_crm_kto';
+export function кто(): string {
+  try { return localStorage.getItem(ИМЯ) || ''; } catch { return ''; }
+}
+export function запомнитьКто(имя: string) {
+  try { localStorage.setItem(ИМЯ, имя.trim().slice(0, 40)); } catch { /* инкогнито */ }
+}
+
+export async function спросить(сообщения: Реплика[]): Promise<{ текст: string; предложение?: Предложение }> {
+  const r = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-onyx-key': ключ() },
+    body: JSON.stringify({ сообщения }),
+  });
+  const о = await разобрать<{ ok: boolean; текст: string; предложение?: Предложение; error?: string }>(r);
+  if (!о.ok) throw new Error(о.error || 'Чат не ответил');
+  return { текст: о.текст || '', предложение: о.предложение };
+}
+
+/** Выполнить то, что предложил ИИ. Вызывается только после «да» человека. */
+export async function подтвердить(п: Предложение): Promise<{ изменено: number; сбои: string[] }> {
+  const r = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-onyx-key': ключ() },
+    body: JSON.stringify({ подтвердить: { строки: п.строки, поля: п.поля, кто: кто() } }),
+  });
+  const о = await разобрать<{ ok: boolean; изменено?: number; сбои?: string[]; error?: string }>(r);
+  if (!о.ok) throw new Error(о.error || 'Не удалось применить');
+  return { изменено: о.изменено || 0, сбои: о.сбои || [] };
+}
+
+/* ─── История по лиду ─────────────────────────────────────────────── */
+
+export type Событие = Record<string, string>;
+
+export async function историяЛида(телефон: string) {
+  return запрос<{ ok: boolean; rows: Событие[] }>({ api: 'events', phone: телефон, limit: '40' });
 }

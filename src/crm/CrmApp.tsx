@@ -6,6 +6,8 @@ import {
   type Лид,
 } from './api';
 import { включитьУстановку, запущеноКакПриложение, этоIOS } from './ustanovka';
+import Chat from './Chat';
+import { историяЛида, type Событие } from './api';
 
 /* ONYX CRM - своё приложение для прозвона.
  *
@@ -43,6 +45,7 @@ export default function CrmApp() {
   const [открыт, setОткрыт] = useState<Лид | null>(null);
   const [импорт, setИмпорт] = useState(false);
   const [подсказка, setПодсказка] = useState(false);
+  const [чат, setЧат] = useState(false);
 
   async function обновить() {
     setГрузим(true); setОшибка(''); setОтвет('');
@@ -144,6 +147,10 @@ export default function CrmApp() {
           <div className="flex items-center justify-between gap-3 mb-3">
             <h1 className="font-display font-bold text-lg">ONYX CRM</h1>
             <div className="flex gap-2">
+              <button onClick={() => setЧат(true)}
+                className="text-xs font-mono uppercase tracking-wider text-white bg-cobalt px-3 py-2 rounded-full active:scale-95 transition">
+                спросить
+              </button>
               <button onClick={() => setИмпорт(true)}
                 className="text-xs font-mono uppercase tracking-wider text-fog px-3 py-2 rounded-full border border-white/15 active:scale-95 transition">
                 импорт
@@ -202,6 +209,8 @@ export default function CrmApp() {
       )}
 
       {импорт && <Импорт onClose={() => setИмпорт(false)} onГотово={обновить} />}
+
+      {чат && <Chat onClose={() => setЧат(false)} onИзменено={обновить} />}
 
       {подсказка && (
         <ПодсказкаУстановки onClose={() => {
@@ -374,12 +383,65 @@ function Окно({ л, onClose, onПравка, onАрхив }: {
               className="w-full bg-white/[0.06] border border-white/10 rounded-xl px-4 py-3 text-[16px] outline-none focus:border-cobalt/60" />
           </div>
 
+          <История телефон={тел} />
+
           <button onClick={onАрхив}
             className="w-full py-3 rounded-xl border border-red-500/30 text-red-300 text-sm active:scale-95 transition">
             Убрать в архив и не звонить больше
           </button>
         </div>
       </div>
+    </div>
+  );
+}
+
+/* Что уже происходило по этому лиду.
+ *
+ * Загружаем по требованию, а не вместе со списком: событий со временем
+ * станет больше, чем самих лидов, и тянуть их в каждый список - значит
+ * замедлить главный экран ради того, что смотрят изредка. */
+function История({ телефон }: { телефон: string }) {
+  const [открыто, setОткрыто] = useState(false);
+  const [строки, setСтроки] = useState<Событие[] | null>(null);
+  const [ошибка, setОшибка] = useState('');
+
+  async function развернуть() {
+    setОткрыто((o) => !o);
+    if (строки || !телефон) return;
+    try {
+      const r = await историяЛида(телефон);
+      setСтроки(r.rows || []);
+    } catch (e) {
+      setОшибка(e instanceof Error ? e.message : String(e));
+    }
+  }
+
+  if (!телефон) return null;
+
+  return (
+    <div className="border border-white/10 rounded-xl overflow-hidden">
+      <button onClick={развернуть}
+        className="w-full text-left px-4 py-2.5 bg-white/[0.05] font-mono text-[10px] uppercase tracking-wider text-fog">
+        История {открыто ? '▲' : '▼'}
+      </button>
+      {открыто && (
+        <div className="px-4 py-3">
+          {ошибка && <p className="text-sm text-red-300">{ошибка}</p>}
+          {!ошибка && !строки && <p className="text-sm text-fog">Читаю…</p>}
+          {строки && !строки.length && (
+            <p className="text-sm text-fog">Пока пусто. Здесь появится, кто и когда звонил.</p>
+          )}
+          {строки && строки.map((с, i) => (
+            <div key={i} className="flex gap-3 text-xs py-1.5 border-b border-white/5 last:border-0">
+              <span className="text-fog font-mono shrink-0 w-24">{с['Когда']}</span>
+              <span className="flex-1">
+                <b>{с['Кто'] && с['Кто'] !== '-' ? с['Кто'] : 'кто-то'}</b>: {с['Что']}
+                {с['Стало'] ? ` → ${с['Стало']}` : ''}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
