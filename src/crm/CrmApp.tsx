@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   загрузитьЛиды, обновитьЛид, убратьЛид, сохранитьДоступ, забытьДоступ,
-  ключ, адрес, телДляЗвонка, телДляWhatsApp, разобратьДату, сегодня,
+  ключ, телДляЗвонка, телДляWhatsApp, разобратьДату, сегодня,
   ОтветСервера, достатьЛидовИзВыгрузки, залитьЛидов, таблицаГотоваКИмпорту,
   type Лид,
 } from './api';
@@ -37,7 +37,7 @@ export default function CrmApp() {
   const [грузим, setГрузим] = useState(false);
   const [ошибка, setОшибка] = useState('');
   const [ответСервера, setОтвет] = useState('');
-  const [вход, setВход] = useState(!ключ() || !адрес());
+  const [вход, setВход] = useState(!ключ());
   const [вкладка, setВкладка] = useState<Вкладка>('сегодня');
   const [поиск, setПоиск] = useState('');
   const [открыт, setОткрыт] = useState<Лид | null>(null);
@@ -565,17 +565,20 @@ function Поле({ ярлык, знач }: { ярлык: string; знач: stri
 function Вход({ onOk, ошибка, ответ, грузим }: {
   onOk: () => void; ошибка: string; ответ: string; грузим: boolean;
 }) {
-  const [url, setUrl] = useState(адрес());
   const [k, setK] = useState(ключ());
+
+  // Пароль один, потому что адрес таблицы и её ключ живут на сервере.
+  // Раньше здесь было два поля, и оба надо было где-то раздобыть -
+  // на телефоне это означало «сегодня я в CRM не зайду».
+  const войти = () => { if (k.trim()) { сохранитьДоступ(k); onOk(); } };
 
   return (
     <div className="min-h-screen bg-[#0a0a0d] text-[#f2f0e9] flex items-center justify-center px-5 font-body">
       <div className="w-full max-w-sm">
+        <img src="/crm/icon-180.png" alt="" className="w-14 h-14 rounded-2xl mb-4" />
         <h1 className="font-display font-bold text-2xl mb-2">ONYX CRM</h1>
-        <p className="text-sm text-fog mb-6">
-          Нужен адрес скрипта таблицы и общий ключ. Оба лежат в настройках
-          Vercel: SHEETS_WEBHOOK_URL и SHEETS_SECRET.
-        </p>
+        <p className="text-sm text-fog mb-6">Введите пароль - и попадёте к списку на обзвон.</p>
+
         {ошибка && (
           <div className="bg-[#3a1414] border border-red-500/30 rounded-xl px-4 py-3 mb-4">
             <p className="text-sm">{ошибка}</p>
@@ -587,16 +590,20 @@ function Вход({ onOk, ошибка, ответ, грузим }: {
             )}
           </div>
         )}
-        <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://script.google.com/…/exec"
-          className="w-full bg-white/[0.06] border border-white/10 rounded-xl px-4 py-3 text-[16px] mb-3 outline-none focus:border-cobalt/60" />
-        <input value={k} onChange={(e) => setK(e.target.value)} type="password" placeholder="Ключ"
+
+        <input
+          value={k} onChange={(e) => setK(e.target.value)} type="password"
+          autoComplete="current-password" placeholder="Пароль"
+          onKeyDown={(e) => e.key === 'Enter' && войти()}
           className="w-full bg-white/[0.06] border border-white/10 rounded-xl px-4 py-3 text-[16px] mb-4 outline-none focus:border-cobalt/60" />
-        <button onClick={() => { сохранитьДоступ(url, k); onOk(); }} disabled={грузим}
-          className="w-full bg-cobalt text-white font-semibold py-4 rounded-xl active:scale-95 transition disabled:opacity-50">
+
+        <button onClick={войти} disabled={грузим || !k.trim()}
+          className="w-full bg-cobalt text-white font-semibold py-4 rounded-xl active:scale-95 transition disabled:opacity-40">
           {грузим ? 'Проверяю…' : 'Войти'}
         </button>
+
         <button onClick={() => { забытьДоступ(); location.reload(); }}
-          className="w-full text-fog text-xs mt-4">Забыть сохранённый доступ</button>
+          className="w-full text-fog text-xs mt-4">Забыть пароль на этом устройстве</button>
       </div>
     </div>
   );

@@ -1,43 +1,37 @@
-/* Связь приложения CRM с таблицей.
+/* Связь приложения CRM с таблицей - через собственный сервер.
  *
- * Сначала обычный fetch, при неудаче - JSONP.
+ * Раньше браузер ходил в Apps Script напрямую. Это перестало работать:
+ * адрес /exec всегда перебрасывает на script.googleusercontent.com,
+ * а он у владельцев не открывается - запрос висит одиннадцать секунд
+ * и обрывается. Проверено с их машины, в том числе через VPN. Домен
+ * drive.google.com ведёт себя так же.
  *
- * Почему так. Apps Script переадресует запрос на googleusercontent.com,
- * и уже ТОТ отдаёт заголовки CORS - поэтому обычный fetch к /exec обычно
- * проходит. Я сначала сделал сразу JSONP, из осторожности, и потерял
- * главное: при JSONP браузер не даёт прочитать ответ, если это не
- * работающий скрипт. Любая проблема выглядела одинаково - «не удалось
- * связаться», и настоящая причина оставалась невидимой.
+ * Поэтому запрос к Google делает наш сервер (api/crm.js на Vercel),
+ * а браузер обращается только к своему домену. Ни фильтрации,
+ * ни CORS, ни JSONP - обычный fetch на /api/crm.
  *
- * Теперь основной путь - fetch: он возвращает текст ответа, каким бы
- * тот ни был. Если Google прислал страницу входа или сообщение об ошибке
- * скрипта, это видно на экране целиком, а не превращается в общую фразу.
- * JSONP остаётся запасным путём на случай, если CORS всё-таки не отдан.
- *
- * Ключ доступа хранится в браузере и подставляется в каждый запрос.
- * Это защита от случайного посетителя, а не от целенаправленной атаки:
- * ключ виден в адресе запроса и в истории браузера. Для двух человек
- * этого достаточно, но открывать CRM с чужого компьютера не стоит.
+ * Заодно исчезла давняя неприятность: ключ от таблицы больше не лежит
+ * в браузере и не уходит в адресе каждого запроса. Здесь хранится
+ * только пароль от CRM; сам ключ таблицы живёт на сервере. Сменить
+ * пароль теперь можно, не трогая скрипт и не переразвёртывая его.
  */
 
 const KEY_STORE = 'onyx_crm_key';
-const URL_STORE = 'onyx_crm_url';
+const ВОРОТА = '/api/crm';   // свой сервер, он же посредник
 
 export type Лид = Record<string, string> & { _row: number };
 
 export function ключ(): string {
   try { return localStorage.getItem(KEY_STORE) || ''; } catch { return ''; }
 }
-export function адрес(): string {
-  try { return localStorage.getItem(URL_STORE) || ''; } catch { return ''; }
-}
-export function сохранитьДоступ(url: string, k: string) {
-  localStorage.setItem(URL_STORE, url.trim());
+export function сохранитьДоступ(k: string) {
   localStorage.setItem(KEY_STORE, k.trim());
 }
 export function забытьДоступ() {
-  localStorage.removeItem(URL_STORE);
   localStorage.removeItem(KEY_STORE);
+  // Чистим и старые ключи: на устройствах, где CRM открывали раньше,
+  // остался адрес скрипта от прежней схемы.
+  localStorage.removeItem('onyx_crm_url');
 }
 
 /* Ошибка, которая несёт с собой ответ сервера.
@@ -51,66 +45,49 @@ export class ОтветСервера extends Error {
   }
 }
 
-let счётчик = 0;
-
 function собратьАдрес(параметры: Record<string, string>) {
-  const q = new URLSearchParams({ ...параметры, secret: ключ() });
-  return `${адрес()}?${q.toString()}`;
+  return `${ВОРОТА}?${new URLSearchParams(параметры).toString()}`;
 }
 
-/** Понятное объяснение по тексту ответа - чтобы не гадать. */
+/** Понятное объяснение по ответу сервера - чтобы не гадать. */
 function объяснить(текст: string): string {
   const t = текст.slice(0, 4000);
   if (/Не удалось найти функцию скрипта|Script function not found/i.test(t))
-    return 'Развёрнута версия БЕЗ нового кода. В Apps Script: Ctrl+S, потом Развернуть → карандаш → Версия «Новая версия».';
+    return 'Развёрнута версия скрипта БЕЗ нового кода. В Apps Script: Ctrl+S, потом Развернуть → карандаш → Версия «Новая версия».';
   if (/accounts\.google\.com|Sign in|Войдите|ServiceLogin/i.test(t))
     return 'Скрипт требует вход. В развёртывании поставьте «У кого есть доступ: Все».';
   if (/ONYX webhook работает/i.test(t))
-    return 'Развёрнут СТАРЫЙ код - в нём нет раздела для CRM. Вставьте новый файл и разверните новую версию.';
-  if (/Exception|TypeError|ReferenceError/i.test(t))
-    return 'Скрипт упал с ошибкой. Текст ниже - её начало.';
+    return 'Развёрнут старый код - в нём нет раздела для CRM.';
   return '';
 }
 
-async function запрос<T>(параметры: Record<string, string>): Promise<T> {
-  if (!адрес() || !ключ()) throw new Error('Не задан адрес или ключ');
+type Конверт = { ok?: boolean; error?: string; тело?: string };
 
-  // ── путь 1: обычный запрос, он же единственный, который показывает ответ
-  try {
-    const r = await fetch(собратьАдрес(параметры), { redirect: 'follow' });
-    const текст = await r.text();
-    try {
-      return JSON.parse(текст) as T;
-    } catch {
-      const подсказка = объяснить(текст);
-      throw new ОтветСервера(
-        подсказка || `Ответ не похож на данные (код ${r.status})`,
-        текст.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 300),
-      );
-    }
-  } catch (e) {
-    if (e instanceof ОтветСервера) throw e;   // ответ получен, но неверный - причина известна
-    // сеть или CORS - пробуем запасной путь
+async function разобрать<T>(r: Response): Promise<T> {
+  const текст = await r.text();
+  let данные: (T & Конверт) | null = null;
+  try { данные = JSON.parse(текст); } catch {
+    throw new ОтветСервера('Сервер ответил не данными', текст.replace(/<[^>]+>/g, ' ').slice(0, 300));
   }
 
-  // ── путь 2: JSONP, если заголовки CORS не отданы
-  return new Promise<T>((ok, нет) => {
-    const имя = `__onyx_cb_${Date.now()}_${++счётчик}`;
-    const тег = document.createElement('script');
-    const окно = window as unknown as Record<string, unknown>;
+  if (r.status === 401) throw new Error('Пароль не подошёл');
+  if (r.ok) return данные as T;
 
-    const убрать = () => { delete окно[имя]; тег.remove(); clearTimeout(таймер); };
-    const таймер = setTimeout(
-      () => { убрать(); нет(new Error('Таблица не ответила за 20 секунд')); }, 20000);
+  // Ошибку от посредника показываем целиком: там уже написано,
+  // что именно чинить - переменные, развёртывание или доступ.
+  const подсказка = объяснить(данные?.тело || '');
+  throw new ОтветСервера(подсказка || данные?.error || `Ошибка ${r.status}`, данные?.тело || '');
+}
 
-    окно[имя] = (данные: T) => { убрать(); ok(данные); };
-    тег.src = собратьАдрес({ ...параметры, callback: имя });
-    тег.onerror = () => {
-      убрать();
-      нет(new Error('Адрес скрипта недоступен. Проверьте, что ссылка оканчивается на /exec и развёртывание открыто для всех.'));
-    };
-    document.body.appendChild(тег);
-  });
+async function запрос<T>(параметры: Record<string, string>): Promise<T> {
+  if (!ключ()) throw new Error('Не задан пароль');
+  let r: Response;
+  try {
+    r = await fetch(собратьАдрес(параметры), { headers: { 'x-onyx-key': ключ() } });
+  } catch {
+    throw new Error('Сервер не отвечает. Проверьте связь и обновите страницу.');
+  }
+  return разобрать<T>(r);
 }
 
 export async function загрузитьЛиды() {
@@ -190,19 +167,13 @@ export async function залитьЛидов(
 
   for (let i = 0; i < строки.length; i += ПАКЕТ) {
     const кусок = строки.slice(i, i + ПАКЕТ);
-    const r = await fetch(адрес(), {
+    const r = await fetch(ВОРОТА, {
       method: 'POST',
-      // text/plain - чтобы браузер не слал предварительный запрос OPTIONS:
-      // Apps Script на него не отвечает, и обычный JSON-заголовок всё ломает.
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      redirect: 'follow',
-      body: JSON.stringify({ action: 'leads_sync', secret: ключ(), agent: 'import-iz-vygruzki', rows: кусок }),
+      headers: { 'Content-Type': 'application/json', 'x-onyx-key': ключ() },
+      body: JSON.stringify({ action: 'leads_sync', agent: 'import-iz-vygruzki', rows: кусок }),
     });
-    const текст = await r.text();
-    let о: { ok?: boolean; added?: number; skipped?: number; error?: string };
-    try { о = JSON.parse(текст); }
-    catch { throw new ОтветСервера('Сервер ответил не данными', текст.slice(0, 300)); }
-    if (!о.ok) throw new Error(о.error === 'forbidden' ? 'Ключ не подошёл' : (о.error || 'Сервер отказал'));
+    const о = await разобрать<{ ok?: boolean; added?: number; skipped?: number; error?: string }>(r);
+    if (!о.ok) throw new Error(о.error || 'Сервер отказал');
 
     добавлено += о.added || 0;
     отсеяно += о.skipped || 0;
