@@ -114,7 +114,7 @@ async function запрос<T>(параметры: Record<string, string>): Prom
 }
 
 export async function загрузитьЛиды() {
-  return запрос<{ ok: boolean; cols: string[]; rows: Лид[]; error?: string }>({ api: 'leads' });
+  return запрос<{ ok: boolean; schema?: string[]; cols: string[]; rows: Лид[]; error?: string }>({ api: 'leads' });
 }
 
 export async function обновитьЛид(row: number, patch: Record<string, string>) {
@@ -125,6 +125,90 @@ export async function обновитьЛид(row: number, patch: Record<string, 
 
 export async function убратьЛид(row: number) {
   return запрос<{ ok: boolean; error?: string }>({ api: 'archive', row: String(row) });
+}
+
+/* ─── Импорт выгрузки агентов ──────────────────────────────────────────
+ *
+ * Агенты отдают лидов одним HTML-файлом: разметка плюс массив
+ * `const DATA=[…]` внутри. Файл самодостаточен и открывается двойным
+ * кликом - тем он и удобен агенту. Но статусы в нём живут в памяти
+ * браузера, то есть на одном компьютере, и напарник их не видит.
+ *
+ * Поэтому файл остаётся выгрузкой, а рабочим местом становится таблица.
+ * Здесь мы достаём из файла массив и отправляем его на сервер; сервер
+ * сам отсеивает тех, кто уже есть или лежит в чёрном списке.
+ */
+
+/** Достать массив DATA из выгрузки, не спотыкаясь о скобки внутри текстов.
+ *
+ *  Наивный поиск парной скобки здесь ломается: поля problem и msg -
+ *  живой текст, в нём попадаются и скобки, и кавычки. Поэтому идём
+ *  посимвольно и считаем скобки только вне строк. */
+export function достатьЛидовИзВыгрузки(html: string): Record<string, unknown>[] {
+  const i = html.indexOf('const DATA');
+  if (i < 0) throw new Error('Это не похоже на выгрузку агентов: внутри нет массива DATA.');
+
+  const j = html.indexOf('[', i);
+  if (j < 0) throw new Error('Массив DATA найден, но пуст или повреждён.');
+
+  let глубина = 0, вСтроке = false, экран = false, конец = -1;
+  for (let n = j; n < html.length; n++) {
+    const c = html[n];
+    if (экран) { экран = false; continue; }
+    if (c === '\\') { экран = true; continue; }
+    if (c === '"') { вСтроке = !вСтроке; continue; }
+    if (вСтроке) continue;
+    if (c === '[') глубина++;
+    else if (c === ']') { глубина--; if (!глубина) { конец = n + 1; break; } }
+  }
+  if (конец < 0) throw new Error('Массив DATA не закрыт - файл обрезан.');
+
+  const строки = JSON.parse(html.slice(j, конец)) as Record<string, unknown>[];
+  if (!Array.isArray(строки)) throw new Error('DATA оказался не массивом.');
+  return строки;
+}
+
+/** Проверить, что скрипт таблицы умеет принимать поля агентов.
+ *
+ *  Смотрим на schema, а не на cols. Это разные вещи: cols - заголовки,
+ *  которые СЕЙЧАС стоят в листе, а schema - то, что скрипт умеет.
+ *  Сначала я проверял по cols и получил тупик: новые колонки появляются
+ *  только при первой записи, а запись не начиналась, потому что колонок
+ *  ещё нет. Классический замкнутый круг из проверки не того признака. */
+export async function таблицаГотоваКИмпорту(): Promise<boolean> {
+  const r = await загрузитьЛиды();
+  return !!r.ok && (r.schema || []).indexOf('Зацепка') >= 0;
+}
+
+/** Отправить лидов пакетами. Возвращает, сколько добавлено и сколько отсеяно. */
+export async function залитьЛидов(
+  строки: Record<string, unknown>[],
+  ход: (готово: number, всего: number) => void,
+): Promise<{ добавлено: number; отсеяно: number }> {
+  const ПАКЕТ = 100;   // около 80 КБ - проходит одним запросом без таймаута
+  let добавлено = 0, отсеяно = 0;
+
+  for (let i = 0; i < строки.length; i += ПАКЕТ) {
+    const кусок = строки.slice(i, i + ПАКЕТ);
+    const r = await fetch(адрес(), {
+      method: 'POST',
+      // text/plain - чтобы браузер не слал предварительный запрос OPTIONS:
+      // Apps Script на него не отвечает, и обычный JSON-заголовок всё ломает.
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      redirect: 'follow',
+      body: JSON.stringify({ action: 'leads_sync', secret: ключ(), agent: 'import-iz-vygruzki', rows: кусок }),
+    });
+    const текст = await r.text();
+    let о: { ok?: boolean; added?: number; skipped?: number; error?: string };
+    try { о = JSON.parse(текст); }
+    catch { throw new ОтветСервера('Сервер ответил не данными', текст.slice(0, 300)); }
+    if (!о.ok) throw new Error(о.error === 'forbidden' ? 'Ключ не подошёл' : (о.error || 'Сервер отказал'));
+
+    добавлено += о.added || 0;
+    отсеяно += о.skipped || 0;
+    ход(Math.min(i + ПАКЕТ, строки.length), строки.length);
+  }
+  return { добавлено, отсеяно };
 }
 
 /** Телефон для ссылки tel: только цифры и плюс. */

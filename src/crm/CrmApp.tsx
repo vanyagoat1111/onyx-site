@@ -2,8 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 import {
   загрузитьЛиды, обновитьЛид, убратьЛид, сохранитьДоступ, забытьДоступ,
   ключ, адрес, телДляЗвонка, телДляWhatsApp, разобратьДату, сегодня,
-  ОтветСервера, type Лид,
+  ОтветСервера, достатьЛидовИзВыгрузки, залитьЛидов, таблицаГотоваКИмпорту,
+  type Лид,
 } from './api';
+import { включитьУстановку, запущеноКакПриложение, этоIOS } from './ustanovka';
 
 /* ONYX CRM - своё приложение для прозвона.
  *
@@ -39,6 +41,8 @@ export default function CrmApp() {
   const [вкладка, setВкладка] = useState<Вкладка>('сегодня');
   const [поиск, setПоиск] = useState('');
   const [открыт, setОткрыт] = useState<Лид | null>(null);
+  const [импорт, setИмпорт] = useState(false);
+  const [подсказка, setПодсказка] = useState(false);
 
   async function обновить() {
     setГрузим(true); setОшибка(''); setОтвет('');
@@ -63,6 +67,19 @@ export default function CrmApp() {
   }
 
   useEffect(() => { if (!вход) обновить(); /* eslint-disable-next-line */ }, []);
+
+  // Пока открыт этот раздел, страница притворяется приложением ONYX CRM:
+  // своя иконка, своё имя, свой манифест. При уходе всё возвращается сайту.
+  useEffect(включитьУстановку, []);
+
+  useEffect(() => {
+    if (запущеноКакПриложение() || !этоIOS()) return;
+    try {
+      if (localStorage.getItem('onyx_crm_podskazka') === 'skryta') return;
+    } catch { return; }
+    const t = setTimeout(() => setПодсказка(true), 1500);
+    return () => clearTimeout(t);
+  }, []);
 
   const списки = useMemo(() => {
     const q = поиск.trim().toLowerCase();
@@ -126,10 +143,16 @@ export default function CrmApp() {
         <div className="max-w-3xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between gap-3 mb-3">
             <h1 className="font-display font-bold text-lg">ONYX CRM</h1>
-            <button onClick={обновить} disabled={грузим}
-              className="text-xs font-mono uppercase tracking-wider text-cobalt-soft px-3 py-2 rounded-full border border-white/15 active:scale-95 transition">
-              {грузим ? 'читаю…' : 'обновить'}
-            </button>
+            <div className="flex gap-2">
+              <button onClick={() => setИмпорт(true)}
+                className="text-xs font-mono uppercase tracking-wider text-fog px-3 py-2 rounded-full border border-white/15 active:scale-95 transition">
+                импорт
+              </button>
+              <button onClick={обновить} disabled={грузим}
+                className="text-xs font-mono uppercase tracking-wider text-cobalt-soft px-3 py-2 rounded-full border border-white/15 active:scale-95 transition">
+                {грузим ? 'читаю…' : 'обновить'}
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-3 gap-2 mb-3">
@@ -177,6 +200,15 @@ export default function CrmApp() {
         <Окно л={открыт} onClose={() => setОткрыт(null)}
               onПравка={(p) => правка(открыт, p)} onАрхив={() => вАрхив(открыт)} />
       )}
+
+      {импорт && <Импорт onClose={() => setИмпорт(false)} onГотово={обновить} />}
+
+      {подсказка && (
+        <ПодсказкаУстановки onClose={() => {
+          try { localStorage.setItem('onyx_crm_podskazka', 'skryta'); } catch { /* режим инкогнито */ }
+          setПодсказка(false);
+        }} />
+      )}
     </div>
   );
 }
@@ -210,9 +242,14 @@ function Карточка({ л, onOpen }: { л: Лид; onOpen: () => void }) {
           </div>
         </div>
         <div className="text-right shrink-0">
-          {л['Приоритет'] && (
-            <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-white/10">{л['Приоритет']}</span>
-          )}
+          <div className="flex items-center gap-1.5 justify-end">
+            {л['Балл'] && (
+              <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-cobalt/25 text-cobalt-soft">{л['Балл']}</span>
+            )}
+            {л['Приоритет'] && (
+              <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-white/10">{л['Приоритет']}</span>
+            )}
+          </div>
           <div className="text-[11px] text-fog mt-1">{л['Статус'] || 'Новый'}</div>
         </div>
       </div>
@@ -253,8 +290,28 @@ function Окно({ л, onClose, onПравка, onАрхив }: {
         </div>
 
         <div className="px-5 py-4 space-y-4">
-          {л['ЛПР'] && <Поле ярлык="ЛПР" знач={л['ЛПР']} />}
+          {л['ЛПР'] && <Поле ярлык="ЛПР" знач={[л['ЛПР'], л['Роль']].filter(Boolean).join(', ')} />}
           {л['Сайт'] && <Поле ярлык="Сайт" знач={л['Сайт']} />}
+
+          {/* Разбор агента.
+              Стоит выше кнопки звонка намеренно: это то, что нужно
+              прочитать ДО набора номера, а не искать потом в другом окне. */}
+          {(л['Проблема'] || л['Зацепка']) && (
+            <div className="bg-white/[0.05] border border-white/10 rounded-xl px-4 py-3 space-y-2">
+              {л['Проблема'] && (
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-fog mb-1">Что у них не так</p>
+                  <p className="text-sm text-bone/90 leading-snug">{л['Проблема']}</p>
+                </div>
+              )}
+              {л['Зацепка'] && (
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-fog mb-1">С чего начать</p>
+                  <p className="text-sm leading-snug">{л['Зацепка']}</p>
+                </div>
+              )}
+            </div>
+          )}
           {л['В боте'] === 'да' && (
             <div className="bg-cobalt/15 border border-cobalt/30 rounded-xl px-4 py-3 text-sm">
               Этот человек уже писал боту. Не начинайте разговор с нуля.
@@ -277,6 +334,8 @@ function Окно({ л, onClose, onПравка, onАрхив }: {
               <div className="col-span-2 text-center font-mono text-lg tracking-wide">{тел}</div>
             </div>
           )}
+
+          {л['Сообщение'] && <Сообщение текст={л['Сообщение']} />}
 
           <div>
             <p className="font-mono text-[10px] uppercase tracking-wider text-fog mb-2">Статус</p>
@@ -321,6 +380,175 @@ function Окно({ л, onClose, onПравка, onАрхив }: {
           </button>
         </div>
       </div>
+    </div>
+  );
+}
+
+/* Подсказка про установку на домашний экран.
+ *
+ * Показываем один раз и только на iPhone: на других системах путь
+ * другой, а неверная инструкция хуже отсутствующей. После закрытия
+ * не возвращается - человек либо поставил, либо решил не ставить,
+ * и напоминать об этом каждый день значит мешать работать. */
+function ПодсказкаУстановки({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-40 p-3" onClick={onClose}>
+      <div className="max-w-3xl mx-auto bg-[#16161d] border border-white/15 rounded-2xl px-4 py-3 shadow-2xl flex items-start gap-3"
+           onClick={(e) => e.stopPropagation()}>
+        <img src="/crm/icon-180.png" alt="" className="w-10 h-10 rounded-xl shrink-0" />
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-semibold">Поставьте CRM на экран</p>
+          <p className="text-xs text-fog mt-0.5 leading-snug">
+            Внизу Safari нажмите <span className="text-bone">Поделиться</span>, затем{' '}
+            <span className="text-bone">На экран «Домой»</span>. Откроется без адресной строки, как приложение.
+          </p>
+        </div>
+        <button onClick={onClose} className="text-fog text-xl leading-none px-1 shrink-0">×</button>
+      </div>
+    </div>
+  );
+}
+
+/* Импорт выгрузки агентов.
+ *
+ * Отдельным окном, а не страницей: это редкое действие, и уводить
+ * ради него из списка лидов не стоит. Файл берём как есть - тот самый,
+ * что агент кладёт на диск, без переименований и подготовки. */
+function Импорт({ onClose, onГотово }: { onClose: () => void; onГотово: () => void }) {
+  const [шаг, setШаг] = useState<'выбор' | 'льём' | 'готово' | 'ошибка'>('выбор');
+  const [текст, setТекст] = useState('');
+  const [подробно, setПодробно] = useState('');
+  const [ход, setХод] = useState({ готово: 0, всего: 0 });
+
+  async function взять(файл: File) {
+    setШаг('льём'); setТекст('Читаю файл…'); setПодробно('');
+    try {
+      const строки = достатьЛидовИзВыгрузки(await файл.text());
+      setТекст(`Нашёл ${строки.length} лидов. Проверяю таблицу…`);
+
+      if (!(await таблицаГотоваКИмпорту())) {
+        throw new Error(
+          'В таблице ещё нет колонок «Зацепка» и «Сообщение». ' +
+          'Значит развёрнута старая версия скрипта - обнови её, иначе разбор агента потеряется.');
+      }
+
+      setТекст('Отправляю…');
+      const r = await залитьЛидов(строки, (готово, всего) => setХод({ готово, всего }));
+      setТекст(`Добавлено ${r.добавлено}. Отсеяно как повторы или чёрный список - ${r.отсеяно}.`);
+      setШаг('готово');
+      onГотово();
+    } catch (e) {
+      setТекст(e instanceof Error ? e.message : String(e));
+      if (e instanceof ОтветСервера) setПодробно(e.тело);
+      setШаг('ошибка');
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/70 flex items-end sm:items-center justify-center" onClick={onClose}>
+      <div className="bg-[#111116] w-full sm:max-w-md sm:rounded-2xl rounded-t-2xl p-5" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-start justify-between gap-3 mb-4">
+          <h2 className="font-display font-bold text-lg">Импорт выгрузки</h2>
+          <button onClick={onClose} className="text-fog text-2xl leading-none px-2 -mt-1">×</button>
+        </div>
+
+        {шаг === 'выбор' && (
+          <>
+            <p className="text-sm text-fog leading-relaxed mb-4">
+              Выберите файл агентов - тот самый <span className="font-mono text-bone">Onyx_CRM.html</span>.
+              Кто уже есть в таблице или в чёрном списке, добавлен не будет.
+            </p>
+            <label className="block w-full text-center bg-cobalt text-white font-semibold py-4 rounded-xl active:scale-95 transition cursor-pointer">
+              Выбрать файл
+              <input type="file" accept=".html,.htm" className="hidden"
+                onChange={(e) => { const f = e.target.files?.[0]; if (f) взять(f); }} />
+            </label>
+          </>
+        )}
+
+        {шаг === 'льём' && (
+          <div className="space-y-3">
+            <p className="text-sm">{текст}</p>
+            {ход.всего > 0 && (
+              <>
+                <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full bg-cobalt transition-all"
+                       style={{ width: `${Math.round((ход.готово / ход.всего) * 100)}%` }} />
+                </div>
+                <p className="text-xs text-fog font-mono">{ход.готово} из {ход.всего}</p>
+              </>
+            )}
+          </div>
+        )}
+
+        {шаг === 'готово' && (
+          <>
+            <div className="bg-emerald-900/30 border border-emerald-500/30 rounded-xl px-4 py-3 text-sm mb-4">{текст}</div>
+            <button onClick={onClose} className="w-full bg-cobalt text-white font-semibold py-4 rounded-xl active:scale-95 transition">
+              Понятно
+            </button>
+          </>
+        )}
+
+        {шаг === 'ошибка' && (
+          <>
+            <div className="bg-[#3a1414] border border-red-500/30 rounded-xl px-4 py-3 mb-4">
+              <p className="text-sm">{текст}</p>
+              {подробно && (
+                <details className="mt-2">
+                  <summary className="text-xs text-fog cursor-pointer">Что ответил сервер</summary>
+                  <pre className="text-[10px] text-fog/80 whitespace-pre-wrap break-all mt-2 max-h-40 overflow-y-auto">{подробно}</pre>
+                </details>
+              )}
+            </div>
+            <button onClick={() => setШаг('выбор')} className="w-full bg-white/10 font-semibold py-4 rounded-xl active:scale-95 transition">
+              Ещё раз
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* Готовое сообщение от агента.
+ *
+ * Свёрнуто по умолчанию: оно длинное, а карточку открывают ради звонка.
+ * Кнопка копирования отдельно от разворачивания - чаще всего текст
+ * не нужно читать, его нужно вставить в переписку и отправить. */
+function Сообщение({ текст }: { текст: string }) {
+  const [открыт, setОткрыт] = useState(false);
+  const [скопировано, setСкопировано] = useState(false);
+
+  async function копировать() {
+    try {
+      await navigator.clipboard.writeText(текст);
+    } catch {
+      // Без https или в старом браузере clipboard недоступен -
+      // выделяем текст, чтобы человек скопировал сам.
+      setОткрыт(true);
+      return;
+    }
+    setСкопировано(true);
+    setTimeout(() => setСкопировано(false), 1800);
+  }
+
+  return (
+    <div className="border border-white/10 rounded-xl overflow-hidden">
+      <div className="flex items-center justify-between gap-2 px-4 py-2.5 bg-white/[0.05]">
+        <button onClick={() => setОткрыт((o) => !o)}
+          className="font-mono text-[10px] uppercase tracking-wider text-fog">
+          Готовое сообщение {открыт ? '▲' : '▼'}
+        </button>
+        <button onClick={копировать}
+          className={`text-xs px-3 py-1.5 rounded-lg transition active:scale-95 ${
+            скопировано ? 'bg-emerald-600/80 text-white' : 'bg-cobalt text-white'}`}>
+          {скопировано ? 'Скопировано' : 'Копировать'}
+        </button>
+      </div>
+      {открыт && (
+        <p className="px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap select-all">{текст}</p>
+      )}
     </div>
   );
 }
