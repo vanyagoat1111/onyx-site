@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import {
   загрузитьЛиды, обновитьЛид, убратьЛид, сохранитьДоступ, забытьДоступ,
   ключ, адрес, телДляЗвонка, телДляWhatsApp, разобратьДату, сегодня,
-  type Лид,
+  ОтветСервера, type Лид,
 } from './api';
 
 /* ONYX CRM - своё приложение для прозвона.
@@ -34,21 +34,29 @@ export default function CrmApp() {
   const [лиды, setЛиды] = useState<Лид[]>([]);
   const [грузим, setГрузим] = useState(false);
   const [ошибка, setОшибка] = useState('');
+  const [ответСервера, setОтвет] = useState('');
   const [вход, setВход] = useState(!ключ() || !адрес());
   const [вкладка, setВкладка] = useState<Вкладка>('сегодня');
   const [поиск, setПоиск] = useState('');
   const [открыт, setОткрыт] = useState<Лид | null>(null);
 
   async function обновить() {
-    setГрузим(true); setОшибка('');
+    setГрузим(true); setОшибка(''); setОтвет('');
     try {
       const r = await загрузитьЛиды();
-      if (!r.ok) throw new Error(r.error === 'forbidden' ? 'Неверный ключ доступа' : (r.error || 'Ошибка'));
+      if (!r.ok) {
+        throw new Error(r.error === 'forbidden'
+          ? 'Ключ не подошёл. Он должен совпадать со свойством SHARED_SECRET в настройках скрипта.'
+          : (r.error || 'Ошибка'));
+      }
       setЛиды(r.rows || []);
       setВход(false);
     } catch (e) {
       setОшибка(e instanceof Error ? e.message : String(e));
-      if (String(e).includes('ключ')) setВход(true);
+      // Сырой ответ Google показываем как есть: по нему видно причину,
+      // и его можно переслать целиком, не пересказывая своими словами.
+      if (e instanceof ОтветСервера) setОтвет(e.тело);
+      setВход(true);
     } finally {
       setГрузим(false);
     }
@@ -108,7 +116,7 @@ export default function CrmApp() {
     }
   }
 
-  if (вход) return <Вход onOk={обновить} ошибка={ошибка} />;
+  if (вход) return <Вход onOk={обновить} ошибка={ошибка} ответ={ответСервера} грузим={грузим} />;
 
   const текущие = списки[вкладка];
 
@@ -326,9 +334,11 @@ function Поле({ ярлык, знач }: { ярлык: string; знач: stri
   );
 }
 
-function Вход({ onOk, ошибка }: { onOk: () => void; ошибка: string }) {
+function Вход({ onOk, ошибка, ответ, грузим }: {
+  onOk: () => void; ошибка: string; ответ: string; грузим: boolean;
+}) {
   const [url, setUrl] = useState(адрес());
-  const [k, setK] = useState('');
+  const [k, setK] = useState(ключ());
 
   return (
     <div className="min-h-screen bg-[#0a0a0d] text-[#f2f0e9] flex items-center justify-center px-5 font-body">
@@ -338,14 +348,24 @@ function Вход({ onOk, ошибка }: { onOk: () => void; ошибка: stri
           Нужен адрес скрипта таблицы и общий ключ. Оба лежат в настройках
           Vercel: SHEETS_WEBHOOK_URL и SHEETS_SECRET.
         </p>
-        {ошибка && <div className="bg-[#3a1414] border border-red-500/30 rounded-xl px-4 py-3 text-sm mb-4">{ошибка}</div>}
+        {ошибка && (
+          <div className="bg-[#3a1414] border border-red-500/30 rounded-xl px-4 py-3 mb-4">
+            <p className="text-sm">{ошибка}</p>
+            {ответ && (
+              <details className="mt-2">
+                <summary className="text-xs text-fog cursor-pointer">Что ответил сервер</summary>
+                <pre className="text-[10px] text-fog/80 whitespace-pre-wrap break-all mt-2 max-h-40 overflow-y-auto">{ответ}</pre>
+              </details>
+            )}
+          </div>
+        )}
         <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://script.google.com/…/exec"
           className="w-full bg-white/[0.06] border border-white/10 rounded-xl px-4 py-3 text-[16px] mb-3 outline-none focus:border-cobalt/60" />
         <input value={k} onChange={(e) => setK(e.target.value)} type="password" placeholder="Ключ"
           className="w-full bg-white/[0.06] border border-white/10 rounded-xl px-4 py-3 text-[16px] mb-4 outline-none focus:border-cobalt/60" />
-        <button onClick={() => { сохранитьДоступ(url, k); onOk(); }}
-          className="w-full bg-cobalt text-white font-semibold py-4 rounded-xl active:scale-95 transition">
-          Войти
+        <button onClick={() => { сохранитьДоступ(url, k); onOk(); }} disabled={грузим}
+          className="w-full bg-cobalt text-white font-semibold py-4 rounded-xl active:scale-95 transition disabled:opacity-50">
+          {грузим ? 'Проверяю…' : 'Войти'}
         </button>
         <button onClick={() => { забытьДоступ(); location.reload(); }}
           className="w-full text-fog text-xs mt-4">Забыть сохранённый доступ</button>

@@ -1,9 +1,18 @@
 /* Связь приложения CRM с таблицей.
  *
- * Почему JSONP, а не обычный fetch: Apps Script не умеет отдавать
- * заголовки CORS, и браузер откажется читать ответ с чужого домена.
- * JSONP обходит это тем, что ответ приходит как скрипт - единственный
- * способ, который работает с веб-приложениями Apps Script без прокси.
+ * Сначала обычный fetch, при неудаче - JSONP.
+ *
+ * Почему так. Apps Script переадресует запрос на googleusercontent.com,
+ * и уже ТОТ отдаёт заголовки CORS - поэтому обычный fetch к /exec обычно
+ * проходит. Я сначала сделал сразу JSONP, из осторожности, и потерял
+ * главное: при JSONP браузер не даёт прочитать ответ, если это не
+ * работающий скрипт. Любая проблема выглядела одинаково - «не удалось
+ * связаться», и настоящая причина оставалась невидимой.
+ *
+ * Теперь основной путь - fetch: он возвращает текст ответа, каким бы
+ * тот ни был. Если Google прислал страницу входа или сообщение об ошибке
+ * скрипта, это видно на экране целиком, а не превращается в общую фразу.
+ * JSONP остаётся запасным путём на случай, если CORS всё-таки не отдан.
  *
  * Ключ доступа хранится в браузере и подставляется в каждый запрос.
  * Это защита от случайного посетителя, а не от целенаправленной атаки:
@@ -11,61 +20,98 @@
  * этого достаточно, но открывать CRM с чужого компьютера не стоит.
  */
 
-const КЛЮЧ_ХРАНИЛИЩА = 'onyx_crm_key';
-const АДРЕС_ХРАНИЛИЩА = 'onyx_crm_url';
+const KEY_STORE = 'onyx_crm_key';
+const URL_STORE = 'onyx_crm_url';
 
 export type Лид = Record<string, string> & { _row: number };
 
 export function ключ(): string {
-  try { return localStorage.getItem(КЛЮЧ_ХРАНИЛИЩА) || ''; } catch { return ''; }
+  try { return localStorage.getItem(KEY_STORE) || ''; } catch { return ''; }
 }
 export function адрес(): string {
-  try { return localStorage.getItem(АДРЕС_ХРАНИЛИЩА) || ''; } catch { return ''; }
+  try { return localStorage.getItem(URL_STORE) || ''; } catch { return ''; }
 }
 export function сохранитьДоступ(url: string, k: string) {
-  localStorage.setItem(АДРЕС_ХРАНИЛИЩА, url.trim());
-  localStorage.setItem(КЛЮЧ_ХРАНИЛИЩА, k.trim());
+  localStorage.setItem(URL_STORE, url.trim());
+  localStorage.setItem(KEY_STORE, k.trim());
 }
 export function забытьДоступ() {
-  localStorage.removeItem(АДРЕС_ХРАНИЛИЩА);
-  localStorage.removeItem(КЛЮЧ_ХРАНИЛИЩА);
+  localStorage.removeItem(URL_STORE);
+  localStorage.removeItem(KEY_STORE);
+}
+
+/* Ошибка, которая несёт с собой ответ сервера.
+   Без этого пользователь видит «что-то пошло не так» и не может
+   ни понять причину, ни рассказать о ней тому, кто починит. */
+export class ОтветСервера extends Error {
+  тело: string;
+  constructor(msg: string, тело: string) {
+    super(msg);
+    this.тело = тело;
+  }
 }
 
 let счётчик = 0;
 
-/** Один запрос к таблице. Ответ приходит вызовом функции на window. */
-function запрос<T>(параметры: Record<string, string>): Promise<T> {
-  return new Promise((ok, нет) => {
-    const url = адрес();
-    if (!url || !ключ()) { нет(new Error('Не задан адрес или ключ')); return; }
+function собратьАдрес(параметры: Record<string, string>) {
+  const q = new URLSearchParams({ ...параметры, secret: ключ() });
+  return `${адрес()}?${q.toString()}`;
+}
 
-    const имя = `__onyx_cb_${Date.now()}_${counterNext()}`;
+/** Понятное объяснение по тексту ответа - чтобы не гадать. */
+function объяснить(текст: string): string {
+  const t = текст.slice(0, 4000);
+  if (/Не удалось найти функцию скрипта|Script function not found/i.test(t))
+    return 'Развёрнута версия БЕЗ нового кода. В Apps Script: Ctrl+S, потом Развернуть → карандаш → Версия «Новая версия».';
+  if (/accounts\.google\.com|Sign in|Войдите|ServiceLogin/i.test(t))
+    return 'Скрипт требует вход. В развёртывании поставьте «У кого есть доступ: Все».';
+  if (/ONYX webhook работает/i.test(t))
+    return 'Развёрнут СТАРЫЙ код - в нём нет раздела для CRM. Вставьте новый файл и разверните новую версию.';
+  if (/Exception|TypeError|ReferenceError/i.test(t))
+    return 'Скрипт упал с ошибкой. Текст ниже - её начало.';
+  return '';
+}
+
+async function запрос<T>(параметры: Record<string, string>): Promise<T> {
+  if (!адрес() || !ключ()) throw new Error('Не задан адрес или ключ');
+
+  // ── путь 1: обычный запрос, он же единственный, который показывает ответ
+  try {
+    const r = await fetch(собратьАдрес(параметры), { redirect: 'follow' });
+    const текст = await r.text();
+    try {
+      return JSON.parse(текст) as T;
+    } catch {
+      const подсказка = объяснить(текст);
+      throw new ОтветСервера(
+        подсказка || `Ответ не похож на данные (код ${r.status})`,
+        текст.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 300),
+      );
+    }
+  } catch (e) {
+    if (e instanceof ОтветСервера) throw e;   // ответ получен, но неверный - причина известна
+    // сеть или CORS - пробуем запасной путь
+  }
+
+  // ── путь 2: JSONP, если заголовки CORS не отданы
+  return new Promise<T>((ok, нет) => {
+    const имя = `__onyx_cb_${Date.now()}_${++счётчик}`;
     const тег = document.createElement('script');
-
-    // window типизирован строго, а нам нужно временно повесить на него
-    // функцию с вычисляемым именем - иначе JSONP не собрать.
     const окно = window as unknown as Record<string, unknown>;
 
-    const убрать = () => {
-      delete окно[имя];
-      тег.remove();
-      clearTimeout(таймер);
-    };
-
-    // Таймаут обязателен: если скрипт не ответит, обещание повиснет
-    // навсегда и приложение замрёт без единого сообщения.
-    const таймер = setTimeout(() => { убрать(); нет(new Error('Таблица не ответила за 20 секунд')); }, 20000);
+    const убрать = () => { delete окно[имя]; тег.remove(); clearTimeout(таймер); };
+    const таймер = setTimeout(
+      () => { убрать(); нет(new Error('Таблица не ответила за 20 секунд')); }, 20000);
 
     окно[имя] = (данные: T) => { убрать(); ok(данные); };
-
-    const q = new URLSearchParams({ ...параметры, secret: ключ(), callback: имя });
-    тег.src = `${url}?${q.toString()}`;
-    тег.onerror = () => { убрать(); нет(new Error('Не удалось связаться с таблицей')); };
+    тег.src = собратьАдрес({ ...параметры, callback: имя });
+    тег.onerror = () => {
+      убрать();
+      нет(new Error('Адрес скрипта недоступен. Проверьте, что ссылка оканчивается на /exec и развёртывание открыто для всех.'));
+    };
     document.body.appendChild(тег);
   });
 }
-
-function counterNext() { return ++счётчик; }
 
 export async function загрузитьЛиды() {
   return запрос<{ ok: boolean; cols: string[]; rows: Лид[]; error?: string }>({ api: 'leads' });
