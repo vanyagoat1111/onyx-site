@@ -90,9 +90,11 @@ export default function Chat({ onClose, onИзменено }: { onClose: () => v
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#0a0a0d] flex flex-col font-body text-[#f2f0e9]">
-      <header className="border-b border-white/10 px-4 py-3 flex items-center gap-3 shrink-0">
-        <button onClick={onClose} className="text-fog text-2xl leading-none px-1">←</button>
+    <div className="fixed inset-0 z-50 bg-[#0a0a0d] flex flex-col font-body text-[#f2f0e9] h-[100dvh]">
+      <header className="border-b border-white/10 px-4 py-3 flex items-center gap-3 shrink-0"
+              style={{ paddingTop: 'calc(0.75rem + env(safe-area-inset-top))' }}>
+        <button onClick={onClose} aria-label="Назад"
+          className="text-fog text-2xl leading-none w-10 h-10 -ml-2 flex items-center justify-center shrink-0">←</button>
         <div className="flex-1 min-w-0">
           <p className="font-display font-bold">Спросить у базы</p>
           <p className="text-[11px] text-fog">Отвечает по живым данным таблицы</p>
@@ -130,7 +132,7 @@ export default function Chat({ onClose, onИзменено }: { onClose: () => v
             <div className="space-y-2">
               {ПОДСКАЗКИ.map((п) => (
                 <button key={п} onClick={() => отправить(п)}
-                  className="w-full text-left bg-white/[0.05] border border-white/10 rounded-xl px-4 py-3 text-sm active:scale-[0.99] transition">
+                  className="w-full text-left bg-white/[0.05] border border-white/10 rounded-xl px-4 py-4 text-sm active:scale-[0.99] transition">
                   {п}
                 </button>
               ))}
@@ -140,8 +142,10 @@ export default function Chat({ onClose, onИзменено }: { onClose: () => v
 
         {строки.map((р, i) => (
           <div key={i} className={р.чей === 'я' ? 'flex justify-end' : ''}>
-            <div className={`rounded-2xl px-4 py-3 max-w-[85%] ${
-              р.чей === 'я' ? 'bg-cobalt text-white' : 'bg-white/[0.06] border border-white/10'}`}>
+            <div className={`px-4 py-3 max-w-[85%] ${
+              р.чей === 'я'
+                ? 'bg-cobalt text-white rounded-2xl rounded-br-md'
+                : 'bg-white/[0.06] border border-white/10 rounded-2xl rounded-bl-md'}`}>
               <p className="text-sm whitespace-pre-wrap leading-relaxed">{р.текст}</p>
 
               {р.предложение && (
@@ -176,11 +180,20 @@ export default function Chat({ onClose, onИзменено }: { onClose: () => v
           </div>
         ))}
 
-        {думает && <p className="text-sm text-fog">Смотрю базу…</p>}
+        {думает && (
+          <div className="flex items-center gap-2 text-sm text-fog">
+            <span className="w-2 h-2 rounded-full bg-cobalt animate-pulse" />
+            Смотрю базу…
+          </div>
+        )}
         <div ref={низ} />
       </div>
 
-      <div className="border-t border-white/10 p-3 shrink-0">
+      {/* Поле ввода прижато к низу, с отступом под полосу жестов iPhone.
+          Без него кнопка отправки оказывается ровно под полосой, и первое
+          касание уходит системе, а не приложению. */}
+      <div className="border-t border-white/10 px-3 pt-3 shrink-0"
+           style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom))' }}>
         <div className="flex gap-2 items-end">
           {микрофонЕсть() && (
             <button onClick={микрофон} disabled={думает}

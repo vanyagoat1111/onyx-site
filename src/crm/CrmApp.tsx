@@ -29,6 +29,11 @@ const СТАТУСЫ = [
   'Клиент', 'Недозвон', 'Отказ', 'Невалид', 'Дубль', 'Не звонить',
 ];
 
+/* Что жмут сразу после звонка. Остальные семь статусов нужны редко,
+   а вместе все одиннадцать превращались в стену кнопок на пол-экрана:
+   на телефоне это означало прокрутку до самого нужного действия. */
+const БЫСТРЫЕ = ['Недозвон', 'Ответил', 'КЭВ назначен', 'Отказ'];
+
 // Статусы, после которых лид уходит из работы.
 const ЗАКРЫТЫЕ = ['Отказ', 'Клиент', 'Невалид', 'Дубль', 'Не звонить'];
 
@@ -46,6 +51,7 @@ export default function CrmApp() {
   const [импорт, setИмпорт] = useState(false);
   const [подсказка, setПодсказка] = useState(false);
   const [чат, setЧат] = useState(false);
+  const [меню, setМеню] = useState(false);
 
   async function обновить() {
     setГрузим(true); setОшибка(''); setОтвет('');
@@ -141,26 +147,45 @@ export default function CrmApp() {
   const текущие = списки[вкладка];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0d] text-[#f2f0e9] font-body">
-      <header className="sticky top-0 z-20 bg-[#0a0a0d]/95 backdrop-blur border-b border-white/10">
+    <div className="min-h-[100dvh] bg-[#0a0a0d] text-[#f2f0e9] font-body">
+      <header className="sticky top-0 z-20 bg-[#0a0a0d]/95 backdrop-blur border-b border-white/10"
+              style={{ paddingTop: 'env(safe-area-inset-top)' }}>
         <div className="max-w-3xl mx-auto px-4 py-3">
+          {/* Три текстовые кнопки в ряд не помещались на узком экране
+              и жались до нечитаемого. Обновление - иконкой, редкие
+              действия - в меню, а разговор с базой вынесен вниз
+              плавающей кнопкой: туда достаёт большой палец. */}
           <div className="flex items-center justify-between gap-3 mb-3">
             <h1 className="font-display font-bold text-lg">ONYX CRM</h1>
-            <div className="flex gap-2">
-              <button onClick={() => setЧат(true)}
-                className="text-xs font-mono uppercase tracking-wider text-white bg-cobalt px-3 py-2 rounded-full active:scale-95 transition">
-                спросить
+            <div className="flex items-center gap-1">
+              <button onClick={обновить} disabled={грузим} aria-label="Обновить"
+                className="w-11 h-11 flex items-center justify-center rounded-full text-cobalt-soft active:scale-90 transition disabled:opacity-40">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                     strokeLinecap="round" className={грузим ? 'animate-spin' : ''}>
+                  <path d="M21 12a9 9 0 1 1-2.64-6.36" /><path d="M21 3v6h-6" />
+                </svg>
               </button>
-              <button onClick={() => setИмпорт(true)}
-                className="text-xs font-mono uppercase tracking-wider text-fog px-3 py-2 rounded-full border border-white/15 active:scale-95 transition">
-                импорт
-              </button>
-              <button onClick={обновить} disabled={грузим}
-                className="text-xs font-mono uppercase tracking-wider text-cobalt-soft px-3 py-2 rounded-full border border-white/15 active:scale-95 transition">
-                {грузим ? 'читаю…' : 'обновить'}
+              <button onClick={() => setМеню((m) => !m)} aria-label="Ещё"
+                className="w-11 h-11 flex items-center justify-center rounded-full text-fog active:scale-90 transition">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <circle cx="12" cy="5" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="12" cy="19" r="2" />
+                </svg>
               </button>
             </div>
           </div>
+
+          {меню && (
+            <div className="mb-3 rounded-xl border border-white/10 bg-white/[0.04] overflow-hidden">
+              <button onClick={() => { setМеню(false); setИмпорт(true); }}
+                className="w-full text-left px-4 py-3 text-sm active:bg-white/5">
+                Импорт выгрузки агентов
+              </button>
+              <button onClick={() => { забытьДоступ(); location.reload(); }}
+                className="w-full text-left px-4 py-3 text-sm text-fog border-t border-white/10 active:bg-white/5">
+                Выйти на этом устройстве
+              </button>
+            </div>
+          )}
 
           <div className="grid grid-cols-3 gap-2 mb-3">
             <Цифра ярлык="просрочено" знач={списки.счёт.просрочено} тревога />
@@ -177,7 +202,7 @@ export default function CrmApp() {
           <div className="flex gap-2 mt-3">
             {([['сегодня', 'Сегодня'], ['все', 'Все'], ['закрытые', 'Архив']] as const).map(([k, п]) => (
               <button key={k} onClick={() => setВкладка(k)}
-                className={`flex-1 py-2 rounded-lg text-sm font-semibold transition ${
+                className={`flex-1 py-3 rounded-xl text-sm font-semibold transition active:scale-95 ${
                   вкладка === k ? 'bg-cobalt text-white' : 'bg-white/[0.06] text-fog'}`}>
                 {п}
               </button>
@@ -192,7 +217,8 @@ export default function CrmApp() {
         </div>
       )}
 
-      <main className="max-w-3xl mx-auto px-4 py-4 space-y-2 pb-24">
+      <main className="max-w-3xl mx-auto px-4 py-4 space-y-2"
+            style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom))' }}>
         {!текущие.length && (
           <p className="text-fog text-center py-12 text-sm">
             {грузим ? 'Читаю таблицу…' : 'Пусто. Если это «Сегодня» - значит на сегодня дел нет.'}
@@ -209,6 +235,17 @@ export default function CrmApp() {
       )}
 
       {импорт && <Импорт onClose={() => setИмпорт(false)} onГотово={обновить} />}
+
+      {!чат && !открыт && !импорт && (
+        <button onClick={() => setЧат(true)}
+          className="fixed right-4 z-30 bg-cobalt text-white font-semibold pl-4 pr-5 py-4 rounded-full shadow-2xl shadow-black/50 active:scale-95 transition flex items-center gap-2"
+          style={{ bottom: 'calc(1rem + env(safe-area-inset-bottom))' }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.9 8.9 0 0 1-3.8-.9L3 21l1.9-5A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z" />
+          </svg>
+          Спросить
+        </button>
+      )}
 
       {чат && <Chat onClose={() => setЧат(false)} onИзменено={обновить} />}
 
@@ -239,7 +276,7 @@ function Карточка({ л, onOpen }: { л: Лид; onOpen: () => void }) {
 
   return (
     <button onClick={onOpen}
-      className={`w-full text-left rounded-2xl border px-4 py-3 active:scale-[0.99] transition ${
+      className={`w-full text-left rounded-2xl border px-4 py-4 active:scale-[0.99] transition ${
         горит ? 'bg-[#2a1010] border-red-500/25'
              : л['Приоритет'] === 'A' ? 'bg-[#1c1a10] border-amber-500/20'
              : 'bg-white/[0.04] border-white/10'}`}>
@@ -263,8 +300,11 @@ function Карточка({ л, onOpen }: { л: Лид; onOpen: () => void }) {
         </div>
       </div>
       {(л['ЛПР'] || л['Телефон']) && (
-        <div className="text-sm text-bone/80 mt-2 truncate">
-          {л['ЛПР']}{л['ЛПР'] && л['Телефон'] ? ' · ' : ''}{л['Телефон']}
+        <div className="mt-2">
+          {л['ЛПР'] && <div className="text-sm text-bone/80 truncate">{л['ЛПР']}</div>}
+          {/* Телефон моноширинным и крупнее: по нему звонят, его читают
+              вслух и сверяют с экраном телефона во время набора. */}
+          {л['Телефон'] && <div className="font-mono text-base tracking-wide mt-0.5">{л['Телефон']}</div>}
         </div>
       )}
       {л['След. действие'] && (
@@ -288,9 +328,9 @@ function Окно({ л, onClose, onПравка, onАрхив }: {
   return (
     <div className="fixed inset-0 z-50 bg-black/70 flex items-end sm:items-center justify-center"
          onClick={onClose}>
-      <div className="bg-[#111116] w-full sm:max-w-lg sm:rounded-2xl rounded-t-2xl max-h-[92vh] overflow-y-auto"
+      <div className="bg-[#111116] w-full sm:max-w-lg sm:rounded-2xl rounded-t-2xl max-h-[92dvh] flex flex-col"
            onClick={(e) => e.stopPropagation()}>
-        <div className="sticky top-0 bg-[#111116] px-5 py-4 border-b border-white/10 flex items-start justify-between gap-3">
+        <div className="bg-[#111116] px-5 py-4 border-b border-white/10 flex items-start justify-between gap-3 shrink-0">
           <div className="min-w-0">
             <h2 className="font-display font-bold text-lg leading-tight">{л['Компания']}</h2>
             <p className="text-xs text-fog mt-1">{[л['Город'], л['Ниша']].filter(Boolean).join(' · ')}</p>
@@ -298,7 +338,7 @@ function Окно({ л, onClose, onПравка, onАрхив }: {
           <button onClick={onClose} className="text-fog text-2xl leading-none px-2 -mt-1">×</button>
         </div>
 
-        <div className="px-5 py-4 space-y-4">
+        <div className="px-5 py-4 space-y-4 overflow-y-auto flex-1">
           {л['ЛПР'] && <Поле ярлык="ЛПР" знач={[л['ЛПР'], л['Роль']].filter(Boolean).join(', ')} />}
           {л['Сайт'] && <Поле ярлык="Сайт" знач={л['Сайт']} />}
 
@@ -327,37 +367,10 @@ function Окно({ л, onClose, onПравка, onАрхив }: {
             </div>
           )}
 
-          {/* Звонок - главное действие, поэтому крупно и первым */}
-          {тел && (
-            <div className="grid grid-cols-2 gap-2">
-              <a href={`tel:${телДляЗвонка(тел)}`}
-                 onClick={() => onПравка({ 'Статус': 'Позвонил' })}
-                 className="bg-cobalt text-white text-center font-semibold py-4 rounded-xl active:scale-95 transition">
-                Позвонить
-              </a>
-              <a href={`https://wa.me/${телДляWhatsApp(тел)}`} target="_blank" rel="noreferrer"
-                 onClick={() => onПравка({ 'Статус': 'Написал' })}
-                 className="bg-white/10 text-center font-semibold py-4 rounded-xl active:scale-95 transition">
-                WhatsApp
-              </a>
-              <div className="col-span-2 text-center font-mono text-lg tracking-wide">{тел}</div>
-            </div>
-          )}
 
           {л['Сообщение'] && <Сообщение текст={л['Сообщение']} />}
 
-          <div>
-            <p className="font-mono text-[10px] uppercase tracking-wider text-fog mb-2">Статус</p>
-            <div className="flex flex-wrap gap-2">
-              {СТАТУСЫ.map((с) => (
-                <button key={с} onClick={() => onПравка({ 'Статус': с })}
-                  className={`px-3 py-2 rounded-lg text-sm transition ${
-                    (л['Статус'] || 'Новый') === с ? 'bg-cobalt text-white' : 'bg-white/[0.07] text-bone'}`}>
-                  {с}
-                </button>
-              ))}
-            </div>
-          </div>
+          <Статусы текущий={л['Статус'] || 'Новый'} onВыбор={(с) => onПравка({ 'Статус': с })} />
 
           <div className="space-y-2">
             <p className="font-mono text-[10px] uppercase tracking-wider text-fog">Следующее действие</p>
@@ -390,7 +403,59 @@ function Окно({ л, onClose, onПравка, onАрхив }: {
             Убрать в архив и не звонить больше
           </button>
         </div>
+
+        {/* Звонок закреплён внизу.
+            Раньше он стоял первым в прокручиваемой части и уезжал вверх,
+            стоило открыть историю или прочитать разбор. Человек с телефоном
+            в руке возвращался к нему прокруткой каждый раз. Отступ снизу -
+            под полосу жестов iPhone, иначе она перекрывает кнопки. */}
+        {тел && (
+          <div className="shrink-0 border-t border-white/10 bg-[#111116] px-5 pt-3"
+               style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom))' }}>
+            <div className="text-center font-mono text-lg tracking-wide mb-2 select-all">{тел}</div>
+            <div className="grid grid-cols-2 gap-2">
+              <a href={`tel:${телДляЗвонка(тел)}`}
+                 onClick={() => onПравка({ 'Статус': 'Позвонил' })}
+                 className="bg-cobalt text-white text-center font-semibold py-4 rounded-xl active:scale-95 transition">
+                Позвонить
+              </a>
+              <a href={`https://wa.me/${телДляWhatsApp(тел)}`} target="_blank" rel="noreferrer"
+                 onClick={() => onПравка({ 'Статус': 'Написал' })}
+                 className="bg-white/10 text-center font-semibold py-4 rounded-xl active:scale-95 transition">
+                WhatsApp
+              </a>
+            </div>
+          </div>
+        )}
       </div>
+    </div>
+  );
+}
+
+/* Статусы: ходовые сразу, редкие под «ещё».
+   Текущий статус показываем всегда, даже если он из редких - иначе
+   непонятно, в каком состоянии лид. */
+function Статусы({ текущий, onВыбор }: { текущий: string; onВыбор: (с: string) => void }) {
+  const [все, setВсе] = useState(false);
+  const видимые = все ? СТАТУСЫ
+    : [...new Set([текущий, ...БЫСТРЫЕ])].filter((с) => СТАТУСЫ.includes(с));
+
+  return (
+    <div>
+      <p className="font-mono text-[10px] uppercase tracking-wider text-fog mb-2">Статус</p>
+      <div className="grid grid-cols-2 gap-2">
+        {видимые.map((с) => (
+          <button key={с} onClick={() => onВыбор(с)}
+            className={`px-3 py-3 rounded-xl text-sm transition active:scale-95 ${
+              текущий === с ? 'bg-cobalt text-white font-semibold' : 'bg-white/[0.07] text-bone'}`}>
+            {с}
+          </button>
+        ))}
+      </div>
+      <button onClick={() => setВсе((v) => !v)}
+        className="w-full text-xs text-fog mt-2 py-1">
+        {все ? 'Свернуть' : 'Другие статусы'}
+      </button>
     </div>
   );
 }
@@ -635,7 +700,8 @@ function Вход({ onOk, ошибка, ответ, грузим }: {
   const войти = () => { if (k.trim()) { сохранитьДоступ(k); onOk(); } };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0d] text-[#f2f0e9] flex items-center justify-center px-5 font-body">
+    <div className="min-h-[100dvh] bg-[#0a0a0d] text-[#f2f0e9] flex items-center justify-center px-5 font-body"
+         style={{ paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
       <div className="w-full max-w-sm">
         <img src="/crm/icon-180.png" alt="" className="w-14 h-14 rounded-2xl mb-4" />
         <h1 className="font-display font-bold text-2xl mb-2">ONYX CRM</h1>

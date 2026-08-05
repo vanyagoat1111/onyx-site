@@ -49,10 +49,25 @@ import { настройки, равны, кТаблице, дата, начал�
  * Если команда переедет за пределы ЕЭЗ, это перестанет быть правдой,
  * и надо будет перейти на платный тариф или на Anthropic.
  */
-const ПРОВАЙДЕР = (process.env.AI_PROVIDER || (process.env.GEMINI_API_KEY ? 'gemini' : 'anthropic')).toLowerCase();
+/* Провайдер определяется по тому, какой ключ задан.
+ *
+ * Порядок проверки - это и порядок предпочтения. NVIDIA впереди,
+ * потому что у неё бесплатный доступ без карты и без квот, которых
+ * хватило бы на пару вопросов. Оговорка про лицензию остаётся
+ * в CRM-настройка.md: бесплатный доступ NVIDIA дан под разработку
+ * и оценку, и это решение владельца, а не техническое.
+ */
+const ПРОВАЙДЕР = (
+  process.env.AI_PROVIDER ||
+  (process.env.OPENAI_API_KEY || process.env.NVIDIA_API_KEY ? 'openai'
+    : process.env.GEMINI_API_KEY ? 'gemini'
+    : 'anthropic')
+).toLowerCase();
 
 const ПО_УМОЛЧАНИЮ = {
-  gemini: 'gemini-2.5-flash',
+  // Псевдоним, а не точная версия: Google переименовывает модели,
+  // и жёстко зашитое имя однажды отвечает 404 без объяснений.
+  gemini: 'gemini-flash-latest',
   anthropic: 'claude-haiku-4-5-20251001',
   openai: 'nvidia/nemotron-3-ultra-550b-a55b',
 };
@@ -61,7 +76,7 @@ const МОДЕЛЬ = process.env.AI_MODEL || ПО_УМОЛЧАНИЮ[ПРОВА�
 
 const КЛЮЧ_МОДЕЛИ =
   ПРОВАЙДЕР === 'gemini' ? (process.env.GEMINI_API_KEY || process.env.AI_API_KEY)
-  : ПРОВАЙДЕР === 'openai' ? (process.env.OPENAI_API_KEY || process.env.AI_API_KEY)
+  : ПРОВАЙДЕР === 'openai' ? (process.env.OPENAI_API_KEY || process.env.NVIDIA_API_KEY || process.env.AI_API_KEY)
   : (process.env.AI_API_KEY || process.env.ANTHROPIC_API_KEY);
 
 const АДРЕС = process.env.AI_API_URL || 'https://api.anthropic.com/v1/messages';
@@ -299,7 +314,7 @@ export default async function handler(req, res) {
 
   if (нет.length || !КЛЮЧ_МОДЕЛИ) {
     const имяКлюча = ПРОВАЙДЕР === 'gemini' ? 'GEMINI_API_KEY'
-      : ПРОВАЙДЕР === 'openai' ? 'OPENAI_API_KEY' : 'AI_API_KEY';
+      : ПРОВАЙДЕР === 'openai' ? 'NVIDIA_API_KEY' : 'AI_API_KEY';
     const список = [...нет, !КЛЮЧ_МОДЕЛИ && имяКлюча].filter(Boolean).join(', ');
     return ответ(res, 500, {
       ok: false,
@@ -507,15 +522,33 @@ async function черезOpenAI(реплики, система, инструме
       headers: { 'content-type': 'application/json', authorization: 'Bearer ' + КЛЮЧ_МОДЕЛИ },
       body: JSON.stringify({
         model: МОДЕЛЬ, messages: сообщения, tools: инструменты,
-        max_tokens: 1200, temperature: 0.3,
+        // Запас больше, чем у других провайдеров: модели с рассуждением
+        // тратят часть лимита на размышления, и при 1200 ответ обрывался
+        // на середине фразы.
+        max_tokens: 2500, temperature: 0.3,
       }),
     });
-    if (!r.ok) throw подробно(await r.text(), r.status, 'Модель');
+    if (!r.ok) {
+      const текст = await r.text();
+      // 404 у OpenAI-совместимых почти всегда означает неверное имя модели.
+      // Провайдер знает, какие у него есть - спросим и покажем сразу,
+      // вместо ещё одного круга «попробуй другое название».
+      if (r.status === 404) throw await сПодсказкойМоделей(текст, база);
+      throw подробно(текст, r.status, 'Модель');
+    }
 
     const данные = await r.json();
     const реплика = ((данные.choices || [])[0] || {}).message || {};
     const вызовы = реплика.tool_calls || [];
-    const текст = String(реплика.content || '').trim();
+
+    /* Модели с рассуждением возвращают ход мыслей: одни отдельным полем
+       reasoning_content, другие прямо в тексте между тегами think.
+       Человеку это показывать не нужно - он спросил про лидов,
+       а не про то, как модель к ответу шла. */
+    const текст = String(реплика.content || '')
+      .replace(/<think>[\s\S]*?<\/think>/gi, '')
+      .replace(/<\/?think>/gi, '')
+      .trim();
 
     if (!вызовы.length) {
       return { текст: текст || 'Модель ничего не ответила. Попробуйте переформулировать.', предложение };
@@ -536,8 +569,36 @@ async function черезOpenAI(реплики, система, инструме
 
 /* Ошибка провайдера с сохранённым телом: без него «модель отказала»
    не отличить от «кончились кредиты» и «неверный ключ». */
+/** К ошибке 404 приложить список моделей, которые у провайдера есть. */
+async function сПодсказкойМоделей(текст, база) {
+  const e = подробно(текст, 404, 'Модель');
+  try {
+    const адресСписка = база.replace(/\/chat\/completions\/?$/, '/models');
+    const r = await fetch(адресСписка, { headers: { authorization: 'Bearer ' + КЛЮЧ_МОДЕЛИ } });
+    if (!r.ok) return e;
+    const д = await r.json();
+    const имена = (д.data || []).map((m) => m.id).filter(Boolean).slice(0, 25);
+    if (имена.length) {
+      e.message = `Модель «${МОДЕЛЬ}» у провайдера не найдена. Поставьте в AI_MODEL одну из этих:`;
+      e.тело = имена.join(', ');
+    }
+  } catch { /* не смогли спросить список - оставляем исходную ошибку */ }
+  return e;
+}
+
+/* Ошибка провайдера, из которой видно, что чинить.
+ *
+ * Раньше здесь было «Gemini отказал (404)» - и всё. По такому тексту
+ * нельзя отличить неверный ключ от несуществующей модели, а это
+ * совершенно разные починки. Теперь в сообщении есть и провайдер,
+ * и модель, и подсказка по коду ответа. */
 function подробно(текст, статус, кто) {
-  const e = new Error(`${кто} отказал (${статус})`);
+  const подсказка =
+    статус === 404 ? `Модель «${МОДЕЛЬ}» не найдена у этого провайдера. Проверьте AI_MODEL.`
+    : статус === 401 || статус === 403 ? 'Ключ не принят. Проверьте, что он от нужного сервиса и не отозван.'
+    : статус === 429 ? 'Слишком часто. Подождите минуту.'
+    : '';
+  const e = new Error(`${кто} (${ПРОВАЙДЕР}/${МОДЕЛЬ}) ответил ${статус}. ${подсказка}`.trim());
   e.статус = 502;
   e.тело = String(текст || '').replace(/\s+/g, ' ').slice(0, 300);
   return e;
