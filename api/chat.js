@@ -21,7 +21,49 @@
 
 import { настройки, равны, кТаблице, дата, началоДня, сегодняСтрокой, ЗАКРЫТЫЕ, МОЖНО_МЕНЯТЬ } from './_tablitsa.js';
 
-const МОДЕЛЬ = process.env.AI_MODEL || 'claude-sonnet-5';
+/* По умолчанию Haiku, а не Sonnet.
+ *
+ * Счёт за API идёт с предоплаченных кредитов, и для студии, которая
+ * сама берёт за разработку ноль, разница между моделями - это разница
+ * между «чат живёт месяц» и «чат живёт неделю». На вопросах вида
+ * «собери A по Казани» или «кому пора перезвонить» Haiku не хуже:
+ * считает всё равно код, от модели нужен разбор фразы и связный ответ.
+ *
+ * Если ответы покажутся поверхностными на разборе воронки - ставится
+ * AI_MODEL=claude-sonnet-5 одной переменной, без правок кода.
+ */
+/* Какой моделью думать.
+ *
+ * Провайдера два, потому что у них разная цена входа. У Google есть
+ * бесплатный тариф, и для студии это разница между «чат есть» и
+ * «чат подождёт до лучших времён».
+ *
+ * Оговорка, которая важнее цены: на бесплатном тарифе Google по общему
+ * правилу использует запросы для улучшения своих моделей и прямо просит
+ * не слать туда персональные данные. В базе лежат фамилии и телефоны
+ * живых людей, так что само по себе это было бы недопустимо. Исключение
+ * делает география: для пользователей из ЕЭЗ, Швейцарии и Великобритании
+ * условия платного тарифа распространяются и на бесплатный. Владельцы
+ * в Норвегии, она в ЕЭЗ - поэтому здесь бесплатный тариф допустим.
+ *
+ * Если команда переедет за пределы ЕЭЗ, это перестанет быть правдой,
+ * и надо будет перейти на платный тариф или на Anthropic.
+ */
+const ПРОВАЙДЕР = (process.env.AI_PROVIDER || (process.env.GEMINI_API_KEY ? 'gemini' : 'anthropic')).toLowerCase();
+
+const ПО_УМОЛЧАНИЮ = {
+  gemini: 'gemini-2.5-flash',
+  anthropic: 'claude-haiku-4-5-20251001',
+  openai: 'nvidia/nemotron-3-ultra-550b-a55b',
+};
+
+const МОДЕЛЬ = process.env.AI_MODEL || ПО_УМОЛЧАНИЮ[ПРОВАЙДЕР] || ПО_УМОЛЧАНИЮ.anthropic;
+
+const КЛЮЧ_МОДЕЛИ =
+  ПРОВАЙДЕР === 'gemini' ? (process.env.GEMINI_API_KEY || process.env.AI_API_KEY)
+  : ПРОВАЙДЕР === 'openai' ? (process.env.OPENAI_API_KEY || process.env.AI_API_KEY)
+  : (process.env.AI_API_KEY || process.env.ANTHROPIC_API_KEY);
+
 const АДРЕС = process.env.AI_API_URL || 'https://api.anthropic.com/v1/messages';
 
 function ответ(res, код, тело) {
@@ -97,7 +139,7 @@ const ИНСТРУМЕНТЫ = [
       type: 'object',
       properties: {
         stroki: { type: 'array', items: { type: 'number' }, description: 'номера _row' },
-        polya: { type: 'object', description: 'что проставить, например {"Статус":"Недозвон"}' },
+        polya: { type: 'string', description: 'JSON с полями, например {"Статус":"Недозвон"}' },
         zachem: { type: 'string', description: 'одна фраза для человека: зачем это' },
       },
       required: ['stroki', 'polya', 'zachem'],
@@ -123,13 +165,16 @@ function компактно(л) {
   };
   if (л['Дата след.']) о['дата_след'] = л['Дата след.'];
   if (л['След. действие']) о['след_действие'] = л['След. действие'];
-  if (л['Зацепка']) о['зацепка'] = String(л['Зацепка']).slice(0, 220);
-  if (л['Проблема']) о['проблема'] = String(л['Проблема']).slice(0, 220);
+  // Зацепка и проблема - самые длинные поля, и в списке из тридцати лидов
+  // именно они дают основной объём. Модели хватает сути, полный текст
+  // человек видит в карточке.
+  if (л['Зацепка']) о['зацепка'] = String(л['Зацепка']).slice(0, 90);
+  if (л['Проблема']) о['проблема'] = String(л['Проблема']).slice(0, 90);
   if (л['Комментарий']) о['комментарий'] = л['Комментарий'];
   return о;
 }
 
-function выполнить(имя, вход, лиды, событияЗагрузчик) {
+function выполнить(имя, вход, лиды) {
   if (имя === 'vyborka') {
     const a = вход || {};
     const активные = a.tolko_aktivnye !== false;
@@ -167,7 +212,7 @@ function выполнить(имя, вход, лиды, событияЗагру
                         || Number(y['Балл'] || 0) - Number(x['Балл'] || 0));
 
     const всего = r.length;
-    const предел = Math.min(a.limit || 25, 60);
+    const предел = Math.min(a.limit || 20, 40);
     return { всего_подошло: всего, показано: Math.min(предел, всего), лиды: r.slice(0, предел).map(компактно) };
   }
 
@@ -183,10 +228,14 @@ function выполнить(имя, вход, лиды, событияЗагру
     return { поле, всего: набор.length, распределение: Object.fromEntries(строки) };
   }
 
-  if (имя === 'istoriya') return событияЗагрузчик(вход || {});
+  // istoriya сюда не попадает: она ходит в другой лист таблицы
+  // и обрабатывается снаружи, там где есть доступ к сети.
 
   if (имя === 'predlozhit_izmenenie') {
-    const поля = вход.polya || {};
+    // Поля приходят строкой: так одинаково понимают и Anthropic, и Gemini.
+    let поля;
+    try { поля = typeof вход.polya === 'string' ? JSON.parse(вход.polya) : (вход.polya || {}); }
+    catch { return { отказано: 'Поля пришли не в виде JSON. Пример: {"Статус":"Недозвон"}' }; }
     const чужие = Object.keys(поля).filter((k) => !МОЖНО_МЕНЯТЬ.includes(k));
     if (чужие.length) {
       return { отказано: `Эти поля менять нельзя: ${чужие.join(', ')}. Разрешено: ${МОЖНО_МЕНЯТЬ.join(', ')}.` };
@@ -247,11 +296,15 @@ function правила(лиды) {
 
 export default async function handler(req, res) {
   const { CRM_PASSWORD, нет } = настройки();
-  const ключМодели = process.env.AI_API_KEY;
 
-  if (нет.length || !ключМодели) {
-    const список = [...нет, !ключМодели && 'AI_API_KEY'].filter(Boolean).join(', ');
-    return ответ(res, 500, { ok: false, error: `На сервере не заданы переменные: ${список}. Vercel → Settings → Environment Variables, потом Redeploy.` });
+  if (нет.length || !КЛЮЧ_МОДЕЛИ) {
+    const имяКлюча = ПРОВАЙДЕР === 'gemini' ? 'GEMINI_API_KEY'
+      : ПРОВАЙДЕР === 'openai' ? 'OPENAI_API_KEY' : 'AI_API_KEY';
+    const список = [...нет, !КЛЮЧ_МОДЕЛИ && имяКлюча].filter(Boolean).join(', ');
+    return ответ(res, 500, {
+      ok: false,
+      error: `На сервере не заданы переменные: ${список}. Vercel → Settings → Environment Variables, потом Redeploy.`,
+    });
   }
   if (!равны(req.headers['x-onyx-key'], CRM_PASSWORD)) return ответ(res, 401, { ok: false, error: 'forbidden' });
   if (req.method !== 'POST') return ответ(res, 405, { ok: false, error: 'только POST' });
@@ -289,53 +342,203 @@ export default async function handler(req, res) {
       .then((r) => ({ события: (r && r.rows) || [] }))
       .catch((e) => ({ ошибка: e.message }));
 
-  const сообщения = (тело.сообщения || []).slice(-16);
-  let предложение = null;
+  // Держим короткую память: длинная переписка уезжает в модель целиком
+  // на каждом шаге, и старые реплики начинают стоить дороже новых.
+  const реплики = (тело.сообщения || []).slice(-8)
+    .map((м) => ({ role: м.role === 'assistant' ? 'assistant' : 'user', text: String(м.content || '') }))
+    .filter((м) => м.text);
+
+  const инструмент = async (имя, вход) =>
+    имя === 'istoriya' ? загрузитьСобытия(вход || {}) : выполнить(имя, вход, лиды);
 
   try {
-    for (let шаг = 0; шаг < 6; шаг++) {
-      const r = await fetch(АДРЕС, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          'x-api-key': ключМодели,
-          'anthropic-version': '2023-06-01',
-        },
-        body: JSON.stringify({
-          model: МОДЕЛЬ,
-          max_tokens: 2000,
-          system: правила(лиды),
-          tools: ИНСТРУМЕНТЫ,
-          messages: сообщения,
-        }),
-      });
-
-      if (!r.ok) {
-        const t = await r.text();
-        return ответ(res, 502, { ok: false, error: `Модель отказала (${r.status})`, тело: t.slice(0, 300) });
-      }
-
-      const данные = await r.json();
-      const вызовы = (данные.content || []).filter((c) => c.type === 'tool_use');
-      const текст = (данные.content || []).filter((c) => c.type === 'text').map((c) => c.text).join('\n').trim();
-
-      if (!вызовы.length) return ответ(res, 200, { ok: true, текст, предложение });
-
-      сообщения.push({ role: 'assistant', content: данные.content });
-      const результаты = [];
-      for (const в of вызовы) {
-        // История живёт в другом листе, за ней нужен отдельный запрос;
-        // остальное считается на месте по уже загруженным лидам.
-        const итог = в.name === 'istoriya'
-          ? await загрузитьСобытия(в.input || {})
-          : выполнить(в.name, в.input, лиды, () => ({}));
-        if (итог && итог.предложение) предложение = итог.предложение;
-        результаты.push({ type: 'tool_result', tool_use_id: в.id, content: JSON.stringify(итог) });
-      }
-      сообщения.push({ role: 'user', content: результаты });
-    }
-    return ответ(res, 200, { ok: true, текст: 'Слишком много шагов - переспросите короче.', предложение });
+    const итог =
+      ПРОВАЙДЕР === 'gemini' ? await черезGemini(реплики, правила(лиды), инструмент)
+      : ПРОВАЙДЕР === 'openai' ? await черезOpenAI(реплики, правила(лиды), инструмент)
+      : await черезAnthropic(реплики, правила(лиды), инструмент);
+    return ответ(res, 200, { ok: true, текст: итог.текст, предложение: итог.предложение });
   } catch (e) {
-    return ответ(res, 500, { ok: false, error: 'Сбой чата: ' + String(e && e.message || e).slice(0, 200) });
+    const код = e && e.статус ? e.статус : 500;
+    return ответ(res, код, { ok: false, error: String(e && e.message || e).slice(0, 300), тело: (e && e.тело) || '' });
   }
+}
+
+/* ─── Anthropic ───────────────────────────────────────────────────── */
+
+async function черезAnthropic(реплики, система, инструмент) {
+  const сообщения = реплики.map((м) => ({ role: м.role, content: м.text }));
+  let предложение = null;
+
+  for (let шаг = 0; шаг < 3; шаг++) {
+    const r = await fetch(АДРЕС, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': КЛЮЧ_МОДЕЛИ,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: МОДЕЛЬ, max_tokens: 1200, system: система,
+        tools: ИНСТРУМЕНТЫ, messages: сообщения,
+      }),
+    });
+    if (!r.ok) throw подробно(await r.text(), r.status, 'Anthropic');
+
+    const данные = await r.json();
+    const вызовы = (данные.content || []).filter((c) => c.type === 'tool_use');
+    const текст = (данные.content || []).filter((c) => c.type === 'text').map((c) => c.text).join('\n').trim();
+    if (!вызовы.length) return { текст, предложение };
+
+    сообщения.push({ role: 'assistant', content: данные.content });
+    const ответы = [];
+    for (const в of вызовы) {
+      const итог = await инструмент(в.name, в.input);
+      if (итог && итог.предложение) предложение = итог.предложение;
+      ответы.push({ type: 'tool_result', tool_use_id: в.id, content: JSON.stringify(итог) });
+    }
+    сообщения.push({ role: 'user', content: ответы });
+  }
+  return { текст: 'Вопрос оказался слишком составным. Разбейте его на два - так и ответ будет точнее.', предложение };
+}
+
+/* ─── Gemini ──────────────────────────────────────────────────────── */
+
+/* Схемы инструментов у Google описываются подмножеством OpenAPI:
+   типы заглавными, никаких лишних ключей. Переводим на лету, чтобы
+   держать один список инструментов на обоих провайдеров. */
+function схемаДляGemini(s) {
+  if (!s || typeof s !== 'object') return s;
+  const out = {};
+  if (s.type) out.type = String(s.type).toUpperCase();
+  if (s.description) out.description = s.description;
+  if (s.enum) out.enum = s.enum;
+  if (s.items) out.items = схемаДляGemini(s.items);
+  if (s.properties) {
+    out.properties = {};
+    for (const [k, v] of Object.entries(s.properties)) out.properties[k] = схемаДляGemini(v);
+  }
+  if (s.required) out.required = s.required;
+  return out;
+}
+
+async function черезGemini(реплики, система, инструмент) {
+  const база = process.env.AI_API_URL ||
+    `https://generativelanguage.googleapis.com/v1beta/models/${МОДЕЛЬ}:generateContent`;
+
+  const содержимое = реплики.map((м) => ({
+    role: м.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: м.text }],
+  }));
+
+  const объявления = ИНСТРУМЕНТЫ.map((и) => ({
+    name: и.name, description: и.description, parameters: схемаДляGemini(и.input_schema),
+  }));
+
+  let предложение = null;
+
+  for (let шаг = 0; шаг < 3; шаг++) {
+    const r = await fetch(база, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'x-goog-api-key': КЛЮЧ_МОДЕЛИ },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: система }] },
+        contents: содержимое,
+        tools: [{ function_declarations: объявления }],
+        generationConfig: { maxOutputTokens: 1200, temperature: 0.3 },
+      }),
+    });
+    if (!r.ok) throw подробно(await r.text(), r.status, 'Gemini');
+
+    const данные = await r.json();
+    const части = ((данные.candidates || [])[0] || {}).content?.parts || [];
+    const вызовы = части.filter((ч) => ч.functionCall).map((ч) => ч.functionCall);
+    const текст = части.filter((ч) => ч.text).map((ч) => ч.text).join('\n').trim();
+
+    if (!вызовы.length) {
+      if (текст) return { текст, предложение };
+      // Пустой ответ без вызовов - обычно упёрлись в лимит длины.
+      const причина = ((данные.candidates || [])[0] || {}).finishReason || '';
+      return { текст: причина === 'MAX_TOKENS'
+        ? 'Ответ получился слишком длинным. Спросите уже, но конкретнее.'
+        : 'Модель ничего не ответила. Попробуйте переформулировать.', предложение };
+    }
+
+    содержимое.push({ role: 'model', parts: части });
+    const ответы = [];
+    for (const в of вызовы) {
+      const итог = await инструмент(в.name, в.args || {});
+      if (итог && итог.предложение) предложение = итог.предложение;
+      ответы.push({ functionResponse: { name: в.name, response: { итог } } });
+    }
+    содержимое.push({ role: 'user', parts: ответы });
+  }
+  return { текст: 'Вопрос оказался слишком составным. Разбейте его на два - так и ответ будет точнее.', предложение };
+}
+
+/* ─── OpenAI-совместимые ──────────────────────────────────────────────
+ *
+ * Один адаптер на целое семейство: NVIDIA NIM, Groq, OpenRouter,
+ * DeepSeek, Mistral и всё, что говорит на формате chat/completions.
+ * Меняется только AI_API_URL и модель.
+ *
+ * Оговорка по NVIDIA: их бесплатный доступ дан под разработку,
+ * тестирование и оценку, а промышленное использование требует
+ * NVIDIA AI Enterprise. Ежедневный обзвон клиентов - это промышленное
+ * использование, поэтому как основной провайдер он не годится.
+ * Для опытов и сравнения моделей - вполне.
+ */
+
+async function черезOpenAI(реплики, система, инструмент) {
+  const база = process.env.AI_API_URL || 'https://integrate.api.nvidia.com/v1/chat/completions';
+
+  const сообщения = [{ role: 'system', content: система },
+    ...реплики.map((м) => ({ role: м.role, content: м.text }))];
+
+  const инструменты = ИНСТРУМЕНТЫ.map((и) => ({
+    type: 'function',
+    function: { name: и.name, description: и.description, parameters: и.input_schema },
+  }));
+
+  let предложение = null;
+
+  for (let шаг = 0; шаг < 3; шаг++) {
+    const r = await fetch(база, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', authorization: 'Bearer ' + КЛЮЧ_МОДЕЛИ },
+      body: JSON.stringify({
+        model: МОДЕЛЬ, messages: сообщения, tools: инструменты,
+        max_tokens: 1200, temperature: 0.3,
+      }),
+    });
+    if (!r.ok) throw подробно(await r.text(), r.status, 'Модель');
+
+    const данные = await r.json();
+    const реплика = ((данные.choices || [])[0] || {}).message || {};
+    const вызовы = реплика.tool_calls || [];
+    const текст = String(реплика.content || '').trim();
+
+    if (!вызовы.length) {
+      return { текст: текст || 'Модель ничего не ответила. Попробуйте переформулировать.', предложение };
+    }
+
+    сообщения.push(реплика);
+    for (const в of вызовы) {
+      let вход = {};
+      // Аргументы приходят строкой JSON, и мелкие модели иногда шлют мусор.
+      try { вход = JSON.parse((в.function && в.function.arguments) || '{}'); } catch { вход = {}; }
+      const итог = await инструмент(в.function.name, вход);
+      if (итог && итог.предложение) предложение = итог.предложение;
+      сообщения.push({ role: 'tool', tool_call_id: в.id, content: JSON.stringify(итог) });
+    }
+  }
+  return { текст: 'Вопрос оказался слишком составным. Разбейте его на два - так и ответ будет точнее.', предложение };
+}
+
+/* Ошибка провайдера с сохранённым телом: без него «модель отказала»
+   не отличить от «кончились кредиты» и «неверный ключ». */
+function подробно(текст, статус, кто) {
+  const e = new Error(`${кто} отказал (${статус})`);
+  e.статус = 502;
+  e.тело = String(текст || '').replace(/\s+/g, ' ').slice(0, 300);
+  return e;
 }
