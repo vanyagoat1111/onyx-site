@@ -503,6 +503,30 @@ async function черезGemini(реплики, система, инструме
  * Для опытов и сравнения моделей - вполне.
  */
 
+/* Необязательным полям разрешаем null.
+ *
+ * Groq и часть других OpenAI-совместимых проверяют аргументы инструмента
+ * по объявленной схеме и отклоняют весь вызов, если что-то не совпало.
+ * Модели же регулярно шлют null вместо того, чтобы просто не передавать
+ * поле: «телефон не нужен - значит telefon: null». Формально это нарушение
+ * схемы, по сути - обычное «нет значения».
+ *
+ * Спорить с моделью бесполезно, проще признать null допустимым и считать
+ * его отсутствием. Обязательные поля не трогаем: там null - настоящая
+ * ошибка, и её лучше увидеть.
+ */
+function схемаДляOpenAI(s) {
+  if (!s || s.type !== 'object' || !s.properties) return s;
+  const обязательные = s.required || [];
+  const свойства = {};
+  for (const [имя, поле] of Object.entries(s.properties)) {
+    свойства[имя] = обязательные.includes(имя) || !поле.type || Array.isArray(поле.type)
+      ? поле
+      : { ...поле, type: [поле.type, 'null'] };
+  }
+  return { ...s, properties: свойства };
+}
+
 async function черезOpenAI(реплики, система, инструмент) {
   const база = process.env.AI_API_URL || 'https://integrate.api.nvidia.com/v1/chat/completions';
 
@@ -511,7 +535,7 @@ async function черезOpenAI(реплики, система, инструме
 
   const инструменты = ИНСТРУМЕНТЫ.map((и) => ({
     type: 'function',
-    function: { name: и.name, description: и.description, parameters: и.input_schema },
+    function: { name: и.name, description: и.description, parameters: схемаДляOpenAI(и.input_schema) },
   }));
 
   let предложение = null;
@@ -559,6 +583,9 @@ async function черезOpenAI(реплики, система, инструме
       let вход = {};
       // Аргументы приходят строкой JSON, и мелкие модели иногда шлют мусор.
       try { вход = JSON.parse((в.function && в.function.arguments) || '{}'); } catch { вход = {}; }
+      // null здесь означает «поле не заполнено» - убираем, чтобы дальше
+      // по коду не проверять каждое поле ещё и на null.
+      for (const k of Object.keys(вход)) if (вход[k] === null) delete вход[k];
       const итог = await инструмент(в.function.name, вход);
       if (итог && итог.предложение) предложение = итог.предложение;
       сообщения.push({ role: 'tool', tool_call_id: в.id, content: JSON.stringify(итог) });
